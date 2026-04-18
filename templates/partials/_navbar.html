@@ -44,6 +44,15 @@
       </div>
 
       <div class="flex items-center gap-2">
+        <button type="button"
+                onclick="window.dispatchEvent(new CustomEvent('cmdk:open'))"
+                class="hidden md:inline-flex items-center gap-2 h-9 px-3 rounded-button text-xs text-slate-500 dark:text-slate-400 bg-slate-100/60 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 transition"
+                aria-label="{% trans 'Qidiruv va komandalar' %}">
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>{% trans "Qidirish" %}</span>
+          <span class="kbd !text-[10px]">⌘K</span>
+        </button>
+
         <form action="{% url 'set_language' %}" method="post" class="hidden sm:inline-flex">
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ request.get_full_path }}">

@@ -4,13 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
   <title>{% block title %}Social Analytics{% endblock %}</title>
 
+  {# Inter variable font — loaded from upstream, supports the full weight range #}
   <link rel="preconnect" href="https://rsms.me/">
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <style>
+    @supports (font-variation-settings: normal) {
+      :root { font-family: 'Inter var', sans-serif; }
+    }
+  </style>
 
   <link rel="stylesheet" href="{% static 'css/output.css' %}">
 
+  {# Apply stored / system theme *before* paint to avoid FOUC flash #}
   <script>
     (function() {
       const stored = localStorage.getItem('theme');
@@ -41,12 +50,14 @@
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-sm text-slate-500 dark:text-slate-400 text-center">
-      &copy; {% now "Y" %} Social Analytics &middot; {% trans "Diplom loyihasi" %}
-    </div>
-  </footer>
+  {% include 'partials/_footer.html' %}
 {% endblock %}
+
+  {# Command palette — always-mounted, triggered via Ctrl/⌘+K #}
+  {% include 'partials/_command_palette.html' %}
+
+  {# Client-side polish: reveal-on-scroll, spotlight, counters, cmd+K #}
+  <script src="{% static 'js/app.js' %}" defer></script>
 
   {% block extra_body %}{% endblock %}
 </body>
