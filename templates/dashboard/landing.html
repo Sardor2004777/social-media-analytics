@@ -1,0 +1,402 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}Social Analytics — {% trans "Ijtimoiy tarmoq analitikasi" %}{% endblock %}
+
+{% block body %}
+  {% include 'partials/_navbar.html' %}
+
+  {% if messages %}
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+      {% include 'partials/_messages.html' %}
+    </div>
+  {% endif %}
+
+  {# ========================= HERO ========================= #}
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-mesh-1 opacity-60"></div>
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(79,70,229,0.10),transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.18),transparent_60%)]"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pt-24 sm:pb-28 lg:pt-32 lg:pb-36 text-center">
+
+      <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/60 backdrop-blur-sm px-4 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 animate-fade-in">
+        <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        {% trans "Talabalar, marketologlar va tadqiqotchilar uchun" %}
+      </div>
+
+      <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.08] animate-slide-up">
+        {% trans "Ijtimoiy tarmoqlaringizni" %}
+        <br class="hidden sm:block">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600">
+          {% trans "professional tahlil qiling" %}
+        </span>
+      </h1>
+
+      <p class="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 dark:text-slate-300 animate-slide-up">
+        {% trans "Instagram, Telegram, YouTube va X ma'lumotlarini bir joyda ko'ring. AI-powered sentiment tahlil va avtomatik hisobotlar \u2014 bir necha bosishda." %}
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up">
+        <a href="{% url 'account_signup' %}" class="btn-primary !px-6 !py-3 !text-base group">
+          {% trans "Bepul boshlash" %}
+          <svg class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#features" class="btn-ghost !px-6 !py-3 !text-base">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          {% trans "Demo ko'rish" %}
+        </a>
+      </div>
+
+      <p class="mt-6 text-xs text-slate-500 dark:text-slate-400">
+        {% trans "Kredit karta kerak emas \u2014 hoziroq boshlang." %}
+      </p>
+    </div>
+
+    {# Dashboard mockup #}
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 pb-20">
+      <div class="relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden">
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/50">
+          <span class="h-3 w-3 rounded-full bg-rose-400"></span>
+          <span class="h-3 w-3 rounded-full bg-amber-400"></span>
+          <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
+          <div class="flex-1 text-center">
+            <span class="inline-block px-3 py-0.5 rounded text-xs text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900">social-analytics.app/dashboard</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-4 p-6">
+          {% for kpi in '1234'|make_list %}
+            <div class="rounded-xl border border-slate-200 dark:border-slate-800 p-4 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-950">
+              <div class="text-xs text-slate-500 dark:text-slate-400">
+                {% if forloop.counter == 1 %}{% trans "Postlar" %}
+                {% elif forloop.counter == 2 %}{% trans "Obunachilar" %}
+                {% elif forloop.counter == 3 %}{% trans "Engagement" %}
+                {% else %}{% trans "Sentiment" %}{% endif %}
+              </div>
+              <div class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">
+                {% if forloop.counter == 1 %}1,284
+                {% elif forloop.counter == 2 %}8.4K
+                {% elif forloop.counter == 3 %}4.8%
+                {% else %}82%{% endif %}
+              </div>
+              <div class="mt-1 text-xs {% if forloop.counter == 3 %}text-rose-600{% else %}text-emerald-600{% endif %}">
+                {% if forloop.counter == 3 %}−{% else %}+{% endif %}{{ forloop.counter|add:3 }}.2%
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="px-6 pb-6">
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 p-4 bg-white dark:bg-slate-900">
+            <svg viewBox="0 0 600 160" class="w-full h-32">
+              <defs>
+                <linearGradient id="heroChart" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(99,102,241,0.4)"/>
+                  <stop offset="100%" stop-color="rgba(99,102,241,0)"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,120 L40,100 L80,110 L120,80 L160,95 L200,60 L240,70 L280,50 L320,65 L360,40 L400,55 L440,30 L480,45 L520,25 L560,40 L600,20 L600,160 L0,160 Z" fill="url(#heroChart)"/>
+              <path d="M0,120 L40,100 L80,110 L120,80 L160,95 L200,60 L240,70 L280,50 L320,65 L360,40 L400,55 L440,30 L480,45 L520,25 L560,40 L600,20" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ========================= FEATURES ========================= #}
+  <section id="features" class="py-20 sm:py-28 bg-white dark:bg-slate-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <div class="text-sm font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+          {% trans "Nima qila olasiz" %}
+        </div>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+          {% trans "Ma'lumotdan qarorga \u2014 bir sahifada" %}
+        </h2>
+        <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
+          {% trans "Ma'lumot yig'ishdan hisobot chiqarishgacha \u2014 butun jarayonni avtomatlashtirdik." %}
+        </p>
+      </div>
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 transition hover:scale-[1.02] hover:border-brand-400 hover:shadow-lg">
+          <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400 ring-1 ring-brand-200 dark:ring-brand-800">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "Real-time analitika" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Jonli grafiklar, filtrlash va solishtirish \u2014 qarorni hoziroq qabul qiling." %}
+          </p>
+        </div>
+
+        <div class="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 transition hover:scale-[1.02] hover:border-emerald-400 hover:shadow-lg">
+          <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 ring-1 ring-emerald-200 dark:ring-emerald-800">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><path d="M2 12h20"/><path d="M6 22V12"/><path d="M10 22V12"/><path d="M14 22V12"/><path d="M18 22V12"/></svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "AI sentiment tahlili" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "XLM-RoBERTa modeli o'zbek, rus va ingliz tillarida kommentlarni avtomatik baholaydi." %}
+          </p>
+        </div>
+
+        <div class="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 transition hover:scale-[1.02] hover:border-pink-400 hover:shadow-lg">
+          <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400 ring-1 ring-pink-200 dark:ring-pink-800">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "4 ta platforma" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Instagram, Telegram, YouTube va X \u2014 barchasini bir dashboardda." %}
+          </p>
+          <div class="mt-4 flex items-center gap-2 opacity-80">
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-fuchsia-500 to-orange-400 text-white text-[10px] font-bold">IG</span>
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-sky-500 text-white text-[10px] font-bold">TG</span>
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-red-500 text-white text-[10px] font-bold">YT</span>
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-slate-900 text-white text-[10px] font-bold">X</span>
+          </div>
+        </div>
+
+        <div class="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 transition hover:scale-[1.02] hover:border-amber-400 hover:shadow-lg">
+          <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 ring-1 ring-amber-200 dark:ring-amber-800">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "PDF / Excel eksport" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Bir bosishda hisobot oling \u2014 prezentatsiya, diplom yoki mijozga." %}
+          </p>
+        </div>
+
+        <div class="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 transition hover:scale-[1.02] hover:border-sky-400 hover:shadow-lg">
+          <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 dark:bg-sky-900/50 text-sky-600 dark:text-sky-400 ring-1 ring-sky-200 dark:ring-sky-800">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "3 tilli interfeys" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "O'zbek, rus, ingliz \u2014 har bir sahifa to'liq tarjima qilingan." %}
+          </p>
+        </div>
+
+        <div class="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 transition hover:scale-[1.02] hover:border-violet-400 hover:shadow-lg">
+          <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-400 ring-1 ring-violet-200 dark:ring-violet-800">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "Xavfsiz OAuth" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Google va platform OAuth \u2014 parollar hech qachon saqlanmaydi." %}
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {# ========================= STATS ========================= #}
+  <section id="stats" class="py-20 sm:py-24 bg-slate-50 dark:bg-slate-900/40 border-y border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+        <div>
+          <div data-countup="1000" data-suffix="+" class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white">0+</div>
+          <div class="mt-2 text-sm font-medium text-slate-600 dark:text-slate-400">{% trans "Tahlil qilingan post" %}</div>
+        </div>
+        <div>
+          <div data-countup="4" class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white">0</div>
+          <div class="mt-2 text-sm font-medium text-slate-600 dark:text-slate-400">{% trans "Qo'llab-quvvatlangan platforma" %}</div>
+        </div>
+        <div>
+          <div data-countup="3" class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white">0</div>
+          <div class="mt-2 text-sm font-medium text-slate-600 dark:text-slate-400">{% trans "Interfeys tili" %}</div>
+        </div>
+        <div>
+          <div data-countup="99.9" data-suffix="%" data-decimals="1" class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white">0%</div>
+          <div class="mt-2 text-sm font-medium text-slate-600 dark:text-slate-400">{% trans "Uptime" %}</div>
+        </div>
+      </div>
+
+      <script>
+        (function() {
+          const animate = (el) => {
+            const to = parseFloat(el.dataset.countup);
+            const suffix = el.dataset.suffix || '';
+            const decimals = parseInt(el.dataset.decimals || '0', 10);
+            const duration = 1400;
+            const start = performance.now();
+            const step = (t) => {
+              const p = Math.min(1, (t - start) / duration);
+              const eased = 1 - Math.pow(1 - p, 3);
+              const v = to * eased;
+              el.textContent = (decimals ? v.toFixed(decimals) : Math.floor(v).toLocaleString()) + suffix;
+              if (p < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+          };
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach((e) => { if (e.isIntersecting) { animate(e.target); io.unobserve(e.target); } });
+          }, { threshold: 0.3 });
+          document.querySelectorAll('[data-countup]').forEach((el) => io.observe(el));
+        })();
+      </script>
+    </div>
+  </section>
+
+  {# ========================= HOW IT WORKS ========================= #}
+  <section id="how" class="py-20 sm:py-28 bg-white dark:bg-slate-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <div class="text-sm font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+          {% trans "Qanday ishlaydi" %}
+        </div>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+          {% trans "3 qadamda tahlilni boshlang" %}
+        </h2>
+      </div>
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div class="relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 p-6">
+          <div class="absolute -top-4 left-6 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient text-white font-bold shadow-lg">1</div>
+          <h3 class="mt-3 text-lg font-semibold text-slate-900 dark:text-white">{% trans "Ro'yxatdan o'ting" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Email va parol bilan yoki Google orqali \u2014 bir daqiqada." %}
+          </p>
+        </div>
+
+        <div class="relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 p-6">
+          <div class="absolute -top-4 left-6 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient text-white font-bold shadow-lg">2</div>
+          <h3 class="mt-3 text-lg font-semibold text-slate-900 dark:text-white">{% trans "Akkauntlaringizni ulang" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Instagram, Telegram, YouTube yoki X \u2014 OAuth orqali xavfsiz ulanish." %}
+          </p>
+        </div>
+
+        <div class="relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 p-6">
+          <div class="absolute -top-4 left-6 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient text-white font-bold shadow-lg">3</div>
+          <h3 class="mt-3 text-lg font-semibold text-slate-900 dark:text-white">{% trans "Tahlilni ko'ring" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Grafiklar, sentiment, top postlar \u2014 bir sahifada. Hisobotni yuklab oling." %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ========================= USE CASES ========================= #}
+  <section class="py-20 sm:py-24 bg-slate-50 dark:bg-slate-900/40 border-y border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <div class="text-sm font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+          {% trans "Kim uchun" %}
+        </div>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+          {% trans "Foydalanuvchilarimiz" %}
+        </h2>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="rounded-2xl bg-white dark:bg-slate-900 p-6 border border-slate-200 dark:border-slate-800">
+          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-gradient text-white">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "Talabalar" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Diplom va kurs ishlarida real ma'lumot bilan mustahkamlangan tadqiqotlar." %}
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-white dark:bg-slate-900 p-6 border border-slate-200 dark:border-slate-800">
+          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-gradient text-white">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21H3V3"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "Marketing agentliklari" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Mijozlarga aniq hisobotlar, kampaniyalar samaradorligini o'lchash." %}
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-white dark:bg-slate-900 p-6 border border-slate-200 dark:border-slate-800">
+          <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-gradient text-white">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.66C8.38 19.65 10.1 19 12 19s3.62.65 5 1.66"/></svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "Bloggerlar" %}</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {% trans "Auditoriyani tushuning, qaysi kontent ishlayotganini bilib oling." %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ========================= FINAL CTA ========================= #}
+  <section class="py-20 sm:py-28">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="relative overflow-hidden rounded-3xl bg-brand-gradient p-10 sm:p-16 text-center text-white shadow-2xl">
+        <div class="absolute inset-0 bg-mesh-1 opacity-40 mix-blend-overlay"></div>
+        <div class="relative">
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">
+            {% trans "Bugun boshlang" %}
+          </h2>
+          <p class="mt-4 text-lg text-white/90 max-w-xl mx-auto">
+            {% trans "Bir necha daqiqada ro'yxatdan o'ting va dashboardda o'z ma'lumotingizni ko'ring." %}
+          </p>
+          <div class="mt-8">
+            <a href="{% url 'account_signup' %}"
+               class="inline-flex items-center gap-2 rounded-lg bg-white text-brand-700 px-6 py-3 text-base font-semibold shadow-lg hover:scale-[1.02] transition">
+              {% trans "Bepul akkaunt yaratish" %}
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+          <p class="mt-4 text-xs text-white/70">
+            {% trans "Kredit karta kerak emas \u2014 bepul." %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ========================= FOOTER ========================= #}
+  <footer class="bg-slate-900 text-slate-300 dark:bg-slate-950 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+
+        <div class="col-span-2">
+          <div class="flex items-center gap-2 text-white font-bold text-lg">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-gradient">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+            </span>
+            Social Analytics
+          </div>
+          <p class="mt-4 text-sm max-w-sm text-slate-400">
+            {% trans "Ijtimoiy tarmoq ma'lumotlarini yig'ish va tahlil qilish platformasi. Talabalar, tadqiqotchilar va marketologlar uchun." %}
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold text-white">{% trans "Mahsulot" %}</h4>
+          <ul class="mt-4 space-y-2 text-sm">
+            <li><a href="#features" class="hover:text-white transition">{% trans "Xususiyatlar" %}</a></li>
+            <li><a href="#how" class="hover:text-white transition">{% trans "Qanday ishlaydi" %}</a></li>
+            <li><a href="{% url 'account_signup' %}" class="hover:text-white transition">{% trans "Ro'yxatdan o'tish" %}</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold text-white">{% trans "Resurslar" %}</h4>
+          <ul class="mt-4 space-y-2 text-sm">
+            <li><a href="https://github.com/Sardor2004777/social-media-analytics" target="_blank" rel="noopener" class="hover:text-white transition">GitHub</a></li>
+            <li><a href="/api/v1/docs/" class="hover:text-white transition">API</a></li>
+            <li><a href="/admin/" class="hover:text-white transition">Admin</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-sm text-slate-500">
+          &copy; {% now "Y" %} Social Analytics &middot; {% trans "Diplom loyihasi" %}
+        </div>
+        <div class="flex items-center gap-4 text-sm text-slate-500">
+          <span>{% trans "Made with" %} <span class="text-rose-400">&hearts;</span> {% trans "in Tashkent" %}</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+{% endblock %}

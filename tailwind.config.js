@@ -5,6 +5,17 @@ module.exports = {
     './apps/**/templates/**/*.html',
     './apps/**/*.py',
   ],
+  safelist: [
+    // Accent classes used at render time (dashboard KPI cards, timeline dots).
+    // Exact enumeration — avoids exploding the bundle like /pattern/ with too many variants.
+    ...['brand', 'emerald', 'amber', 'sky', 'rose'].flatMap((c) => [
+      `bg-${c}-100`,
+      `text-${c}-500`,
+      `text-${c}-600`,
+      `dark:bg-${c}-900/40`,
+      `dark:text-${c}-400`,
+    ]),
+  ],
   darkMode: 'class',
   theme: {
     extend: {

@@ -29,62 +29,7 @@
 <body class="h-full bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
 
 {% block body %}
-  <nav class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-      <a href="{% url 'dashboard:home' %}" class="flex items-center gap-2 text-xl font-bold text-brand-600 dark:text-brand-400">
-        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient text-white shadow-sm">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
-        </span>
-        Social Analytics
-      </a>
-
-      <div class="flex items-center gap-3">
-        <form action="{% url 'set_language' %}" method="post" class="inline-flex">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.get_full_path }}">
-          <select
-            name="language"
-            onchange="this.form.submit()"
-            class="field-input !py-1.5 !text-xs !w-auto"
-            aria-label="{% trans 'Til' %}"
-          >
-            {% for lang_code, lang_name in LANGUAGES %}
-              <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
-                {{ lang_name }}
-              </option>
-            {% endfor %}
-          </select>
-        </form>
-
-        <button
-          type="button"
-          onclick="
-            const d = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', d ? 'dark' : 'light');
-          "
-          class="p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition"
-          aria-label="{% trans 'Mavzuni almashtirish' %}"
-        >
-          <svg class="h-5 w-5 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-          <svg class="h-5 w-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-        </button>
-
-        {% if user.is_authenticated %}
-          <span class="text-sm text-slate-600 dark:text-slate-400 hidden sm:inline">{{ user.email }}</span>
-          <a href="{% url 'account_logout' %}" class="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
-            {% trans "Chiqish" %}
-          </a>
-        {% else %}
-          <a href="{% url 'account_login' %}" class="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
-            {% trans "Kirish" %}
-          </a>
-          <a href="{% url 'account_signup' %}" class="btn-primary !py-2">
-            {% trans "Ro'yxatdan o'tish" %}
-          </a>
-        {% endif %}
-      </div>
-    </div>
-  </nav>
+  {% include 'partials/_navbar.html' %}
 
   {% if messages %}
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">

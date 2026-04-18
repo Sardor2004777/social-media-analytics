@@ -25,7 +25,11 @@ try:
         "debug_toolbar.middleware.DebugToolbarMiddleware",
     )
     INTERNAL_IPS = ["127.0.0.1", "localhost"]
-    DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda _: DEBUG}
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK": lambda r: DEBUG and r.META.get("REMOTE_ADDR") in INTERNAL_IPS,
+        "SHOW_COLLAPSED": True,
+        "RESULTS_CACHE_SIZE": 3,
+    }
 except ImportError:
     pass
 

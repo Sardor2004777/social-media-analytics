@@ -1,0 +1,140 @@
+{% load i18n %}
+<nav class="sticky top-0 z-40 backdrop-blur bg-white/80 dark:bg-slate-950/80 border-b border-slate-200/70 dark:border-slate-800/70">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+      <div class="flex items-center gap-8">
+        <a href="{% if user.is_authenticated %}{% url 'dashboard:app' %}{% else %}{% url 'dashboard:home' %}{% endif %}"
+           class="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-white">
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-gradient text-white shadow-sm">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+          </span>
+          Social Analytics
+        </a>
+
+        {% if user.is_authenticated %}
+          <div class="hidden lg:flex items-center gap-1 text-sm">
+            <a href="{% url 'dashboard:app' %}"
+               class="px-3 py-2 rounded-md font-medium {% if request.resolver_match.url_name == 'app' %}text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/30{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+              {% trans "Dashboard" %}
+            </a>
+            <a href="#" class="px-3 py-2 rounded-md font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+              {% trans "Analytics" %}
+            </a>
+            <a href="#" class="px-3 py-2 rounded-md font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+              {% trans "Hisobotlar" %}
+            </a>
+          </div>
+        {% else %}
+          <div class="hidden md:flex items-center gap-1 text-sm">
+            <a href="#features" class="px-3 py-2 rounded-md font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+              {% trans "Xususiyatlar" %}
+            </a>
+            <a href="#how" class="px-3 py-2 rounded-md font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+              {% trans "Qanday ishlaydi" %}
+            </a>
+            <a href="#stats" class="px-3 py-2 rounded-md font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+              {% trans "Raqamlar" %}
+            </a>
+            <a href="https://github.com/Sardor2004777/social-media-analytics" target="_blank" rel="noopener" class="px-3 py-2 rounded-md font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+              GitHub
+            </a>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="flex items-center gap-2">
+        <form action="{% url 'set_language' %}" method="post" class="hidden sm:inline-flex">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          <select
+            name="language"
+            onchange="this.form.submit()"
+            class="rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-medium text-slate-600 dark:text-slate-300 px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+            aria-label="{% trans 'Til' %}"
+          >
+            {% for lang_code, lang_name in LANGUAGES %}
+              <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                {{ lang_name }}
+              </option>
+            {% endfor %}
+          </select>
+        </form>
+
+        <button
+          type="button"
+          onclick="
+            const d = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', d ? 'dark' : 'light');
+          "
+          class="p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition"
+          aria-label="{% trans 'Mavzuni almashtirish' %}"
+        >
+          <svg class="h-5 w-5 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="h-5 w-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+
+        {% if user.is_authenticated %}
+          <button type="button" class="p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition relative">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-950"></span>
+          </button>
+
+          <div class="relative" x-data="{ open: false }" @keydown.escape.window="open = false" @click.outside="open = false">
+            <button
+              type="button"
+              @click="open = !open"
+              class="flex items-center gap-2 rounded-full p-1 pl-1 pr-3 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+              aria-haspopup="true"
+              :aria-expanded="open.toString()"
+            >
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-gradient text-white font-semibold text-sm shadow-sm">
+                {{ user.email|slice:":1"|upper }}
+              </span>
+              <span class="hidden sm:inline text-sm font-medium text-slate-700 dark:text-slate-200">{{ user.email|truncatechars:22 }}</span>
+              <svg class="h-4 w-4 text-slate-400" :class="open && 'rotate-180'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+
+            <div
+              x-show="open" x-cloak x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+              class="absolute right-0 mt-2 w-60 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden origin-top-right"
+              role="menu"
+            >
+              <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
+                <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Kirgan sifatida" %}</div>
+                <div class="truncate font-medium text-sm text-slate-900 dark:text-white">{{ user.email }}</div>
+              </div>
+              <div class="py-1.5 text-sm">
+                <a href="{% url 'dashboard:app' %}" class="flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
+                  <svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                  {% trans "Dashboard" %}
+                </a>
+                <a href="#" class="flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
+                  <svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  {% trans "Profil" %}
+                </a>
+                <a href="#" class="flex items-center gap-2 px-4 py-2 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
+                  <svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                  {% trans "Sozlamalar" %}
+                </a>
+              </div>
+              <div class="border-t border-slate-100 dark:border-slate-800 py-1.5">
+                <a href="{% url 'account_logout' %}" class="flex items-center gap-2 px-4 py-2 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-sm">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  {% trans "Chiqish" %}
+                </a>
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <a href="{% url 'account_login' %}" class="hidden sm:inline-flex px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white">
+            {% trans "Kirish" %}
+          </a>
+          <a href="{% url 'account_signup' %}" class="btn-primary !py-2 !text-sm">
+            {% trans "Boshlash" %}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
