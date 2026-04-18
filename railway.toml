@@ -1,0 +1,34 @@
+# Railway deployment configuration.
+#
+# Railway expects one service per `railway.toml`, but all three services
+# (web / worker / beat) share the same Docker image. In the Railway
+# dashboard, create three services pointing at this repo; each overrides
+# `startCommand` below. This file provides sensible defaults for `web`.
+#
+# Required managed plugins:
+#   - PostgreSQL (provides DATABASE_URL automatically)
+#   - Redis     (provides REDIS_URL automatically)
+#
+# Required env vars to set manually in the Railway dashboard:
+#   SECRET_KEY, ALLOWED_HOSTS, CSRF_TRUSTED_ORIGINS,
+#   ENCRYPTION_KEY, GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_SECRET,
+#   META_APP_ID, META_APP_SECRET, META_REDIRECT_URI,
+#   EMAIL_* (SendGrid/Mailgun), SENTRY_DSN,
+#   SENTIMENT_BACKEND=api, HF_API_TOKEN
+#
+# CELERY_BROKER_URL and CELERY_RESULT_BACKEND derive from REDIS_URL
+# (different Redis databases — see config/settings/base.py).
+
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# Default: web service.
+# For worker service, override in dashboard: "celery -A config worker -l info -Q default,collectors,analytics"
+# For beat service,   override in dashboard: "celery -A config beat -l info"
+startCommand = "scripts/entrypoint.sh gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --access-logfile - --error-logfile -"
+healthcheckPath = "/"
+healthcheckTimeout = 30
+restartPolicyType = "always"
+restartPolicyMaxRetries = 3

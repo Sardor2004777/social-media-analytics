@@ -1,0 +1,83 @@
+# docker-compose for local development.
+#
+# Uses the `dev` build target so requirements/dev.txt is installed and the
+# project directory is mounted as a volume for hot-reload.
+#
+# Usage:
+#   cp .env.example .env
+#   docker compose up --build
+#   docker compose exec web python manage.py migrate
+#   docker compose exec web python manage.py createsuperuser
+
+# ---------------------------------------------------------------------------
+# Shared anchors — kept DRY so web/worker/beat can't drift apart.
+# ---------------------------------------------------------------------------
+x-django-env: &django-env
+  DJANGO_SETTINGS_MODULE: config.settings.dev
+  DATABASE_URL: postgres://socialanalytics:socialanalytics@postgres:5432/socialanalytics
+  REDIS_URL: redis://redis:6379/0
+  CELERY_BROKER_URL: redis://redis:6379/1
+  CELERY_RESULT_BACKEND: redis://redis:6379/2
+
+x-django-service: &django-service
+  build:
+    context: .
+    target: dev
+  volumes:
+    - .:/app
+  env_file:
+    - .env
+  environment:
+    <<: *django-env
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_started
+
+services:
+  web:
+    <<: *django-service
+    container_name: sa_web
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+
+  worker:
+    <<: *django-service
+    container_name: sa_worker
+    command: celery -A config worker -l info -Q default,collectors,analytics
+
+  beat:
+    <<: *django-service
+    container_name: sa_beat
+    command: celery -A config beat -l info
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: sa_postgres
+    environment:
+      POSTGRES_USER: socialanalytics
+      POSTGRES_PASSWORD: socialanalytics
+      POSTGRES_DB: socialanalytics
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U socialanalytics"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: sa_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:

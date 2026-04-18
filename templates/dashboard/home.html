@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Bosh sahifa" %} | Social Analytics{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow p-8 mb-6">
+  <h1 class="text-3xl font-bold mb-4">
+    {% trans "Ijtimoiy tarmoqlaringizni tahlil qiling" %}
+  </h1>
+  <p class="text-gray-600 text-lg mb-6 max-w-2xl">
+    {% blocktrans %}
+      Instagram, Telegram, YouTube va X akkauntlaringizni ulab, faollik dinamikasi,
+      kontent samaradorligi va sentiment tahlil hisobotlarini bir joyda ko'ring.
+    {% endblocktrans %}
+  </p>
+
+  {% if user.is_authenticated %}
+    <p class="text-gray-700">
+      {% blocktrans %}Assalomu alaykum, {{ user }}!{% endblocktrans %}
+    </p>
+  {% else %}
+    <div class="flex gap-3">
+      <a
+        href="{% url 'account_signup' %}"
+        class="inline-flex items-center px-6 py-3 text-base font-medium rounded bg-blue-600 text-white hover:bg-blue-700"
+      >
+        {% trans "Boshlash" %}
+      </a>
+      <a
+        href="{% url 'account_login' %}"
+        class="inline-flex items-center px-6 py-3 text-base font-medium rounded border border-gray-300 text-gray-700 hover:bg-gray-50"
+      >
+        {% trans "Kirish" %}
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="font-semibold text-lg mb-2">{% trans "Real vaqt ma'lumotlari" %}</h3>
+    <p class="text-sm text-gray-600">
+      {% trans "OAuth orqali ulangan akkauntlardan avtomatik yangilanadi." %}
+    </p>
+  </div>
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="font-semibold text-lg mb-2">{% trans "Sentiment tahlil" %}</h3>
+    <p class="text-sm text-gray-600">
+      {% trans "Ko'p tilli transformer modeli bilan kommentlar tahlili (uz/ru/en)." %}
+    </p>
+  </div>
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="font-semibold text-lg mb-2">{% trans "PDF / Excel hisobot" %}</h3>
+    <p class="text-sm text-gray-600">
+      {% trans "Bir bosish bilan to'liq hisobot eksport qiling." %}
+    </p>
+  </div>
+</div>
+{% endblock %}

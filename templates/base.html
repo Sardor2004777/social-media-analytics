@@ -1,0 +1,80 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Social Analytics{% endblock %}</title>
+
+  {# Tailwind CDN for rapid dev. Phase 9 will replace with compiled build. #}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+
+  <nav class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+      <a href="{% url 'dashboard:home' %}" class="text-xl font-bold text-blue-600">
+        Social Analytics
+      </a>
+
+      <div class="flex items-center gap-4">
+        <form action="{% url 'set_language' %}" method="post" class="inline-flex">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          <select
+            name="language"
+            onchange="this.form.submit()"
+            class="border border-gray-300 rounded px-2 py-1 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {% for lang_code, lang_name in LANGUAGES %}
+              <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                {{ lang_name }}
+              </option>
+            {% endfor %}
+          </select>
+        </form>
+
+        {% if user.is_authenticated %}
+          <span class="text-sm text-gray-600 hidden sm:inline">{{ user.email }}</span>
+          <a href="{% url 'account_logout' %}" class="text-sm text-gray-700 hover:text-gray-900">
+            {% trans "Chiqish" %}
+          </a>
+        {% else %}
+          <a href="{% url 'account_login' %}" class="text-sm text-gray-700 hover:text-gray-900">
+            {% trans "Kirish" %}
+          </a>
+          <a href="{% url 'account_signup' %}" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded bg-blue-600 text-white hover:bg-blue-700">
+            {% trans "Ro'yxatdan o'tish" %}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  {% if messages %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+      {% for message in messages %}
+        <div class="mb-2 px-4 py-2 rounded {% if message.tags == 'error' %}bg-red-100 text-red-800{% elif message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mt-16 border-t border-gray-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-sm text-gray-500 text-center">
+      &copy; {% now "Y" %} Social Analytics &middot; {% trans "Diplom loyihasi" %}
+    </div>
+  </footer>
+
+  {% block extra_body %}{% endblock %}
+</body>
+</html>

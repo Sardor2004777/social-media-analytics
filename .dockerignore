@@ -1,0 +1,52 @@
+# Version control
+.git/
+.gitignore
+.github/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Database
+*.sqlite3
+*.sqlite3-journal
+
+# Media/static (built in image)
+media/
+staticfiles/
+static/css/output.css
+
+# Docs / IDE / OS
+docs/
+*.md
+!README.md
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Node / Tailwind source (only output goes in image)
+node_modules/
+
+# Tests
+tests/
+**/tests/
+
+# Models cache (mounted as volume in compose)
+.cache/
+models/

@@ -1,0 +1,42 @@
+# Core web framework
+Django>=5.2,<5.3
+djangorestframework>=3.15,<4.0
+
+# Env / config
+django-environ>=0.11,<1.0
+
+# Auth (web) + social login (Google OAuth)
+django-allauth[socialaccount]>=65.0,<66.0
+
+# Auth (API)
+djangorestframework-simplejwt>=5.3,<6.0
+
+# API docs
+drf-spectacular>=0.28,<1.0
+
+# Background tasks
+celery[redis]>=5.4,<6.0
+django-celery-beat>=2.6,<3.0
+redis>=5.0,<6.0
+
+# HTTP client (collectors)
+requests>=2.31,<3.0
+
+# CORS + throttling helpers
+django-cors-headers>=4.5,<5.0
+django-ratelimit>=4.1,<5.0
+
+# Image handling (avatars, wordcloud output)
+Pillow>=10.2,<12.0
+
+# Crypto primitives (token encryption field wrapper in apps/core)
+cryptography>=42.0
+
+# Timezone data (Windows compat)
+tzdata>=2024.1
+
+# Filtering helpers for DRF
+django-filter>=24.0,<26.0
+
+# Static file serving (referenced in base.py MIDDLEWARE + STATICFILES_STORAGE)
+whitenoise>=6.6,<7.0

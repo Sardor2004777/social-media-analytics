@@ -1,0 +1,13 @@
+-r base.txt
+
+# WSGI server
+gunicorn>=22.0,<24.0
+
+# Postgres driver (v3 binary for Python)
+psycopg[binary]>=3.1,<4.0
+
+# Observability
+sentry-sdk[django]>=2.0,<3.0
+
+# Database URL parsing (prod Postgres)
+dj-database-url>=2.1,<4.0
