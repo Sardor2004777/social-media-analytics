@@ -1,0 +1,23 @@
+{% load i18n %}
+<div class="{{ cls }} transition-all duration-300" data-auto-dismiss role="status">
+  <span class="mt-0.5 shrink-0" aria-hidden="true">
+    {% if icon == 'check' %}
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+    {% elif icon == 'x' %}
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+    {% elif icon == 'warn' %}
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.485 2.495a1.75 1.75 0 013.03 0l6.28 10.875a1.75 1.75 0 01-1.515 2.63H3.72a1.75 1.75 0 01-1.515-2.63L8.485 2.495zM10 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 6zm0 7a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>
+    {% else %}
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.25v2.25H9a.75.75 0 000 1.5h2a.75.75 0 000-1.5h-.25V9.75A.75.75 0 0010 9H9z" clip-rule="evenodd"/></svg>
+    {% endif %}
+  </span>
+  <div class="flex-1">{{ message }}</div>
+  <button
+    type="button"
+    class="shrink-0 text-current opacity-60 hover:opacity-100 transition"
+    aria-label="{% trans 'Yopish' %}"
+    onclick="this.parentElement.remove()"
+  >
+    <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
+  </button>
+</div>

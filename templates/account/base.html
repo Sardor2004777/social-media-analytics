@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% block auth_title %}{% trans "Autentifikatsiya" %}{% endblock %} · Social Analytics{% endblock %}
+
+{% block body %}
+<div class="min-h-screen flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-950">
+
+  {# ===================== LEFT BRAND PANEL ===================== #}
+  <aside class="relative hidden lg:flex lg:w-[46%] xl:w-1/2 flex-col justify-between px-12 py-10 overflow-hidden text-white">
+    {# Animated gradient + mesh overlay #}
+    <div class="absolute inset-0 bg-brand-gradient bg-[length:200%_200%] animate-gradient-shift"></div>
+    <div class="absolute inset-0 bg-mesh-1 opacity-80 mix-blend-overlay"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.15),transparent_60%)]"></div>
+    <div class="absolute inset-0 [background-image:radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:22px_22px] opacity-60"></div>
+
+    <div class="relative">
+      <a href="/" class="inline-flex items-center gap-3 text-xl font-bold">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm ring-1 ring-white/25">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+        </span>
+        Social Analytics
+      </a>
+    </div>
+
+    <div class="relative space-y-10 animate-fade-in">
+      <div>
+        <h2 class="text-4xl xl:text-5xl font-bold tracking-tight leading-tight">
+          {% trans "Ijtimoiy tarmoqlardagi ovozingizni tushuning." %}
+        </h2>
+        <p class="mt-4 text-lg text-white/80 max-w-lg">
+          {% trans "Telegram, YouTube va Instagram ma'lumotlarini yig'ib, sentiment tahlil va interaktiv dashboardlar bilan qarorlar qabul qiling." %}
+        </p>
+      </div>
+
+      <ul class="space-y-4 max-w-md">
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 ring-1 ring-white/25 shrink-0">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">{% trans "Real-time statistika" %}</div>
+            <div class="text-sm text-white/75">{% trans "Postlaringizning qamrovi va faolligi jonli grafikada." %}</div>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 ring-1 ring-white/25 shrink-0">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.09 6.26L20 9l-5 4.14L16.18 20 12 16.77 7.82 20 9 13.14 4 9l5.91-.74L12 2z"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">{% trans "AI sentiment tahlili" %}</div>
+            <div class="text-sm text-white/75">{% trans "O'zbek, rus va ingliz tillarida kommentlarni avtomatik baholash." %}</div>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 ring-1 ring-white/25 shrink-0">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">{% trans "Interaktiv grafiklar" %}</div>
+            <div class="text-sm text-white/75">{% trans "Filtrlab, kesib, eksport qilib \u2014 ma'lumotni o'z qo'lingizda." %}</div>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 ring-1 ring-white/25 shrink-0">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+          </span>
+          <div>
+            <div class="font-semibold">{% trans "Ko'p tilli interfeys" %}</div>
+            <div class="text-sm text-white/75">{% trans "O'zbek, rus va ingliz tillarida \u2014 doim qulay." %}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="relative flex items-center justify-between text-sm text-white/70">
+      <span>&copy; {% now "Y" %} Social Analytics</span>
+      <span>{% trans "Diplom loyihasi" %}</span>
+    </div>
+  </aside>
+
+  {# ===================== RIGHT FORM PANEL ===================== #}
+  <section class="flex-1 flex flex-col">
+
+    {# Top bar: mobile logo + theme/lang toggles #}
+    <header class="flex items-center justify-between px-5 sm:px-10 py-5">
+      <a href="/" class="lg:hidden flex items-center gap-2 text-lg font-bold text-brand-600 dark:text-brand-400">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient text-white shadow-sm">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+        </span>
+        Social Analytics
+      </a>
+      <span class="hidden lg:block"></span>
+
+      <div class="flex items-center gap-2">
+        <form action="{% url 'set_language' %}" method="post" class="inline-flex">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          <select
+            name="language"
+            onchange="this.form.submit()"
+            class="field-input !py-1.5 !text-xs !w-auto"
+            aria-label="{% trans 'Til' %}"
+          >
+            {% for lang_code, lang_name in LANGUAGES %}
+              <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                {{ lang_name }}
+              </option>
+            {% endfor %}
+          </select>
+        </form>
+
+        <button
+          type="button"
+          onclick="
+            const d = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', d ? 'dark' : 'light');
+          "
+          class="p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition"
+          aria-label="{% trans 'Mavzuni almashtirish' %}"
+        >
+          <svg class="h-5 w-5 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="h-5 w-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1 flex items-center justify-center px-5 sm:px-10 py-6">
+      <div class="w-full max-w-md animate-slide-up">
+        {% if messages %}
+          <div class="mb-6">
+            {% include 'partials/_messages.html' %}
+          </div>
+        {% endif %}
+
+        {% block auth_heading %}
+          <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            {% block auth_title_text %}{% endblock %}
+          </h1>
+          {% block auth_subtitle %}{% endblock %}
+        {% endblock %}
+
+        <div class="mt-7">
+          {% block auth_form %}{% endblock %}
+        </div>
+
+        {% block auth_footer %}{% endblock %}
+      </div>
+    </div>
+
+    <footer class="lg:hidden px-5 sm:px-10 py-5 text-center text-xs text-slate-500 dark:text-slate-400">
+      &copy; {% now "Y" %} Social Analytics &middot; {% trans "Diplom loyihasi" %}
+    </footer>
+  </section>
+</div>
+{% endblock %}

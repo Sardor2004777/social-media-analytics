@@ -1,0 +1,126 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+
+{% block auth_title %}{% trans "Kirish" %}{% endblock %}
+{% block auth_title_text %}{% trans "Xush kelibsiz" %}{% endblock %}
+{% block auth_subtitle %}
+  <p class="mt-2 text-slate-600 dark:text-slate-400">
+    {% trans "Akkauntingizga kirib, tahlilni davom ettiring." %}
+  </p>
+{% endblock %}
+
+{% block auth_form %}
+<form method="post" action="{% url 'account_login' %}" class="space-y-5" novalidate
+      x-data="{ show: false }">
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="alert-error" role="alert">
+      <svg class="h-5 w-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.485 2.495a1.75 1.75 0 013.03 0l6.28 10.875a1.75 1.75 0 01-1.515 2.63H3.72a1.75 1.75 0 01-1.515-2.63L8.485 2.495z" clip-rule="evenodd"/></svg>
+      <div>{{ form.non_field_errors|join:" · " }}</div>
+    </div>
+  {% endif %}
+
+  {# Email / login #}
+  <div class="field">
+    <label for="id_login" class="field-label">{% trans "Email" %}</label>
+    <div class="relative">
+      <span class="field-icon">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </span>
+      <input
+        type="email"
+        name="login"
+        id="id_login"
+        value="{{ form.login.value|default:'' }}"
+        placeholder="you@example.com"
+        autocomplete="email"
+        required
+        autofocus
+        class="field-input field-input-icon {% if form.login.errors %}has-error{% endif %}"
+        aria-invalid="{% if form.login.errors %}true{% else %}false{% endif %}"
+      >
+    </div>
+    {% if form.login.errors %}
+      <div class="field-error">
+        <svg class="h-4 w-4 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 102 0V6zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+        <span>{{ form.login.errors|join:" " }}</span>
+      </div>
+    {% endif %}
+  </div>
+
+  {# Password #}
+  <div class="field">
+    <div class="flex items-center justify-between mb-1.5">
+      <label for="id_password" class="field-label !mb-0">{% trans "Parol" %}</label>
+      <a href="{% url 'account_reset_password' %}"
+         class="text-sm font-medium text-brand-600 dark:text-brand-400 hover:underline">
+        {% trans "Parolni unutdingizmi?" %}
+      </a>
+    </div>
+    <div class="relative">
+      <span class="field-icon">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+      </span>
+      <input
+        :type="show ? 'text' : 'password'"
+        name="password"
+        id="id_password"
+        placeholder="{% trans 'Parolingiz' %}"
+        autocomplete="current-password"
+        required
+        class="field-input field-input-icon pr-11 {% if form.password.errors %}has-error{% endif %}"
+        aria-invalid="{% if form.password.errors %}true{% else %}false{% endif %}"
+      >
+      <button type="button"
+              @click="show = !show"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
+              :aria-label="show ? '{% trans 'Parolni yashirish' %}' : '{% trans 'Parolni ko\u2019rsatish' %}'">
+        <svg x-show="!show" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg x-show="show" x-cloak class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-7-11-7a19.77 19.77 0 015.06-5.94M9.9 4.24A10.8 10.8 0 0112 4c7 0 11 7 11 7a19.5 19.5 0 01-3.17 4.19M6.61 6.61A13.53 13.53 0 001 12s4 7 11 7a10.94 10.94 0 005.39-1.39"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+      </button>
+    </div>
+    {% if form.password.errors %}
+      <div class="field-error">
+        <svg class="h-4 w-4 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 102 0V6zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+        <span>{{ form.password.errors|join:" " }}</span>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if form.remember %}
+    <label class="inline-flex items-center gap-2 select-none cursor-pointer">
+      <input
+        type="checkbox"
+        name="remember"
+        id="id_remember"
+        class="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500 focus:ring-offset-0 dark:border-slate-600 dark:bg-slate-800"
+        {% if form.remember.value %}checked{% endif %}
+      >
+      <span class="text-sm text-slate-700 dark:text-slate-300">
+        {% trans "Meni eslab qol" %}
+      </span>
+    </label>
+  {% endif %}
+
+  {{ redirect_field }}
+
+  <button type="submit" class="btn-primary btn-full">
+    <span>{% trans "Kirish" %}</span>
+    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+  </button>
+</form>
+
+<div class="divider-or"><span>{% trans "yoki" %}</span></div>
+
+{% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+{% endblock %}
+
+{% block auth_footer %}
+<p class="mt-8 text-center text-sm text-slate-600 dark:text-slate-400">
+  {% trans "Akkauntingiz yo'qmi?" %}
+  <a href="{% url 'account_signup' %}" class="font-semibold text-brand-600 dark:text-brand-400 hover:underline">
+    {% trans "Ro'yxatdan o'tish" %}
+  </a>
+</p>
+{% endblock %}

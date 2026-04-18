@@ -1,0 +1,26 @@
+{% load i18n %}
+{% if messages %}
+  <div
+    class="space-y-3"
+    x-data="{}"
+    x-init="setTimeout(() => {
+      document.querySelectorAll('[data-auto-dismiss]').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(-8px)';
+        setTimeout(() => el.remove(), 400);
+      });
+    }, 5000)"
+  >
+    {% for message in messages %}
+      {% if message.tags == 'success' %}
+        {% with cls='alert-success' icon='check' %}{% include 'partials/_message_item.html' %}{% endwith %}
+      {% elif message.tags == 'error' %}
+        {% with cls='alert-error' icon='x' %}{% include 'partials/_message_item.html' %}{% endwith %}
+      {% elif message.tags == 'warning' %}
+        {% with cls='alert-warn' icon='warn' %}{% include 'partials/_message_item.html' %}{% endwith %}
+      {% else %}
+        {% with cls='alert-info' icon='info' %}{% include 'partials/_message_item.html' %}{% endwith %}
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
