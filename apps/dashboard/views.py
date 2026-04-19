@@ -52,6 +52,28 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
     now = timezone.now()
 
     accounts = list(ConnectedAccount.objects.filter(user=user).order_by("platform"))
+
+    # Lazy-seed safety net: a user who pre-dates the signup signal (or who
+    # disconnected every demo account) would otherwise hit an empty
+    # dashboard. Seed once, in place, so "pages show nothing" never recurs.
+    # Gated by the same env var as the signup-time seeder.
+    import os
+    lazy_enabled = os.environ.get("DEMO_SEED_ON_SIGNUP", "1").strip().lower() in {"1", "true", "yes", "on"}
+    if lazy_enabled and not accounts:
+        try:
+            from apps.collectors.services.mock_generator import DemoDataGenerator
+            DemoDataGenerator(seed=user.id or None).seed(
+                user,
+                posts_per_platform=30,
+                comments_per_post_range=(2, 6),
+                days_back=90,
+                analyze_sentiment=True,
+                replace=False,
+            )
+            accounts = list(ConnectedAccount.objects.filter(user=user).order_by("platform"))
+        except Exception:
+            pass  # never block the dashboard on seeding
+
     user_posts = Post.objects.filter(account__user=user)
 
     # ---------------- KPIs ----------------
