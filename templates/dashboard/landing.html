@@ -569,6 +569,46 @@
             <a href="https://github.com/Sardor2004777/social-media-analytics" target="_blank" rel="noopener" class="font-semibold text-brand-600 dark:text-brand-400 link-grow">GitHub →</a>
           </div>
         </div>
+
+        <div x-data="{ open: false }" class="group">
+          <button @click="open = !open" :aria-expanded="open.toString()"
+                  class="w-full flex items-center justify-between gap-4 py-5 text-left">
+            <span class="text-base sm:text-lg font-semibold text-slate-900 dark:text-white">{% trans "PDF hisobot ichida nima bor?" %}</span>
+            <span :class="open && 'rotate-45'" class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 transition">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <div x-show="open" x-collapse x-cloak class="pb-5 text-slate-600 dark:text-slate-400 leading-relaxed">
+            {% trans "5 ta sahifa: brend gradient cover, 9 qatorli executive summary (akkauntlar, postlar, kommentlar, layklar, engagement, sentiment foizlari), platforma bo'yicha metrikalar jadvali, pozitiv va negativ sentiment namunalari (har biridan 5 ta), top 15 post layklar bo'yicha. Ishlab chiqarilgan: ReportLab (pure-Python)." %}
+          </div>
+        </div>
+
+        <div x-data="{ open: false }" class="group">
+          <button @click="open = !open" :aria-expanded="open.toString()"
+                  class="w-full flex items-center justify-between gap-4 py-5 text-left">
+            <span class="text-base sm:text-lg font-semibold text-slate-900 dark:text-white">{% trans "Qanday qilib sentiment aniqligini baholaysiz?" %}</span>
+            <span :class="open && 'rotate-45'" class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 transition">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <div x-show="open" x-collapse x-cloak class="pb-5 text-slate-600 dark:text-slate-400 leading-relaxed">
+            {% trans "Uch darajali tiered engine: (1) XLM-RoBERTa transformer (opt-in, cardiffnlp tomonidan Twitter korpusida o'qitilgan, ~82% F1), (2) VADER lexicon O'zbek/Rus keyword kengaytmasi bilan (~75% F1 ikki tilda), (3) fallback keyword engine. Har komment uchun model nomi DB'da saqlanadi, natijalarni modellar aro solishtirish mumkin." %}
+          </div>
+        </div>
+
+        <div x-data="{ open: false }" class="group">
+          <button @click="open = !open" :aria-expanded="open.toString()"
+                  class="w-full flex items-center justify-between gap-4 py-5 text-left">
+            <span class="text-base sm:text-lg font-semibold text-slate-900 dark:text-white">{% trans "Haqiqiy Instagram/YouTube OAuth ishlayaptimi?" %}</span>
+            <span :class="open && 'rotate-45'" class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 transition">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </button>
+          <div x-show="open" x-collapse x-cloak class="pb-5 text-slate-600 dark:text-slate-400 leading-relaxed">
+            {% trans "Schema va OAuth callback infrastrukturasi tayyor. Haqiqiy ulanish uchun Meta Business Verification (7-14 kun review), Google Cloud OAuth client va Telegram Bot Token kerak. Hozirda loyiha demo rejimda ishlaydi — realistik ma'lumot, haqiqiy sentiment modeli, haqiqiy PDF/Excel eksport. API credentials qo'yilgach kod o'zgarmaydi, avtomatik haqiqiy rejimga o'tadi." %}
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
