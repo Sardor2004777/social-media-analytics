@@ -91,7 +91,7 @@
               {% endif %}
             </td>
             <td class="px-6 py-4 text-right">
-              <form method="post" action="{% url 'social:disconnect' a.pk %}" onsubmit="return confirm('{% trans 'Ushbu akkauntni o\u2019chirishni xohlaysizmi?' %}')">
+              <form method="post" action="{% url 'social:disconnect' a.pk %}" onsubmit="return confirm('{% trans 'Ushbu akkauntni o’chirishni xohlaysizmi?' %}')">
                 {% csrf_token %}
                 <button type="submit" class="inline-flex items-center gap-1 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline">
                   <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 01-2 2H9a2 2 0 01-2-2L5 6"/></svg>
