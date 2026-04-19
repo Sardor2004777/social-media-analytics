@@ -29,6 +29,13 @@ try:
         "SHOW_TOOLBAR_CALLBACK": lambda r: DEBUG and r.META.get("REMOTE_ADDR") in INTERNAL_IPS,
         "SHOW_COLLAPSED": True,
         "RESULTS_CACHE_SIZE": 3,
+        # Don't hijack 3xx responses — without this the toolbar replaces every
+        # redirect with its own intercept page (renders as ~13KB),
+        # which breaks plain flows like `/` -> `/dashboard/`.
+        "DISABLE_PANELS": {
+            "debug_toolbar.panels.redirects.RedirectsPanel",
+            "debug_toolbar.panels.profiling.ProfilingPanel",
+        },
     }
 except ImportError:
     pass
