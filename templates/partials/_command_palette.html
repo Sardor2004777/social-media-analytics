@@ -12,13 +12,14 @@
     items: [
       { href: '{% if user.is_authenticated %}{% url 'dashboard:app' %}{% else %}{% url 'dashboard:home' %}{% endif %}', label: '{% trans 'Bosh sahifa' %}',  icon: 'home',    section: '{% trans 'Navigatsiya' %}' },
       {% if user.is_authenticated %}
-      { href: '{% url 'dashboard:app' %}',       label: '{% trans 'Dashboard' %}',  icon: 'grid',    section: '{% trans 'Navigatsiya' %}' },
-      { href: '#',                               label: '{% trans 'Akkauntlarim' %}',icon: 'link',   section: '{% trans 'Navigatsiya' %}' },
-      { href: '#',                               label: '{% trans 'Analytics' %}',  icon: 'chart',   section: '{% trans 'Navigatsiya' %}' },
-      { href: '#',                               label: '{% trans 'Sentiment' %}',  icon: 'smile',   section: '{% trans 'Navigatsiya' %}' },
-      { href: '#',                               label: '{% trans 'Hisobotlar' %}', icon: 'file',    section: '{% trans 'Navigatsiya' %}' },
-      { href: '{% url 'reports:export_xlsx' %}', label: '{% trans 'Excel eksport (.xlsx)' %}', icon: 'file', section: '{% trans 'Eksport' %}' },
-      { href: '#',                               label: '{% trans 'Sozlamalar' %}', icon: 'gear',    section: '{% trans 'Sozlamalar' %}' },
+      { href: '{% url 'dashboard:app' %}',         label: '{% trans 'Dashboard' %}',     icon: 'grid',  section: '{% trans 'Navigatsiya' %}' },
+      { href: '{% url 'social:accounts' %}',       label: '{% trans 'Akkauntlarim' %}',  icon: 'link',  section: '{% trans 'Navigatsiya' %}' },
+      { href: '{% url 'analytics:overview' %}',    label: '{% trans 'Analytics' %}',     icon: 'chart', section: '{% trans 'Navigatsiya' %}' },
+      { href: '{% url 'analytics:sentiment' %}',   label: '{% trans 'Sentiment' %}',     icon: 'smile', section: '{% trans 'Navigatsiya' %}' },
+      { href: '{% url 'reports:index' %}',         label: '{% trans 'Hisobotlar' %}',    icon: 'file',  section: '{% trans 'Navigatsiya' %}' },
+      { href: '{% url 'reports:export_xlsx' %}',   label: '{% trans 'Excel eksport (.xlsx)' %}', icon: 'file', section: '{% trans 'Eksport' %}' },
+      { href: '{% url 'reports:export_pdf' %}',    label: '{% trans 'PDF eksport' %}',   icon: 'file',  section: '{% trans 'Eksport' %}' },
+      { href: '{% url 'accounts:settings' %}',     label: '{% trans 'Sozlamalar' %}',    icon: 'gear',  section: '{% trans 'Sozlamalar' %}' },
       { href: '{% url 'account_logout' %}',      label: '{% trans 'Chiqish' %}',     icon: 'logout',  section: '{% trans 'Akkaunt' %}' },
       {% else %}
       { href: '{% url 'account_login' %}',       label: '{% trans 'Kirish' %}',     icon: 'login',   section: '{% trans 'Akkaunt' %}' },

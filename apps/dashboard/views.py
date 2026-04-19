@@ -132,6 +132,7 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
     avatar_seed = hashlib.md5((user.email or str(user.id)).encode()).hexdigest()[:6]
 
     ctx: dict[str, Any] = {
+        "active_nav": "dashboard",
         "first_name": first_name.capitalize(),
         "avatar_seed": avatar_seed,
         "kpis": kpis,

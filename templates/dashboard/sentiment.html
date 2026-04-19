@@ -1,0 +1,157 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}Sentiment · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}Sentiment{% endblock %}
+
+{% block dash_content %}
+<div class="flex items-start justify-between gap-4 flex-wrap" data-reveal>
+  <div>
+    <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{% trans "Sentiment tahlili" %}</h1>
+    <p class="mt-1 text-slate-600 dark:text-slate-400">
+      {% blocktrans with n=total_analyzed m=model_used %}{{ n }} ta komment tahlil qilindi · model: {{ m }}{% endblocktrans %}
+    </p>
+  </div>
+  <a href="{% url 'reports:export_xlsx' %}" class="btn-ghost !text-xs">
+    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    {% trans "Excel yuklash" %}
+  </a>
+</div>
+
+{# Distribution summary (3 big tiles) #}
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4" data-reveal>
+  {% for d in distribution %}
+    <div class="card p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-xs font-medium uppercase tracking-wider" style="color:{{ d.color }}">{{ d.label }}</div>
+          <div class="mt-1 text-4xl font-bold text-slate-900 dark:text-white tabular">{{ d.pct }}%</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ d.count }} {% trans "kommentlar" %}</div>
+        </div>
+        <span class="text-4xl">{{ d.emoji }}</span>
+      </div>
+      <div class="mt-4 h-1.5 rounded-pill bg-slate-200 dark:bg-slate-800 overflow-hidden">
+        <div class="h-full" style="width: {{ d.pct }}%; background: {{ d.color }}"></div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{# Distribution donut + per-language matrix #}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6" data-reveal>
+  <div class="card p-6">
+    <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Umumiy taqsimot" %}</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Pozitiv · neytral · negativ" %}</p>
+    <div class="mt-5 h-56 flex items-center justify-center">
+      <canvas id="distChart"></canvas>
+    </div>
+  </div>
+
+  <div class="lg:col-span-2 card">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Til bo'yicha sentiment" %}</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50 dark:bg-slate-950/40 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <tr>
+            <th class="text-left px-6 py-3 font-semibold">{% trans "Til" %}</th>
+            <th class="text-right px-6 py-3 font-semibold">{% trans "Jami" %}</th>
+            <th class="text-right px-6 py-3 font-semibold text-emerald-600 dark:text-emerald-400">{% trans "Pozitiv" %}</th>
+            <th class="text-right px-6 py-3 font-semibold text-slate-500">{% trans "Neytral" %}</th>
+            <th class="text-right px-6 py-3 font-semibold text-rose-600 dark:text-rose-400">{% trans "Negativ" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+          {% for row in by_language %}
+            <tr>
+              <td class="px-6 py-4 font-medium text-slate-900 dark:text-white uppercase">{{ row.lang }}</td>
+              <td class="px-6 py-4 text-right tabular">{{ row.total }}</td>
+              <td class="px-6 py-4 text-right tabular">{{ row.positive_pct }}% <span class="text-xs text-slate-400">({{ row.positive }})</span></td>
+              <td class="px-6 py-4 text-right tabular">{{ row.neutral_pct }}% <span class="text-xs text-slate-400">({{ row.neutral }})</span></td>
+              <td class="px-6 py-4 text-right tabular">{{ row.negative_pct }}% <span class="text-xs text-slate-400">({{ row.negative }})</span></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" class="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400">{% trans "Hali sentiment natijalari yo'q." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{# Top positive / negative examples #}
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6" data-reveal>
+  <div class="card">
+    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">
+      <span class="text-xl">😊</span>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Eng pozitiv kommentlar" %}</h3>
+    </div>
+    <ul class="divide-y divide-slate-100 dark:divide-slate-800">
+      {% for c in top_positive %}
+        <li class="px-6 py-4">
+          <div class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">“{{ c.body }}”</div>
+          <div class="mt-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+            <span class="font-medium text-slate-700 dark:text-slate-300">@{{ c.author }}</span>
+            <span>·</span>
+            <span class="uppercase">{{ c.language }}</span>
+            <span>·</span>
+            <span>{{ c.platform }}</span>
+            <span class="ml-auto inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium tabular">{{ c.score }}</span>
+          </div>
+        </li>
+      {% empty %}
+        <li class="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400">{% trans "Hali namunalar yo'q." %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">
+      <span class="text-xl">😠</span>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Eng negativ kommentlar" %}</h3>
+    </div>
+    <ul class="divide-y divide-slate-100 dark:divide-slate-800">
+      {% for c in top_negative %}
+        <li class="px-6 py-4">
+          <div class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">“{{ c.body }}”</div>
+          <div class="mt-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+            <span class="font-medium text-slate-700 dark:text-slate-300">@{{ c.author }}</span>
+            <span>·</span>
+            <span class="uppercase">{{ c.language }}</span>
+            <span>·</span>
+            <span>{{ c.platform }}</span>
+            <span class="ml-auto inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 font-medium tabular">{{ c.score }}</span>
+          </div>
+        </li>
+      {% empty %}
+        <li class="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400">{% trans "Hali namunalar yo'q." %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{{ distribution|json_script:"dist-data" }}
+<script>
+(function() {
+  const dist = JSON.parse(document.getElementById('dist-data').textContent);
+  let chart;
+  function isDark() { return document.documentElement.classList.contains('dark'); }
+
+  function build() {
+    const ctx = document.getElementById('distChart').getContext('2d');
+    chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: dist.map(d => d.label),
+        datasets: [{ data: dist.map(d => d.count), backgroundColor: dist.map(d => d.color), borderWidth: 3, borderColor: isDark() ? '#0f172a' : '#ffffff', hoverOffset: 6 }],
+      },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { position: 'bottom', labels: { color: isDark() ? '#e2e8f0' : '#0f172a', usePointStyle: true, padding: 16 } } } },
+    });
+  }
+  function reload() { if (chart) chart.destroy(); build(); }
+  window._reloadDashboardCharts = reload;
+  build();
+})();
+</script>
+{% endblock %}

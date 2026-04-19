@@ -1,0 +1,104 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Hisobotlar" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "Hisobotlar" %}{% endblock %}
+
+{% block dash_content %}
+<div class="flex items-start justify-between gap-4 flex-wrap" data-reveal>
+  <div>
+    <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{% trans "Hisobotlar" %}</h1>
+    <p class="mt-1 text-slate-600 dark:text-slate-400">{% trans "Barcha ma'lumotingizni bir bosishda yuklab oling — diplom, prezentatsiya yoki mijozga." %}</p>
+  </div>
+</div>
+
+{# Data-ready card #}
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4" data-reveal>
+  <div class="card p-4">
+    <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Akkauntlar" %}</div>
+    <div class="mt-1 text-2xl font-bold text-slate-900 dark:text-white tabular">{{ accounts_count }}</div>
+  </div>
+  <div class="card p-4">
+    <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Postlar" %}</div>
+    <div class="mt-1 text-2xl font-bold text-slate-900 dark:text-white tabular">{{ posts_count }}</div>
+  </div>
+  <div class="card p-4">
+    <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Kommentlar" %}</div>
+    <div class="mt-1 text-2xl font-bold text-slate-900 dark:text-white tabular">{{ comments_count }}</div>
+  </div>
+  <div class="card p-4">
+    <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Sentiment natijalari" %}</div>
+    <div class="mt-1 text-2xl font-bold text-slate-900 dark:text-white tabular">{{ sentiments_count }}</div>
+  </div>
+</div>
+
+{# Export cards #}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-reveal>
+  <div class="spotlight-card card-hover p-6 flex flex-col" data-spotlight>
+    <div class="flex items-center gap-3">
+      <span class="inline-flex h-12 w-12 items-center justify-center rounded-card bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-glow-emerald">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+      </span>
+      <div class="flex-1">
+        <div class="text-lg font-semibold text-slate-900 dark:text-white">Excel (XLSX)</div>
+        <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "5 ta sheet · chart'lar · table style" %}</div>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-1">
+      {% trans "Summary, Posts, Comments, Sentiment, Platforms — openpyxl bilan formatlangan, filter va donut chart bilan." %}
+    </p>
+    <div class="mt-5 flex flex-wrap gap-1.5">
+      <span class="chip text-[11px]">Summary</span>
+      <span class="chip text-[11px]">Posts</span>
+      <span class="chip text-[11px]">Comments</span>
+      <span class="chip text-[11px]">Sentiment</span>
+      <span class="chip text-[11px]">Platforms</span>
+    </div>
+    <a href="{% url 'reports:export_xlsx' %}" class="btn-primary btn-full mt-6">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      {% trans "Excel yuklash" %}
+    </a>
+  </div>
+
+  <div class="spotlight-card card-hover p-6 flex flex-col" data-spotlight>
+    <div class="flex items-center gap-3">
+      <span class="inline-flex h-12 w-12 items-center justify-center rounded-card bg-gradient-to-br from-rose-500 to-orange-500 text-white">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </span>
+      <div class="flex-1">
+        <div class="text-lg font-semibold text-slate-900 dark:text-white">PDF</div>
+        <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "5 sahifa · brend cover · to'liq tahlil" %}</div>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-1">
+      {% trans "Gradient cover sahifasi, KPI xulosasi, platforma jadvali, sentiment namunalari, top postlar — ReportLab orqali." %}
+    </p>
+    <div class="mt-5 flex flex-wrap gap-1.5">
+      <span class="chip text-[11px]">Cover</span>
+      <span class="chip text-[11px]">Summary</span>
+      <span class="chip text-[11px]">Platforms</span>
+      <span class="chip text-[11px]">Sentiment</span>
+      <span class="chip text-[11px]">Top posts</span>
+    </div>
+    <a href="{% url 'reports:export_pdf' %}" class="btn-primary btn-full mt-6 bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      {% trans "PDF yuklash" %}
+    </a>
+  </div>
+</div>
+
+{# Info note #}
+<div class="card p-5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed" data-reveal>
+  <div class="flex items-start gap-3">
+    <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 shrink-0">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    </span>
+    <div>
+      <div class="font-semibold text-slate-900 dark:text-white">{% trans "Eslatma" %}</div>
+      <p class="mt-1">
+        {% trans "Hisobotlar sizning akkauntingizdagi barcha postlar va kommentlarni o'z ichiga oladi. Agar akkaunt ulanmagan bo'lsa, demo ma'lumotdan foydalaning yoki faqat sarlavha bilan bo'sh hisobot yaratiladi." %}
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

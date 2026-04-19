@@ -1,347 +1,198 @@
-{% extends "base.html" %}
+{% extends "dashboard/_shell.html" %}
 {% load i18n static %}
 
-{% block title %}Dashboard · Social Analytics{% endblock %}
-
-{% block extra_head %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+{% block dash_breadcrumb %}Dashboard{% endblock %}
+{% block dash_actions %}
+  <span class="hidden sm:inline-flex items-center gap-1.5 ml-3 px-2 py-0.5 rounded-pill bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-[11px] font-medium text-emerald-700 dark:text-emerald-300">
+    <span class="relative flex h-1.5 w-1.5">
+      <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70 animate-ping"></span>
+      <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+    </span>
+    Live
+  </span>
 {% endblock %}
 
-{% block body %}
-<div class="min-h-screen bg-slate-50 dark:bg-slate-950 flex"
-     x-data="{ sidebarOpen: false }"
-     @keydown.escape.window="sidebarOpen = false">
+{% block dash_content %}
 
-  {# ========== MOBILE BACKDROP ========== #}
-  <div x-show="sidebarOpen" x-cloak x-transition.opacity
-       @click="sidebarOpen = false"
-       class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden"
-       aria-hidden="true"></div>
-
-  {# ========== SIDEBAR ========== #}
-  <aside
-    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-    class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transform transition-transform lg:translate-x-0 lg:static lg:inset-auto lg:z-auto"
-  >
-    <div class="h-full flex flex-col">
-
-      <div class="flex items-center justify-between px-5 h-16 border-b border-slate-200 dark:border-slate-800">
-        <a href="{% url 'dashboard:app' %}" class="flex items-center gap-2 text-base font-bold text-slate-900 dark:text-white">
-          <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient text-white shadow-sm">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
-          </span>
-          Social Analytics
-        </a>
-        <button @click="sidebarOpen = false" class="lg:hidden p-1.5 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-
-      <nav class="flex-1 p-4 space-y-1 text-sm font-medium overflow-y-auto">
-        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 pt-2 pb-1">{% trans "Asosiy" %}</div>
-        <a href="{% url 'dashboard:app' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          {% trans "Dashboard" %}
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          <svg class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          {% trans "Akkauntlarim" %}
-          <span class="ml-auto inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[10px] font-medium text-slate-600 dark:text-slate-400">0</span>
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          <svg class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          {% trans "Analytics" %}
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          <svg class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-          {% trans "Sentiment" %}
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          <svg class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          {% trans "Hisobotlar" %}
-        </a>
-
-        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 pt-5 pb-1">{% trans "Sozlamalar" %}</div>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          <svg class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-          {% trans "Profil" %}
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          <svg class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          {% trans "Obuna" %}
-        </a>
-      </nav>
-
-      <div class="p-4 border-t border-slate-200 dark:border-slate-800">
-        <div class="flex items-center gap-3">
-          <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-gradient text-white font-semibold text-sm shadow-sm">
-            {{ user.email|slice:":1"|upper }}
-          </span>
-          <div class="flex-1 min-w-0">
-            <div class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ first_name }}</div>
-            <div class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ user.email }}</div>
+  {# Welcome / empty state #}
+  {% if not connected_accounts %}
+    <div class="relative overflow-hidden rounded-2xl border border-brand-200 dark:border-brand-800 bg-gradient-to-br from-brand-50 via-white to-indigo-50 dark:from-brand-900/40 dark:via-slate-900 dark:to-indigo-900/30 p-6 sm:p-8">
+      <div class="absolute inset-0 bg-mesh-1 opacity-30 dark:opacity-40 pointer-events-none"></div>
+      <div class="relative flex flex-col md:flex-row items-start md:items-center gap-6">
+        <div class="flex-1">
+          <div class="inline-flex items-center gap-2 rounded-full bg-white dark:bg-slate-800 px-3 py-1 text-xs font-semibold text-brand-700 dark:text-brand-300 ring-1 ring-brand-200 dark:ring-brand-700">
+            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            {% trans "Boshlash" %}
           </div>
-          <a href="{% url 'account_logout' %}" title="{% trans 'Chiqish' %}" class="p-2 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <h2 class="mt-3 text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            {% trans "Birinchi akkauntingizni ulang" %}
+          </h2>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-xl">
+            {% trans "Dashboard quyida demo ma'lumotlar bilan ko'rsatilmoqda. Instagram, Telegram, YouTube yoki X akkauntini ulab, haqiqiy statistikani ko'ring." %}
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="{% url 'social:accounts' %}" class="btn-primary">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            {% trans "Akkaunt ulash" %}
           </a>
         </div>
       </div>
     </div>
-  </aside>
+  {% endif %}
 
-  {# ========== MAIN ========== #}
-  <div class="flex-1 flex flex-col min-w-0">
-
-    {# ----- Top bar ----- #}
-    <header class="sticky top-0 z-30 h-16 bg-white/80 dark:bg-slate-950/80 backdrop-blur border-b border-slate-200/70 dark:border-slate-800/70">
-      <div class="h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-
-        <div class="flex items-center gap-3 min-w-0">
-          <button @click="sidebarOpen = true" class="lg:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
-
-          {# Breadcrumb + live indicator #}
-          <nav aria-label="breadcrumb" class="min-w-0 flex items-center gap-2 text-sm">
-            <a href="{% url 'dashboard:app' %}" class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition">Home</a>
-            <svg class="h-3.5 w-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            <span class="font-semibold text-slate-900 dark:text-white">Dashboard</span>
-            <span class="hidden sm:inline-flex items-center gap-1.5 ml-3 px-2 py-0.5 rounded-pill bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-[11px] font-medium text-emerald-700 dark:text-emerald-300">
-              <span class="relative flex h-1.5 w-1.5">
-                <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70 animate-ping"></span>
-                <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-              </span>
-              Live
-            </span>
-          </nav>
+  {# ----- KPI CARDS ----- #}
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4" data-reveal>
+    {% for k in kpis %}
+      <div data-spotlight class="spotlight-card p-5 card-hover">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="text-xs font-medium text-slate-500 dark:text-slate-400">{{ k.label }}</div>
+            <div class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">
+              {{ k.value }}{{ k.suffix }}
+            </div>
+          </div>
+          <div class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-{{ k.accent }}-100 dark:bg-{{ k.accent }}-900/40 text-{{ k.accent }}-600 dark:text-{{ k.accent }}-400">
+            {% if k.icon == 'layers' %}<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            {% elif k.icon == 'users' %}<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            {% elif k.icon == 'activity' %}<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            {% else %}<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>{% endif %}
+          </div>
         </div>
 
-        <div class="flex-1 max-w-md hidden md:flex justify-end">
-          <button type="button"
-                  onclick="window.dispatchEvent(new CustomEvent('cmdk:open'))"
-                  class="w-full max-w-xs inline-flex items-center gap-3 h-9 px-3 rounded-button text-xs bg-slate-100/60 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-            <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span class="flex-1 text-left">{% trans "Qidiruv yoki komanda..." %}</span>
-            <span class="kbd !text-[10px]">⌘K</span>
-          </button>
-        </div>
+        <div class="mt-4 flex items-end justify-between">
+          <div class="inline-flex items-center gap-1 text-xs font-medium {% if k.up %}text-emerald-600 dark:text-emerald-400{% else %}text-rose-600 dark:text-rose-400{% endif %}">
+            {% if k.up %}
+              <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+            {% else %}
+              <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            {% endif %}
+            <span>{{ k.pct }}%</span>
+            <span class="text-slate-400 dark:text-slate-500 font-normal">{% trans "oy/oy" %}</span>
+          </div>
 
-        <div class="flex items-center gap-2">
-          <form action="{% url 'set_language' %}" method="post" class="hidden sm:inline-flex">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            <select name="language" onchange="this.form.submit()"
-                    class="rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-medium text-slate-600 dark:text-slate-300 px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-500/30">
-              {% for lang_code, lang_name in LANGUAGES %}
-                <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>{{ lang_name }}</option>
-              {% endfor %}
-            </select>
-          </form>
-          <button type="button"
-                  onclick="const d=document.documentElement.classList.toggle('dark');localStorage.setItem('theme',d?'dark':'light');if(window._reloadDashboardCharts)window._reloadDashboardCharts();"
-                  class="p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition">
-            <svg class="h-5 w-5 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-            <svg class="h-5 w-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-          </button>
-          <button type="button" class="relative p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-            <span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-950"></span>
-          </button>
+          <svg viewBox="0 0 120 32" preserveAspectRatio="none" class="h-8 w-24 overflow-visible">
+            <polyline
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-{{ k.accent }}-500"
+              points="{% for v in k.spark %}{{ forloop.counter0|add:0 }},{{ v|default:50 }} {% endfor %}"
+            />
+          </svg>
         </div>
       </div>
-    </header>
-
-    {# ----- Page body ----- #}
-    <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-6">
-
-      {% if messages %}
-        {% include 'partials/_messages.html' %}
-      {% endif %}
-
-      {# Welcome / empty state #}
-      {% if not connected_accounts %}
-        <div class="relative overflow-hidden rounded-2xl border border-brand-200 dark:border-brand-800 bg-gradient-to-br from-brand-50 via-white to-indigo-50 dark:from-brand-900/40 dark:via-slate-900 dark:to-indigo-900/30 p-6 sm:p-8">
-          <div class="absolute inset-0 bg-mesh-1 opacity-30 dark:opacity-40 pointer-events-none"></div>
-          <div class="relative flex flex-col md:flex-row items-start md:items-center gap-6">
-            <div class="flex-1">
-              <div class="inline-flex items-center gap-2 rounded-full bg-white dark:bg-slate-800 px-3 py-1 text-xs font-semibold text-brand-700 dark:text-brand-300 ring-1 ring-brand-200 dark:ring-brand-700">
-                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                {% trans "Boshlash" %}
-              </div>
-              <h2 class="mt-3 text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                {% trans "Birinchi akkauntingizni ulang" %}
-              </h2>
-              <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-xl">
-                {% trans "Dashboard quyida demo ma'lumotlar bilan ko'rsatilmoqda. Instagram, Telegram, YouTube yoki X akkauntini ulab, haqiqiy statistikani ko'ring." %}
-              </p>
-            </div>
-            <div class="flex items-center gap-3">
-              <a href="#" class="btn-primary">
-                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                {% trans "Akkaunt ulash" %}
-              </a>
-              <a href="#" class="btn-ghost">{% trans "Keyinroq" %}</a>
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
-      {# ----- KPI CARDS ----- #}
-      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4" data-reveal>
-        {% for k in kpis %}
-          <div data-spotlight class="spotlight-card p-5 card-hover">
-            <div class="flex items-start justify-between">
-              <div>
-                <div class="text-xs font-medium text-slate-500 dark:text-slate-400">{{ k.label }}</div>
-                <div class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">
-                  {{ k.value }}{{ k.suffix }}
-                </div>
-              </div>
-              <div class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-{{ k.accent }}-100 dark:bg-{{ k.accent }}-900/40 text-{{ k.accent }}-600 dark:text-{{ k.accent }}-400">
-                {% if k.icon == 'layers' %}<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                {% elif k.icon == 'users' %}<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-                {% elif k.icon == 'activity' %}<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                {% else %}<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>{% endif %}
-              </div>
-            </div>
-
-            <div class="mt-4 flex items-end justify-between">
-              <div class="inline-flex items-center gap-1 text-xs font-medium {% if k.up %}text-emerald-600 dark:text-emerald-400{% else %}text-rose-600 dark:text-rose-400{% endif %}">
-                {% if k.up %}
-                  <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-                {% else %}
-                  <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                {% endif %}
-                <span>{{ k.pct }}%</span>
-                <span class="text-slate-400 dark:text-slate-500 font-normal">{% trans "oy/oy" %}</span>
-              </div>
-
-              {# Sparkline #}
-              <svg viewBox="0 0 120 32" preserveAspectRatio="none" class="h-8 w-24 overflow-visible">
-                <polyline
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="text-{{ k.accent }}-500"
-                  points="{% for v in k.spark %}{{ forloop.counter0|add:0 }},{{ v|default:50 }} {% endfor %}"
-                />
-              </svg>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-
-      {# ----- MAIN CHART + TOP POSTS (2-col) ----- #}
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6" data-reveal>
-
-        <div class="xl:col-span-2 card p-6">
-          <div class="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Faollik dinamikasi" %}</h3>
-              <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Oxirgi 14 kun" %}</p>
-            </div>
-            <div class="inline-flex rounded-lg border border-slate-200 dark:border-slate-700 p-1 text-xs font-medium">
-              <button class="px-3 py-1 rounded-md bg-brand-50 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300">14k</button>
-              <button class="px-3 py-1 rounded-md text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">30k</button>
-              <button class="px-3 py-1 rounded-md text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">3o</button>
-            </div>
-          </div>
-          <div class="mt-5 h-72">
-            <canvas id="activityChart"></canvas>
-          </div>
-        </div>
-
-        <div class="card p-6">
-          <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Platforma bo'yicha" %}</h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Faollik ulushi" %}</p>
-          <div class="mt-5 h-40 flex items-center justify-center">
-            <canvas id="platformChart"></canvas>
-          </div>
-          <ul class="mt-5 space-y-2.5">
-            {% for p in platforms %}
-              <li class="flex items-center gap-3 text-sm">
-                <span class="inline-flex h-2.5 w-2.5 rounded-full" style="background:{{ p.color }}"></span>
-                <span class="flex-1 text-slate-700 dark:text-slate-300">{{ p.name }}</span>
-                <span class="font-medium text-slate-900 dark:text-white">{{ p.pct }}%</span>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-
-      {# ----- TOP POSTS + TIMELINE ----- #}
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6" data-reveal>
-
-        <div class="lg:col-span-3 card">
-          <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
-            <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Top postlar" %}</h3>
-            <a href="#" class="text-xs font-medium text-brand-600 dark:text-brand-400 hover:underline">{% trans "Barchasi" %}</a>
-          </div>
-          <ul class="divide-y divide-slate-100 dark:divide-slate-800">
-            {% for p in top_posts %}
-              <li class="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
-                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white text-xs font-bold
-                  {% if p.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
-                  {% elif p.platform == 'telegram' %}bg-sky-500
-                  {% elif p.platform == 'youtube' %}bg-red-500
-                  {% else %}bg-slate-900{% endif %}">
-                  {% if p.platform == 'instagram' %}IG{% elif p.platform == 'telegram' %}TG{% elif p.platform == 'youtube' %}YT{% else %}X{% endif %}
-                </span>
-                <div class="flex-1 min-w-0">
-                  <div class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ p.title }}</div>
-                  <div class="mt-1 flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
-                    <span class="inline-flex items-center gap-1">
-                      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-                      {{ p.views }}
-                    </span>
-                    <span class="inline-flex items-center gap-1">
-                      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-                      {{ p.likes }}
-                    </span>
-                    <span class="inline-flex items-center gap-1">
-                      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                      {{ p.comments }}
-                    </span>
-                    <span>{{ p.when }}</span>
-                  </div>
-                </div>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <div class="lg:col-span-2 card">
-          <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
-            <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Tadbirlar" %}</h3>
-            <span class="text-xs text-slate-500 dark:text-slate-400">{% trans "Bugun" %}</span>
-          </div>
-          <ol class="relative px-6 py-4 space-y-5">
-            <span class="absolute left-[2.1rem] top-6 bottom-6 w-px bg-slate-200 dark:bg-slate-800"></span>
-            {% for ev in timeline %}
-              <li class="relative flex items-start gap-3 pl-1">
-                <span class="relative z-10 inline-flex h-8 w-8 items-center justify-center rounded-full ring-4 ring-white dark:ring-slate-900
-                  bg-{{ ev.accent }}-100 dark:bg-{{ ev.accent }}-900/40 text-{{ ev.accent }}-600 dark:text-{{ ev.accent }}-400">
-                  {% if ev.icon == 'user-plus' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                  {% elif ev.icon == 'message-square' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                  {% elif ev.icon == 'bar-chart-3' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                  {% elif ev.icon == 'trending-up' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                  {% elif ev.icon == 'alert-circle' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                  {% else %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>{% endif %}
-                </span>
-                <div class="flex-1 min-w-0 pt-1">
-                  <div class="text-sm text-slate-800 dark:text-slate-200">{{ ev.text }}</div>
-                  <div class="text-xs text-slate-500 dark:text-slate-400">{{ ev.when }}</div>
-                </div>
-              </li>
-            {% endfor %}
-          </ol>
-        </div>
-      </div>
-    </main>
+    {% endfor %}
   </div>
-</div>
+
+  {# ----- MAIN CHART + PLATFORM DONUT ----- #}
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6" data-reveal>
+    <div class="xl:col-span-2 card p-6">
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Faollik dinamikasi" %}</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Oxirgi 14 kun" %}</p>
+        </div>
+      </div>
+      <div class="mt-5 h-72">
+        <canvas id="activityChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card p-6">
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Platforma bo'yicha" %}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Faollik ulushi" %}</p>
+      <div class="mt-5 h-40 flex items-center justify-center">
+        <canvas id="platformChart"></canvas>
+      </div>
+      <ul class="mt-5 space-y-2.5">
+        {% for p in platforms %}
+          <li class="flex items-center gap-3 text-sm">
+            <span class="inline-flex h-2.5 w-2.5 rounded-full" style="background:{{ p.color }}"></span>
+            <span class="flex-1 text-slate-700 dark:text-slate-300">{{ p.name }}</span>
+            <span class="font-medium text-slate-900 dark:text-white">{{ p.pct }}%</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  {# ----- TOP POSTS + TIMELINE ----- #}
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-6" data-reveal>
+
+    <div class="lg:col-span-3 card">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Top postlar" %}</h3>
+        <a href="{% url 'analytics:overview' %}" class="text-xs font-medium text-brand-600 dark:text-brand-400 hover:underline">{% trans "Barchasi" %}</a>
+      </div>
+      <ul class="divide-y divide-slate-100 dark:divide-slate-800">
+        {% for p in top_posts %}
+          <li class="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white text-xs font-bold
+              {% if p.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
+              {% elif p.platform == 'telegram' %}bg-sky-500
+              {% elif p.platform == 'youtube' %}bg-red-500
+              {% else %}bg-slate-900{% endif %}">
+              {% if p.platform == 'instagram' %}IG{% elif p.platform == 'telegram' %}TG{% elif p.platform == 'youtube' %}YT{% else %}X{% endif %}
+            </span>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ p.title }}</div>
+              <div class="mt-1 flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+                <span class="inline-flex items-center gap-1">
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                  {{ p.views }}
+                </span>
+                <span class="inline-flex items-center gap-1">
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                  {{ p.likes }}
+                </span>
+                <span class="inline-flex items-center gap-1">
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                  {{ p.comments }}
+                </span>
+                <span>{{ p.when }}</span>
+              </div>
+            </div>
+          </li>
+        {% empty %}
+          <li class="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400">
+            {% trans "Hali postlar yo'q. Akkauntingizni ulang yoki demo data'ni seed qiling." %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="lg:col-span-2 card">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Tadbirlar" %}</h3>
+        <span class="text-xs text-slate-500 dark:text-slate-400">{% trans "Bugun" %}</span>
+      </div>
+      <ol class="relative px-6 py-4 space-y-5">
+        <span class="absolute left-[2.1rem] top-6 bottom-6 w-px bg-slate-200 dark:bg-slate-800"></span>
+        {% for ev in timeline %}
+          <li class="relative flex items-start gap-3 pl-1">
+            <span class="relative z-10 inline-flex h-8 w-8 items-center justify-center rounded-full ring-4 ring-white dark:ring-slate-900
+              bg-{{ ev.accent }}-100 dark:bg-{{ ev.accent }}-900/40 text-{{ ev.accent }}-600 dark:text-{{ ev.accent }}-400">
+              {% if ev.icon == 'user-plus' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+              {% elif ev.icon == 'message-square' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              {% elif ev.icon == 'bar-chart-3' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              {% elif ev.icon == 'trending-up' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              {% elif ev.icon == 'alert-circle' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              {% else %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>{% endif %}
+            </span>
+            <div class="flex-1 min-w-0 pt-1">
+              <div class="text-sm text-slate-800 dark:text-slate-200">{{ ev.text }}</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400">{{ ev.when }}</div>
+            </div>
+          </li>
+        {% empty %}
+          <li class="text-sm text-slate-500 dark:text-slate-400">{% trans "Hali tadbirlar yo'q." %}</li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
 
 {{ activity|json_script:"activity-data" }}
 {{ platforms|json_script:"platform-data" }}
@@ -350,13 +201,8 @@
 (function() {
   const activity = JSON.parse(document.getElementById('activity-data').textContent);
   const platforms = JSON.parse(document.getElementById('platform-data').textContent);
-
   let activityChart, platformChart;
-
-  function isDark() {
-    return document.documentElement.classList.contains('dark');
-  }
-
+  function isDark() { return document.documentElement.classList.contains('dark'); }
   function axisColor() { return isDark() ? '#64748b' : '#94a3b8'; }
   function gridColor() { return isDark() ? 'rgba(148,163,184,0.12)' : 'rgba(148,163,184,0.22)'; }
   function tooltipBg() { return isDark() ? '#0f172a' : '#ffffff'; }
@@ -377,51 +223,21 @@
       data: {
         labels: activity.labels,
         datasets: [
-          {
-            label: 'Postlar',
-            data: activity.posts,
-            borderColor: '#4f46e5',
-            backgroundColor: grad,
-            fill: true,
-            tension: 0.35,
-            borderWidth: 2.5,
-            pointRadius: 0,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: '#4f46e5',
-            pointHoverBorderColor: '#ffffff',
-            pointHoverBorderWidth: 2,
-          },
-          {
-            label: 'Engagement',
-            data: activity.engagement,
-            borderColor: '#10b981',
-            backgroundColor: grad2,
-            fill: true,
-            tension: 0.35,
-            borderWidth: 2,
-            pointRadius: 0,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: '#10b981',
-            pointHoverBorderColor: '#ffffff',
-            pointHoverBorderWidth: 2,
-            yAxisID: 'y1',
-          },
+          { label: 'Postlar', data: activity.posts, borderColor: '#4f46e5', backgroundColor: grad, fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5 },
+          { label: 'Kommentlar', data: activity.engagement, borderColor: '#10b981', backgroundColor: grad2, fill: true, tension: 0.35, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, yAxisID: 'y1' },
         ],
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         interaction: { mode: 'index', intersect: false },
         plugins: {
-          legend: { position: 'bottom', labels: { color: axisColor(), usePointStyle: true, padding: 18, font: { size: 12 } } },
-          tooltip: {
-            backgroundColor: tooltipBg(), borderColor: tooltipBorder(), borderWidth: 1, titleColor: tooltipText(), bodyColor: tooltipText(), padding: 12, cornerRadius: 8, displayColors: true, boxPadding: 4,
-          },
+          legend: { position: 'bottom', labels: { color: axisColor(), usePointStyle: true, padding: 18 } },
+          tooltip: { backgroundColor: tooltipBg(), borderColor: tooltipBorder(), borderWidth: 1, titleColor: tooltipText(), bodyColor: tooltipText(), padding: 12, cornerRadius: 8 },
         },
         scales: {
-          x: { grid: { color: gridColor(), drawBorder: false }, ticks: { color: axisColor(), font: { size: 11 } } },
-          y: { grid: { color: gridColor(), drawBorder: false }, ticks: { color: axisColor(), font: { size: 11 } }, beginAtZero: true },
-          y1: { position: 'right', grid: { display: false }, ticks: { color: axisColor(), font: { size: 11 } }, beginAtZero: true },
+          x: { grid: { color: gridColor() }, ticks: { color: axisColor() } },
+          y: { grid: { color: gridColor() }, ticks: { color: axisColor() }, beginAtZero: true },
+          y1: { position: 'right', grid: { display: false }, ticks: { color: axisColor() }, beginAtZero: true },
         },
       },
     });
@@ -433,24 +249,11 @@
       type: 'doughnut',
       data: {
         labels: platforms.map(p => p.name),
-        datasets: [{
-          data: platforms.map(p => p.value),
-          backgroundColor: platforms.map(p => p.color),
-          borderWidth: 3,
-          borderColor: isDark() ? '#0f172a' : '#ffffff',
-          hoverOffset: 6,
-        }],
+        datasets: [{ data: platforms.map(p => p.value), backgroundColor: platforms.map(p => p.color), borderWidth: 3, borderColor: isDark() ? '#0f172a' : '#ffffff', hoverOffset: 6 }],
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '68%',
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: tooltipBg(), borderColor: tooltipBorder(), borderWidth: 1, titleColor: tooltipText(), bodyColor: tooltipText(), padding: 10, cornerRadius: 8,
-          },
-        },
+        responsive: true, maintainAspectRatio: false, cutout: '68%',
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg(), borderColor: tooltipBorder(), borderWidth: 1, titleColor: tooltipText(), bodyColor: tooltipText(), padding: 10, cornerRadius: 8 } },
       },
     });
   }
@@ -458,10 +261,8 @@
   function reload() {
     if (activityChart) activityChart.destroy();
     if (platformChart) platformChart.destroy();
-    buildActivity();
-    buildPlatform();
+    buildActivity(); buildPlatform();
   }
-
   window._reloadDashboardCharts = reload;
   buildActivity();
   buildPlatform();

@@ -61,7 +61,13 @@ TARGETS = [
     ("logout",            "/accounts/logout/",         True,  True),
     ("email-verification-sent", "/accounts/confirm-email/", True, True),
     ("dashboard",         "/dashboard/",               False, True),
+    ("accounts-list",     "/social/",                  False, True),
+    ("analytics",         "/analytics/",               False, True),
+    ("sentiment",         "/analytics/sentiment/",     False, True),
+    ("reports-index",     "/reports/",                 False, True),
     ("reports-xlsx",      "/reports/export.xlsx",      False, True),
+    ("reports-pdf",       "/reports/export.pdf",       False, True),
+    ("settings",          "/settings/",                False, True),
     ("api-docs",          "/api/v1/docs/",             True,  True),
     ("api-schema",        "/api/v1/schema/",           True,  True),
     ("api-redoc",         "/api/v1/redoc/",            True,  True),
@@ -69,6 +75,7 @@ TARGETS = [
     ("nonexistent-404",   "/foobar/",                  True,  True),
     ("static-css",        "/static/css/output.css",    True,  True),
     ("static-js",         "/static/js/app.js",         True,  True),
+    ("favicon",           "/static/favicon.svg",       True,  True),
 ]
 
 

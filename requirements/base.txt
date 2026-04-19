@@ -49,3 +49,7 @@ langdetect>=1.0.9
 
 # Excel export (Phase 1 — /reports/export.xlsx)
 openpyxl>=3.1,<4.0
+
+# PDF export — ReportLab is pure-Python so it installs cleanly on Render
+# without the GTK/cairo system deps that WeasyPrint requires.
+reportlab>=4.0,<5.0

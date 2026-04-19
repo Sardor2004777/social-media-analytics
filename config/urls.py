@@ -37,8 +37,9 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path("", include("apps.dashboard.urls")),
     path("social/", include("apps.social.urls")),
+    path("analytics/", include("apps.analytics.urls")),
     path("reports/", include("apps.reports.urls")),
-    path("profile/", include("apps.accounts.urls")),
+    path("settings/", include("apps.accounts.urls")),
     prefix_default_language=False,
 )
 

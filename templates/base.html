@@ -6,6 +6,18 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="{% block meta_description %}Ijtimoiy tarmoq analitikasi — Instagram, Telegram, YouTube va X ma'lumotlarini bir joyda, AI sentiment tahlili bilan.{% endblock %}">
+
+  <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+  <link rel="apple-touch-icon" href="{% static 'favicon.svg' %}">
+
+  {# Open Graph #}
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="Social Analytics">
+  <meta property="og:title"       content="{% block og_title %}Social Analytics{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Ijtimoiy tarmoq analitikasi · AI sentiment · hisobotlar.{% endblock %}">
+  <meta name="twitter:card"       content="summary">
+
   <title>{% block title %}Social Analytics{% endblock %}</title>
 
   {# Inter variable font — loaded from upstream, supports the full weight range #}

@@ -1,0 +1,121 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Akkauntlarim" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "Akkauntlarim" %}{% endblock %}
+
+{% block dash_content %}
+<div class="flex items-start justify-between gap-4 flex-wrap" data-reveal>
+  <div>
+    <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{% trans "Ulangan akkauntlar" %}</h1>
+    <p class="mt-1 text-slate-600 dark:text-slate-400">{% trans "Ijtimoiy tarmoq akkauntlaringizni ulab, real ma'lumotni tahlil qiling." %}</p>
+  </div>
+  <div class="text-sm font-medium text-slate-500 dark:text-slate-400">
+    {{ accounts|length }} {% trans "ulangan" %}
+  </div>
+</div>
+
+{# ---------- Connect CTAs ---------- #}
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4" data-reveal>
+  {% for p in available %}
+    <div class="spotlight-card card-hover p-5" data-spotlight>
+      <div class="flex items-center gap-3">
+        <span class="inline-flex h-11 w-11 items-center justify-center rounded-card text-white text-sm font-bold bg-gradient-to-br {{ p.tint }}">
+          {{ p.icon }}
+        </span>
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-semibold text-slate-900 dark:text-white">{{ p.label }}</div>
+          {% if p.connected %}
+            <div class="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+              <span class="relative flex h-1.5 w-1.5"><span class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70 animate-ping"></span><span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span></span>
+              {% trans "Ulangan" %}
+            </div>
+          {% else %}
+            <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Ulanmagan" %}</div>
+          {% endif %}
+        </div>
+      </div>
+      <p class="mt-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{{ p.desc }}</p>
+      {% if not p.connected %}
+        <button type="button" disabled class="btn-ghost btn-full mt-4 !text-xs cursor-not-allowed opacity-75" title="{% trans 'OAuth oqimi Phase 4 da faollashadi' %}">
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          {% trans "Ulash — tez orada" %}
+        </button>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+{# ---------- Existing accounts table ---------- #}
+{% if accounts %}
+<div class="card overflow-hidden" data-reveal>
+  <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+    <h2 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Faol akkauntlar" %}</h2>
+    <span class="text-xs text-slate-500 dark:text-slate-400">{% trans "demo ma'lumot" %}</span>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead class="bg-slate-50 dark:bg-slate-950/40 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <tr>
+          <th class="text-left px-6 py-3 font-semibold">{% trans "Platforma" %}</th>
+          <th class="text-left px-6 py-3 font-semibold">Handle</th>
+          <th class="text-right px-6 py-3 font-semibold">{% trans "Obunachilar" %}</th>
+          <th class="text-right px-6 py-3 font-semibold">{% trans "Postlar" %}</th>
+          <th class="text-right px-6 py-3 font-semibold">Engagement</th>
+          <th class="text-right px-6 py-3 font-semibold">{% trans "Holati" %}</th>
+          <th class="text-right px-6 py-3 font-semibold"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+        {% for a in accounts %}
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+            <td class="px-6 py-4">
+              <span class="inline-flex items-center gap-2">
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-md text-white text-[10px] font-bold
+                  {% if a.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
+                  {% elif a.platform == 'telegram' %}bg-sky-500
+                  {% elif a.platform == 'youtube' %}bg-red-500
+                  {% else %}bg-slate-900{% endif %}">
+                  {% if a.platform == 'instagram' %}IG{% elif a.platform == 'telegram' %}TG{% elif a.platform == 'youtube' %}YT{% else %}X{% endif %}
+                </span>
+                <span class="font-medium text-slate-900 dark:text-white">{{ a.get_platform_display }}</span>
+              </span>
+            </td>
+            <td class="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">@{{ a.handle }}</td>
+            <td class="px-6 py-4 text-right tabular text-slate-900 dark:text-white font-medium">{{ a.follower_count|default:0 }}</td>
+            <td class="px-6 py-4 text-right tabular text-slate-900 dark:text-white font-medium">{{ a.posts_total|default:0 }}</td>
+            <td class="px-6 py-4 text-right tabular text-slate-700 dark:text-slate-300">{% if a.avg_eng %}{{ a.avg_eng|floatformat:2 }}%{% else %}—{% endif %}</td>
+            <td class="px-6 py-4 text-right">
+              {% if a.is_demo %}
+                <span class="chip text-[11px]">{% trans "Demo" %}</span>
+              {% else %}
+                <span class="chip-brand text-[11px]">{% trans "Haqiqiy" %}</span>
+              {% endif %}
+            </td>
+            <td class="px-6 py-4 text-right">
+              <form method="post" action="{% url 'social:disconnect' a.pk %}" onsubmit="return confirm('{% trans 'Ushbu akkauntni o\u2019chirishni xohlaysizmi?' %}')">
+                {% csrf_token %}
+                <button type="submit" class="inline-flex items-center gap-1 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline">
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 01-2 2H9a2 2 0 01-2-2L5 6"/></svg>
+                  {% trans "O'chirish" %}
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="card p-10 text-center" data-reveal>
+  <div class="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400">
+    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>
+  </div>
+  <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{% trans "Hali hech qanday akkaunt ulanmagan" %}</h3>
+  <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+    {% trans "Yuqoridagi platformalardan birini tanlab, demo ma'lumot yuklang yoki OAuth orqali haqiqiy akkauntingizni ulang." %}
+  </p>
+</div>
+{% endif %}
+{% endblock %}
