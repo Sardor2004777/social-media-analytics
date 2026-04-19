@@ -12,8 +12,15 @@ DATABASES = {
     "default": env.db("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
 }
 
-# Console email backend — prints to runserver stdout
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# File-based email backend in dev. The console backend would otherwise crash
+# when any email (e.g. allauth verification) contains Unicode outside cp1251 —
+# runserver stdout on Windows is locked to the console code page and can't
+# encode characters like the Uzbek modifier apostrophe (\u02bb).
+# Emails land as plain-text files under .dev_emails/ so we can still inspect
+# them without burning the whole signup flow.
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / ".dev_emails"
+EMAIL_FILE_PATH.mkdir(exist_ok=True)
 
 # Dev tooling: debug_toolbar + extensions (import guarded — optional)
 try:

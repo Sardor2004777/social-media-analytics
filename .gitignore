@@ -38,6 +38,7 @@ db.sqlite3-journal
 media/
 staticfiles/
 /static/css/output.css
+.dev_emails/
 
 # Translation compiled files
 *.mo
