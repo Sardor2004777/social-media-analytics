@@ -1,0 +1,53 @@
+{% load i18n %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'uz' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block email_title %}Social Analytics{% endblock %}</title>
+</head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#0f172a;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px -4px rgba(15,23,42,0.08);">
+
+          {# ----- Header ----- #}
+          <tr>
+            <td style="background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 50%,#2563eb 100%);padding:32px 32px 28px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>
+                    <div style="display:inline-block;width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.18);vertical-align:middle;text-align:center;line-height:40px;">
+                      <span style="color:#fff;font-weight:700;font-size:18px;">SA</span>
+                    </div>
+                    <span style="display:inline-block;margin-left:10px;color:#fff;font-weight:700;font-size:18px;vertical-align:middle;letter-spacing:-0.01em;">Social Analytics</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          {# ----- Body ----- #}
+          <tr>
+            <td style="padding:36px 36px 12px 36px;">
+              {% block email_body %}{% endblock %}
+            </td>
+          </tr>
+
+          {# ----- Footer ----- #}
+          <tr>
+            <td style="padding:24px 36px 32px 36px;border-top:1px solid #e2e8f0;">
+              <p style="margin:0;color:#64748b;font-size:12px;line-height:18px;">
+                {% blocktrans %}Bu xat avtomatik yuborildi. Javob bermang.{% endblocktrans %}
+                <br>
+                &copy; {% now "Y" %} Social Analytics &middot; {% trans "Diplom loyihasi" %}
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

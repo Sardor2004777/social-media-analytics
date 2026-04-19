@@ -1,0 +1,70 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Akkauntni o'chirish" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}
+  <a href="{% url 'accounts:settings' %}" class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">{% trans "Sozlamalar" %}</a>
+  <svg class="h-3.5 w-3.5 text-slate-400 inline mx-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  <span class="text-rose-700 dark:text-rose-400">{% trans "Akkauntni o'chirish" %}</span>
+{% endblock %}
+
+{% block dash_content %}
+<div class="max-w-xl mx-auto space-y-6" data-reveal>
+
+  <div class="card p-6 border-rose-200 dark:border-rose-900 bg-rose-50/30 dark:bg-rose-950/20">
+    <div class="flex items-start gap-3">
+      <span class="inline-flex h-10 w-10 items-center justify-center rounded-card bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 shrink-0">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </span>
+      <div>
+        <h1 class="text-xl font-bold text-rose-700 dark:text-rose-400">{% trans "Bu amalni ortga qaytarib bo'lmaydi" %}</h1>
+        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+          {% trans "Akkauntingizni o'chirsangiz quyidagilar doimo yo'qoladi:" %}
+        </p>
+      </div>
+    </div>
+
+    <ul class="mt-4 ml-4 space-y-2 text-sm text-slate-700 dark:text-slate-300 list-disc list-inside">
+      <li>{% trans "Barcha ulangan akkauntlar (Instagram, Telegram, YouTube, X)" %}</li>
+      <li>{% trans "Barcha postlar va kommentlar" %}</li>
+      <li>{% trans "Barcha sentiment tahlili natijalari" %}</li>
+      <li>{% trans "Yaratilgan hisobotlar tarixi" %}</li>
+      <li>{% trans "Profil ma'lumotlari" %}</li>
+    </ul>
+
+    <div class="mt-5 rounded-lg bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-900 p-3 text-sm text-sky-800 dark:text-sky-300">
+      <strong>{% trans "Taklif:" %}</strong>
+      {% trans "Ma'lumotingizni oldin" %}
+      <a href="{% url 'accounts:export_data' %}" class="font-semibold underline">{% trans "JSON sifatida yuklab oling" %}</a>
+      {% trans "— keyin o'chirish xavfsiz bo'ladi." %}
+    </div>
+  </div>
+
+  <form method="post" class="card p-6 space-y-4">
+    {% csrf_token %}
+    <h2 class="text-lg font-semibold text-slate-900 dark:text-white">{% trans "Tasdiqlash" %}</h2>
+    <p class="text-sm text-slate-600 dark:text-slate-400">
+      {% blocktrans with email=user.email %}
+      Davom etish uchun <strong>{{ email }}</strong> email manzilini aniq kiriting:
+      {% endblocktrans %}
+    </p>
+    <div class="field">
+      <input type="text"
+             name="confirm_email"
+             placeholder="{{ user.email }}"
+             autocomplete="off"
+             required
+             class="field-input">
+    </div>
+    <div class="flex items-center gap-3 pt-2">
+      <button type="submit" class="inline-flex items-center gap-2 rounded-button px-5 py-2.5 text-sm font-semibold text-white bg-rose-600 hover:bg-rose-700 transition shadow-soft">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 01-2 2H9a2 2 0 01-2-2L5 6"/></svg>
+        {% trans "Akkauntimni butunlay o'chirish" %}
+      </button>
+      <a href="{% url 'accounts:settings' %}" class="btn-ghost !text-sm">
+        {% trans "Bekor qilish" %}
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

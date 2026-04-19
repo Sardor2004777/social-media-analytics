@@ -1,0 +1,44 @@
+{% extends "account/email/_base.html" %}
+{% load account i18n %}
+
+{% block email_title %}{% trans "Email tasdiqlash" %}{% endblock %}
+
+{% block email_body %}
+{% user_display user as user_display %}
+<h1 style="margin:0 0 16px 0;color:#0f172a;font-size:22px;font-weight:700;letter-spacing:-0.01em;">
+  {% trans "Email manzilingizni tasdiqlang" %}
+</h1>
+
+<p style="margin:0 0 16px 0;color:#334155;font-size:15px;line-height:24px;">
+  {% blocktrans %}Salom, <strong>{{ user_display }}</strong>!{% endblocktrans %}
+</p>
+
+<p style="margin:0 0 24px 0;color:#334155;font-size:15px;line-height:24px;">
+  {% blocktrans with site_name=current_site.name %}
+  Social Analytics platformasiga ro'yxatdan o'tganingiz uchun rahmat.
+  Akkauntni faollashtirish uchun quyidagi tugmani bosing:
+  {% endblocktrans %}
+</p>
+
+<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px 0;">
+  <tr>
+    <td style="background:linear-gradient(135deg,#4f46e5 0%,#6366f1 100%);border-radius:10px;">
+      <a href="{{ activate_url }}"
+         style="display:inline-block;padding:12px 24px;color:#fff;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:0.01em;">
+        {% trans "Email manzilni tasdiqlash" %}
+      </a>
+    </td>
+  </tr>
+</table>
+
+<p style="margin:0 0 8px 0;color:#64748b;font-size:13px;line-height:20px;">
+  {% blocktrans %}Agar tugma ishlamasa, quyidagi havolani brauzeringizga nusxalang:{% endblocktrans %}
+</p>
+<p style="margin:0 0 24px 0;color:#4f46e5;font-size:12px;line-height:18px;word-break:break-all;">
+  <a href="{{ activate_url }}" style="color:#4f46e5;">{{ activate_url }}</a>
+</p>
+
+<p style="margin:0;color:#94a3b8;font-size:12px;line-height:18px;">
+  {% blocktrans %}Ushbu xatni siz so'ramagan bo'lsangiz, e'tiborsiz qoldiring.{% endblocktrans %}
+</p>
+{% endblock %}

@@ -1,0 +1,1 @@
+{% load i18n %}{% autoescape off %}{% blocktrans %}Social Analytics: email manzilingizni tasdiqlang{% endblocktrans %}{% endautoescape %}
