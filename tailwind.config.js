@@ -17,6 +17,11 @@ module.exports = {
       `dark:bg-${c}-900/40`,
       `dark:text-${c}-400`,
     ]),
+    // These land on <html>/[data-reveal] from static/js/app.js, never from a
+    // template — Tailwind content-scan would otherwise purge them and the
+    // dashboard cards would stay invisible after the reveal animation landed.
+    'js-reveal',
+    'is-visible',
   ],
   darkMode: 'class',
   theme: {
