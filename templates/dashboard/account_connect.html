@@ -1,0 +1,72 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Akkaunt ulash" %} · {{ platform.label }} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}
+  <a href="{% url 'social:accounts' %}" class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">{% trans "Akkauntlarim" %}</a>
+  <svg class="h-3.5 w-3.5 text-slate-400 inline mx-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  {{ platform.label }}
+{% endblock %}
+
+{% block dash_content %}
+<div class="max-w-2xl mx-auto space-y-6" data-reveal>
+
+  <div class="flex items-center gap-4">
+    <span class="inline-flex h-16 w-16 items-center justify-center rounded-2xl text-white text-xl font-bold bg-gradient-to-br {{ platform.tint }} shadow-card">
+      {{ platform.icon }}
+    </span>
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ platform.label }} {% trans "akkauntini ulash" %}</h1>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{{ platform.desc }}</p>
+    </div>
+  </div>
+
+  <div class="card p-6">
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="alert-error">{{ form.non_field_errors|join:" · " }}</div>
+      {% endif %}
+
+      <div class="field">
+        <label class="field-label" for="{{ form.handle.id_for_label }}">Handle</label>
+        {{ form.handle }}
+        <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+          {% trans "Masalan:" %} <code class="font-mono text-slate-700 dark:text-slate-300">@bloger.uz</code>
+        </p>
+        {% if form.handle.errors %}<div class="field-error">{{ form.handle.errors|join:" " }}</div>{% endif %}
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="{{ form.posts.id_for_label }}">{% trans "Demo post soni" %}</label>
+        {{ form.posts }}
+        <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+          {% trans "10 dan 300 gacha. Har post uchun 3–14 komment + AI sentiment tahlili avtomatik yaratiladi." %}
+        </p>
+        {% if form.posts.errors %}<div class="field-error">{{ form.posts.errors|join:" " }}</div>{% endif %}
+      </div>
+
+      <div class="rounded-card border border-sky-200 dark:border-sky-900/60 bg-sky-50/60 dark:bg-sky-950/40 p-4 text-sm text-sky-800 dark:text-sky-200">
+        <div class="flex items-start gap-3">
+          <svg class="h-5 w-5 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <div>
+            <div class="font-semibold">{% trans "Demo rejim" %}</div>
+            <p class="mt-1 text-sky-700/90 dark:text-sky-300/90 leading-relaxed">
+              {% trans "Haqiqiy OAuth integratsiyasi API credentials'larini talab qiladi (Facebook Developer, Google Cloud, Bot tokens). Hozir demo ma'lumot bilan ulanadi — real vaqtda grafiklar va sentiment tahlili ishlaydi." %}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit" class="btn-primary">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          {% trans "Ulash va ma'lumot yuklash" %}
+        </button>
+        <a href="{% url 'social:accounts' %}" class="btn-ghost">{% trans "Bekor qilish" %}</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
