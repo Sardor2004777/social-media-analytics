@@ -47,6 +47,14 @@ TARGETS = [
     "/api/v1/redoc/",
     "/static/css/output.css",
     "/static/js/app.js",
+    "/static/favicon.svg",
+    # Auth-gated pages — will follow redirect to login for an anon probe.
+    "/dashboard/",
+    "/social/",
+    "/analytics/",
+    "/analytics/sentiment/",
+    "/reports/",
+    "/settings/",
     "/foobar/",  # expected 404
 ]
 
