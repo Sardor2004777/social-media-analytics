@@ -15,9 +15,14 @@
 
   /* ------------------------------------------------------------
    * 1. Reveal on scroll
+   *
+   * CSS default keeps [data-reveal] visible, so content renders even if this
+   * script fails to load. We opt into the "start hidden + animate" path only
+   * once we know IO is supported by adding .js-reveal to <html>.
    * ------------------------------------------------------------ */
   const revealElements = document.querySelectorAll('[data-reveal]');
   if (revealElements.length && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('js-reveal');
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -31,10 +36,9 @@
       { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
     );
     revealElements.forEach((el) => io.observe(el));
-  } else {
-    // No IO support — reveal everything immediately
-    revealElements.forEach((el) => el.classList.add('is-visible'));
   }
+  // If IO isn't supported we don't add .js-reveal → CSS default keeps
+  // content fully visible without animation. Graceful degradation.
 
   /* ------------------------------------------------------------
    * 2. Spotlight cursor glow (bento cards)
