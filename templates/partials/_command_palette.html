@@ -17,6 +17,7 @@
       { href: '#',                               label: '{% trans 'Analytics' %}',  icon: 'chart',   section: '{% trans 'Navigatsiya' %}' },
       { href: '#',                               label: '{% trans 'Sentiment' %}',  icon: 'smile',   section: '{% trans 'Navigatsiya' %}' },
       { href: '#',                               label: '{% trans 'Hisobotlar' %}', icon: 'file',    section: '{% trans 'Navigatsiya' %}' },
+      { href: '{% url 'reports:export_xlsx' %}', label: '{% trans 'Excel eksport (.xlsx)' %}', icon: 'file', section: '{% trans 'Eksport' %}' },
       { href: '#',                               label: '{% trans 'Sozlamalar' %}', icon: 'gear',    section: '{% trans 'Sozlamalar' %}' },
       { href: '{% url 'account_logout' %}',      label: '{% trans 'Chiqish' %}',     icon: 'logout',  section: '{% trans 'Akkaunt' %}' },
       {% else %}

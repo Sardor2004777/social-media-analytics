@@ -40,3 +40,12 @@ django-filter>=24.0,<26.0
 
 # Static file serving (referenced in base.py MIDDLEWARE + STATICFILES_STORAGE)
 whitenoise>=6.6,<7.0
+
+# Sentiment analysis — VADER (lightweight lexicon) + langdetect for routing
+# to future transformer models. XLM-RoBERTa is opt-in (install `transformers`
+# + `torch` separately) and detected at runtime.
+vaderSentiment>=3.3,<4.0
+langdetect>=1.0.9
+
+# Excel export (Phase 1 — /reports/export.xlsx)
+openpyxl>=3.1,<4.0
