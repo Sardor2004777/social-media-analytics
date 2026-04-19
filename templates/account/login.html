@@ -10,8 +10,13 @@
 {% endblock %}
 
 {% block auth_form %}
+<a href="{% url 'dashboard:home' %}" class="inline-flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 mb-4 transition">
+  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+  {% trans "Bosh sahifaga qaytish" %}
+</a>
+
 <form method="post" action="{% url 'account_login' %}" class="space-y-5" novalidate
-      x-data="{ show: false }">
+      x-data="{ show: false, submitting: false }" @submit="submitting = true">
   {% csrf_token %}
 
   {% if form.non_field_errors %}
@@ -105,9 +110,11 @@
 
   {{ redirect_field }}
 
-  <button type="submit" class="btn-primary btn-full">
-    <span>{% trans "Kirish" %}</span>
-    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+  <button type="submit" :disabled="submitting" class="btn-primary btn-full" :class="{ 'opacity-60 cursor-not-allowed': submitting }">
+    <svg x-show="submitting" x-cloak class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+    <span x-show="!submitting">{% trans "Kirish" %}</span>
+    <span x-show="submitting"  x-cloak>{% trans "Kiryapti..." %}</span>
+    <svg x-show="!submitting" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
   </button>
 </form>
 

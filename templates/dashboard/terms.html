@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Foydalanish shartlari" %} · Social Analytics{% endblock %}
+
+{% block content %}
+<article class="prose dark:prose-invert max-w-3xl mx-auto py-8">
+  <p class="text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400 font-semibold">{% trans "Huquqiy ma'lumot" %}</p>
+  <h1 class="mt-1">{% trans "Foydalanish shartlari" %}</h1>
+  <p class="text-slate-500 dark:text-slate-400 text-sm">{% trans "Oxirgi yangilanish:" %} {% now "Y-m-d" %}</p>
+
+  <h2>{% trans "1. Shartlarning qabul qilinishi" %}</h2>
+  <p>
+    {% blocktrans %}
+    Social Analytics saytidan (keyinchalik "Xizmat") foydalanib,
+    siz quyidagi shartlar va qoidalarga rozilik bildirasiz. Agar siz
+    ushbu shartlarning biror qismiga rozi bo'lmasangiz, Xizmatdan
+    foydalanmang.
+    {% endblocktrans %}
+  </p>
+
+  <h2>{% trans "2. Xizmatning tavsifi" %}</h2>
+  <p>
+    {% blocktrans %}
+    Social Analytics — ijtimoiy tarmoqlarda (Instagram, Telegram,
+    YouTube, X) postlar va kommentlarni tahlil qilish platformasi. Xizmat
+    ta'lim va tadqiqot maqsadlarida yaratilgan diplom loyihasi.
+    {% endblocktrans %}
+  </p>
+
+  <h2>{% trans "3. Akkaunt va xavfsizlik" %}</h2>
+  <ul>
+    <li>{% trans "Siz ro'yxatdan o'tganda haqiqiy email manzilingizni kiritishingiz kerak." %}</li>
+    <li>{% trans "Parol maxfiyligi uchun siz javobgarsiz." %}</li>
+    <li>{% trans "OAuth orqali ulanganda platformalarning token'lari shifrlangan holda saqlanadi." %}</li>
+  </ul>
+
+  <h2>{% trans "4. Ma'lumotlardan foydalanish" %}</h2>
+  <p>
+    {% blocktrans %}
+    Siz ulagan ijtimoiy tarmoq akkauntlaringizdagi post va
+    kommentlar faqat sizning shaxsiy dashboardingiz uchun tahlil qilinadi.
+    Biz ma'lumotingizni uchinchi tomonlarga sotmaymiz yoki ulashmaymiz.
+    {% endblocktrans %}
+  </p>
+
+  <h2>{% trans "5. Cheklovlar" %}</h2>
+  <p>{% trans "Quyidagi harakatlar taqiqlanadi:" %}</p>
+  <ul>
+    <li>{% trans "Xizmatga zarar yetkazishga urinish (DDoS, injection, bot spam)." %}</li>
+    <li>{% trans "Boshqa foydalanuvchilarning akkauntlariga ruxsatsiz kirish." %}</li>
+    <li>{% trans "Mualliflik huquqi yoki qonun himoyalangan ma'lumotlarni noqonuniy to'plash." %}</li>
+  </ul>
+
+  <h2>{% trans "6. Shartlarning o'zgarishi" %}</h2>
+  <p>
+    {% blocktrans %}
+    Biz ushbu shartlarni istalgan vaqtda yangilash huquqini
+    saqlab qolamiz. Muhim o'zgarishlar haqida email orqali xabar beriladi.
+    {% endblocktrans %}
+  </p>
+
+  <h2>{% trans "7. Aloqa" %}</h2>
+  <p>
+    {% trans "Savollar uchun:" %}
+    <a href="https://github.com/Sardor2004777/social-media-analytics" target="_blank" rel="noopener">GitHub</a>.
+  </p>
+
+  <hr>
+  <p class="text-sm text-slate-500 dark:text-slate-400">
+    {% trans "Ushbu hujjat akademik diplom loyihasi uchun shaklda tayyorlangan va yuridik maslahat sifatida qaralmaydi." %}
+  </p>
+</article>
+{% endblock %}
