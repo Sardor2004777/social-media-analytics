@@ -1,5 +1,7 @@
 {% load i18n %}
-<nav class="sticky top-0 z-40 backdrop-blur bg-white/80 dark:bg-slate-950/80 border-b border-slate-200/70 dark:border-slate-800/70">
+<nav class="sticky top-0 z-40 backdrop-blur bg-white/80 dark:bg-slate-950/80 border-b border-slate-200/70 dark:border-slate-800/70"
+     x-data="{ mobileOpen: false }"
+     @keydown.escape.window="mobileOpen = false">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
 
@@ -46,6 +48,16 @@
       </div>
 
       <div class="flex items-center gap-2">
+        {# Mobile hamburger — only where desktop nav links are hidden #}
+        <button type="button"
+                @click="mobileOpen = !mobileOpen"
+                :aria-expanded="mobileOpen.toString()"
+                aria-label="{% trans 'Menyu' %}"
+                class="{% if user.is_authenticated %}lg:hidden{% else %}md:hidden{% endif %} inline-flex items-center justify-center h-10 w-10 rounded-button text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <svg x-show="!mobileOpen"         class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg x-show="mobileOpen" x-cloak class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
         <button type="button"
                 onclick="window.dispatchEvent(new CustomEvent('cmdk:open'))"
                 class="hidden md:inline-flex items-center gap-2 h-9 px-3 rounded-button text-xs text-slate-500 dark:text-slate-400 bg-slate-100/60 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300 transition"
@@ -151,5 +163,48 @@
         {% endif %}
       </div>
     </div>
+  </div>
+
+  {# Mobile menu drawer — rendered within the same nav element so Alpine's x-data scope covers it. #}
+  <div x-show="mobileOpen" x-cloak @click.outside="mobileOpen = false"
+       x-transition:enter="transition ease-out duration-150"
+       x-transition:enter-start="opacity-0 -translate-y-2"
+       x-transition:enter-end="opacity-100 translate-y-0"
+       x-transition:leave="transition ease-in duration-100"
+       x-transition:leave-start="opacity-100 translate-y-0"
+       x-transition:leave-end="opacity-0 -translate-y-2"
+       class="{% if user.is_authenticated %}lg:hidden{% else %}md:hidden{% endif %} border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+    <nav class="px-4 py-3 flex flex-col gap-1 text-sm" aria-label="{% trans 'Mobil menyu' %}">
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard:app' %}"        class="px-3 py-2.5 rounded-md font-medium {% if request.resolver_match.url_name == 'app' %}text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/30{% else %}text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">{% trans "Dashboard" %}</a>
+        <a href="{% url 'social:accounts' %}"       class="px-3 py-2.5 rounded-md font-medium {% if request.resolver_match.namespace == 'social' %}text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/30{% else %}text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">{% trans "Akkauntlarim" %}</a>
+        <a href="{% url 'analytics:overview' %}"    class="px-3 py-2.5 rounded-md font-medium {% if request.resolver_match.namespace == 'analytics' %}text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/30{% else %}text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">{% trans "Analytics" %}</a>
+        <a href="{% url 'reports:index' %}"         class="px-3 py-2.5 rounded-md font-medium {% if request.resolver_match.namespace == 'reports' %}text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/30{% else %}text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">{% trans "Hisobotlar" %}</a>
+        <a href="{% url 'accounts:settings' %}"     class="px-3 py-2.5 rounded-md font-medium {% if request.resolver_match.namespace == 'accounts' %}text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/30{% else %}text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">{% trans "Sozlamalar" %}</a>
+      {% else %}
+        <a href="#features" @click="mobileOpen=false" class="px-3 py-2.5 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">{% trans "Xususiyatlar" %}</a>
+        <a href="#how"      @click="mobileOpen=false" class="px-3 py-2.5 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">{% trans "Qanday ishlaydi" %}</a>
+        <a href="#stats"    @click="mobileOpen=false" class="px-3 py-2.5 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">{% trans "Raqamlar" %}</a>
+        <a href="#faq"      @click="mobileOpen=false" class="px-3 py-2.5 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">FAQ</a>
+        <a href="https://github.com/Sardor2004777/social-media-analytics" target="_blank" rel="noopener" class="px-3 py-2.5 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">GitHub</a>
+      {% endif %}
+
+      {# Language selector on mobile — the desktop select is hidden < sm #}
+      <form action="{% url 'set_language' %}" method="post" class="sm:hidden mt-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <select name="language" onchange="this.form.submit()"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-700 dark:text-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+                aria-label="{% trans 'Til' %}">
+          {% for lang_code, lang_name in LANGUAGES %}
+            <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>{{ lang_name }}</option>
+          {% endfor %}
+        </select>
+      </form>
+
+      {% if not user.is_authenticated %}
+        <a href="{% url 'account_login' %}" class="sm:hidden px-3 py-2.5 mt-1 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">{% trans "Kirish" %}</a>
+      {% endif %}
+    </nav>
   </div>
 </nav>
