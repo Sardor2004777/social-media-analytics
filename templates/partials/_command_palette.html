@@ -1,9 +1,9 @@
 {% load i18n %}
-{#
+{% comment %}
   Global command palette (Ctrl/⌘+K).
   Triggered by the 'cmdk:open' CustomEvent dispatched from static/js/app.js.
   Filters a hard-coded set of navigation items by substring match.
-#}
+{% endcomment %}
 <div
   x-data="{
     open: false,
