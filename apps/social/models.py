@@ -97,3 +97,39 @@ class Post(TimestampedModel):
     def __str__(self) -> str:
         head = (self.caption or "").strip().replace("\n", " ")[:60]
         return f"[{self.account.platform}] {head or self.external_id}"
+
+
+class PublicShareLink(TimestampedModel):
+    """Shareable public URL for an account's read-only dashboard snapshot.
+
+    Each active row (``is_active=True``) grants anonymous read access to the
+    linked account at ``/social/share/<token>/``. Flipping the row inactive
+    revokes the URL; a fresh ``create_for`` gets a new token. One account
+    may accumulate multiple rows (rotation history); the view always resolves
+    by token directly, no "pick the latest" dance required.
+    """
+    account = models.ForeignKey(
+        ConnectedAccount,
+        on_delete=models.CASCADE,
+        related_name="share_links",
+    )
+    token     = models.CharField(max_length=32, unique=True, db_index=True)
+    is_active = models.BooleanField(default=True, db_index=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["account", "is_active"]),
+        ]
+
+    def __str__(self) -> str:
+        return f"Share {self.token} → @{self.account.handle}"
+
+    @classmethod
+    def create_for(cls, account: "ConnectedAccount") -> "PublicShareLink":
+        import secrets
+        return cls.objects.create(
+            account=account,
+            token=secrets.token_urlsafe(12),
+            is_active=True,
+        )

@@ -91,13 +91,30 @@
               {% endif %}
             </td>
             <td class="px-6 py-4 text-right">
-              <form method="post" action="{% url 'social:disconnect' a.pk %}" onsubmit="return confirm('{% trans 'Ushbu akkauntni o’chirishni xohlaysizmi?' %}')">
-                {% csrf_token %}
-                <button type="submit" class="inline-flex items-center gap-1 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline">
-                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 01-2 2H9a2 2 0 01-2-2L5 6"/></svg>
-                  {% trans "O'chirish" %}
-                </button>
-              </form>
+              <div class="inline-flex items-center gap-3 justify-end flex-wrap">
+                {% if a.active_share_link %}
+                  <a href="{{ a.public_share_url }}" target="_blank" rel="noopener"
+                     class="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:underline"
+                     title="{{ a.public_share_url }}">
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                    {% trans "Public link" %}
+                  </a>
+                {% endif %}
+                <form method="post" action="{% url 'social:toggle_share' a.pk %}" class="inline">
+                  {% csrf_token %}
+                  <button type="submit" class="inline-flex items-center gap-1 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:underline">
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    {% if a.active_share_link %}{% trans "Bekor qilish" %}{% else %}{% trans "Ulashish" %}{% endif %}
+                  </button>
+                </form>
+                <form method="post" action="{% url 'social:disconnect' a.pk %}" onsubmit="return confirm('{% trans 'Ushbu akkauntni o’chirishni xohlaysizmi?' %}')" class="inline">
+                  {% csrf_token %}
+                  <button type="submit" class="inline-flex items-center gap-1 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline">
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 01-2 2H9a2 2 0 01-2-2L5 6"/></svg>
+                    {% trans "O'chirish" %}
+                  </button>
+                </form>
+              </div>
             </td>
           </tr>
         {% endfor %}

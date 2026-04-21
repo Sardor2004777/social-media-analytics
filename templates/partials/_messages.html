@@ -1,26 +1,68 @@
 {% load i18n %}
 {% if messages %}
-  <div
-    class="space-y-3"
-    x-data="{}"
-    x-init="setTimeout(() => {
-      document.querySelectorAll('[data-auto-dismiss]').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(-8px)';
-        setTimeout(() => el.remove(), 400);
-      });
-    }, 5000)"
-  >
-    {% for message in messages %}
-      {% if message.tags == 'success' %}
-        {% with cls='alert-success' icon='check' %}{% include 'partials/_message_item.html' %}{% endwith %}
-      {% elif message.tags == 'error' %}
-        {% with cls='alert-error' icon='x' %}{% include 'partials/_message_item.html' %}{% endwith %}
-      {% elif message.tags == 'warning' %}
-        {% with cls='alert-warn' icon='warn' %}{% include 'partials/_message_item.html' %}{% endwith %}
-      {% else %}
-        {% with cls='alert-info' icon='info' %}{% include 'partials/_message_item.html' %}{% endwith %}
-      {% endif %}
-    {% endfor %}
-  </div>
+<div id="toast-stack"
+     class="fixed top-4 right-4 z-50 flex flex-col gap-3 w-[min(22rem,calc(100vw-2rem))] pointer-events-none"
+     aria-live="polite" aria-atomic="true">
+  {% for m in messages %}
+    <div data-toast
+         class="pointer-events-auto flex items-start gap-3 rounded-xl border shadow-card bg-white dark:bg-slate-900 p-4 opacity-0 translate-x-2 transition-all duration-300
+           {% if m.tags == 'success' %}border-emerald-200 dark:border-emerald-800
+           {% elif m.tags == 'error' %}border-rose-200 dark:border-rose-800
+           {% elif m.tags == 'warning' %}border-amber-200 dark:border-amber-800
+           {% else %}border-sky-200 dark:border-sky-800{% endif %}"
+         role="{% if m.tags == 'error' %}alert{% else %}status{% endif %}">
+
+      <span class="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-lg
+         {% if m.tags == 'success' %}bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400
+         {% elif m.tags == 'error' %}bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400
+         {% elif m.tags == 'warning' %}bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400
+         {% else %}bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-400{% endif %}">
+        {% if m.tags == 'success' %}
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        {% elif m.tags == 'error' %}
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        {% elif m.tags == 'warning' %}
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        {% else %}
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        {% endif %}
+      </span>
+
+      <div class="flex-1 min-w-0 pt-0.5">
+        <p class="text-sm text-slate-900 dark:text-slate-100 leading-relaxed break-words">{{ m }}</p>
+      </div>
+
+      <button type="button"
+              data-toast-close
+              class="shrink-0 -mt-0.5 -mr-0.5 p-1 rounded-md text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+              aria-label="{% trans 'Yopish' %}">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+(function() {
+  const toasts = document.querySelectorAll('#toast-stack [data-toast]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function dismiss(el) {
+    el.classList.add('opacity-0', 'translate-x-2');
+    setTimeout(() => el.remove(), 300);
+  }
+
+  toasts.forEach((el, i) => {
+    // Slide-in with stagger (or instant if reduced motion)
+    setTimeout(() => el.classList.remove('opacity-0', 'translate-x-2'), reduced ? 0 : 40 + i * 80);
+
+    // Manual close
+    const btn = el.querySelector('[data-toast-close]');
+    if (btn) btn.addEventListener('click', () => dismiss(el));
+
+    // Auto-dismiss at ~5s + index stagger
+    setTimeout(() => dismiss(el), 5000 + i * 200);
+  });
+})();
+</script>
 {% endif %}
