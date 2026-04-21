@@ -1,0 +1,105 @@
+# Render.com blueprint — https://render.com/docs/blueprint-spec
+#
+# Minimal free-tier setup: 1 web service + free PostgreSQL (90-day trial).
+# Redis / Celery workers are NOT included — Render's free tier doesn't
+# include Redis. Add worker + beat services when you upgrade, or keep
+# Celery tasks run via `manage.py sync_telegram` for demos.
+#
+# First-time setup:
+#   1. Push this repo to GitHub (already done).
+#   2. Sign in at https://render.com → New → Blueprint.
+#   3. Connect the `social-media-analytics` repo → pick `main` branch.
+#   4. Render reads this file, provisions the db + web service.
+#   5. Set the manual env vars flagged `sync: false` below (see comments).
+
+databases:
+  - name: social-analytics-db
+    plan: free
+    databaseName: social_analytics
+    user: social_analytics
+    postgresMajorVersion: "16"
+
+services:
+  - type: web
+    name: social-analytics
+    runtime: python
+    branch: main
+    plan: free
+    buildCommand: |
+      pip install -r requirements/prod.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate --noinput
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --access-logfile - --error-logfile -
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.prod
+      - key: DEBUG
+        value: "False"
+
+      # Auto-wired by Render:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: social-analytics-db
+          property: connectionString
+
+      # Auto-generated on first deploy:
+      - key: SECRET_KEY
+        generateValue: true
+
+      # Render-provided default hostname pattern. If you add a custom domain
+      # later, either include it here or override in the dashboard.
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://*.onrender.com"
+
+      # ==========================================================================
+      # Manual env vars — set in Render dashboard (marked `sync: false`)
+      # ==========================================================================
+      # Generate via:
+      #   python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+      - key: ENCRYPTION_KEY
+        sync: false
+
+      # Google OAuth (optional — for Google sign-in via allauth)
+      - key: GOOGLE_OAUTH_CLIENT_ID
+        sync: false
+      - key: GOOGLE_OAUTH_SECRET
+        sync: false
+
+      # Telegram MTProto real mode (optional — leave blank for demo-only mode)
+      # See docs/TELEGRAM_SETUP.md for one-time setup.
+      - key: TELEGRAM_API_ID
+        sync: false
+      - key: TELEGRAM_API_HASH
+        sync: false
+      - key: TELEGRAM_SESSION_STRING
+        sync: false
+
+      # SMTP — allauth email verification needs a working email backend in prod.
+      # For a quick demo, set EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+      # (mail won't send but signup won't crash). For real mail, use SendGrid / Mailgun.
+      - key: EMAIL_BACKEND
+        value: "django.core.mail.backends.console.EmailBackend"
+      - key: DEFAULT_FROM_EMAIL
+        value: "noreply@example.com"
+
+      # Sentiment analysis — "local" requires transformers+torch (heavy, skip on free
+      # tier). Keep VADER-only mode by leaving backend as "local" and not installing
+      # transformers in requirements/prod.txt.
+      - key: SENTIMENT_BACKEND
+        value: "local"
+
+      # Rate limits
+      - key: API_THROTTLE_USER
+        value: "1000/day"
+      - key: API_THROTTLE_ANON
+        value: "100/day"
+
+      # Collectors poll cadence (used by Celery Beat; harmless without workers)
+      - key: COLLECT_INTERVAL_HOURS
+        value: "6"
