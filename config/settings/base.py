@@ -295,6 +295,13 @@ META_REDIRECT_URI = env(
 # Telegram platform-level fallback bot (per-account tokens stored on SocialAccount)
 TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN", default="")
 
+# Telegram MTProto (Telethon) real-mode — reads any public channel by @username
+# using a server-side user session. All three must be set for real mode;
+# otherwise Telegram falls back to the demo seeder.
+TELEGRAM_API_ID = env("TELEGRAM_API_ID", default="")
+TELEGRAM_API_HASH = env("TELEGRAM_API_HASH", default="")
+TELEGRAM_SESSION_STRING = env("TELEGRAM_SESSION_STRING", default="")
+
 # YouTube / X
 YOUTUBE_API_KEY = env("YOUTUBE_API_KEY", default="")
 YOUTUBE_OAUTH_CLIENT_ID = env("YOUTUBE_OAUTH_CLIENT_ID", default="")
