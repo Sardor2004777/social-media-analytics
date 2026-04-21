@@ -80,6 +80,11 @@ services:
       - key: TELEGRAM_SESSION_STRING
         sync: false
 
+      # Anthropic Claude — AI analytics chat (/analytics/chat/). Optional:
+      # leave blank to hide the feature. Get a key at console.anthropic.com.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+
       # SMTP — allauth email verification needs a working email backend in prod.
       # For a quick demo, set EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
       # (mail won't send but signup won't crash). For real mail, use SendGrid / Mailgun.

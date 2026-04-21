@@ -1,0 +1,152 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}AI Chat · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}AI Chat{% endblock %}
+
+{% block dash_content %}
+<div data-reveal>
+  <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+    AI Chat <span class="text-brand-600 dark:text-brand-400">— {% trans "Dashboard haqida savol bering" %}</span>
+  </h1>
+  <p class="mt-1 text-slate-600 dark:text-slate-400">
+    {% trans "Tabiiy tilda yozing — AI siz'ning real ma'lumotingiz asosida javob beradi. Claude Haiku 4.5 orqali." %}
+  </p>
+</div>
+
+{% if not configured %}
+  <div class="card p-8 text-center border-amber-200 dark:border-amber-800" data-reveal>
+    <div class="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 mb-4">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">{% trans "AI Chat hali sozlanmagan" %}</h3>
+    <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto">
+      {% trans "Administrator" %} <code class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono">ANTHROPIC_API_KEY</code> {% trans "env var'ni sozlashi kerak. Kalitni" %}
+      <a href="https://console.anthropic.com/" target="_blank" rel="noopener" class="text-brand-600 dark:text-brand-400 hover:underline">console.anthropic.com</a> {% trans "saytidan olish mumkin." %}
+    </p>
+  </div>
+{% else %}
+  <div class="card p-6 flex flex-col h-[calc(100vh-18rem)] min-h-[30rem]" data-reveal>
+    <div id="chat-messages" class="flex-1 space-y-4 overflow-y-auto mb-4 pr-2">
+      <div class="flex gap-3">
+        <span class="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 text-xs font-bold">AI</span>
+        <div class="max-w-[75%] rounded-xl p-3 text-sm bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100">
+          {% trans "Assalomu alaykum! Dashboard ma'lumotingiz haqida savol bering — masalan, eng yaxshi ishlayotgan platforma, postlaringiz haqida tahlil, yoki engagement trendlari." %}
+        </div>
+      </div>
+    </div>
+
+    <div id="chat-suggestions" class="flex flex-wrap gap-2 mb-3">
+      <button type="button" data-question="Qaysi platforma eng yaxshi ishlayapti?" class="btn-ghost !text-xs">💡 {% trans "Eng yaxshi platforma?" %}</button>
+      <button type="button" data-question="Nega engagement pasaydi?" class="btn-ghost !text-xs">📉 {% trans "Engagement pasayishi?" %}</button>
+      <button type="button" data-question="Top postlarim nima uchun mashhur bo'ldi?" class="btn-ghost !text-xs">🔥 {% trans "Top post tahlili" %}</button>
+      <button type="button" data-question="Qanday kontent ko'proq pozitiv sentiment beradi?" class="btn-ghost !text-xs">😊 {% trans "Eng pozitiv kontent" %}</button>
+    </div>
+
+    <form id="chat-form" class="flex gap-3">
+      {% csrf_token %}
+      <input type="text" name="question" id="chat-input"
+             placeholder="{% trans 'Savolingiz...' %}" required
+             maxlength="500" autocomplete="off"
+             class="field-input flex-1" />
+      <button type="submit" id="chat-submit" class="btn-primary">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        {% trans "Yuborish" %}
+      </button>
+    </form>
+  </div>
+
+  <script>
+  (function() {
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-input');
+    const messages = document.getElementById('chat-messages');
+    const submit = document.getElementById('chat-submit');
+    const suggestions = document.getElementById('chat-suggestions');
+    if (!form) return;
+
+    const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    function escapeHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    function renderMarkdown(text) {
+      return escapeHtml(text)
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n- /g, '<br>• ')
+        .replace(/\n\n/g, '</p><p class="mt-2">')
+        .replace(/\n/g, '<br>')
+        .replace(/^/, '<p>')
+        .replace(/$/, '</p>');
+    }
+
+    function addBubble(role, html, withLoading) {
+      const wrap = document.createElement('div');
+      const isUser = role === 'user';
+      wrap.className = 'flex gap-3' + (isUser ? ' justify-end' : '');
+      wrap.innerHTML = isUser
+        ? `<div class="max-w-[75%] rounded-xl p-3 text-sm bg-brand-600 text-white">${html}</div>`
+        : `<span class="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 text-xs font-bold">AI</span>
+           <div class="max-w-[75%] rounded-xl p-3 text-sm bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 leading-relaxed">${withLoading ? '<span class="inline-flex gap-1 py-1"><span class="h-1.5 w-1.5 rounded-full bg-current opacity-60 animate-pulse"></span><span class="h-1.5 w-1.5 rounded-full bg-current opacity-60 animate-pulse" style="animation-delay:0.2s"></span><span class="h-1.5 w-1.5 rounded-full bg-current opacity-60 animate-pulse" style="animation-delay:0.4s"></span></span>' : html}</div>`;
+      messages.appendChild(wrap);
+      messages.scrollTop = messages.scrollHeight;
+      return wrap;
+    }
+
+    async function ask(q) {
+      addBubble('user', escapeHtml(q), false);
+      const loading = addBubble('ai', '', true);
+      submit.disabled = true;
+      input.disabled = true;
+
+      try {
+        const resp = await fetch('', {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': csrf,
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: 'question=' + encodeURIComponent(q),
+        });
+        const data = await resp.json();
+        loading.remove();
+
+        if (data.error) {
+          addBubble('ai', '⚠ ' + escapeHtml(data.error), false);
+        } else {
+          addBubble('ai', renderMarkdown(data.answer), false);
+        }
+      } catch (e) {
+        loading.remove();
+        addBubble('ai', '⚠ ' + escapeHtml('Network error: ' + e.message), false);
+      } finally {
+        submit.disabled = false;
+        input.disabled = false;
+        input.focus();
+      }
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const q = input.value.trim();
+      if (!q) return;
+      input.value = '';
+      if (suggestions) suggestions.style.display = 'none';
+      ask(q);
+    });
+
+    if (suggestions) {
+      suggestions.querySelectorAll('[data-question]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          input.value = btn.dataset.question;
+          form.dispatchEvent(new Event('submit'));
+        });
+      });
+    }
+  })();
+  </script>
+{% endif %}
+{% endblock %}

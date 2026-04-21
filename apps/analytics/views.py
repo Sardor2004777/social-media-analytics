@@ -5,6 +5,7 @@ when the user has no ConnectedAccount rows yet.
 """
 from __future__ import annotations
 
+import logging
 from collections import Counter, defaultdict
 from datetime import timedelta
 from typing import Any
@@ -12,15 +13,19 @@ from typing import Any
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count, Sum
 from django.db.models.functions import TruncDay
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django.views.decorators.http import require_http_methods
 
 from apps.collectors.models import Comment
 from apps.social.models import ConnectedAccount, Platform, Post
 
 from .models import SentimentLabel, SentimentResult
+from .services.chat import ChatNotConfigured, ask as chat_ask, is_configured as chat_is_configured
 from .services.wordcloud import WordcloudEntry, top_words
+
+logger = logging.getLogger(__name__)
 
 
 PLATFORM_COLORS = {
@@ -302,6 +307,45 @@ def analytics_compare(request: HttpRequest) -> HttpResponse:
         "accounts":     summaries,
         "selected_ids": [a.id for a in accounts],
         "chart":        {"labels": labels, "series": series},
+    })
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def analytics_chat(request: HttpRequest) -> HttpResponse:
+    """AI analytics chat — ask questions about your data via Claude.
+
+    GET renders the chat panel (or a "not configured" notice if the API key
+    is missing). POST takes ``question`` form data, builds a data summary,
+    calls Claude, and returns JSON ``{answer, model, tokens}``.
+    """
+    if request.method == "POST":
+        question = (request.POST.get("question") or "").strip()
+        if not question:
+            return JsonResponse({"error": "Savol bo'sh bo'lmasligi kerak."}, status=400)
+        if len(question) > 500:
+            return JsonResponse({"error": "Savol 500 belgidan oshmasligi kerak."}, status=400)
+
+        try:
+            resp = chat_ask(request.user, question)
+        except ChatNotConfigured as e:
+            return JsonResponse({"error": str(e)}, status=503)
+        except Exception as e:
+            logger.exception("AI chat failed for user %s", request.user.id)
+            return JsonResponse(
+                {"error": "Texnik xato yuz berdi. Keyinroq urinib ko'ring."},
+                status=500,
+            )
+
+        return JsonResponse({
+            "answer": resp.answer,
+            "model":  resp.model,
+            "tokens": {"in": resp.tokens_in, "out": resp.tokens_out},
+        })
+
+    return render(request, "dashboard/chat.html", {
+        "active_nav": "chat",
+        "configured": chat_is_configured(),
     })
 
 

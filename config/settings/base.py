@@ -302,6 +302,12 @@ TELEGRAM_API_ID = env("TELEGRAM_API_ID", default="")
 TELEGRAM_API_HASH = env("TELEGRAM_API_HASH", default="")
 TELEGRAM_SESSION_STRING = env("TELEGRAM_SESSION_STRING", default="")
 
+# Anthropic Claude — powers /analytics/chat/. Leave ANTHROPIC_API_KEY blank to
+# hide the feature. Model defaults to Haiku 4.5 (cheapest good-enough tier).
+ANTHROPIC_API_KEY = env("ANTHROPIC_API_KEY", default="")
+ANTHROPIC_MODEL = env("ANTHROPIC_MODEL", default="claude-haiku-4-5-20251001")
+ANTHROPIC_MAX_TOKENS = env.int("ANTHROPIC_MAX_TOKENS", default=1024)
+
 # YouTube / X
 YOUTUBE_API_KEY = env("YOUTUBE_API_KEY", default="")
 YOUTUBE_OAUTH_CLIENT_ID = env("YOUTUBE_OAUTH_CLIENT_ID", default="")

@@ -1,0 +1,159 @@
+"""LLM-powered Q&A over the user's analytics data (via Anthropic Claude).
+
+The public API is :func:`ask` — it takes a user + a question, pulls a 30-day
+analytics snapshot for all their connected accounts, and sends the snapshot
+plus the question to Claude with a system prompt that forbids invented
+numbers. Returns a :class:`ChatResponse` with the answer text + usage stats.
+
+The ``anthropic`` SDK is imported lazily so Django startup doesn't require
+it — that way the feature can be shipped without forcing every deploy to
+install the package upfront.
+"""
+from __future__ import annotations
+
+import logging
+from collections import Counter
+from dataclasses import dataclass
+from datetime import timedelta
+
+from django.conf import settings
+from django.db.models import Avg, Count, Sum
+from django.utils import timezone
+
+from apps.analytics.models import SentimentLabel, SentimentResult
+from apps.social.models import ConnectedAccount, Post
+
+logger = logging.getLogger(__name__)
+
+
+SYSTEM_PROMPT = """You are a concise analytics assistant for a social-media
+analytics platform. The user owns the accounts below and asks questions about
+their performance. Rules:
+
+- Answer strictly from the provided data; never invent numbers or accounts.
+- Be direct: 2-4 short paragraphs, use bullet points for lists.
+- When citing a number, say the time window ("last 30 days").
+- If a question can't be answered with the data available, say so and
+  suggest what data would help.
+- Respond in the same language as the user's question
+  (Uzbek / Russian / English).
+"""
+
+
+class ChatNotConfigured(RuntimeError):
+    """Raised when ANTHROPIC_API_KEY is missing or the SDK is not installed."""
+
+
+@dataclass(frozen=True)
+class ChatResponse:
+    answer: str
+    model: str
+    tokens_in: int
+    tokens_out: int
+
+
+def is_configured() -> bool:
+    return bool(getattr(settings, "ANTHROPIC_API_KEY", ""))
+
+
+def _build_user_context(user) -> str:
+    """Serialize the user's analytics state as a compact markdown summary.
+
+    The result is injected into the system prompt, so keep it tight (~500
+    tokens) — every extra token costs money on every call.
+    """
+    now = timezone.now()
+    window_start = now - timedelta(days=30)
+
+    accounts = list(
+        ConnectedAccount.objects.filter(user=user).order_by("platform")
+    )
+    if not accounts:
+        return "The user has no connected accounts yet — no data to reason over."
+
+    lines = ["## Connected accounts (last 30 days)", ""]
+
+    for acct in accounts:
+        posts_qs = Post.objects.filter(
+            account=acct, published_at__gte=window_start
+        )
+        agg = posts_qs.aggregate(
+            total=Count("id"),
+            likes=Sum("likes"),
+            views=Sum("views"),
+            comments=Sum("comments_count"),
+            avg_eng=Avg("engagement_rate"),
+        )
+
+        sent = Counter(
+            SentimentResult.objects.filter(
+                comment__post__account=acct,
+                created_at__gte=window_start,
+            ).values_list("label", flat=True)
+        )
+        sent_total = sum(sent.values()) or 1
+
+        top_post = posts_qs.order_by("-likes").first()
+
+        lines.append(f"### @{acct.handle} ({acct.get_platform_display()})")
+        lines.append(f"- Followers: {acct.follower_count:,}")
+        lines.append(f"- Posts: {agg['total'] or 0}")
+        lines.append(f"- Total likes: {agg['likes'] or 0:,}")
+        lines.append(f"- Total views: {agg['views'] or 0:,}")
+        lines.append(f"- Avg engagement: {(agg['avg_eng'] or 0) * 100:.2f}%")
+        lines.append(
+            f"- Sentiment: "
+            f"{sent.get(SentimentLabel.POSITIVE, 0) * 100 / sent_total:.0f}% positive / "
+            f"{sent.get(SentimentLabel.NEGATIVE, 0) * 100 / sent_total:.0f}% negative "
+            f"({sum(sent.values())} comments analysed)"
+        )
+        if top_post:
+            caption = (top_post.caption or "—").strip().replace("\n", " ")[:80]
+            lines.append(f"- Top post: \"{caption}\" — {top_post.likes} likes")
+        lines.append("")
+
+    return "\n".join(lines)
+
+
+def ask(user, question: str) -> ChatResponse:
+    """Send ``question`` + ``user``'s analytics context to Claude; return the reply.
+
+    Raises :class:`ChatNotConfigured` if the anthropic SDK is missing or
+    ``ANTHROPIC_API_KEY`` is unset — callers should surface that as a
+    user-visible notice, not a crash.
+    """
+    try:
+        import anthropic
+    except ImportError as e:
+        raise ChatNotConfigured(
+            "'anthropic' package is not installed. "
+            "Add `anthropic>=0.42,<1.0` to requirements and `pip install`."
+        ) from e
+
+    api_key = getattr(settings, "ANTHROPIC_API_KEY", "")
+    if not api_key:
+        raise ChatNotConfigured("ANTHROPIC_API_KEY env var is not set.")
+
+    model = getattr(settings, "ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
+    max_tokens = int(getattr(settings, "ANTHROPIC_MAX_TOKENS", 1024))
+
+    context = _build_user_context(user)
+    client = anthropic.Anthropic(api_key=api_key)
+
+    response = client.messages.create(
+        model=model,
+        max_tokens=max_tokens,
+        system=SYSTEM_PROMPT + "\n## Data\n\n" + context,
+        messages=[{"role": "user", "content": question}],
+    )
+
+    answer = "\n".join(
+        getattr(block, "text", "") for block in response.content
+    ).strip()
+
+    return ChatResponse(
+        answer=answer,
+        model=response.model,
+        tokens_in=response.usage.input_tokens,
+        tokens_out=response.usage.output_tokens,
+    )
