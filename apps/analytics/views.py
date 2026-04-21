@@ -17,9 +17,10 @@ from django.shortcuts import render
 from django.utils import timezone
 
 from apps.collectors.models import Comment
-from apps.social.models import Platform, Post
+from apps.social.models import ConnectedAccount, Platform, Post
 
 from .models import SentimentLabel, SentimentResult
+from .services.wordcloud import WordcloudEntry, top_words
 
 
 PLATFORM_COLORS = {
@@ -186,16 +187,122 @@ def sentiment_page(request: HttpRequest) -> HttpResponse:
         .order_by("-score")[:5]
     )
 
+    # Wordclouds — top tokens per sentiment label, pre-sized for the template.
+    pos_bodies = results_qs.filter(
+        label=SentimentLabel.POSITIVE
+    ).values_list("comment__body", flat=True)
+    neg_bodies = results_qs.filter(
+        label=SentimentLabel.NEGATIVE
+    ).values_list("comment__body", flat=True)
+
     ctx: dict[str, Any] = {
         "active_nav": "sentiment",
         "distribution": distribution,
         "by_language": by_language,
         "top_positive": [_serialize_comment(r) for r in top_pos],
         "top_negative": [_serialize_comment(r) for r in top_neg],
+        "wordcloud_positive": [_cloud_entry(w) for w in top_words(pos_bodies)],
+        "wordcloud_negative": [_cloud_entry(w) for w in top_words(neg_bodies)],
         "total_analyzed": sum(dist_counts.values()),
         "model_used": results_qs.values_list("model_name", flat=True).first() or "—",
     }
     return render(request, "dashboard/sentiment.html", ctx)
+
+
+@login_required
+def analytics_compare(request: HttpRequest) -> HttpResponse:
+    """Side-by-side comparison of 2–3 user-owned ConnectedAccounts.
+
+    Accounts come in via ``?accounts=<id>&accounts=<id>`` query string. With
+    fewer than 2 resolved accounts we render a checkbox selector; otherwise
+    per-account KPIs + an overlay 30-day likes chart.
+    """
+    user = request.user
+    now = timezone.now()
+
+    raw_ids = request.GET.getlist("accounts")
+    try:
+        selected_ids = [int(x) for x in raw_ids][:3]
+    except (ValueError, TypeError):
+        selected_ids = []
+
+    all_accounts = list(
+        ConnectedAccount.objects.filter(user=user).order_by("platform", "handle")
+    )
+    accounts = [a for a in all_accounts if a.id in selected_ids]
+
+    if len(accounts) < 2:
+        return render(request, "dashboard/compare.html", {
+            "active_nav": "compare",
+            "state": "select",
+            "all_accounts": all_accounts,
+            "selected_ids": [a.id for a in accounts],
+        })
+
+    window_days = 30
+    start = now - timedelta(days=window_days - 1)
+    labels = [(start + timedelta(days=i)).strftime("%d %b") for i in range(window_days)]
+
+    summaries: list[dict[str, Any]] = []
+    series: list[dict[str, Any]] = []
+
+    for acct in accounts:
+        posts_qs = Post.objects.filter(account=acct)
+
+        # 30-day daily likes series for the overlay chart
+        buckets = [0] * window_days
+        for p in posts_qs.filter(published_at__gte=start).values("published_at", "likes"):
+            idx = (p["published_at"].date() - start.date()).days
+            if 0 <= idx < window_days:
+                buckets[idx] += p["likes"]
+
+        agg = posts_qs.aggregate(
+            total_likes=Sum("likes"),
+            total_views=Sum("views"),
+            total_comments=Sum("comments_count"),
+            avg_eng=Avg("engagement_rate"),
+        )
+
+        sentiment_counts = Counter(
+            SentimentResult.objects
+            .filter(comment__post__account=acct)
+            .values_list("label", flat=True)
+        )
+        sent_total = sum(sentiment_counts.values()) or 1
+        top_post = posts_qs.order_by("-likes").first()
+
+        summaries.append({
+            "id":             acct.id,
+            "handle":         acct.handle,
+            "platform":       acct.platform,
+            "platform_label": PLATFORM_LABELS.get(acct.platform, acct.platform.title()),
+            "color":          PLATFORM_COLORS.get(acct.platform, "#94a3b8"),
+            "followers":      acct.follower_count,
+            "posts":          posts_qs.count(),
+            "likes":          agg["total_likes"] or 0,
+            "views":          agg["total_views"] or 0,
+            "comments":       agg["total_comments"] or 0,
+            "engagement":     round((agg["avg_eng"] or 0) * 100, 2),
+            "pos_pct":        round(sentiment_counts.get(SentimentLabel.POSITIVE, 0) * 100 / sent_total, 1),
+            "neg_pct":        round(sentiment_counts.get(SentimentLabel.NEGATIVE, 0) * 100 / sent_total, 1),
+            "top_caption":    ((top_post.caption or "").strip()[:80]) if top_post else "",
+        })
+
+        series.append({
+            "id":     acct.id,
+            "handle": acct.handle,
+            "color":  PLATFORM_COLORS.get(acct.platform, "#94a3b8"),
+            "data":   buckets,
+        })
+
+    return render(request, "dashboard/compare.html", {
+        "active_nav":   "compare",
+        "state":        "compare",
+        "all_accounts": all_accounts,
+        "accounts":     summaries,
+        "selected_ids": [a.id for a in accounts],
+        "chart":        {"labels": labels, "series": series},
+    })
 
 
 def _serialize_comment(result: SentimentResult) -> dict[str, Any]:
@@ -208,4 +315,18 @@ def _serialize_comment(result: SentimentResult) -> dict[str, Any]:
         "score":    round(result.score, 2),
         "label":    result.label,
         "when":     c.published_at,
+    }
+
+
+def _cloud_entry(w: WordcloudEntry) -> dict[str, Any]:
+    """Render a :class:`WordcloudEntry` as a template-ready dict.
+
+    ``font_em`` maps the 0.15..1.0 weight onto a 1.0em..2.2em range so the
+    template can drop it straight into ``style="font-size:"``.
+    """
+    return {
+        "text":    w.text,
+        "count":   w.count,
+        "weight":  w.weight,
+        "font_em": round(0.8 + w.weight * 1.4, 2),
     }

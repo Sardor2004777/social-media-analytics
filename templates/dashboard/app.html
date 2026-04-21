@@ -41,6 +41,19 @@
     </div>
   {% endif %}
 
+  {# ----- Date range tabs ----- #}
+  <div class="flex items-center justify-end gap-1.5 flex-wrap" data-reveal>
+    <span class="text-xs text-slate-500 dark:text-slate-400 mr-1">{% trans "Davr:" %}</span>
+    {% for n in range_options %}
+      <a href="?range={{ n }}"
+         class="px-3 py-1 text-xs font-medium rounded-full border transition
+                {% if range_days == n %}bg-brand-600 text-white border-brand-600 shadow-sm
+                {% else %}border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+        {{ n }} {% trans "kun" %}
+      </a>
+    {% endfor %}
+  </div>
+
   {# ----- KPI CARDS ----- #}
   <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4" data-reveal>
     {% for k in kpis %}
@@ -49,7 +62,7 @@
           <div>
             <div class="text-xs font-medium text-slate-500 dark:text-slate-400">{{ k.label }}</div>
             <div class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">
-              {{ k.value }}{{ k.suffix }}
+              <span class="kpi-number tabular" data-target="{{ k.value_raw }}" data-suffix="{{ k.suffix }}">{{ k.value }}{{ k.suffix }}</span>
             </div>
           </div>
           <div class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-{{ k.accent }}-100 dark:bg-{{ k.accent }}-900/40 text-{{ k.accent }}-600 dark:text-{{ k.accent }}-400">
@@ -79,7 +92,7 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               class="text-{{ k.accent }}-500"
-              points="{% for v in k.spark %}{{ forloop.counter0|add:0 }},{{ v|default:50 }} {% endfor %}"
+              points="{{ k.spark_points }}"
             />
           </svg>
         </div>
@@ -193,6 +206,36 @@
       </ol>
     </div>
   </div>
+
+<script>
+(function() {
+  // Count-up on load for every KPI number; respects reduced-motion.
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const els = document.querySelectorAll('.kpi-number[data-target]');
+  if (!els.length || reduced) return;
+
+  const duration = 900;
+  els.forEach(function(el) {
+    const target = parseFloat(el.dataset.target);
+    if (!isFinite(target)) return;
+    const suffix = el.dataset.suffix || '';
+    const isInt = Number.isInteger(target);
+    const start = performance.now();
+
+    function step(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const value = target * eased;
+      const formatted = isInt
+        ? Math.round(value).toLocaleString()
+        : value.toFixed(1);
+      el.textContent = formatted + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+})();
+</script>
 
 {{ activity|json_script:"activity-data" }}
 {{ platforms|json_script:"platform-data" }}

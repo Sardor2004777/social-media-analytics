@@ -89,8 +89,12 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
     sent_total = sum(sentiment_counts.values()) or 1
     positive_share = sentiment_counts.get(SentimentLabel.POSITIVE, 0) * 100 / sent_total
 
-    # ---------------- Activity (last 14 days) ----------------
-    days_window = 14
+    # ---------------- Activity (user-selected date range via ?range=N) ----------------
+    try:
+        days_window = int(request.GET.get("range", 14))
+    except (ValueError, TypeError):
+        days_window = 14
+    days_window = max(7, min(days_window, 90))
     start = now - timedelta(days=days_window - 1)
     per_day_posts     = _bucket_by_day(user_posts.filter(published_at__gte=start), days_window, now)
     per_day_comments  = _bucket_by_day(
@@ -167,6 +171,8 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         "top_posts": top_posts,
         "timeline": timeline,
         "connected_accounts": accounts,
+        "range_days":    days_window,
+        "range_options": [7, 14, 30, 90],
     }
     return render(request, "dashboard/app.html", ctx)
 
@@ -184,16 +190,41 @@ def _kpi(label: str, value, icon: str, accent: str, *, suffix: str = "", spark: 
         prev   = sum(spark[-12:-6]) or 1
         pct = round((recent - prev) / prev * 100, 1) if prev else 0.0
         up = pct >= 0
+    series = spark or [50] * 12
     return {
         "label": label,
+        "value_raw": value,
         "value": f"{value:,}" if isinstance(value, (int,)) else value,
         "icon": icon,
         "accent": accent,
         "pct": abs(pct),
         "up": up,
         "suffix": suffix,
-        "spark": spark or [50] * 12,
+        "spark": series,
+        "spark_points": _spark_points(series),
     }
+
+
+def _spark_points(values: list[int], width: int = 120, height: int = 32) -> str:
+    """Scale a numeric series into an SVG ``<polyline points="...">`` string.
+
+    Dimensions match the ``<svg viewBox="0 0 120 32">`` in the KPI card. Y is
+    inverted (SVG origin is top-left; we want higher values visually up) and
+    padded 2px top/bottom so the stroke is never clipped on flat runs.
+    """
+    if not values:
+        return ""
+    n = len(values)
+    max_v = max(values)
+    min_v = min(values)
+    span = max(max_v - min_v, 1)
+    step = width / max(n - 1, 1)
+    out: list[str] = []
+    for i, v in enumerate(values):
+        x = round(i * step, 1)
+        y = round(height - 2 - (v - min_v) / span * (height - 4), 1)
+        out.append(f"{x},{y}")
+    return " ".join(out)
 
 
 def _bucket_by_day(queryset, days: int, now) -> list[int]:

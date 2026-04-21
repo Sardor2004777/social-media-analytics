@@ -80,6 +80,45 @@
   </div>
 </div>
 
+{# Wordclouds: top tokens per sentiment label #}
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6" data-reveal>
+  <div class="card p-6">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="text-xl">💚</span>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Pozitiv so'zlar" %}</h3>
+    </div>
+    {% if wordcloud_positive %}
+      <div class="flex flex-wrap gap-x-3 gap-y-2 items-baseline leading-relaxed">
+        {% for w in wordcloud_positive %}
+          <span class="text-emerald-700 dark:text-emerald-400 font-medium hover:text-emerald-900 dark:hover:text-emerald-200 transition-colors"
+                style="font-size: {{ w.font_em }}em; opacity: {{ w.weight }};"
+                title="{{ w.count }}× uchradi">{{ w.text }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-sm text-slate-500 dark:text-slate-400">{% trans "Pozitiv komment yetarli emas." %}</p>
+    {% endif %}
+  </div>
+
+  <div class="card p-6">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="text-xl">💔</span>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Negativ so'zlar" %}</h3>
+    </div>
+    {% if wordcloud_negative %}
+      <div class="flex flex-wrap gap-x-3 gap-y-2 items-baseline leading-relaxed">
+        {% for w in wordcloud_negative %}
+          <span class="text-rose-700 dark:text-rose-400 font-medium hover:text-rose-900 dark:hover:text-rose-200 transition-colors"
+                style="font-size: {{ w.font_em }}em; opacity: {{ w.weight }};"
+                title="{{ w.count }}× uchradi">{{ w.text }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-sm text-slate-500 dark:text-slate-400">{% trans "Negativ komment yetarli emas." %}</p>
+    {% endif %}
+  </div>
+</div>
+
 {# Top positive / negative examples #}
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" data-reveal>
   <div class="card">

@@ -1,0 +1,176 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Solishtirish" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "Solishtirish" %}{% endblock %}
+
+{% block dash_content %}
+<div data-reveal>
+  <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{% trans "Akkauntlarni solishtirish" %}</h1>
+  <p class="mt-1 text-slate-600 dark:text-slate-400">
+    {% trans "2–3 ta akkaunt tanlang va KPI'lar bilan 30-kunlik trendni yonma-yon ko'ring." %}
+  </p>
+</div>
+
+{% if state == "select" %}
+  {# ---------- SELECTOR ---------- #}
+  <div class="card p-6" data-reveal>
+    {% if all_accounts|length < 2 %}
+      <p class="text-sm text-slate-600 dark:text-slate-400">
+        {% trans "Solishtirish uchun kamida 2 ta akkaunt kerak." %}
+        <a href="{% url 'social:accounts' %}" class="ml-1 text-brand-600 dark:text-brand-400 font-medium hover:underline">{% trans "Akkaunt ulash" %} →</a>
+      </p>
+    {% else %}
+      <form method="get" class="space-y-4">
+        <p class="text-sm text-slate-600 dark:text-slate-400">{% trans "2 dan 3 tagacha akkaunt tanlang:" %}</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {% for a in all_accounts %}
+            <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition">
+              <input type="checkbox" name="accounts" value="{{ a.id }}"
+                     {% if a.id in selected_ids %}checked{% endif %}
+                     class="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-white text-xs font-bold
+                {% if a.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
+                {% elif a.platform == 'telegram' %}bg-sky-500
+                {% elif a.platform == 'youtube' %}bg-red-500
+                {% else %}bg-slate-900{% endif %}">
+                {% if a.platform == 'instagram' %}IG{% elif a.platform == 'telegram' %}TG{% elif a.platform == 'youtube' %}YT{% else %}X{% endif %}
+              </span>
+              <div class="min-w-0">
+                <div class="text-sm font-medium text-slate-900 dark:text-white truncate">@{{ a.handle }}</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400">{{ a.get_platform_display }} · {{ a.follower_count|default:"0" }} {% trans "obunachi" %}</div>
+              </div>
+            </label>
+          {% endfor %}
+        </div>
+        <button type="submit" class="btn-primary">{% trans "Solishtirish" %}</button>
+      </form>
+    {% endif %}
+  </div>
+
+{% else %}
+  {# ---------- COMPARISON ---------- #}
+
+  {# Per-account KPI cards #}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" data-reveal>
+    {% for a in accounts %}
+      <div class="card p-5">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-white text-xs font-bold"
+                style="background: {{ a.color }};">
+            {% if a.platform == 'instagram' %}IG{% elif a.platform == 'telegram' %}TG{% elif a.platform == 'youtube' %}YT{% else %}X{% endif %}
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-semibold text-slate-900 dark:text-white truncate">@{{ a.handle }}</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">{{ a.platform_label }}</div>
+          </div>
+        </div>
+
+        <dl class="mt-5 space-y-2.5 text-sm">
+          <div class="flex justify-between">
+            <dt class="text-slate-500 dark:text-slate-400">{% trans "Obunachilar" %}</dt>
+            <dd class="font-semibold text-slate-900 dark:text-white tabular">{{ a.followers|default:"0" }}</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-slate-500 dark:text-slate-400">{% trans "Postlar" %}</dt>
+            <dd class="font-semibold text-slate-900 dark:text-white tabular">{{ a.posts }}</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-slate-500 dark:text-slate-400">{% trans "Jami likes" %}</dt>
+            <dd class="font-semibold text-slate-900 dark:text-white tabular">{{ a.likes }}</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-slate-500 dark:text-slate-400">{% trans "Ko'rishlar" %}</dt>
+            <dd class="font-semibold text-slate-900 dark:text-white tabular">{{ a.views }}</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-slate-500 dark:text-slate-400">{% trans "Engagement" %}</dt>
+            <dd class="font-semibold text-slate-900 dark:text-white tabular">{{ a.engagement }}%</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-slate-500 dark:text-slate-400 inline-flex items-center gap-1.5">😊 {% trans "Pozitiv" %}</dt>
+            <dd class="font-semibold text-emerald-600 dark:text-emerald-400 tabular">{{ a.pos_pct }}%</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-slate-500 dark:text-slate-400 inline-flex items-center gap-1.5">😠 {% trans "Negativ" %}</dt>
+            <dd class="font-semibold text-rose-600 dark:text-rose-400 tabular">{{ a.neg_pct }}%</dd>
+          </div>
+        </dl>
+
+        {% if a.top_caption %}
+          <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{% trans "Top post" %}</div>
+            <div class="mt-1 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">"{{ a.top_caption }}"</div>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  {# Overlay chart #}
+  <div class="card p-6" data-reveal>
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "30 kunlik likes dinamikasi" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Har akkaunt alohida chiziq bilan" %}</p>
+      </div>
+      <a href="?" class="btn-ghost !text-xs">{% trans "Boshqa akkauntni tanlash" %}</a>
+    </div>
+    <div class="mt-5 h-80">
+      <canvas id="compareChart"></canvas>
+    </div>
+  </div>
+
+  {{ chart|json_script:"compare-data" }}
+  <script>
+  (function() {
+    const data = JSON.parse(document.getElementById('compare-data').textContent);
+    let chart;
+    function isDark() { return document.documentElement.classList.contains('dark'); }
+    function axisColor() { return isDark() ? '#64748b' : '#94a3b8'; }
+    function gridColor() { return isDark() ? 'rgba(148,163,184,0.12)' : 'rgba(148,163,184,0.22)'; }
+    function tooltipBg() { return isDark() ? '#0f172a' : '#ffffff'; }
+    function tooltipBorder() { return isDark() ? '#1e293b' : '#e2e8f0'; }
+    function tooltipText() { return isDark() ? '#e2e8f0' : '#0f172a'; }
+
+    function build() {
+      const ctx = document.getElementById('compareChart').getContext('2d');
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.labels,
+          datasets: data.series.map(function(s) {
+            return {
+              label: '@' + s.handle,
+              data: s.data,
+              borderColor: s.color,
+              backgroundColor: s.color + '22',
+              fill: false,
+              tension: 0.35,
+              borderWidth: 2.5,
+              pointRadius: 0,
+              pointHoverRadius: 5,
+            };
+          }),
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { position: 'bottom', labels: { color: axisColor(), usePointStyle: true, padding: 16 } },
+            tooltip: { backgroundColor: tooltipBg(), borderColor: tooltipBorder(), borderWidth: 1, titleColor: tooltipText(), bodyColor: tooltipText(), padding: 12, cornerRadius: 8 },
+          },
+          scales: {
+            x: { grid: { color: gridColor() }, ticks: { color: axisColor() } },
+            y: { grid: { color: gridColor() }, ticks: { color: axisColor() }, beginAtZero: true },
+          },
+        },
+      });
+    }
+    function reload() { if (chart) chart.destroy(); build(); }
+    window._reloadDashboardCharts = reload;
+    build();
+  })();
+  </script>
+{% endif %}
+{% endblock %}
