@@ -1,0 +1,15 @@
+Salom{% if user.first_name %}, {{ user.first_name }}{% endif %}!
+
+Bu sizning haftalik Social Analytics hisobotingiz (AI generated).
+
+---
+
+{{ digest_markdown }}
+
+---
+
+Batafsil dashboardda: https://social-analytics.onrender.com/app/
+
+Model: {{ model }}
+Ushbu xatni keyingi hafta olishni istamasangiz — hisobingizda bildirishnoma
+sozlamalaridan Weekly digest'ni o'chiring.

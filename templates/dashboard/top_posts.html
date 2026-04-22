@@ -1,0 +1,154 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Top postlar" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "Top postlar" %}{% endblock %}
+
+{% block dash_content %}
+<div class="space-y-6">
+
+  {# ========== HEADER + FILTER BAR ========== #}
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{% trans "Top postlar" %}</h1>
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        {% blocktrans count n=total trimmed %}
+          {{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring.
+        {% plural %}
+          {{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring.
+        {% endblocktrans %}
+      </p>
+    </div>
+  </div>
+
+  <form method="get" class="grid grid-cols-2 md:grid-cols-4 gap-3 rounded-card border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+    <div class="field">
+      <label class="field-label">{% trans "Saralash" %}</label>
+      <select name="sort" class="field-input" onchange="this.form.submit()">
+        {% for key, label in sort_options %}
+          <option value="{{ key }}" {% if filters.sort == key %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="field-label">{% trans "Davr" %}</label>
+      <select name="days" class="field-input" onchange="this.form.submit()">
+        {% for d in days_options %}
+          <option value="{{ d }}" {% if filters.days == d %}selected{% endif %}>
+            {% if d == 0 %}{% trans "Barcha davr" %}{% else %}{% trans "Oxirgi" %} {{ d }} {% trans "kun" %}{% endif %}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="field-label">{% trans "Platforma" %}</label>
+      <select name="platform" class="field-input" onchange="this.form.submit()">
+        <option value="">{% trans "Hammasi" %}</option>
+        {% for code, label in platform_options %}
+          <option value="{{ code }}" {% if filters.platform == code %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="field-label">{% trans "Post turi" %}</label>
+      <select name="type" class="field-input" onchange="this.form.submit()">
+        <option value="">{% trans "Hammasi" %}</option>
+        {% for code, label in type_options %}
+          <option value="{{ code }}" {% if filters.post_type == code %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+
+  {# ========== RESULTS ========== #}
+  {% if posts %}
+    <div class="rounded-card border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 dark:bg-slate-950/50 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <tr>
+              <th class="px-4 py-3 text-left">#</th>
+              <th class="px-4 py-3 text-left">{% trans "Post" %}</th>
+              <th class="px-4 py-3 text-right tabular">{% trans "Like" %}</th>
+              <th class="px-4 py-3 text-right tabular">{% trans "Ko'rildi" %}</th>
+              <th class="px-4 py-3 text-right tabular">{% trans "Izoh" %}</th>
+              <th class="px-4 py-3 text-right tabular">ER%</th>
+              <th class="px-4 py-3 text-right">{% trans "Sana" %}</th>
+              <th class="px-4 py-3"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {% for p in posts %}
+              {% with row_no=forloop.counter0|add:page.start_index %}
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition">
+                <td class="px-4 py-3 font-mono text-xs text-slate-400">{{ row_no }}</td>
+                <td class="px-4 py-3">
+                  <div class="flex items-start gap-2.5 max-w-[34ch]">
+                    <span class="mt-0.5 h-2 w-2 rounded-full shrink-0" style="background:{{ p.color }}"></span>
+                    <div class="min-w-0">
+                      <div class="text-xs text-slate-500 dark:text-slate-400">@{{ p.handle }} · {{ p.platform_label }}</div>
+                      <div class="text-slate-900 dark:text-slate-100 line-clamp-2">{{ p.caption }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-3 text-right tabular text-slate-700 dark:text-slate-200">{{ p.likes|default:0 }}</td>
+                <td class="px-4 py-3 text-right tabular text-slate-700 dark:text-slate-200">{{ p.views|default:0 }}</td>
+                <td class="px-4 py-3 text-right tabular text-slate-700 dark:text-slate-200">{{ p.comments|default:0 }}</td>
+                <td class="px-4 py-3 text-right tabular font-medium {% if p.engagement >= 5 %}text-emerald-600 dark:text-emerald-400{% elif p.engagement >= 2 %}text-slate-700 dark:text-slate-200{% else %}text-slate-400{% endif %}">
+                  {{ p.engagement }}%
+                </td>
+                <td class="px-4 py-3 text-right text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                  {{ p.published_at|date:"d M, H:i" }}
+                </td>
+                <td class="px-4 py-3 text-right">
+                  {% if p.url %}
+                    <a href="{{ p.url }}" target="_blank" rel="noopener"
+                       class="inline-flex h-7 w-7 items-center justify-center rounded-md text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                       title="{% trans 'Ochish' %}">
+                      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endwith %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {# Pagination #}
+    {% if page.paginator.num_pages > 1 %}
+      <div class="flex items-center justify-between text-sm">
+        <div class="text-slate-500 dark:text-slate-400">
+          {% trans "Sahifa" %} <span class="font-semibold">{{ page.number }}</span> / {{ page.paginator.num_pages }}
+        </div>
+        <div class="flex gap-2">
+          {% if page.has_previous %}
+            <a href="?{% for k, v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page.previous_page_number }}" class="btn-ghost !py-1.5 !px-3 !text-xs">
+              ← {% trans "Oldingi" %}
+            </a>
+          {% endif %}
+          {% if page.has_next %}
+            <a href="?{% for k, v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page.next_page_number }}" class="btn-ghost !py-1.5 !px-3 !text-xs">
+              {% trans "Keyingi" %} →
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+  {% else %}
+    {% include "partials/_empty.html" with
+        icon="chart"
+        title=_("Post topilmadi")
+        message=_("Filter parametrlarini kengaytiring yoki birinchi akkauntingizni ulang.")
+        cta_label=_("Akkaunt ulash")
+        cta_url="/social/accounts/" %}
+  {% endif %}
+
+</div>
+{% endblock %}

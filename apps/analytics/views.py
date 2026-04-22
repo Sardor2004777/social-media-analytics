@@ -11,6 +11,7 @@ from datetime import timedelta
 from typing import Any
 
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db.models import Avg, Count, Sum
 from django.db.models.functions import TruncDay
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -19,7 +20,8 @@ from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 
 from apps.collectors.models import Comment
-from apps.social.models import ConnectedAccount, Platform, Post
+from apps.core.ratelimit import rate_limit
+from apps.social.models import ConnectedAccount, Platform, Post, PostType
 
 from .models import SentimentLabel, SentimentResult
 from .services.chat import ChatNotConfigured, ask as chat_ask, is_configured as chat_is_configured
@@ -310,7 +312,94 @@ def analytics_compare(request: HttpRequest) -> HttpResponse:
     })
 
 
+TOP_POSTS_SORT_OPTIONS = {
+    "likes":      ("-likes",           "Eng ko'p like"),
+    "views":      ("-views",           "Eng ko'p ko'rilgan"),
+    "comments":   ("-comments_count",  "Eng ko'p izoh"),
+    "shares":     ("-shares",          "Eng ko'p ulashilgan"),
+    "engagement": ("-engagement_rate", "Eng yuqori engagement"),
+    "recent":     ("-published_at",    "Eng yangilari"),
+}
+TOP_POSTS_DAYS_OPTIONS = [7, 30, 90, 365, 0]  # 0 = all-time
+
+
 @login_required
+def analytics_top_posts(request: HttpRequest) -> HttpResponse:
+    """Ranked list of posts with filter + sort controls."""
+    user = request.user
+
+    sort_key = request.GET.get("sort", "likes")
+    if sort_key not in TOP_POSTS_SORT_OPTIONS:
+        sort_key = "likes"
+    order_field = TOP_POSTS_SORT_OPTIONS[sort_key][0]
+
+    try:
+        days = int(request.GET.get("days", 30))
+    except (TypeError, ValueError):
+        days = 30
+    if days not in TOP_POSTS_DAYS_OPTIONS:
+        days = 30
+
+    platform = request.GET.get("platform") or ""
+    if platform not in dict(Platform.choices):
+        platform = ""
+
+    post_type = request.GET.get("type") or ""
+    if post_type not in dict(PostType.choices):
+        post_type = ""
+
+    qs = Post.objects.filter(account__user=user).select_related("account")
+    if days > 0:
+        qs = qs.filter(published_at__gte=timezone.now() - timedelta(days=days))
+    if platform:
+        qs = qs.filter(account__platform=platform)
+    if post_type:
+        qs = qs.filter(post_type=post_type)
+    qs = qs.order_by(order_field, "-published_at")
+
+    paginator = Paginator(qs, 25)
+    page = paginator.get_page(request.GET.get("page"))
+
+    posts = [
+        {
+            "platform":       p.account.platform,
+            "platform_label": PLATFORM_LABELS.get(p.account.platform, p.account.platform.title()),
+            "color":          PLATFORM_COLORS.get(p.account.platform, "#94a3b8"),
+            "handle":         p.account.handle,
+            "caption":        (p.caption or "—")[:120],
+            "type":           p.post_type,
+            "likes":          p.likes,
+            "views":          p.views,
+            "comments":       p.comments_count,
+            "shares":         p.shares,
+            "engagement":     round(p.engagement_rate * 100, 2),
+            "published_at":   p.published_at,
+            "url":            p.url,
+        }
+        for p in page.object_list
+    ]
+
+    ctx: dict[str, Any] = {
+        "active_nav":  "top_posts",
+        "posts":       posts,
+        "page":        page,
+        "total":       paginator.count,
+        "filters": {
+            "sort":      sort_key,
+            "days":      days,
+            "platform":  platform,
+            "post_type": post_type,
+        },
+        "sort_options":     [(k, v[1]) for k, v in TOP_POSTS_SORT_OPTIONS.items()],
+        "days_options":     TOP_POSTS_DAYS_OPTIONS,
+        "platform_options": Platform.choices,
+        "type_options":     PostType.choices,
+    }
+    return render(request, "dashboard/top_posts.html", ctx)
+
+
+@login_required
+@rate_limit(key="chat", rate="20/h", scope="user", methods=("POST",))
 @require_http_methods(["GET", "POST"])
 def analytics_chat(request: HttpRequest) -> HttpResponse:
     """AI analytics chat — ask questions about your data via Claude.
@@ -318,6 +407,8 @@ def analytics_chat(request: HttpRequest) -> HttpResponse:
     GET renders the chat panel (or a "not configured" notice if the API key
     is missing). POST takes ``question`` form data, builds a data summary,
     calls Claude, and returns JSON ``{answer, model, tokens}``.
+
+    Per-user rate-limited to 20 requests / hour to bound Anthropic spend.
     """
     if request.method == "POST":
         question = (request.POST.get("question") or "").strip()

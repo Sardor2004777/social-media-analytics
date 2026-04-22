@@ -157,3 +157,59 @@ def ask(user, question: str) -> ChatResponse:
         tokens_in=response.usage.input_tokens,
         tokens_out=response.usage.output_tokens,
     )
+
+
+DIGEST_PROMPT = """Generate a weekly analytics digest for the user based on the
+data below. Output in the user's primary language (infer from account handles
+and comment samples — default to Uzbek). Structure:
+
+1. One-sentence headline: the single most important change this week.
+2. "Nimalar yaxshi bo'ldi" — 2-4 bullet points of wins.
+3. "E'tibor bering" — 2-4 bullet points of concerns or drops.
+4. "Tavsiya" — one concrete, specific next action.
+
+Rules:
+- Use ONLY the provided numbers. No invented stats.
+- Be specific: cite the account handle and the metric delta.
+- Keep the whole digest under 250 words.
+- Plain text with simple markdown (## headings, - bullets). No emojis.
+"""
+
+
+def generate_weekly_digest(user) -> ChatResponse:
+    """Generate a short AI-written weekly summary for ``user``'s accounts.
+
+    Raises :class:`ChatNotConfigured` same as :func:`ask`.
+    """
+    try:
+        import anthropic
+    except ImportError as e:
+        raise ChatNotConfigured("'anthropic' package is not installed.") from e
+
+    api_key = getattr(settings, "ANTHROPIC_API_KEY", "")
+    if not api_key:
+        raise ChatNotConfigured("ANTHROPIC_API_KEY env var is not set.")
+
+    model = getattr(settings, "ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
+    max_tokens = int(getattr(settings, "ANTHROPIC_DIGEST_MAX_TOKENS", 800))
+
+    context = _build_user_context(user)
+    client = anthropic.Anthropic(api_key=api_key)
+
+    response = client.messages.create(
+        model=model,
+        max_tokens=max_tokens,
+        system=DIGEST_PROMPT + "\n## Data\n\n" + context,
+        messages=[{"role": "user", "content": "Write the weekly digest now."}],
+    )
+
+    answer = "\n".join(
+        getattr(block, "text", "") for block in response.content
+    ).strip()
+
+    return ChatResponse(
+        answer=answer,
+        model=response.model,
+        tokens_in=response.usage.input_tokens,
+        tokens_out=response.usage.output_tokens,
+    )

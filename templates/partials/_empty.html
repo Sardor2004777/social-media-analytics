@@ -1,0 +1,61 @@
+{% load i18n %}
+{% comment %}
+Reusable empty-state block.
+
+Usage:
+  {% include "partials/_empty.html" with
+      icon="chart"
+      title="Hali ma'lumot yo'q"
+      message="Birinchi akkauntingizni ulang — sentiment va engagement statistikasi shu yerda paydo bo'ladi."
+      cta_label="Akkaunt ulash"
+      cta_url="/social/accounts/connect/" %}
+
+Available icons: chart, inbox, search, link, bell, sparkles, users
+{% endcomment %}
+
+<div class="flex flex-col items-center justify-center text-center py-14 px-6
+            rounded-card border-2 border-dashed
+            border-slate-200 dark:border-slate-800
+            bg-slate-50/60 dark:bg-slate-900/40"
+     role="status">
+  <div class="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-full
+              bg-gradient-to-br from-brand-500/10 to-indigo-500/10
+              text-brand-600 dark:text-brand-400
+              ring-1 ring-brand-500/20">
+    {% with i=icon|default:"inbox" %}
+    {% if i == "chart" %}
+      <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+    {% elif i == "search" %}
+      <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    {% elif i == "link" %}
+      <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>
+    {% elif i == "bell" %}
+      <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    {% elif i == "sparkles" %}
+      <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L19.5 10l-5.6 1.2L12 17l-1.9-5.8L4.5 10l5.6-1.2z"/><path d="M19 17l.7 2.1L21.8 20l-2.1.7L19 23l-.7-2.3L16 20l2.3-.9z"/></svg>
+    {% elif i == "users" %}
+      <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+    {% else %}
+      {# inbox fallback #}
+      <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
+    {% endif %}
+    {% endwith %}
+  </div>
+
+  <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-1.5">
+    {{ title|default:_("Hali ma'lumot yo'q") }}
+  </h3>
+
+  {% if message %}
+    <p class="max-w-sm text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+      {{ message }}
+    </p>
+  {% endif %}
+
+  {% if cta_url and cta_label %}
+    <a href="{{ cta_url }}" class="btn-primary mt-5 !py-2 !px-4 !text-sm">
+      {{ cta_label }}
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  {% endif %}
+</div>
