@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: social-analytics 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-22 17:43+0000\n"
-"PO-Revision-Date: 2026-04-22 17:43+0000\n"
+"POT-Creation-Date: 2026-04-22 18:25+0000\n"
+"PO-Revision-Date: 2026-04-22 18:25+0000\n"
 "Last-Translator: social-analytics i18n_compile.py\n"
 "Language-Team: ru\n"
 "Language: ru\n"
@@ -15,40 +15,44 @@ msgstr ""
 
 #: apps/social/models.py
 msgid "(likes + comments + shares) / views"
-msgstr ""
+msgstr "(лайки + комментарии + репосты) / просмотры"
 
 #: templates/dashboard/terms.html
 msgid "1. Shartlarning qabul qilinishi"
-msgstr ""
+msgstr "1. Принятие условий"
 
 #: templates/dashboard/account_connect.html
 msgid ""
 "10 dan 300 gacha. Har post uchun 3–14 komment + AI sentiment tahlili "
 "avtomatik yaratiladi."
 msgstr ""
+"От 10 до 300. Для каждого поста 3–14 комментариев + AI-анализ настроений "
+"создаются автоматически."
 
 #: templates/dashboard/account_connect.html
 msgid ""
 "10 dan 300 gacha. Kanaldan so'nggi shuncha postni — views, reaksiyalar, "
 "forwardlar bilan — tortib olamiz."
 msgstr ""
+"От 10 до 300. Мы загружаем последние посты канала — с просмотрами, "
+"реакциями, пересылками."
 
 #: templates/dashboard/terms.html
 msgid "10. Nizolarni hal etish"
-msgstr ""
+msgstr "10. Разрешение споров"
 
 #: templates/dashboard/compare.html
 msgid "2 dan 3 tagacha akkaunt tanlang:"
-msgstr ""
+msgstr "Выберите от 2 до 3 аккаунтов:"
 
 #: templates/dashboard/terms.html
 msgid "2. Xizmatning tavsifi"
-msgstr ""
+msgstr "2. Описание услуги"
 
 #: templates/dashboard/compare.html
 msgid ""
 "2–3 ta akkaunt tanlang va KPI'lar bilan 30-kunlik trendni yonma-yon ko'ring."
-msgstr ""
+msgstr "Выберите 2–3 аккаунта и сравните KPI и 30-дневный тренд рядом."
 
 #: templates/dashboard/landing.html
 msgid "3 qadamda boshlang"
@@ -60,7 +64,7 @@ msgstr "3-язычный интерфейс"
 
 #: templates/dashboard/terms.html
 msgid "3. Akkaunt va xavfsizlik"
-msgstr ""
+msgstr "3. Аккаунт и безопасность"
 
 #: templates/dashboard/compare.html
 msgid "30 kunlik likes dinamikasi"
@@ -80,11 +84,11 @@ msgstr "4 платформы"
 
 #: templates/dashboard/terms.html
 msgid "4. Ma'lumotlardan foydalanish"
-msgstr ""
+msgstr "4. Использование данных"
 
 #: templates/dashboard/reports.html
 msgid "5 sahifa · brend cover · to'liq tahlil"
-msgstr ""
+msgstr "5 страниц · брендированная обложка · полный анализ"
 
 #: templates/dashboard/landing.html
 msgid ""
@@ -94,36 +98,42 @@ msgid ""
 "biridan 5 ta), top 15 post layklar bo'yicha. Ishlab chiqarilgan: ReportLab "
 "(pure-Python)."
 msgstr ""
+"5 страниц: брендированная градиентная обложка, executive summary из 9 строк "
+"(аккаунты, посты, комментарии, лайки, engagement, проценты настроений), "
+"таблица метрик по платформам, образцы позитивных и негативных настроений (по"
+" 5), топ-15 постов по лайкам. Создано на ReportLab (чистый Python)."
 
 #: templates/dashboard/reports.html
 msgid "5 ta sheet · chart'lar · table style"
-msgstr ""
+msgstr "5 листов · графики · табличный стиль"
 
 #: templates/dashboard/terms.html
 msgid "5. Cheklovlar"
-msgstr ""
+msgstr "5. Ограничения"
 
 #: templates/dashboard/terms.html
 msgid "6. Shartlarning o'zgarishi"
-msgstr ""
+msgstr "6. Изменения в условиях"
 
 #: templates/dashboard/terms.html
 msgid "7. Aloqa"
-msgstr ""
+msgstr "7. Контакты"
 
 #: templates/dashboard/terms.html
 msgid "8. Mualliflik huquqi"
-msgstr ""
+msgstr "8. Авторское право"
 
 #: templates/dashboard/terms.html
 msgid "9. Javobgarlikni cheklash"
-msgstr ""
+msgstr "9. Ограничение ответственности"
 
 #: templates/account/email_confirm.html
 msgid ""
 "<strong class=\"text-slate-900 dark:text-white\">{{ email }}</strong> manzili\n"
 "          <strong class=\"text-slate-900 dark:text-white\">{{ user_display }}</strong> foydalanuvchiga tegishli ekanligini tasdiqlang."
 msgstr ""
+"Подтвердите, что <strong class=\"text-slate-900 dark:text-white\">{{ email }}</strong>\n"
+"          принадлежит пользователю <strong class=\"text-slate-900 dark:text-white\">{{ user_display }}</strong>."
 
 #: templates/dashboard/chat.html
 msgid "Administrator"
@@ -132,7 +142,7 @@ msgstr "Администратор"
 #: templates/account/email/email_confirmation_message.html
 #: templates/account/email/password_reset_key_message.html
 msgid "Agar tugma ishlamasa, quyidagi havolani brauzeringizga nusxalang:"
-msgstr ""
+msgstr "Если кнопка не работает, скопируйте ссылку в браузер:"
 
 #: templates/dashboard/_shell.html
 msgid "AI Chat"
@@ -148,7 +158,7 @@ msgstr "AI-анализ настроений"
 
 #: templates/partials/_command_palette.html
 msgid "Akkaunt"
-msgstr ""
+msgstr "Аккаунт"
 
 #: templates/dashboard/account_connect.html templates/dashboard/app.html
 #: templates/dashboard/compare.html
@@ -157,43 +167,43 @@ msgstr "Подключить аккаунт"
 
 #: templates/account/signup.html
 msgid "Akkaunt yaratish"
-msgstr ""
+msgstr "Создать аккаунт"
 
 #: templates/dashboard/delete_account.html
 msgid "Akkauntimni butunlay o'chirish"
-msgstr ""
+msgstr "Полностью удалить мой аккаунт"
 
 #: templates/account/signup.html
 msgid "Akkauntingiz bormi?"
-msgstr ""
+msgstr "Уже есть аккаунт?"
 
 #: templates/account/login.html
 msgid "Akkauntingiz yo'qmi?"
-msgstr ""
+msgstr "Нет аккаунта?"
 
 #: templates/dashboard/settings.html
 msgid "Akkauntingiz, til va xavfsizlik sozlamalari."
-msgstr ""
+msgstr "Настройки аккаунта, языка и безопасности."
 
 #: templates/account/logout.html
 msgid "Akkauntingizdan chiqmoqchimisiz?"
-msgstr ""
+msgstr "Хотите выйти из аккаунта?"
 
 #: templates/account/login.html
 msgid "Akkauntingizga kirib, tahlilni davom ettiring."
-msgstr ""
+msgstr "Войдите и продолжите анализ."
 
 #: templates/dashboard/delete_account.html
 msgid "Akkauntingizni o'chirsangiz quyidagilar doimo yo'qoladi:"
-msgstr ""
+msgstr "При удалении аккаунта безвозвратно будут утеряны:"
 
 #: templates/dashboard/account_connect.html
 msgid "akkauntini ulash"
-msgstr ""
+msgstr "подключить аккаунт"
 
 #: templates/dashboard/reports.html
 msgid "Akkauntlar"
-msgstr ""
+msgstr "Аккаунты"
 
 #: templates/dashboard/_shell.html templates/dashboard/account_connect.html
 #: templates/dashboard/accounts.html templates/partials/_command_palette.html
@@ -203,11 +213,11 @@ msgstr "Мои аккаунты"
 
 #: templates/dashboard/compare.html
 msgid "Akkauntlarni solishtirish"
-msgstr ""
+msgstr "Сравнить аккаунты"
 
 #: templates/dashboard/landing.html
 msgid "Akkauntlarni ulang"
-msgstr ""
+msgstr "Подключите аккаунты"
 
 #: templates/dashboard/delete_account.html templates/dashboard/settings.html
 msgid "Akkauntni o'chirish"
@@ -215,7 +225,7 @@ msgstr "Удалить аккаунт"
 
 #: templates/dashboard/privacy.html
 msgid "Akkauntni o'chirish (barcha ma'lumot yo'q qilinadi)."
-msgstr ""
+msgstr "Удалить аккаунт (все данные удаляются)."
 
 #: templates/dashboard/_shell.html templates/partials/_command_palette.html
 #: templates/partials/_navbar.html
@@ -224,7 +234,7 @@ msgstr "Аналитика"
 
 #: templates/dashboard/public_share.html
 msgid "Asl post"
-msgstr ""
+msgstr "Оригинальный пост"
 
 #: templates/dashboard/_shell.html
 msgid "Asosiy"
@@ -236,24 +246,28 @@ msgid ""
 " yaxshi ishlayotgan platforma, postlaringiz haqida tahlil, yoki engagement "
 "trendlari."
 msgstr ""
+"Здравствуйте! Задайте вопрос о данных панели — например, лучшая платформа, "
+"анализ постов или тренды engagement."
 
 #: templates/dashboard/landing.html
 msgid "Auditoriyani tushuning, qaysi kontent ishlayotganini biling."
-msgstr ""
+msgstr "Поймите аудиторию и узнайте, какой контент работает."
 
 #: templates/account/base.html
 msgid "Autentifikatsiya"
-msgstr ""
+msgstr "Аутентификация"
 
 #: templates/dashboard/settings.html
 msgid "Avtomatik"
-msgstr ""
+msgstr "Автоматически"
 
 #: templates/dashboard/landing.html
 msgid ""
 "Ayni paytda: Instagram (Graph API), Telegram (Bot API), YouTube (Data API "
 "v3), X (v2 API). Keyingi bosqichda TikTok va LinkedIn rejalashtirilgan."
 msgstr ""
+"Сейчас: Instagram (Graph API), Telegram (Bot API), YouTube (Data API v3), X "
+"(v2 API). TikTok и LinkedIn запланированы на следующем этапе."
 
 #: templates/dashboard/top_posts.html
 msgid "Barcha davr"
@@ -264,26 +278,27 @@ msgid ""
 "Barcha ma'lumotingizni bir bosishda yuklab oling — diplom, prezentatsiya "
 "yoki mijozga."
 msgstr ""
+"Скачайте все ваши данные в один клик — для диплома, презентации или клиента."
 
 #: templates/dashboard/delete_account.html
 msgid "Barcha postlar va kommentlar"
-msgstr ""
+msgstr "Все посты и комментарии"
 
 #: templates/dashboard/delete_account.html
 msgid "Barcha sentiment tahlili natijalari"
-msgstr ""
+msgstr "Все результаты анализа настроений"
 
 #: templates/dashboard/delete_account.html
 msgid "Barcha ulangan akkauntlar (Instagram, Telegram, YouTube, X)"
-msgstr ""
+msgstr "Все подключённые аккаунты (Instagram, Telegram, YouTube, X)"
 
 #: templates/dashboard/app.html
 msgid "Barchasi"
-msgstr ""
+msgstr "Все"
 
 #: templates/dashboard/landing.html
 msgid "Barchasi bir dashboardda."
-msgstr ""
+msgstr "Всё на одной панели."
 
 #: templates/account/logout.html templates/dashboard/account_connect.html
 #: templates/dashboard/accounts.html templates/dashboard/delete_account.html
@@ -292,51 +307,55 @@ msgstr "Отмена"
 
 #: templates/dashboard/landing.html
 msgid "Bepul akkaunt yaratish"
-msgstr ""
+msgstr "Создать бесплатный аккаунт"
 
 #: templates/dashboard/landing.html
 msgid "Bepul boshlash"
-msgstr ""
+msgstr "Начать бесплатно"
 
 #: templates/account/signup.html
 msgid "bilan tanishdim va roziman."
-msgstr ""
+msgstr "Я ознакомлен(а) и согласен(на)."
 
 #: templates/account/verification_sent.html
 msgid "Bir necha daqiqa kuting"
-msgstr ""
+msgstr "Подождите несколько минут"
 
 #: templates/account/password_reset_done.html
 msgid "Bir necha daqiqa kuting va yangilang"
-msgstr ""
+msgstr "Подождите несколько минут и обновите"
 
 #: templates/dashboard/landing.html
 msgid "Bir necha daqiqada ro'yxatdan o'ting — dashboardingiz tayyor."
-msgstr ""
+msgstr "Зарегистрируйтесь за несколько минут — панель готова."
 
 #: templates/dashboard/app.html
 msgid "Birinchi akkauntingizni ulang"
-msgstr ""
+msgstr "Подключите первый аккаунт"
 
 #: templates/500.html
 msgid "Biz allaqachon ishlayapmiz"
-msgstr ""
+msgstr "Мы уже работаем"
 
 #: templates/dashboard/privacy.html
 msgid ""
 "Biz sizni tizimda ushlab turish uchun zarur session cookie'laridan "
 "foydalanamiz. Tahlil (Google Analytics kabi) cookie'lari qo'llanilmaydi."
 msgstr ""
+"Мы используем сессионные cookie, необходимые для поддержания входа. "
+"Аналитические cookie (например Google Analytics) не применяются."
 
 #: templates/dashboard/terms.html
 msgid ""
 "Biz ushbu shartlarni istalgan vaqtda yangilash huquqini\n"
 "    saqlab qolamiz. Muhim o'zgarishlar haqida email orqali xabar beriladi."
 msgstr ""
+"Мы оставляем за собой право обновлять эти условия в любое время.\n"
+"    О существенных изменениях мы сообщаем по email."
 
 #: templates/dashboard/landing.html
 msgid "Bloggerlar"
-msgstr ""
+msgstr "Блогеры"
 
 #: templates/404.html templates/500.html templates/dashboard/_shell.html
 #: templates/partials/_command_palette.html
@@ -345,7 +364,7 @@ msgstr "Главная"
 
 #: templates/account/login.html templates/account/signup.html
 msgid "Bosh sahifaga qaytish"
-msgstr ""
+msgstr "Вернуться на главную"
 
 #: templates/dashboard/app.html templates/partials/_navbar.html
 msgid "Boshlash"
@@ -353,43 +372,43 @@ msgstr "Начать"
 
 #: templates/dashboard/compare.html
 msgid "Boshqa akkauntni tanlash"
-msgstr ""
+msgstr "Выбрать другой аккаунт"
 
 #: templates/dashboard/terms.html
 msgid "Boshqa foydalanuvchilarning akkauntlariga ruxsatsiz kirish."
-msgstr ""
+msgstr "Несанкционированный доступ к аккаунтам других пользователей."
 
 #: templates/dashboard/delete_account.html
 msgid "Bu amalni ortga qaytarib bo'lmaydi"
-msgstr ""
+msgstr "Это действие нельзя отменить"
 
 #: templates/account/email_confirm.html
 msgid "Bu email manzil boshqa akkauntda tasdiqlangan."
-msgstr ""
+msgstr "Этот email уже подтверждён в другом аккаунте."
 
 #: templates/account/email_confirm.html
 msgid "Bu havola yaroqsiz yoki muddati o'tgan."
-msgstr ""
+msgstr "Ссылка недействительна или устарела."
 
 #: templates/dashboard/landing.html
 msgid "Bu platforma bepulmi?"
-msgstr ""
+msgstr "Эта платформа бесплатная?"
 
 #: templates/account/email/_base.html
 msgid "Bu xat avtomatik yuborildi. Javob bermang."
-msgstr ""
+msgstr "Это автоматическое письмо. Не отвечайте на него."
 
 #: templates/dashboard/settings.html
 msgid "Bu yerdagi amallar orqaga qaytarilmaydi."
-msgstr ""
+msgstr "Действия здесь необратимы."
 
 #: templates/dashboard/app.html
 msgid "Bugun"
-msgstr ""
+msgstr "Сегодня"
 
 #: templates/dashboard/landing.html
 msgid "Bugun boshlang"
-msgstr ""
+msgstr "Начните сегодня"
 
 #: templates/account/logout.html templates/dashboard/_shell.html
 #: templates/dashboard/settings.html templates/partials/_command_palette.html
@@ -399,11 +418,11 @@ msgstr "Выйти"
 
 #: templates/account/logout.html
 msgid "Chiqishni tasdiqlaysizmi?"
-msgstr ""
+msgstr "Подтвердить выход?"
 
 #: templates/dashboard/privacy.html
 msgid "Cookie'lar"
-msgstr ""
+msgstr "Cookie"
 
 #: templates/dashboard/_shell.html templates/partials/_command_palette.html
 #: templates/partials/_navbar.html
@@ -419,20 +438,22 @@ msgid ""
 "Dashboard quyida demo ma'lumotlar bilan ko'rsatilmoqda. Instagram, Telegram,"
 " YouTube yoki X akkauntini ulab, haqiqiy statistikani ko'ring."
 msgstr ""
+"Панель ниже показывает демо-данные. Подключите Instagram, Telegram, YouTube "
+"или X, чтобы увидеть реальную статистику."
 
 #: templates/dashboard/privacy.html
 msgid "Dashboard va hisobotlar yaratish uchun."
-msgstr ""
+msgstr "Для создания панелей и отчётов."
 
 #: templates/dashboard/landing.html
 msgid "Dashboard, sentiment va top postlar. Hisobotni yuklab oling."
-msgstr ""
+msgstr "Панель, настроения и топ посты. Скачайте отчёт."
 
 #: templates/dashboard/delete_account.html
 msgid ""
 "Davom etish uchun <strong>{{ email }}</strong> email manzilini aniq "
 "kiriting:"
-msgstr ""
+msgstr "Чтобы продолжить, точно введите <strong>{{ email }}</strong>:"
 
 #: templates/dashboard/top_posts.html
 msgid "Davr"
@@ -440,44 +461,44 @@ msgstr "Период"
 
 #: templates/dashboard/app.html
 msgid "Davr:"
-msgstr ""
+msgstr "Период:"
 
 #: templates/dashboard/accounts.html
 msgid "Demo"
-msgstr ""
+msgstr "Демо"
 
 #: templates/dashboard/landing.html
 msgid "Demo ko'rish"
-msgstr ""
+msgstr "Посмотреть демо"
 
 #: templates/dashboard/accounts.html
 msgid "demo ma'lumot"
-msgstr ""
+msgstr "демо данные"
 
 #: templates/dashboard/account_connect.html
 msgid "Demo post soni"
-msgstr ""
+msgstr "Количество демо постов"
 
 #: templates/dashboard/account_connect.html
 msgid "Demo rejim"
-msgstr ""
+msgstr "Демо режим"
 
 #: templates/account/base.html templates/account/email/_base.html
 #: templates/partials/_footer.html
 msgid "Diplom loyihasi"
-msgstr ""
+msgstr "Дипломный проект"
 
 #: templates/dashboard/landing.html
 msgid "Diplom va kurs ishlarida real ma'lumot bilan tadqiqot."
-msgstr ""
+msgstr "Исследования с реальными данными для дипломов и курсовых."
 
 #: templates/dashboard/landing.html
 msgid "E2E shifrlangan"
-msgstr ""
+msgstr "E2E шифрование"
 
 #: templates/partials/_command_palette.html
 msgid "Eksport"
-msgstr ""
+msgstr "Экспорт"
 
 #: templates/account/login.html templates/account/password_reset.html
 #: templates/account/signup.html templates/dashboard/settings.html
@@ -486,101 +507,101 @@ msgstr "Эл. почта"
 
 #: templates/dashboard/privacy.html
 msgid "Email manzilingiz va parolingiz (shifrlangan hash)."
-msgstr ""
+msgstr "Ваш email и пароль (зашифрованный хеш)."
 
 #: templates/account/password_reset.html
 msgid "Email manzilingizni kiriting — parolni tiklash havolasini yuboramiz."
-msgstr ""
+msgstr "Введите email — мы отправим ссылку для сброса пароля."
 
 #: templates/account/email/email_confirmation_message.html
 msgid "Email manzilingizni tasdiqlang"
-msgstr ""
+msgstr "Подтвердите ваш email"
 
 #: templates/account/verification_sent.html
 msgid "Email manzilingizning to'g'riligiga ishonch hosil qiling"
-msgstr ""
+msgstr "Убедитесь, что email верный"
 
 #: templates/account/email/email_confirmation_message.html
 #: templates/account/email_confirm.html
 msgid "Email manzilni tasdiqlash"
-msgstr ""
+msgstr "Подтвердить email"
 
 #: templates/account/password_reset_done.html
 msgid "Email manzilni to'g'ri kiritganingizga ishonch hosil qiling"
-msgstr ""
+msgstr "Убедитесь, что вы ввели email правильно"
 
 #: templates/account/email/email_confirmation_message.html
 msgid "Email tasdiqlash"
-msgstr ""
+msgstr "Подтверждение email"
 
 #: templates/dashboard/landing.html
 msgid "Email va parol yoki Google orqali — bir daqiqada."
-msgstr ""
+msgstr "Email + пароль или Google — за минуту."
 
 #: templates/account/password_reset_done.html
 msgid "Email yuborildi"
-msgstr ""
+msgstr "Email отправлен"
 
 #: templates/account/password_reset_done.html
 #: templates/account/verification_sent.html
 msgid "Emailingizni tekshiring"
-msgstr ""
+msgstr "Проверьте вашу почту"
 
 #: templates/account/verification_sent.html
 msgid "Emailni tasdiqlang"
-msgstr ""
+msgstr "Подтвердите email"
 
 #: templates/account/email_confirm.html
 msgid "Emailni tasdiqlash"
-msgstr ""
+msgstr "Подтверждение email"
 
 #: templates/dashboard/sentiment.html
 msgid "Eng negativ kommentlar"
-msgstr ""
+msgstr "Самые негативные комментарии"
 
 #: templates/dashboard/sentiment.html
 msgid "Eng pozitiv kommentlar"
-msgstr ""
+msgstr "Самые позитивные комментарии"
 
 #: templates/dashboard/chat.html
 msgid "Eng pozitiv kontent"
-msgstr ""
+msgstr "Самый позитивный контент"
 
 #: templates/dashboard/chat.html
 msgid "Eng yaxshi platforma?"
-msgstr ""
+msgstr "Лучшая платформа?"
 
 #: templates/dashboard/analytics.html
 msgid "Eng yaxshi postlar (top 20)"
-msgstr ""
+msgstr "Лучшие посты (топ 20)"
 
 #: templates/dashboard/compare.html templates/dashboard/public_share.html
 msgid "Engagement"
-msgstr ""
+msgstr "Engagement"
 
 #: templates/dashboard/chat.html
 msgid "Engagement pasayishi?"
-msgstr ""
+msgstr "Падение engagement?"
 
 #: templates/dashboard/chat.html
 msgid "env var'ni sozlashi kerak. Kalitni"
-msgstr ""
+msgstr "должен настроить env-переменную. Ключ можно получить на"
 
 #: templates/dashboard/reports.html
 msgid "Eslatma"
-msgstr ""
+msgstr "Примечание"
 
 #: templates/account/email/password_reset_key_message.html
 msgid "Eslatma:"
-msgstr ""
+msgstr "Примечание:"
 
 #: templates/partials/_command_palette.html
 msgid "Excel eksport (.xlsx)"
-msgstr ""
+msgstr "Экспорт Excel (.xlsx)"
 
 #: templates/dashboard/reports.html templates/dashboard/sentiment.html
 msgid "Excel yuklash"
-msgstr ""
+msgstr "Скачать Excel"
 
 #: templates/dashboard/settings.html
 msgid "Familiya"
@@ -588,89 +609,95 @@ msgstr "Фамилия"
 
 #: templates/dashboard/accounts.html
 msgid "Faol akkauntlar"
-msgstr ""
+msgstr "Активные аккаунты"
 
 #: templates/dashboard/app.html
 msgid "Faollik dinamikasi"
-msgstr ""
+msgstr "Динамика активности"
 
 #: templates/dashboard/app.html
 msgid "Faollik ulushi"
-msgstr ""
+msgstr "Доля активности"
 
 #: templates/account/base.html
 msgid "Filtrlab, kesib, eksport qilib — ma'lumotni o'z qo'lingizda."
-msgstr ""
+msgstr "Фильтруйте, срезайте, экспортируйте — данные у вас в руках."
 
 #: templates/account/signup.html templates/dashboard/terms.html
 msgid "Foydalanish shartlari"
-msgstr ""
+msgstr "Условия использования"
 
 #: templates/dashboard/landing.html
 msgid "Foydalanuvchilarimiz"
-msgstr ""
+msgstr "Наши пользователи"
 
 #: templates/dashboard/terms.html
 msgid "GitHub Issues →"
-msgstr ""
+msgstr "GitHub Issues →"
 
 #: templates/socialaccount/snippets/login.html
 msgid "Google orqali davom etish"
-msgstr ""
+msgstr "Продолжить через Google"
 
 #: templates/dashboard/landing.html
 msgid "Google va platforma OAuth. Parollar saqlanmaydi."
-msgstr ""
+msgstr "Google и платформенный OAuth. Пароли не хранятся."
 
 #: templates/dashboard/reports.html
 msgid ""
 "Gradient cover sahifasi, KPI xulosasi, platforma jadvali, sentiment "
 "namunalari, top postlar — ReportLab orqali."
 msgstr ""
+"Градиентная обложка, сводка KPI, таблица платформ, образцы настроений, топ "
+"постов — через ReportLab."
 
 #: templates/account/logout.html
 msgid "Ha, chiqish"
-msgstr ""
+msgstr "Да, выйти"
 
 #: templates/dashboard/landing.html
 msgid ""
 "Ha, loyiha MIT litsenziyasi ostida GitHub'da ochiq. Hissa qo'shishingiz yoki"
 " o'z ehtiyojlaringizga moslashtirishingiz mumkin."
 msgstr ""
+"Да, проект открыт на GitHub под лицензией MIT. Вы можете внести вклад или "
+"адаптировать его под свои нужды."
 
 #: templates/dashboard/landing.html
 msgid ""
 "Ha, loyiha to'liq bepul — diplom ishi sifatida ishlab chiqilgan. Kredit "
 "karta kerak emas."
 msgstr ""
+"Да, проект полностью бесплатный — создан как дипломная работа. Карта не "
+"нужна."
 
 #: templates/dashboard/accounts.html
 msgid "Hali hech qanday akkaunt ulanmagan"
-msgstr ""
+msgstr "Пока не подключено ни одного аккаунта"
 
 #: templates/dashboard/analytics.html
 msgid "Hali ma'lumot yo'q."
-msgstr ""
+msgstr "Пока нет данных."
 
 #: templates/dashboard/sentiment.html
 msgid "Hali namunalar yo'q."
-msgstr ""
+msgstr "Пока нет образцов."
 
 #: templates/dashboard/analytics.html templates/dashboard/public_share.html
 msgid "Hali postlar yo'q."
-msgstr ""
+msgstr "Пока нет постов."
 
 #: templates/dashboard/app.html
 msgid "Hali postlar yo'q. Akkauntingizni ulang yoki demo data'ni seed qiling."
-msgstr ""
+msgstr "Пока нет постов. Подключите аккаунт или заполните демо-данными."
 
 #: templates/dashboard/sentiment.html
 msgid "Hali sentiment natijalari yo'q."
-msgstr ""
+msgstr "Пока нет результатов настроений."
 
 #: templates/dashboard/app.html
 msgid "Hali tadbirlar yo'q."
-msgstr ""
+msgstr "Пока нет событий."
 
 #: templates/dashboard/top_posts.html
 msgid "Hammasi"
@@ -678,11 +705,11 @@ msgstr "Все"
 
 #: templates/dashboard/accounts.html
 msgid "Haqiqiy"
-msgstr ""
+msgstr "Реальный"
 
 #: templates/dashboard/landing.html
 msgid "Haqiqiy Instagram/YouTube OAuth ishlayaptimi?"
-msgstr ""
+msgstr "Работает ли настоящий Instagram/YouTube OAuth?"
 
 #: templates/dashboard/account_connect.html
 msgid ""
@@ -690,10 +717,13 @@ msgid ""
 "Developer, Google Cloud, Bot tokens). Hozir demo ma'lumot bilan ulanadi — "
 "real vaqtda grafiklar va sentiment tahlili ishlaydi."
 msgstr ""
+"Настоящая OAuth-интеграция требует API credentials (Facebook Developer, "
+"Google Cloud, токены ботов). Сейчас подключается с демо-данными — графики и "
+"анализ настроений работают в реальном времени."
 
 #: templates/dashboard/compare.html
 msgid "Har akkaunt alohida chiziq bilan"
-msgstr ""
+msgstr "Каждый аккаунт отдельной линией"
 
 #: templates/dashboard/terms.html
 msgid ""
@@ -701,18 +731,21 @@ msgid ""
 "    GitHub Issues tracker orqali hal qilinadi. Biz 48 soat ichida javob\n"
 "    berishga harakat qilamiz (best effort, kafolat emas)."
 msgstr ""
+"Любые технические проблемы, запросы на функции или вопросы по условиям —\n"
+"    решаются через GitHub Issues. Мы стараемся отвечать в течение 48 часов\n"
+"    (best effort, без гарантии)."
 
 #: templates/account/password_reset_from_key.html
 msgid "Havola ishlamaydi"
-msgstr ""
+msgstr "Ссылка не работает"
 
 #: templates/partials/_command_palette.html
 msgid "Hech narsa topilmadi"
-msgstr ""
+msgstr "Ничего не найдено"
 
 #: templates/dashboard/analytics.html
 msgid "Hisobot yuklash"
-msgstr ""
+msgstr "Скачать отчёт"
 
 #: templates/dashboard/_shell.html templates/dashboard/reports.html
 #: templates/partials/_command_palette.html templates/partials/_navbar.html
@@ -725,78 +758,85 @@ msgid ""
 "ichiga oladi. Agar akkaunt ulanmagan bo'lsa, demo ma'lumotdan foydalaning "
 "yoki faqat sarlavha bilan bo'sh hisobot yaratiladi."
 msgstr ""
+"Отчёты включают все посты и комментарии вашего аккаунта. Если аккаунт не "
+"подключён, используйте демо-данные или будет создан пустой отчёт с одним "
+"заголовком."
 
 #: templates/dashboard/landing.html
 msgid "Hisobotlarni bir bosishda eksport qiling."
-msgstr ""
+msgstr "Экспортируйте отчёты в один клик."
 
 #: templates/dashboard/accounts.html
 msgid "Holati"
-msgstr ""
+msgstr "Статус"
 
 #: templates/dashboard/privacy.html templates/dashboard/terms.html
 msgid "Huquqiy ma'lumot"
-msgstr ""
+msgstr "Юридическая информация"
 
 #: templates/dashboard/landing.html
 msgid "IG · TG · YT · X"
-msgstr ""
+msgstr "IG · TG · YT · X"
 
 #: templates/dashboard/landing.html
 msgid "Ijtimoiy ovozingizni"
-msgstr ""
+msgstr "Ваш социальный голос"
 
 #: templates/account/signup.html
 msgid "Ijtimoiy tarmog'ingizni bir daqiqada kuzatishni boshlang."
-msgstr ""
+msgstr "Начните отслеживать соцсети за минуту."
 
 #: templates/dashboard/accounts.html
 msgid "Ijtimoiy tarmoq akkauntlaringizni ulab, real ma'lumotni tahlil qiling."
-msgstr ""
+msgstr "Подключите соцсети и анализируйте реальные данные."
 
 #: templates/dashboard/landing.html
 msgid "Ijtimoiy tarmoq analitikasi"
-msgstr ""
+msgstr "Аналитика соцсетей"
 
 #: templates/partials/_footer.html
 msgid ""
 "Ijtimoiy tarmoq ma'lumotlarini yig'ish va tahlil qilish platformasi. "
 "Talabalar, tadqiqotchilar va marketologlar uchun."
 msgstr ""
+"Платформа сбора и анализа данных соцсетей. Для студентов, исследователей и "
+"маркетологов."
 
 #: templates/account/base.html
 msgid "Ijtimoiy tarmoqlardagi ovozingizni tushuning."
-msgstr ""
+msgstr "Понимайте свой голос в соцсетях."
 
 #: templates/dashboard/landing.html
 msgid "Imkoniyatlar"
-msgstr ""
+msgstr "Возможности"
 
 #: templates/partials/_footer.html
 msgid "in Tashkent"
-msgstr ""
+msgstr "в Ташкенте"
 
 #: templates/dashboard/landing.html
 msgid ""
 "Instagram, Telegram, YouTube va X ma'lumotlarini bir joyda. AI sentiment "
 "tahlil, real-time grafiklar, avtomatik hisobotlar — bir necha bosishda."
 msgstr ""
+"Данные Instagram, Telegram, YouTube и X в одном месте. AI-анализ настроений,"
+" графики в реальном времени, автоотчёты — в несколько кликов."
 
 #: templates/dashboard/landing.html
 msgid "Instagram, Telegram, YouTube yoki X — xavfsiz OAuth orqali."
-msgstr ""
+msgstr "Instagram, Telegram, YouTube или X — через безопасный OAuth."
 
 #: templates/account/base.html
 msgid "Interaktiv grafiklar"
-msgstr ""
+msgstr "Интерактивные графики"
 
 #: templates/dashboard/settings.html
 msgid "Interfeys tili"
-msgstr ""
+msgstr "Язык интерфейса"
 
 #: templates/dashboard/landing.html
 msgid "Ishonchlilik"
-msgstr ""
+msgstr "Надёжность"
 
 #: templates/dashboard/settings.html
 msgid "Ism"
@@ -804,7 +844,7 @@ msgstr "Имя"
 
 #: templates/dashboard/settings.html
 msgid "Ism, familiya va email manzili."
-msgstr ""
+msgstr "Имя, фамилия и email."
 
 #: templates/dashboard/top_posts.html
 msgid "Izoh"
@@ -812,42 +852,44 @@ msgstr "Комментарии"
 
 #: templates/dashboard/sentiment.html
 msgid "Jami"
-msgstr ""
+msgstr "Всего"
 
 #: templates/dashboard/compare.html
 msgid "Jami likes"
-msgstr ""
+msgstr "Всего лайков"
 
 #: templates/dashboard/landing.html
 msgid ""
 "Jonli grafiklar, interaktiv filtrlash va platformalar bo'yicha solishtirish."
 " Har soniyada yangi ma'lumot."
 msgstr ""
+"Живые графики, интерактивная фильтрация и сравнение по платформам. Новые "
+"данные каждую секунду."
 
 #: templates/dashboard/delete_account.html
 msgid "JSON sifatida yuklab oling"
-msgstr ""
+msgstr "Скачать как JSON"
 
 #: templates/account/signup.html
 msgid "Juda kuchli"
-msgstr ""
+msgstr "Очень сильный"
 
 #: templates/account/signup.html
 msgid "Juda zaif"
-msgstr ""
+msgstr "Очень слабый"
 
 #: templates/account/signup.html
 msgid "Kamida 8 belgi"
-msgstr ""
+msgstr "Минимум 8 символов"
 
 #: templates/account/password_reset_from_key.html
 #: templates/account/signup.html
 msgid "Kamida 8 ta belgi"
-msgstr ""
+msgstr "Минимум 8 символов"
 
 #: templates/account/signup.html
 msgid "Katta harf (A-Z)"
-msgstr ""
+msgstr "Заглавная буква (A-Z)"
 
 #: templates/dashboard/top_posts.html
 msgid "Keyingi"
@@ -855,11 +897,11 @@ msgstr "Далее"
 
 #: templates/account/signup.html
 msgid "Kichik harf (a-z)"
-msgstr ""
+msgstr "Строчная буква (a-z)"
 
 #: templates/dashboard/landing.html
 msgid "Kim uchun"
-msgstr ""
+msgstr "Для кого"
 
 #: templates/partials/_navbar.html
 msgid "Kirgan sifatida"
@@ -875,15 +917,15 @@ msgstr "Войти"
 #: templates/account/password_reset.html
 #: templates/account/password_reset_done.html
 msgid "Kirish sahifasiga qaytish"
-msgstr ""
+msgstr "Вернуться ко входу"
 
 #: templates/account/login.html
 msgid "Kiryapti..."
-msgstr ""
+msgstr "Вход..."
 
 #: templates/account/base.html
 msgid "Ko'p tilli interfeys"
-msgstr ""
+msgstr "Многоязычный интерфейс"
 
 #: templates/dashboard/top_posts.html
 msgid "Ko'rildi"
@@ -891,35 +933,35 @@ msgstr "Просмотры"
 
 #: templates/dashboard/analytics.html templates/dashboard/compare.html
 msgid "Ko'rishlar"
-msgstr ""
+msgstr "Просмотры"
 
 #: templates/dashboard/landing.html
 msgid "Kodi ochiqmi?"
-msgstr ""
+msgstr "Открытый ли исходный код?"
 
 #: templates/partials/_command_palette.html
 msgid "Komandalar paneli"
-msgstr ""
+msgstr "Палитра команд"
 
 #: templates/dashboard/analytics.html templates/dashboard/reports.html
 msgid "Kommentlar"
-msgstr ""
+msgstr "Комментарии"
 
 #: templates/dashboard/sentiment.html
 msgid "kommentlar"
-msgstr ""
+msgstr "комментариев"
 
 #: templates/dashboard/landing.html
 msgid "Kredit karta kerak emas — hoziroq boshlang."
-msgstr ""
+msgstr "Карта не нужна — начните прямо сейчас."
 
 #: templates/dashboard/landing.html
 msgid "Kredit karta kerak emas. Hoziroq boshlang."
-msgstr ""
+msgstr "Карта не нужна. Начните прямо сейчас."
 
 #: templates/account/signup.html
 msgid "Kuchli"
-msgstr ""
+msgstr "Сильный"
 
 #: templates/dashboard/app.html templates/dashboard/top_posts.html
 msgid "kun"
@@ -927,11 +969,11 @@ msgstr "дней"
 
 #: templates/dashboard/public_share.html
 msgid "Kunlik yig'ilgan likes soni"
-msgstr ""
+msgstr "Суммы лайков по дням"
 
 #: templates/dashboard/analytics.html
 msgid "Layklar"
-msgstr ""
+msgstr "Лайки"
 
 #: templates/dashboard/top_posts.html
 msgid "Like"
@@ -939,40 +981,40 @@ msgstr "Лайки"
 
 #: templates/dashboard/public_share.html
 msgid "Likes"
-msgstr ""
+msgstr "Лайки"
 
 #: templates/dashboard/landing.html
 msgid "Loyiha holati"
-msgstr ""
+msgstr "Статус проекта"
 
 #: templates/dashboard/privacy.html
 msgid "Ma'lumot saqlash"
-msgstr ""
+msgstr "Хранение данных"
 
 #: templates/dashboard/privacy.html
 msgid "Ma'lumotdan qanday foydalanamiz"
-msgstr ""
+msgstr "Как мы используем данные"
 
 #: templates/dashboard/landing.html
 msgid "Ma'lumotdan qarorga"
-msgstr ""
+msgstr "От данных к решениям"
 
 #: templates/dashboard/settings.html
 msgid "Ma'lumotimni yuklab olish (JSON)"
-msgstr ""
+msgstr "Скачать мои данные (JSON)"
 
 #: templates/dashboard/privacy.html
 msgid ""
 "Ma'lumotingizni istalgan vaqtda ko'chirib olish (Settings → Export my data)."
-msgstr ""
+msgstr "Экспортируйте данные в любое время (Настройки → Экспорт)."
 
 #: templates/dashboard/delete_account.html
 msgid "Ma'lumotingizni oldin"
-msgstr ""
+msgstr "Сначала ваши данные"
 
 #: templates/dashboard/landing.html
 msgid "Ma'lumotlar qayerda saqlanadi?"
-msgstr ""
+msgstr "Где хранятся данные?"
 
 #: templates/dashboard/privacy.html
 msgid ""
@@ -980,26 +1022,28 @@ msgid ""
 "ma'lumotlar bazasida xavfsiz saqlanadi. OAuth tokenlari alohida shifrlash "
 "kaliti bilan himoyalanadi."
 msgstr ""
+"Данные передаются по зашифрованному соединению (HTTPS/TLS 1.3) и хранятся "
+"безопасно в базе. OAuth-токены защищены отдельным ключом шифрования."
 
 #: templates/partials/_footer.html
 msgid "Made with"
-msgstr ""
+msgstr "Сделано с"
 
 #: templates/partials/_footer.html
 msgid "Mahsulot"
-msgstr ""
+msgstr "Продукт"
 
 #: templates/dashboard/landing.html
 msgid "Marketing agentliklari"
-msgstr ""
+msgstr "Маркетинговые агентства"
 
 #: templates/dashboard/account_connect.html
 msgid "Masalan:"
-msgstr ""
+msgstr "Например:"
 
 #: templates/dashboard/settings.html templates/partials/_command_palette.html
 msgid "Mavzu"
-msgstr ""
+msgstr "Тема"
 
 #: templates/account/base.html templates/partials/_navbar.html
 msgid "Mavzuni almashtirish"
@@ -1007,23 +1051,23 @@ msgstr "Переключить тему"
 
 #: templates/account/signup.html templates/dashboard/privacy.html
 msgid "Maxfiylik siyosati"
-msgstr ""
+msgstr "Политика конфиденциальности"
 
 #: templates/account/signup.html
 msgid "Maxsus belgi (!@#$ ...)"
-msgstr ""
+msgstr "Спецсимвол (!@#$ ...)"
 
 #: templates/account/signup.html
 msgid "Men"
-msgstr ""
+msgstr "Я"
 
 #: templates/account/login.html
 msgid "Meni eslab qol"
-msgstr ""
+msgstr "Запомнить меня"
 
 #: templates/dashboard/settings.html
 msgid "Mening ma'lumotlarim"
-msgstr ""
+msgstr "Мои данные"
 
 #: templates/partials/_navbar.html
 msgid "Menyu"
@@ -1031,7 +1075,7 @@ msgstr "Меню"
 
 #: templates/dashboard/landing.html
 msgid "Mijozlarga aniq hisobotlar, kampaniyalar samaradorligi."
-msgstr ""
+msgstr "Чёткие отчёты для клиентов, эффективность кампаний."
 
 #: templates/partials/_navbar.html
 msgid "Mobil menyu"
@@ -1040,31 +1084,31 @@ msgstr "Мобильное меню"
 #: templates/dashboard/terms.html
 msgid ""
 "Mualliflik huquqi yoki qonun himoyalangan ma'lumotlarni noqonuniy to'plash."
-msgstr ""
+msgstr "Незаконный сбор данных, защищённых авторским правом или законом."
 
 #: templates/partials/_command_palette.html
 msgid "Navigatsiya"
-msgstr ""
+msgstr "Навигация"
 
 #: templates/dashboard/compare.html templates/dashboard/sentiment.html
 msgid "Negativ"
-msgstr ""
+msgstr "Негативный"
 
 #: templates/dashboard/sentiment.html
 msgid "Negativ komment yetarli emas."
-msgstr ""
+msgstr "Недостаточно негативных комментариев."
 
 #: templates/dashboard/sentiment.html
 msgid "Negativ so'zlar"
-msgstr ""
+msgstr "Негативные слова"
 
 #: templates/dashboard/sentiment.html
 msgid "Neytral"
-msgstr ""
+msgstr "Нейтральный"
 
 #: templates/partials/_command_palette.html
 msgid "Nimani qidiryapsiz?"
-msgstr ""
+msgstr "Что вы ищете?"
 
 #: templates/dashboard/accounts.html
 msgid "O'chirish"
@@ -1072,21 +1116,22 @@ msgstr "Удалить"
 
 #: templates/dashboard/landing.html
 msgid "o'sish"
-msgstr ""
+msgstr "рост"
 
 #: templates/account/base.html
 msgid "O'zbek, rus va ingliz tillarida kommentlarni avtomatik baholash."
 msgstr ""
+"Автоматическая оценка комментариев на узбекском, русском и английском."
 
 #: templates/account/base.html
 msgid "O'zbek, rus va ingliz tillarida — doim qulay."
-msgstr ""
+msgstr "Узбекский, русский и английский — всегда удобно."
 
 #: templates/dashboard/terms.html
 msgid ""
 "OAuth orqali ulanganda platformalarning token'lari shifrlangan holda "
 "saqlanadi."
-msgstr ""
+msgstr "При подключении через OAuth токены платформ хранятся зашифрованно."
 
 #: templates/dashboard/compare.html
 msgid "obunachi"
@@ -1095,7 +1140,7 @@ msgstr "подписчиков"
 #: templates/dashboard/accounts.html templates/dashboard/compare.html
 #: templates/dashboard/landing.html templates/dashboard/public_share.html
 msgid "Obunachilar"
-msgstr ""
+msgstr "Подписчики"
 
 #: templates/dashboard/top_posts.html
 msgid "Ochish"
@@ -1111,7 +1156,7 @@ msgstr "Назад"
 
 #: templates/404.html
 msgid "Orqaga"
-msgstr ""
+msgstr "Назад"
 
 #: templates/dashboard/top_posts.html
 msgid "Oxirgi"
@@ -1119,15 +1164,15 @@ msgstr "Последние"
 
 #: templates/dashboard/app.html
 msgid "Oxirgi 14 kun"
-msgstr ""
+msgstr "Последние 14 дней"
 
 #: templates/dashboard/analytics.html
 msgid "Oxirgi 30 kunlik dinamika va platforma bo'yicha chuqur tahlil."
-msgstr ""
+msgstr "Динамика за 30 дней и глубокий анализ по платформам."
 
 #: templates/dashboard/landing.html
 msgid "Oxirgi 7 kun"
-msgstr ""
+msgstr "Последние 7 дней"
 
 #: templates/dashboard/landing.html
 msgid "oxirgi hafta"
@@ -1135,7 +1180,7 @@ msgstr "последняя неделя"
 
 #: templates/dashboard/privacy.html templates/dashboard/terms.html
 msgid "Oxirgi yangilanish:"
-msgstr ""
+msgstr "Последнее обновление:"
 
 #: templates/dashboard/app.html
 msgid "oy/oy"
@@ -1148,45 +1193,45 @@ msgstr "Пароль"
 
 #: templates/dashboard/terms.html
 msgid "Parol maxfiyligi uchun siz javobgarsiz."
-msgstr ""
+msgstr "Вы отвечаете за конфиденциальность пароля."
 
 #: templates/account/password_reset_from_key_done.html
 msgid "Parol muvaffaqiyatli o'zgartirildi"
-msgstr ""
+msgstr "Пароль успешно изменён"
 
 #: templates/account/password_reset_from_key_done.html
 msgid "Parol o'zgartirildi"
-msgstr ""
+msgstr "Пароль изменён"
 
 #: templates/account/login.html
 msgid "Parolingiz"
-msgstr ""
+msgstr "Ваш пароль"
 
 #: templates/account/signup.html
 msgid "Parollar mos"
-msgstr ""
+msgstr "Пароли совпадают"
 
 #: templates/account/signup.html
 msgid "Parollar mos emas"
-msgstr ""
+msgstr "Пароли не совпадают"
 
 #: templates/account/login.html templates/account/signup.html
 msgid "Parolni ko’rsatish"
-msgstr ""
+msgstr "Показать пароль"
 
 #: templates/account/password_reset_from_key.html
 msgid "Parolni o'zgartirish"
-msgstr ""
+msgstr "Изменить пароль"
 
 #: templates/account/password_reset_from_key.html
 #: templates/account/signup.html
 msgid "Parolni qayta kiriting"
-msgstr ""
+msgstr "Введите пароль ещё раз"
 
 #: templates/account/password_reset_from_key.html
 #: templates/account/signup.html
 msgid "Parolni takrorlang"
-msgstr ""
+msgstr "Повторите пароль"
 
 #: templates/account/email/password_reset_key_message.html
 #: templates/account/password_reset.html
@@ -1198,20 +1243,23 @@ msgid ""
 "Parolni tiklash havolasi yaroqsiz, muddati o'tgan yoki allaqachon "
 "ishlatilgan."
 msgstr ""
+"Ссылка для сброса пароля недействительна, устарела или уже использована."
 
 #: templates/account/password_reset_done.html
 msgid ""
 "Parolni tiklash havolasini yubordik. Emailingizdagi xatni oching va havolaga"
 " o'ting."
 msgstr ""
+"Мы отправили ссылку для сброса пароля. Откройте письмо и перейдите по "
+"ссылке."
 
 #: templates/account/email/password_reset_key_message.html
 msgid "Parolni tiklash so'rovingiz"
-msgstr ""
+msgstr "Ваш запрос на сброс пароля"
 
 #: templates/dashboard/settings.html
 msgid "Parolni tiklash xati yuborish"
-msgstr ""
+msgstr "Отправить письмо для сброса"
 
 #: templates/account/login.html
 msgid "Parolni unutdingizmi?"
@@ -1219,7 +1267,7 @@ msgstr "Забыли пароль?"
 
 #: templates/account/login.html templates/account/signup.html
 msgid "Parolni yashirish"
-msgstr ""
+msgstr "Скрыть пароль"
 
 #: templates/dashboard/landing.html
 msgid "pastga"
@@ -1227,23 +1275,23 @@ msgstr "вниз"
 
 #: templates/partials/_command_palette.html
 msgid "PDF eksport"
-msgstr ""
+msgstr "Экспорт PDF"
 
 #: templates/dashboard/landing.html
 msgid "PDF hisobot ichida nima bor?"
-msgstr ""
+msgstr "Что содержится в PDF отчёте?"
 
 #: templates/dashboard/reports.html
 msgid "PDF yuklash"
-msgstr ""
+msgstr "Скачать PDF"
 
 #: templates/dashboard/landing.html
 msgid "PDF, Excel, CSV"
-msgstr ""
+msgstr "PDF, Excel, CSV"
 
 #: apps/social/models.py
 msgid "Platform-side account id"
-msgstr ""
+msgstr "ID аккаунта на платформе"
 
 #: templates/dashboard/accounts.html templates/dashboard/analytics.html
 #: templates/dashboard/top_posts.html
@@ -1256,13 +1304,15 @@ msgstr "платформа"
 
 #: templates/dashboard/analytics.html templates/dashboard/app.html
 msgid "Platforma bo'yicha"
-msgstr ""
+msgstr "По платформе"
 
 #: templates/dashboard/settings.html
 msgid ""
 "Platforma sizning akkauntingiz bo'yicha to'playdigan barcha ma'lumotlarni "
 "yuklab oling (GDPR-mos)."
 msgstr ""
+"Скачайте все данные, собираемые платформой по вашему аккаунту (соответствие "
+"GDPR)."
 
 #: templates/dashboard/terms.html
 msgid ""
@@ -1271,6 +1321,10 @@ msgid ""
 "    tarqatishingiz va ta'limdan foydalanishingiz mumkin. Mualliflikni saqlash —\n"
 "    MIT litsenziyasi matnini kopiya bilan birga yuborish kifoya."
 msgstr ""
+"Весь исходный код и дизайн платформы распространяются\n"
+"    под лицензией MIT. Вы можете адаптировать код под свои нужды,\n"
+"    распространять его и использовать в образовании. Атрибуция —\n"
+"    достаточно передавать текст лицензии MIT вместе с копией."
 
 #: templates/dashboard/analytics.html templates/dashboard/top_posts.html
 msgid "Post"
@@ -1285,12 +1339,14 @@ msgid ""
 "PostgreSQL (prod) yoki SQLite (dev) ma'lumotlar bazasida. OAuth tokenlari "
 "shifrlangan holda saqlanadi, parollar hech qachon saqlanmaydi."
 msgstr ""
+"В базах данных PostgreSQL (prod) или SQLite (dev). OAuth-токены хранятся "
+"зашифрованно, пароли никогда не сохраняются."
 
 #: templates/dashboard/accounts.html templates/dashboard/analytics.html
 #: templates/dashboard/compare.html templates/dashboard/landing.html
 #: templates/dashboard/public_share.html templates/dashboard/reports.html
 msgid "Postlar"
-msgstr ""
+msgstr "Посты"
 
 #: templates/dashboard/landing.html
 msgid "postlar"
@@ -1298,23 +1354,23 @@ msgstr "посты"
 
 #: templates/dashboard/analytics.html
 msgid "Postlar (30 kun)"
-msgstr ""
+msgstr "Посты (30 дней)"
 
 #: templates/dashboard/analytics.html
 msgid "Postlar · layklar · ko'rishlar"
-msgstr ""
+msgstr "Посты · лайки · просмотры"
 
 #: templates/account/base.html
 msgid "Postlaringizning qamrovi va faolligi jonli grafikada."
-msgstr ""
+msgstr "Охват и активность постов в живом графике."
 
 #: templates/dashboard/compare.html templates/dashboard/sentiment.html
 msgid "Pozitiv"
-msgstr ""
+msgstr "Позитивный"
 
 #: templates/dashboard/sentiment.html
 msgid "Pozitiv komment yetarli emas."
-msgstr ""
+msgstr "Недостаточно позитивных комментариев."
 
 #: templates/dashboard/landing.html
 msgid "pozitiv kommentlar"
@@ -1322,11 +1378,11 @@ msgstr "позитивные комментарии"
 
 #: templates/dashboard/sentiment.html
 msgid "Pozitiv so'zlar"
-msgstr ""
+msgstr "Позитивные слова"
 
 #: templates/dashboard/sentiment.html
 msgid "Pozitiv · neytral · negativ"
-msgstr ""
+msgstr "Позитивные · нейтральные · негативные"
 
 #: templates/dashboard/landing.html
 msgid "professional tushuning"
@@ -1339,27 +1395,27 @@ msgstr "Профиль"
 
 #: templates/dashboard/delete_account.html
 msgid "Profil ma'lumotlari"
-msgstr ""
+msgstr "Информация профиля"
 
 #: templates/dashboard/settings.html
 msgid "Profil sozlamalari"
-msgstr ""
+msgstr "Настройки профиля"
 
 #: apps/social/models.py
 msgid "Public @username or channel id"
-msgstr ""
+msgstr "Публичный @username или ID канала"
 
 #: templates/dashboard/public_share.html
 msgid "Public dashboard"
-msgstr ""
+msgstr "Публичная панель"
 
 #: templates/dashboard/accounts.html
 msgid "Public link"
-msgstr ""
+msgstr "Публичная ссылка"
 
 #: templates/dashboard/public_share.html
 msgid "Public snapshot"
-msgstr ""
+msgstr "Публичный снимок"
 
 #: templates/dashboard/account_connect.html
 msgid ""
@@ -1367,6 +1423,9 @@ msgid ""
 "reaksiyalar, forwardlar va komment soni. Postlar fonda Celery task orqali "
 "yigʻiladi."
 msgstr ""
+"Реальные данные загружаются из публичного Telegram-канала: просмотры, "
+"реакции, пересылки и количество комментариев. Посты собираются в фоне через "
+"задачу Celery."
 
 #: templates/dashboard/landing.html templates/partials/_footer.html
 #: templates/partials/_navbar.html
@@ -1375,19 +1434,19 @@ msgstr "Как это работает"
 
 #: templates/dashboard/privacy.html
 msgid "Qanday ma'lumot to'playmiz"
-msgstr ""
+msgstr "Какие данные мы собираем"
 
 #: templates/dashboard/landing.html
 msgid "Qanday qilib sentiment aniqligini baholaysiz?"
-msgstr ""
+msgstr "Как вы оцениваете точность настроений?"
 
 #: templates/dashboard/landing.html
 msgid "Qaysi platformalar qo'llab-quvvatlanadi?"
-msgstr ""
+msgstr "Какие платформы поддерживаются?"
 
 #: templates/500.html
 msgid "Qayta urinish"
-msgstr ""
+msgstr "Попробовать снова"
 
 #: templates/404.html templates/partials/_navbar.html
 msgid "Qidirish"
@@ -1403,23 +1462,23 @@ msgstr "Поиск или команда..."
 
 #: templates/dashboard/landing.html
 msgid "Qo'llab-quvvatlanadigan platformalar"
-msgstr ""
+msgstr "Поддерживаемые платформы"
 
 #: templates/dashboard/settings.html
 msgid "Qo'llash"
-msgstr ""
+msgstr "Применить"
 
 #: templates/dashboard/settings.html
 msgid "Qorong'u"
-msgstr ""
+msgstr "Тёмная"
 
 #: templates/dashboard/terms.html
 msgid "Quyidagi harakatlar taqiqlanadi:"
-msgstr ""
+msgstr "Запрещены следующие действия:"
 
 #: templates/account/signup.html
 msgid "Raqam (0-9)"
-msgstr ""
+msgstr "Цифра (0-9)"
 
 #: templates/partials/_navbar.html
 msgid "Raqamlar"
@@ -1427,27 +1486,27 @@ msgstr "Цифры"
 
 #: templates/dashboard/landing.html
 msgid "Raqamlarda"
-msgstr ""
+msgstr "В цифрах"
 
 #: templates/dashboard/account_connect.html
 msgid "Real rejim — Telegram MTProto"
-msgstr ""
+msgstr "Реальный режим — Telegram MTProto"
 
 #: templates/dashboard/landing.html
 msgid "Real-time analitika"
-msgstr ""
+msgstr "Аналитика в реальном времени"
 
 #: templates/account/base.html
 msgid "Real-time statistika"
-msgstr ""
+msgstr "Статистика в реальном времени"
 
 #: templates/partials/_command_palette.html templates/partials/_footer.html
 msgid "Resurslar"
-msgstr ""
+msgstr "Ресурсы"
 
 #: templates/dashboard/landing.html
 msgid "Ro'yxatdan o'ting"
-msgstr ""
+msgstr "Зарегистрируйтесь"
 
 #: templates/account/login.html templates/account/signup.html
 #: templates/partials/_footer.html
@@ -1456,7 +1515,7 @@ msgstr "Регистрация"
 
 #: templates/partials/_command_palette.html
 msgid "Ro’yxatdan o’tish"
-msgstr ""
+msgstr "Регистрация"
 
 #: templates/dashboard/top_posts.html
 msgid "Sahifa"
@@ -1464,20 +1523,20 @@ msgstr "Страница"
 
 #: templates/404.html
 msgid "Sahifa topilmadi"
-msgstr ""
+msgstr "Страница не найдена"
 
 #: templates/dashboard/settings.html
 msgid ""
 "Sahifadagi yuqori paneldan tilni istagan vaqtda o'zgartirishingiz mumkin."
-msgstr ""
+msgstr "Язык можно изменить в любое время через верхнюю панель."
 
 #: templates/account/email/email_confirmation_message.html
 msgid "Salom, <strong>{{ user_display }}</strong>!"
-msgstr ""
+msgstr "Здравствуйте, <strong>{{ user_display }}</strong>!"
 
 #: templates/account/email/password_reset_key_message.html
 msgid "Salom, <strong>{{ username }}</strong>!"
-msgstr ""
+msgstr "Здравствуйте, <strong>{{ username }}</strong>!"
 
 #: templates/dashboard/top_posts.html
 msgid "Sana"
@@ -1493,15 +1552,15 @@ msgstr "Сортировать"
 
 #: templates/dashboard/chat.html
 msgid "Savolingiz..."
-msgstr ""
+msgstr "Ваш вопрос..."
 
 #: templates/dashboard/terms.html
 msgid "Savollar uchun:"
-msgstr ""
+msgstr "По вопросам:"
 
 #: templates/dashboard/privacy.html
 msgid "Savollar — GitHub issue orqali yuborish."
-msgstr ""
+msgstr "Вопросы — через GitHub issues."
 
 #: templates/dashboard/chat.html
 msgid "saytidan olish mumkin."
@@ -1515,6 +1574,12 @@ msgid ""
 "ma'lumot, haqiqiy sentiment modeli, haqiqiy PDF/Excel eksport. API "
 "credentials qo'yilgach kod o'zgarmaydi, avtomatik haqiqiy rejimga o'tadi."
 msgstr ""
+"Инфраструктура схемы и OAuth-колбэков готова. Для настоящего подключения "
+"нужны Meta Business Verification (проверка 7–14 дней), Google Cloud OAuth-"
+"клиент и Telegram Bot Token. Сейчас проект работает в демо-режиме — "
+"реалистичные данные, настоящая модель настроений, настоящий экспорт "
+"PDF/Excel. Как только API credentials предоставлены, код не меняется — "
+"автоматически переходит в реальный режим."
 
 #: templates/dashboard/_shell.html templates/partials/_command_palette.html
 msgid "Sentiment"
@@ -1522,59 +1587,65 @@ msgstr "Настроения"
 
 #: templates/dashboard/landing.html
 msgid "Sentiment +3%"
-msgstr ""
+msgstr "Sentiment +3%"
 
 #: templates/dashboard/reports.html
 msgid "Sentiment natijalari"
-msgstr ""
+msgstr "Результаты настроений"
 
 #: templates/dashboard/sentiment.html
 msgid "Sentiment tahlili"
-msgstr ""
+msgstr "Анализ настроений"
 
 #: templates/dashboard/privacy.html
 msgid "Sentiment tahlili (AI model orqali)."
-msgstr ""
+msgstr "Анализ настроений (с помощью AI-модели)."
 
 #: templates/dashboard/landing.html
 msgid "Sentiment tahlili qanday ishlaydi?"
-msgstr ""
+msgstr "Как работает анализ настроений?"
 
 #: templates/500.html
 msgid "Server xatosi"
-msgstr ""
+msgstr "Ошибка сервера"
 
 #: templates/500.html
 msgid ""
 "Serverda kutilmagan xato yuz berdi. Bir oz kuting va qayta urinib ko'ring."
 msgstr ""
+"Произошла непредвиденная ошибка сервера. Подождите и попробуйте снова."
 
 #: templates/dashboard/settings.html
 msgid "Shaxsiy ma'lumot"
-msgstr ""
+msgstr "Личные данные"
 
 #: templates/404.html
 msgid ""
 "Siz qidirgan sahifa mavjud emas yoki ko'chirilgan. URL'ni tekshirib ko'ring "
 "yoki bosh sahifaga qayting."
 msgstr ""
+"Страница, которую вы ищете, не существует или перемещена. Проверьте URL или "
+"вернитесь на главную."
 
 #: templates/dashboard/terms.html
 msgid ""
 "Siz ro'yxatdan o'tganda haqiqiy email manzilingizni kiritishingiz kerak."
-msgstr ""
+msgstr "При регистрации нужно указать реальный email."
 
 #: templates/account/email/password_reset_key_message.html
 msgid ""
 "Siz Social Analytics akkauntingiz uchun parolni tiklash so'rovini\n"
 "  yubordingiz. Yangi parol o'rnatish uchun quyidagi tugmani bosing:"
 msgstr ""
+"Вы запросили сброс пароля для аккаунта Social Analytics.\n"
+"  Нажмите кнопку ниже, чтобы установить новый пароль:"
 
 #: templates/dashboard/privacy.html
 msgid ""
 "Siz tomonidan ulagan ijtimoiy tarmoq akkaunt ma'lumotlari (handle, follower "
 "count)."
 msgstr ""
+"Метаданные подключённых вами соцсетей (handle, количество подписчиков)."
 
 #: templates/dashboard/terms.html
 msgid ""
@@ -1582,25 +1653,30 @@ msgid ""
 "    kommentlar faqat sizning shaxsiy dashboardingiz uchun tahlil qilinadi.\n"
 "    Biz ma'lumotingizni uchinchi tomonlarga sotmaymiz yoki ulashmaymiz."
 msgstr ""
+"Посты и комментарии из подключённых вами соцсетей\n"
+"    анализируются только для вашей личной панели.\n"
+"    Мы не продаём и не передаём ваши данные третьим сторонам."
 
 #: templates/account/verification_sent.html
 msgid ""
 "Sizga tasdiqlash xati yubordik. Iltimos, emailingizdagi havolaga o'ting."
-msgstr ""
+msgstr "Мы отправили письмо с подтверждением. Перейдите по ссылке в письме."
 
 #: templates/dashboard/privacy.html
 msgid "Sizning akkauntingizdagi postlar va kommentlar tahlil uchun."
-msgstr ""
+msgstr "Посты и комментарии вашего аккаунта — для анализа."
 
 #: templates/dashboard/privacy.html
 msgid "Sizning huquqlaringiz"
-msgstr ""
+msgstr "Ваши права"
 
 #: templates/account/email/email_confirmation_message.html
 msgid ""
 "Social Analytics platformasiga ro'yxatdan o'tganingiz uchun rahmat.\n"
 "  Akkauntni faollashtirish uchun quyidagi tugmani bosing:"
 msgstr ""
+"Спасибо за регистрацию на платформе Social Analytics.\n"
+"  Нажмите кнопку ниже, чтобы активировать аккаунт:"
 
 #: templates/dashboard/terms.html
 msgid ""
@@ -1609,6 +1685,10 @@ msgid ""
 "    ushbu shartlarning biror qismiga rozi bo'lmasangiz, Xizmatdan\n"
 "    foydalanmang."
 msgstr ""
+"Используя сайт Social Analytics (далее «Сервис»),\n"
+"    вы соглашаетесь с изложенными условиями и правилами. Если вы\n"
+"    не согласны с какой-либо частью этих условий, не пользуйтесь\n"
+"    Сервисом."
 
 #: templates/dashboard/terms.html
 msgid ""
@@ -1616,6 +1696,8 @@ msgid ""
 "    YouTube, X) postlar va kommentlarni tahlil qilish platformasi. Xizmat\n"
 "    ta'lim va tadqiqot maqsadlarida yaratilgan diplom loyihasi."
 msgstr ""
+"Social Analytics — платформа для анализа постов и комментариев в соцсетях (Instagram, Telegram,\n"
+"    YouTube, X). Сервис — дипломный проект, созданный для образования и исследований."
 
 #: templates/dashboard/_shell.html templates/dashboard/compare.html
 msgid "Solishtirish"
@@ -1623,7 +1705,7 @@ msgstr "Сравнение"
 
 #: templates/dashboard/compare.html
 msgid "Solishtirish uchun kamida 2 ta akkaunt kerak."
-msgstr ""
+msgstr "Для сравнения нужно не менее 2 аккаунтов."
 
 #: templates/dashboard/_shell.html templates/dashboard/delete_account.html
 #: templates/dashboard/settings.html templates/partials/_command_palette.html
@@ -1633,47 +1715,51 @@ msgstr "Настройки"
 
 #: templates/account/verification_sent.html
 msgid "Spam papkasini tekshiring"
-msgstr ""
+msgstr "Проверьте папку спам"
 
 #: templates/account/password_reset_done.html
 msgid "Spam yoki Promotions papkasini tekshiring"
-msgstr ""
+msgstr "Проверьте папку Спам или Промоакции"
 
 #: templates/dashboard/reports.html
 msgid ""
 "Summary, Posts, Comments, Sentiment, Platforms — openpyxl bilan "
 "formatlangan, filter va donut chart bilan."
 msgstr ""
+"Summary, Posts, Comments, Sentiment, Platforms — оформлено через openpyxl, с"
+" фильтром и круговой диаграммой."
 
 #: templates/dashboard/chat.html
 msgid ""
 "Tabiiy tilda yozing — AI siz'ning real ma'lumotingiz asosida javob beradi. "
 "OpenAI (gpt-4o-mini) orqali."
 msgstr ""
+"Пишите на обычном языке — AI отвечает на основе ваших реальных данных. Через"
+" OpenAI (gpt-4o-mini)."
 
 #: templates/dashboard/app.html
 msgid "Tadbirlar"
-msgstr ""
+msgstr "События"
 
 #: templates/dashboard/landing.html
 msgid "Tahlil qilingan postlar"
-msgstr ""
+msgstr "Проанализированные посты"
 
 #: templates/dashboard/landing.html
 msgid "Tahlilni ko'ring"
-msgstr ""
+msgstr "Посмотреть анализ"
 
 #: templates/dashboard/delete_account.html
 msgid "Taklif:"
-msgstr ""
+msgstr "Рекомендация:"
 
 #: templates/dashboard/landing.html
 msgid "Talabalar"
-msgstr ""
+msgstr "Студенты"
 
 #: templates/dashboard/landing.html
 msgid "Talabalar, tadqiqotchilar va marketologlar uchun"
-msgstr ""
+msgstr "Для студентов, исследователей и маркетологов"
 
 #: templates/partials/_command_palette.html
 msgid "tanlash"
@@ -1689,14 +1775,16 @@ msgid ""
 "Telegram, YouTube va Instagram ma'lumotlarini yig'ib, sentiment tahlil va "
 "interaktiv dashboardlar bilan qarorlar qabul qiling."
 msgstr ""
+"Собирайте данные Telegram, YouTube и Instagram, принимайте решения с "
+"анализом настроений и интерактивными панелями."
 
 #: templates/dashboard/landing.html
 msgid "Tez-tez so'raladigan savollar"
-msgstr ""
+msgstr "Часто задаваемые вопросы"
 
 #: templates/account/password_reset.html
 msgid "Tiklash havolasini yuborish"
-msgstr ""
+msgstr "Отправить ссылку"
 
 #: templates/account/base.html templates/dashboard/sentiment.html
 #: templates/dashboard/settings.html templates/partials/_navbar.html
@@ -1705,7 +1793,7 @@ msgstr "Язык"
 
 #: templates/dashboard/sentiment.html
 msgid "Til bo'yicha sentiment"
-msgstr ""
+msgstr "Настроения по языкам"
 
 #: templates/dashboard/landing.html
 msgid "tillar"
@@ -1713,11 +1801,11 @@ msgstr "языки"
 
 #: templates/partials/_footer.html
 msgid "Tizim ishlamoqda"
-msgstr ""
+msgstr "Система работает"
 
 #: templates/dashboard/landing.html
 msgid "To'liq tarjima qilingan."
-msgstr ""
+msgstr "Полностью переведено."
 
 #: templates/dashboard/public_share.html
 msgid "tomonidan quvvatlanadi"
@@ -1725,11 +1813,11 @@ msgstr "работает на"
 
 #: templates/dashboard/compare.html
 msgid "Top post"
-msgstr ""
+msgstr "Топ пост"
 
 #: templates/dashboard/chat.html
 msgid "Top post tahlili"
-msgstr ""
+msgstr "Анализ топ поста"
 
 #: templates/dashboard/_shell.html templates/dashboard/app.html
 #: templates/dashboard/public_share.html templates/dashboard/top_posts.html
@@ -1738,11 +1826,11 @@ msgstr "Топ постов"
 
 #: templates/dashboard/account_connect.html
 msgid "Tortib olinadigan post soni"
-msgstr ""
+msgstr "Количество постов для загрузки"
 
 #: apps/social/models.py
 msgid "True for accounts seeded by the demo generator."
-msgstr ""
+msgstr "True для аккаунтов, созданных демо-генератором."
 
 #: templates/dashboard/landing.html
 msgid ""
@@ -1752,10 +1840,15 @@ msgid ""
 "keyword engine. Har komment uchun model nomi DB'da saqlanadi, natijalarni "
 "modellar aro solishtirish mumkin."
 msgstr ""
+"Трёхуровневый движок: (1) трансформер XLM-RoBERTa (по желанию, обучен "
+"cardiffnlp на корпусе Twitter, ~82% F1), (2) лексикон VADER с расширением "
+"узбекских/русских ключевых слов (~75% F1 на двух языках), (3) резервный "
+"движок по ключевым словам. Имя модели сохраняется в БД для каждого "
+"комментария — результаты можно сравнивать между моделями."
 
 #: templates/dashboard/accounts.html
 msgid "Ulangan"
-msgstr ""
+msgstr "Подключено"
 
 #: templates/dashboard/accounts.html
 msgid "ulangan"
@@ -1763,53 +1856,59 @@ msgstr "подключено"
 
 #: templates/dashboard/accounts.html
 msgid "Ulangan akkauntlar"
-msgstr ""
+msgstr "Подключённые аккаунты"
 
 #: templates/dashboard/accounts.html
 msgid "Ulanmagan"
-msgstr ""
+msgstr "Не подключено"
 
 #: templates/dashboard/accounts.html
 msgid "Ulash"
-msgstr ""
+msgstr "Поделиться"
 
 #: templates/dashboard/account_connect.html
 msgid "Ulash va ma'lumot yuklash"
-msgstr ""
+msgstr "Поделиться и скачать данные"
 
 #: templates/dashboard/accounts.html
 msgid "Ulashish"
-msgstr ""
+msgstr "Поделиться"
 
 #: templates/dashboard/sentiment.html
 msgid "Umumiy taqsimot"
-msgstr ""
+msgstr "Общее распределение"
 
 #: templates/dashboard/accounts.html
 msgid "Ushbu akkauntni o’chirishni xohlaysizmi?"
-msgstr ""
+msgstr "Вы хотите удалить этот аккаунт?"
 
 #: templates/account/email/password_reset_key_message.html
 msgid ""
 "ushbu havola 3 kun ichida amal qiladi. Agar siz\n"
 "    so'ramagan bo'lsangiz, xatni o'chirib tashlang — parolingiz o'zgarmaydi."
 msgstr ""
+"эта ссылка действует 3 дня. Если вы не запрашивали её, просто удалите письмо"
+" — пароль не изменится."
 
 #: templates/dashboard/terms.html
 msgid ""
 "Ushbu hujjat akademik diplom loyihasi uchun shaklda tayyorlangan va yuridik "
 "maslahat sifatida qaralmaydi."
 msgstr ""
+"Этот документ подготовлен в рамках академического дипломного проекта и не "
+"является юридической консультацией."
 
 #: templates/dashboard/privacy.html
 msgid ""
 "Ushbu siyosat GDPR prinsiplariga asoslanib tayyorlangan, lekin yuridik "
 "ekspert tomonidan imzolanmagan. Diplom loyihasi shaklida."
 msgstr ""
+"Эта политика подготовлена на основе принципов GDPR, но не подписана "
+"юридическим экспертом. Оформление дипломного проекта."
 
 #: templates/account/email/email_confirmation_message.html
 msgid "Ushbu xatni siz so'ramagan bo'lsangiz, e'tiborsiz qoldiring."
-msgstr ""
+msgstr "Если вы этого не запрашивали, просто проигнорируйте письмо."
 
 #: templates/dashboard/terms.html
 msgid ""
@@ -1819,6 +1918,11 @@ msgid ""
 "    aloqa bo'yicha kafolat bermaymiz. Siz xizmatdan \"as-is\" foydalanasiz.\n"
 "    Biznes maqsadida foydalanish uchun o'zingiz tekshiring."
 msgstr ""
+"Этот сервис создан как академический дипломный проект. Мы\n"
+"    не гарантируем бесперебойную работу платформы, сохранность данных\n"
+"    или непрерывную связь со сторонними API (Instagram, Telegram, YouTube, X).\n"
+"    Вы используете сервис «как есть».\n"
+"    Для коммерческого использования проверяйте пригодность самостоятельно."
 
 #: templates/account/signup.html
 msgid "va"
@@ -1827,41 +1931,44 @@ msgstr "и"
 #: templates/account/password_reset_done.html
 #: templates/account/verification_sent.html
 msgid "Xat kelmayaptimi?"
-msgstr ""
+msgstr "Письмо не пришло?"
 
 #: templates/dashboard/settings.html
 msgid "Xavfli zona"
-msgstr ""
+msgstr "Опасная зона"
 
 #: templates/dashboard/landing.html
 msgid "Xavfsiz OAuth"
-msgstr ""
+msgstr "Безопасный OAuth"
 
 #: templates/dashboard/settings.html
 msgid "Xavfsizlik uchun parolni muntazam yangilab turing."
-msgstr ""
+msgstr "Регулярно обновляйте пароль для безопасности."
 
 #: templates/dashboard/privacy.html
 msgid "Xizmat sifati va xatolarni aniqlash uchun (anonim)."
-msgstr ""
+msgstr "Для качества сервиса и отслеживания ошибок (анонимно)."
 
 #: templates/dashboard/terms.html
 msgid "Xizmatga zarar yetkazishga urinish (DDoS, injection, bot spam)."
-msgstr ""
+msgstr "Попытки нанести вред сервису (DDoS, инъекции, бот-спам)."
 
 #: templates/dashboard/landing.html
 msgid ""
 "XLM-RoBERTa (ko'p tilli transformer modeli) kommentlarni pozitiv, neytral va"
 " negativ kategoriyalarga ajratadi — o'zbek, rus va ingliz tillarida."
 msgstr ""
+"XLM-RoBERTa (мультиязычная трансформер-модель) классифицирует комментарии "
+"как позитивные, нейтральные или негативные — на узбекском, русском и "
+"английском."
 
 #: templates/dashboard/landing.html
 msgid "XLM-RoBERTa modeli — o'zbek, rus va ingliz tillarida."
-msgstr ""
+msgstr "Модель XLM-RoBERTa — на узбекском, русском и английском."
 
 #: templates/account/login.html
 msgid "Xush kelibsiz"
-msgstr ""
+msgstr "Добро пожаловать"
 
 #: templates/partials/_footer.html templates/partials/_navbar.html
 msgid "Xususiyatlar"
@@ -1869,11 +1976,11 @@ msgstr "Возможности"
 
 #: templates/dashboard/landing.html
 msgid "Xususiyatlarni ko'rish"
-msgstr ""
+msgstr "Смотреть возможности"
 
 #: templates/dashboard/accounts.html
 msgid "Yana bitta ulash"
-msgstr ""
+msgstr "Подключить ещё"
 
 #: templates/dashboard/_shell.html
 msgid "Yangi"
@@ -1881,45 +1988,45 @@ msgstr "Новое"
 
 #: templates/account/password_reset_from_key.html
 msgid "Yangi havola so'rash"
-msgstr ""
+msgstr "Запросить новую ссылку"
 
 #: templates/account/password_reset_from_key.html
 msgid "Yangi parol"
-msgstr ""
+msgstr "Новый пароль"
 
 #: templates/account/email/password_reset_key_message.html
 #: templates/account/password_reset_from_key.html
 msgid "Yangi parol o'rnatish"
-msgstr ""
+msgstr "Установить новый пароль"
 
 #: templates/account/password_reset_from_key_done.html
 msgid "Yangi parolingiz bilan endi akkauntga kirishingiz mumkin."
-msgstr ""
+msgstr "Теперь вы можете войти с новым паролем."
 
 #: templates/account/password_reset_from_key.html
 msgid "Yangi parolni kiriting va uni takrorlang."
-msgstr ""
+msgstr "Введите новый пароль и подтвердите его."
 
 #: templates/account/email_confirm.html
 msgid "Yangi tasdiqlash so'rash"
-msgstr ""
+msgstr "Запросить подтверждение заново"
 
 #: templates/dashboard/delete_account.html
 msgid "Yaratilgan hisobotlar tarixi"
-msgstr ""
+msgstr "История созданных отчётов"
 
 #: templates/account/signup.html
 msgid "Yaratilmoqda..."
-msgstr ""
+msgstr "Создание..."
 
 #: templates/account/signup.html
 msgid "Yetarli"
-msgstr ""
+msgstr "Достаточный"
 
 #: templates/dashboard/landing.html
 msgid ""
 "Yig'ishdan hisobotgacha — barchasi bir joyda, barchasi avtomatlashtirilgan."
-msgstr ""
+msgstr "От сбора до отчёта — всё в одном месте, полностью автоматизировано."
 
 #: templates/account/login.html templates/account/signup.html
 msgid "yoki"
@@ -1931,11 +2038,11 @@ msgstr "Закрыть"
 
 #: templates/dashboard/settings.html
 msgid "Yorug'"
-msgstr ""
+msgstr "Светлая"
 
 #: templates/dashboard/settings.html
 msgid "Yorug' yoki qorong'u — tizim sozlamalari bo'yicha avtomatik."
-msgstr ""
+msgstr "Светлая или тёмная — автоматически по системным настройкам."
 
 #: templates/dashboard/chat.html
 msgid "Yuborish"
@@ -1946,14 +2053,16 @@ msgid ""
 "Yuqoridagi platformalardan birini tanlab, demo ma'lumot yuklang yoki OAuth "
 "orqali haqiqiy akkauntingizni ulang."
 msgstr ""
+"Выберите одну из платформ выше и загрузите демо-данные, или подключите "
+"настоящий аккаунт через OAuth."
 
 #: templates/account/signup.html
 msgid "Zaif"
-msgstr ""
+msgstr "Слабый"
 
 #: templates/dashboard/sentiment.html
 msgid "{{ n }} ta komment tahlil qilindi · model: {{ m }}"
-msgstr ""
+msgstr "Проанализировано {{ n }} комментариев · модель: {{ m }}"
 
 #: templates/dashboard/top_posts.html
 msgid ""
@@ -1961,7 +2070,10 @@ msgid ""
 "        {% plural %}\n"
 "          {{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring."
 msgstr ""
+"Найден {{ n }} пост — попробуйте изменить фильтры и сортировку.\n"
+"        {% plural %}\n"
+"          Найдено {{ n }} постов — попробуйте изменить фильтры и сортировку."
 
 #: templates/dashboard/delete_account.html
 msgid "— keyin o'chirish xavfsiz bo'ladi."
-msgstr ""
+msgstr "— после этого удаление безопасно."
