@@ -1,13 +1,14 @@
-"""LLM-powered Q&A over the user's analytics data (via Anthropic Claude).
+"""LLM-powered Q&A over the user's analytics data (via OpenAI).
 
 The public API is :func:`ask` — it takes a user + a question, pulls a 30-day
 analytics snapshot for all their connected accounts, and sends the snapshot
-plus the question to Claude with a system prompt that forbids invented
-numbers. Returns a :class:`ChatResponse` with the answer text + usage stats.
+plus the question to OpenAI's Chat Completions API with a system prompt that
+forbids invented numbers. Returns a :class:`ChatResponse` with the answer text
+and token usage stats.
 
-The ``anthropic`` SDK is imported lazily so Django startup doesn't require
-it — that way the feature can be shipped without forcing every deploy to
-install the package upfront.
+The ``openai`` SDK is imported lazily so Django startup doesn't require it —
+that way the feature can be shipped without forcing every deploy to install
+the package upfront.
 """
 from __future__ import annotations
 
@@ -41,7 +42,7 @@ their performance. Rules:
 
 
 class ChatNotConfigured(RuntimeError):
-    """Raised when ANTHROPIC_API_KEY is missing or the SDK is not installed."""
+    """Raised when OPENAI_API_KEY is missing or the SDK is not installed."""
 
 
 @dataclass(frozen=True)
@@ -53,7 +54,7 @@ class ChatResponse:
 
 
 def is_configured() -> bool:
-    return bool(getattr(settings, "ANTHROPIC_API_KEY", ""))
+    return bool(getattr(settings, "OPENAI_API_KEY", ""))
 
 
 def _build_user_context(user) -> str:
@@ -115,47 +116,70 @@ def _build_user_context(user) -> str:
     return "\n".join(lines)
 
 
-def ask(user, question: str) -> ChatResponse:
-    """Send ``question`` + ``user``'s analytics context to Claude; return the reply.
-
-    Raises :class:`ChatNotConfigured` if the anthropic SDK is missing or
-    ``ANTHROPIC_API_KEY`` is unset — callers should surface that as a
-    user-visible notice, not a crash.
-    """
+def _openai_client():
+    """Lazy import + construct the OpenAI client, or raise ChatNotConfigured."""
     try:
-        import anthropic
+        from openai import OpenAI
     except ImportError as e:
         raise ChatNotConfigured(
-            "'anthropic' package is not installed. "
-            "Add `anthropic>=0.42,<1.0` to requirements and `pip install`."
+            "'openai' package is not installed. "
+            "Add `openai>=1.30,<2.0` to requirements and `pip install`."
         ) from e
 
-    api_key = getattr(settings, "ANTHROPIC_API_KEY", "")
+    api_key = getattr(settings, "OPENAI_API_KEY", "")
     if not api_key:
-        raise ChatNotConfigured("ANTHROPIC_API_KEY env var is not set.")
+        raise ChatNotConfigured("OPENAI_API_KEY env var is not set.")
 
-    model = getattr(settings, "ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
-    max_tokens = int(getattr(settings, "ANTHROPIC_MAX_TOKENS", 1024))
+    kwargs = {"api_key": api_key}
+    base_url = getattr(settings, "OPENAI_BASE_URL", "")
+    if base_url:
+        kwargs["base_url"] = base_url
+    organization = getattr(settings, "OPENAI_ORGANIZATION", "")
+    if organization:
+        kwargs["organization"] = organization
 
-    context = _build_user_context(user)
-    client = anthropic.Anthropic(api_key=api_key)
+    return OpenAI(**kwargs)
 
-    response = client.messages.create(
+
+def _chat_completion(system: str, user_msg: str, max_tokens: int) -> ChatResponse:
+    """Single OpenAI chat completion with our standard params."""
+    client = _openai_client()
+    model = getattr(settings, "OPENAI_MODEL", "gpt-4o-mini")
+
+    response = client.chat.completions.create(
         model=model,
         max_tokens=max_tokens,
-        system=SYSTEM_PROMPT + "\n## Data\n\n" + context,
-        messages=[{"role": "user", "content": question}],
+        temperature=0.3,
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user",   "content": user_msg},
+        ],
     )
 
-    answer = "\n".join(
-        getattr(block, "text", "") for block in response.content
-    ).strip()
-
+    choice = response.choices[0]
+    answer = (choice.message.content or "").strip()
+    usage = response.usage
     return ChatResponse(
         answer=answer,
         model=response.model,
-        tokens_in=response.usage.input_tokens,
-        tokens_out=response.usage.output_tokens,
+        tokens_in=getattr(usage, "prompt_tokens", 0) if usage else 0,
+        tokens_out=getattr(usage, "completion_tokens", 0) if usage else 0,
+    )
+
+
+def ask(user, question: str) -> ChatResponse:
+    """Send ``question`` + ``user``'s analytics context to OpenAI; return the reply.
+
+    Raises :class:`ChatNotConfigured` if the openai SDK is missing or
+    ``OPENAI_API_KEY`` is unset — callers should surface that as a
+    user-visible notice, not a crash.
+    """
+    max_tokens = int(getattr(settings, "OPENAI_MAX_TOKENS", 1024))
+    context = _build_user_context(user)
+    return _chat_completion(
+        system=SYSTEM_PROMPT + "\n## Data\n\n" + context,
+        user_msg=question,
+        max_tokens=max_tokens,
     )
 
 
@@ -181,35 +205,10 @@ def generate_weekly_digest(user) -> ChatResponse:
 
     Raises :class:`ChatNotConfigured` same as :func:`ask`.
     """
-    try:
-        import anthropic
-    except ImportError as e:
-        raise ChatNotConfigured("'anthropic' package is not installed.") from e
-
-    api_key = getattr(settings, "ANTHROPIC_API_KEY", "")
-    if not api_key:
-        raise ChatNotConfigured("ANTHROPIC_API_KEY env var is not set.")
-
-    model = getattr(settings, "ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
-    max_tokens = int(getattr(settings, "ANTHROPIC_DIGEST_MAX_TOKENS", 800))
-
+    max_tokens = int(getattr(settings, "OPENAI_DIGEST_MAX_TOKENS", 800))
     context = _build_user_context(user)
-    client = anthropic.Anthropic(api_key=api_key)
-
-    response = client.messages.create(
-        model=model,
-        max_tokens=max_tokens,
+    return _chat_completion(
         system=DIGEST_PROMPT + "\n## Data\n\n" + context,
-        messages=[{"role": "user", "content": "Write the weekly digest now."}],
-    )
-
-    answer = "\n".join(
-        getattr(block, "text", "") for block in response.content
-    ).strip()
-
-    return ChatResponse(
-        answer=answer,
-        model=response.model,
-        tokens_in=response.usage.input_tokens,
-        tokens_out=response.usage.output_tokens,
+        user_msg="Write the weekly digest now.",
+        max_tokens=max_tokens,
     )

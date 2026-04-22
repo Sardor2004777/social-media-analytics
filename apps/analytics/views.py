@@ -402,13 +402,13 @@ def analytics_top_posts(request: HttpRequest) -> HttpResponse:
 @rate_limit(key="chat", rate="20/h", scope="user", methods=("POST",))
 @require_http_methods(["GET", "POST"])
 def analytics_chat(request: HttpRequest) -> HttpResponse:
-    """AI analytics chat — ask questions about your data via Claude.
+    """AI analytics chat — ask questions about your data via OpenAI.
 
     GET renders the chat panel (or a "not configured" notice if the API key
     is missing). POST takes ``question`` form data, builds a data summary,
-    calls Claude, and returns JSON ``{answer, model, tokens}``.
+    calls OpenAI, and returns JSON ``{answer, model, tokens}``.
 
-    Per-user rate-limited to 20 requests / hour to bound Anthropic spend.
+    Per-user rate-limited to 20 requests / hour to bound OpenAI spend.
     """
     if request.method == "POST":
         question = (request.POST.get("question") or "").strip()

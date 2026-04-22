@@ -302,11 +302,16 @@ TELEGRAM_API_ID = env("TELEGRAM_API_ID", default="")
 TELEGRAM_API_HASH = env("TELEGRAM_API_HASH", default="")
 TELEGRAM_SESSION_STRING = env("TELEGRAM_SESSION_STRING", default="")
 
-# Anthropic Claude — powers /analytics/chat/. Leave ANTHROPIC_API_KEY blank to
-# hide the feature. Model defaults to Haiku 4.5 (cheapest good-enough tier).
-ANTHROPIC_API_KEY = env("ANTHROPIC_API_KEY", default="")
-ANTHROPIC_MODEL = env("ANTHROPIC_MODEL", default="claude-haiku-4-5-20251001")
-ANTHROPIC_MAX_TOKENS = env.int("ANTHROPIC_MAX_TOKENS", default=1024)
+# OpenAI — powers /analytics/chat/ and the weekly digest email. Leave
+# OPENAI_API_KEY blank to hide the chat feature. Default model is gpt-4o-mini
+# (cheapest good-enough tier). OPENAI_BASE_URL lets you route through a proxy
+# or an OpenAI-compatible gateway (Azure, Groq, etc.).
+OPENAI_API_KEY = env("OPENAI_API_KEY", default="")
+OPENAI_MODEL = env("OPENAI_MODEL", default="gpt-4o-mini")
+OPENAI_MAX_TOKENS = env.int("OPENAI_MAX_TOKENS", default=1024)
+OPENAI_DIGEST_MAX_TOKENS = env.int("OPENAI_DIGEST_MAX_TOKENS", default=800)
+OPENAI_BASE_URL = env("OPENAI_BASE_URL", default="")
+OPENAI_ORGANIZATION = env("OPENAI_ORGANIZATION", default="")
 
 # YouTube / X
 YOUTUBE_API_KEY = env("YOUTUBE_API_KEY", default="")

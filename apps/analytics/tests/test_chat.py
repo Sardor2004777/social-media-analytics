@@ -27,12 +27,12 @@ def user():
 
 # ---------- is_configured ----------
 
-@override_settings(ANTHROPIC_API_KEY="")
+@override_settings(OPENAI_API_KEY="")
 def test_is_configured_false_without_key() -> None:
     assert is_configured() is False
 
 
-@override_settings(ANTHROPIC_API_KEY="sk-ant-abc123")
+@override_settings(OPENAI_API_KEY="sk-test-abc123")
 def test_is_configured_true_with_key() -> None:
     assert is_configured() is True
 
@@ -80,7 +80,7 @@ def test_build_context_multiple_accounts(user) -> None:
 
 # ---------- ask error paths ----------
 
-@override_settings(ANTHROPIC_API_KEY="")
+@override_settings(OPENAI_API_KEY="")
 def test_ask_raises_without_key(user) -> None:
-    with pytest.raises(ChatNotConfigured, match="ANTHROPIC_API_KEY"):
+    with pytest.raises(ChatNotConfigured, match="OPENAI_API_KEY"):
         ask(user, "anything")

@@ -27,9 +27,9 @@ requests>=2.31,<3.0
 # channel by @username; see docs/TELEGRAM_SETUP.md for one-time setup.
 telethon>=1.34,<2.0
 
-# Anthropic Claude SDK — powers the AI analytics chat feature (Phase 9).
-# /analytics/chat/ sends user questions + data context to Claude Haiku.
-anthropic>=0.42,<1.0
+# OpenAI SDK — powers the AI analytics chat + weekly digest email (Phase 9).
+# /analytics/chat/ sends user questions + data context to gpt-4o-mini.
+openai>=1.30,<2.0
 
 # CORS + throttling helpers
 django-cors-headers>=4.5,<5.0

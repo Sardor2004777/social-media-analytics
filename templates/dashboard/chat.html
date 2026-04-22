@@ -10,7 +10,7 @@
     AI Chat <span class="text-brand-600 dark:text-brand-400">— {% trans "Dashboard haqida savol bering" %}</span>
   </h1>
   <p class="mt-1 text-slate-600 dark:text-slate-400">
-    {% trans "Tabiiy tilda yozing — AI siz'ning real ma'lumotingiz asosida javob beradi. Claude Haiku 4.5 orqali." %}
+    {% trans "Tabiiy tilda yozing — AI siz'ning real ma'lumotingiz asosida javob beradi. OpenAI (gpt-4o-mini) orqali." %}
   </p>
 </div>
 
@@ -21,8 +21,8 @@
     </div>
     <h3 class="text-lg font-semibold text-slate-900 dark:text-white">{% trans "AI Chat hali sozlanmagan" %}</h3>
     <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto">
-      {% trans "Administrator" %} <code class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono">ANTHROPIC_API_KEY</code> {% trans "env var'ni sozlashi kerak. Kalitni" %}
-      <a href="https://console.anthropic.com/" target="_blank" rel="noopener" class="text-brand-600 dark:text-brand-400 hover:underline">console.anthropic.com</a> {% trans "saytidan olish mumkin." %}
+      {% trans "Administrator" %} <code class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono">OPENAI_API_KEY</code> {% trans "env var'ni sozlashi kerak. Kalitni" %}
+      <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener" class="text-brand-600 dark:text-brand-400 hover:underline">platform.openai.com</a> {% trans "saytidan olish mumkin." %}
     </p>
   </div>
 {% else %}

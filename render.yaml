@@ -80,10 +80,13 @@ services:
       - key: TELEGRAM_SESSION_STRING
         sync: false
 
-      # Anthropic Claude — AI analytics chat (/analytics/chat/). Optional:
-      # leave blank to hide the feature. Get a key at console.anthropic.com.
-      - key: ANTHROPIC_API_KEY
+      # OpenAI — AI analytics chat (/analytics/chat/) + weekly digest email.
+      # Optional: leave blank to hide the feature. Get a key at
+      # https://platform.openai.com/api-keys.
+      - key: OPENAI_API_KEY
         sync: false
+      - key: OPENAI_MODEL
+        value: "gpt-4o-mini"
 
       # SMTP — allauth email verification needs a working email backend in prod.
       # For a quick demo, set EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
