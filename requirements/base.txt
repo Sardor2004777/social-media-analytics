@@ -31,6 +31,10 @@ telethon>=1.34,<2.0
 # /analytics/chat/ sends user questions + data context to gpt-4o-mini.
 openai>=1.30,<2.0
 
+# polib — pure-Python .po/.mo authoring used by tools/i18n_compile.py so the
+# build step can compile translations without gettext being installed.
+polib>=1.2,<2.0
+
 # CORS + throttling helpers
 django-cors-headers>=4.5,<5.0
 django-ratelimit>=4.1,<5.0

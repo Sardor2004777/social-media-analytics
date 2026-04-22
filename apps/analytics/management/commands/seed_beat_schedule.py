@@ -45,4 +45,4 @@ class Command(BaseCommand):
                 },
             )
             verb = "Created" if created else "Updated"
-            self.stdout.write(self.style.SUCCESS(f"{verb}: {task.name}  →  {task.task}"))
+            self.stdout.write(self.style.SUCCESS(f"{verb}: {task.name}  ->  {task.task}"))

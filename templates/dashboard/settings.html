@@ -50,7 +50,7 @@
         </div>
 
         <div class="field">
-          <label class="field-label" for="{{ form.email.id_for_label }}">Email</label>
+          <label class="field-label" for="{{ form.email.id_for_label }}">{% trans "Email" %}</label>
           {{ form.email }}
           {% if form.email.errors %}<div class="field-error">{{ form.email.errors|join:" " }}</div>{% endif %}
         </div>

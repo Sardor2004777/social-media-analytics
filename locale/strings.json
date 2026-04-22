@@ -1,0 +1,1443 @@
+{
+  "(likes + comments + shares) / views": [
+    "apps/social/models.py"
+  ],
+  "1. Shartlarning qabul qilinishi": [
+    "templates/dashboard/terms.html"
+  ],
+  "10 dan 300 gacha. Har post uchun 3–14 komment + AI sentiment tahlili avtomatik yaratiladi.": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "10 dan 300 gacha. Kanaldan so'nggi shuncha postni — views, reaksiyalar, forwardlar bilan — tortib olamiz.": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "10. Nizolarni hal etish": [
+    "templates/dashboard/terms.html"
+  ],
+  "2 dan 3 tagacha akkaunt tanlang:": [
+    "templates/dashboard/compare.html"
+  ],
+  "2. Xizmatning tavsifi": [
+    "templates/dashboard/terms.html"
+  ],
+  "2–3 ta akkaunt tanlang va KPI'lar bilan 30-kunlik trendni yonma-yon ko'ring.": [
+    "templates/dashboard/compare.html"
+  ],
+  "3 qadamda boshlang": [
+    "templates/dashboard/landing.html"
+  ],
+  "3 tilli interfeys": [
+    "templates/dashboard/landing.html"
+  ],
+  "3. Akkaunt va xavfsizlik": [
+    "templates/dashboard/terms.html"
+  ],
+  "30 kunlik likes dinamikasi": [
+    "templates/dashboard/compare.html"
+  ],
+  "30 kunlik tendensiya": [
+    "templates/dashboard/analytics.html"
+  ],
+  "30-kunlik likes dinamikasi": [
+    "templates/dashboard/public_share.html"
+  ],
+  "4 ta platforma": [
+    "templates/dashboard/landing.html"
+  ],
+  "4. Ma'lumotlardan foydalanish": [
+    "templates/dashboard/terms.html"
+  ],
+  "5 sahifa · brend cover · to'liq tahlil": [
+    "templates/dashboard/reports.html"
+  ],
+  "5 ta sahifa: brend gradient cover, 9 qatorli executive summary (akkauntlar, postlar, kommentlar, layklar, engagement, sentiment foizlari), platforma bo'yicha metrikalar jadvali, pozitiv va negativ sentiment namunalari (har biridan 5 ta), top 15 post layklar bo'yicha. Ishlab chiqarilgan: ReportLab (pure-Python).": [
+    "templates/dashboard/landing.html"
+  ],
+  "5 ta sheet · chart'lar · table style": [
+    "templates/dashboard/reports.html"
+  ],
+  "5. Cheklovlar": [
+    "templates/dashboard/terms.html"
+  ],
+  "6. Shartlarning o'zgarishi": [
+    "templates/dashboard/terms.html"
+  ],
+  "7. Aloqa": [
+    "templates/dashboard/terms.html"
+  ],
+  "8. Mualliflik huquqi": [
+    "templates/dashboard/terms.html"
+  ],
+  "9. Javobgarlikni cheklash": [
+    "templates/dashboard/terms.html"
+  ],
+  "<strong class=\"text-slate-900 dark:text-white\">{{ email }}</strong> manzili\n          <strong class=\"text-slate-900 dark:text-white\">{{ user_display }}</strong> foydalanuvchiga tegishli ekanligini tasdiqlang.": [
+    "templates/account/email_confirm.html"
+  ],
+  "AI Chat": [
+    "templates/dashboard/_shell.html"
+  ],
+  "AI Chat hali sozlanmagan": [
+    "templates/dashboard/chat.html"
+  ],
+  "AI sentiment tahlili": [
+    "templates/account/base.html",
+    "templates/dashboard/landing.html"
+  ],
+  "Administrator": [
+    "templates/dashboard/chat.html"
+  ],
+  "Agar tugma ishlamasa, quyidagi havolani brauzeringizga nusxalang:": [
+    "templates/account/email/email_confirmation_message.html",
+    "templates/account/email/password_reset_key_message.html"
+  ],
+  "Akkaunt": [
+    "templates/partials/_command_palette.html"
+  ],
+  "Akkaunt ulash": [
+    "templates/dashboard/account_connect.html",
+    "templates/dashboard/app.html",
+    "templates/dashboard/compare.html"
+  ],
+  "Akkaunt yaratish": [
+    "templates/account/signup.html"
+  ],
+  "Akkauntimni butunlay o'chirish": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Akkauntingiz bormi?": [
+    "templates/account/signup.html"
+  ],
+  "Akkauntingiz yo'qmi?": [
+    "templates/account/login.html"
+  ],
+  "Akkauntingiz, til va xavfsizlik sozlamalari.": [
+    "templates/dashboard/settings.html"
+  ],
+  "Akkauntingizdan chiqmoqchimisiz?": [
+    "templates/account/logout.html"
+  ],
+  "Akkauntingizga kirib, tahlilni davom ettiring.": [
+    "templates/account/login.html"
+  ],
+  "Akkauntingizni o'chirsangiz quyidagilar doimo yo'qoladi:": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Akkauntlar": [
+    "templates/dashboard/reports.html"
+  ],
+  "Akkauntlarim": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/account_connect.html",
+    "templates/dashboard/accounts.html",
+    "templates/partials/_command_palette.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Akkauntlarni solishtirish": [
+    "templates/dashboard/compare.html"
+  ],
+  "Akkauntlarni ulang": [
+    "templates/dashboard/landing.html"
+  ],
+  "Akkauntni o'chirish": [
+    "templates/dashboard/delete_account.html",
+    "templates/dashboard/settings.html"
+  ],
+  "Akkauntni o'chirish (barcha ma'lumot yo'q qilinadi).": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Analytics": [
+    "templates/dashboard/_shell.html",
+    "templates/partials/_command_palette.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Asl post": [
+    "templates/dashboard/public_share.html"
+  ],
+  "Asosiy": [
+    "templates/dashboard/_shell.html"
+  ],
+  "Assalomu alaykum! Dashboard ma'lumotingiz haqida savol bering — masalan, eng yaxshi ishlayotgan platforma, postlaringiz haqida tahlil, yoki engagement trendlari.": [
+    "templates/dashboard/chat.html"
+  ],
+  "Auditoriyani tushuning, qaysi kontent ishlayotganini biling.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Autentifikatsiya": [
+    "templates/account/base.html"
+  ],
+  "Avtomatik": [
+    "templates/dashboard/settings.html"
+  ],
+  "Ayni paytda: Instagram (Graph API), Telegram (Bot API), YouTube (Data API v3), X (v2 API). Keyingi bosqichda TikTok va LinkedIn rejalashtirilgan.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Barcha davr": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Barcha ma'lumotingizni bir bosishda yuklab oling — diplom, prezentatsiya yoki mijozga.": [
+    "templates/dashboard/reports.html"
+  ],
+  "Barcha postlar va kommentlar": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Barcha sentiment tahlili natijalari": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Barcha ulangan akkauntlar (Instagram, Telegram, YouTube, X)": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Barchasi": [
+    "templates/dashboard/app.html"
+  ],
+  "Barchasi bir dashboardda.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Bekor qilish": [
+    "templates/account/logout.html",
+    "templates/dashboard/account_connect.html",
+    "templates/dashboard/accounts.html",
+    "templates/dashboard/delete_account.html"
+  ],
+  "Bepul akkaunt yaratish": [
+    "templates/dashboard/landing.html"
+  ],
+  "Bepul boshlash": [
+    "templates/dashboard/landing.html"
+  ],
+  "Bir necha daqiqa kuting": [
+    "templates/account/verification_sent.html"
+  ],
+  "Bir necha daqiqa kuting va yangilang": [
+    "templates/account/password_reset_done.html"
+  ],
+  "Bir necha daqiqada ro'yxatdan o'ting — dashboardingiz tayyor.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Birinchi akkauntingizni ulang": [
+    "templates/dashboard/app.html"
+  ],
+  "Biz allaqachon ishlayapmiz": [
+    "templates/500.html"
+  ],
+  "Biz sizni tizimda ushlab turish uchun zarur session cookie'laridan foydalanamiz. Tahlil (Google Analytics kabi) cookie'lari qo'llanilmaydi.": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Biz ushbu shartlarni istalgan vaqtda yangilash huquqini\n    saqlab qolamiz. Muhim o'zgarishlar haqida email orqali xabar beriladi.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Bloggerlar": [
+    "templates/dashboard/landing.html"
+  ],
+  "Bosh sahifa": [
+    "templates/404.html",
+    "templates/500.html",
+    "templates/dashboard/_shell.html",
+    "templates/partials/_command_palette.html"
+  ],
+  "Bosh sahifaga qaytish": [
+    "templates/account/login.html",
+    "templates/account/signup.html"
+  ],
+  "Boshlash": [
+    "templates/dashboard/app.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Boshqa akkauntni tanlash": [
+    "templates/dashboard/compare.html"
+  ],
+  "Boshqa foydalanuvchilarning akkauntlariga ruxsatsiz kirish.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Bu amalni ortga qaytarib bo'lmaydi": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Bu email manzil boshqa akkauntda tasdiqlangan.": [
+    "templates/account/email_confirm.html"
+  ],
+  "Bu havola yaroqsiz yoki muddati o'tgan.": [
+    "templates/account/email_confirm.html"
+  ],
+  "Bu platforma bepulmi?": [
+    "templates/dashboard/landing.html"
+  ],
+  "Bu xat avtomatik yuborildi. Javob bermang.": [
+    "templates/account/email/_base.html"
+  ],
+  "Bu yerdagi amallar orqaga qaytarilmaydi.": [
+    "templates/dashboard/settings.html"
+  ],
+  "Bugun": [
+    "templates/dashboard/app.html"
+  ],
+  "Bugun boshlang": [
+    "templates/dashboard/landing.html"
+  ],
+  "Chiqish": [
+    "templates/account/logout.html",
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/settings.html",
+    "templates/partials/_command_palette.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Chiqishni tasdiqlaysizmi?": [
+    "templates/account/logout.html"
+  ],
+  "Cookie'lar": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Dashboard": [
+    "templates/dashboard/_shell.html",
+    "templates/partials/_command_palette.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Dashboard haqida savol bering": [
+    "templates/dashboard/chat.html"
+  ],
+  "Dashboard quyida demo ma'lumotlar bilan ko'rsatilmoqda. Instagram, Telegram, YouTube yoki X akkauntini ulab, haqiqiy statistikani ko'ring.": [
+    "templates/dashboard/app.html"
+  ],
+  "Dashboard va hisobotlar yaratish uchun.": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Dashboard, sentiment va top postlar. Hisobotni yuklab oling.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Davom etish uchun <strong>{{ email }}</strong> email manzilini aniq kiriting:": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Davr": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Davr:": [
+    "templates/dashboard/app.html"
+  ],
+  "Demo": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Demo ko'rish": [
+    "templates/dashboard/landing.html"
+  ],
+  "Demo post soni": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "Demo rejim": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "Diplom loyihasi": [
+    "templates/account/base.html",
+    "templates/account/email/_base.html",
+    "templates/partials/_footer.html"
+  ],
+  "Diplom va kurs ishlarida real ma'lumot bilan tadqiqot.": [
+    "templates/dashboard/landing.html"
+  ],
+  "E2E shifrlangan": [
+    "templates/dashboard/landing.html"
+  ],
+  "Eksport": [
+    "templates/partials/_command_palette.html"
+  ],
+  "Email": [
+    "templates/account/login.html",
+    "templates/account/password_reset.html",
+    "templates/account/signup.html",
+    "templates/dashboard/settings.html"
+  ],
+  "Email manzilingiz va parolingiz (shifrlangan hash).": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Email manzilingizni kiriting — parolni tiklash havolasini yuboramiz.": [
+    "templates/account/password_reset.html"
+  ],
+  "Email manzilingizni tasdiqlang": [
+    "templates/account/email/email_confirmation_message.html"
+  ],
+  "Email manzilingizning to'g'riligiga ishonch hosil qiling": [
+    "templates/account/verification_sent.html"
+  ],
+  "Email manzilni tasdiqlash": [
+    "templates/account/email/email_confirmation_message.html",
+    "templates/account/email_confirm.html"
+  ],
+  "Email manzilni to'g'ri kiritganingizga ishonch hosil qiling": [
+    "templates/account/password_reset_done.html"
+  ],
+  "Email tasdiqlash": [
+    "templates/account/email/email_confirmation_message.html"
+  ],
+  "Email va parol yoki Google orqali — bir daqiqada.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Email yuborildi": [
+    "templates/account/password_reset_done.html"
+  ],
+  "Emailingizni tekshiring": [
+    "templates/account/password_reset_done.html",
+    "templates/account/verification_sent.html"
+  ],
+  "Emailni tasdiqlang": [
+    "templates/account/verification_sent.html"
+  ],
+  "Emailni tasdiqlash": [
+    "templates/account/email_confirm.html"
+  ],
+  "Eng negativ kommentlar": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Eng pozitiv kommentlar": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Eng pozitiv kontent": [
+    "templates/dashboard/chat.html"
+  ],
+  "Eng yaxshi platforma?": [
+    "templates/dashboard/chat.html"
+  ],
+  "Eng yaxshi postlar (top 20)": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Engagement": [
+    "templates/dashboard/compare.html",
+    "templates/dashboard/public_share.html"
+  ],
+  "Engagement pasayishi?": [
+    "templates/dashboard/chat.html"
+  ],
+  "Eslatma": [
+    "templates/dashboard/reports.html"
+  ],
+  "Eslatma:": [
+    "templates/account/email/password_reset_key_message.html"
+  ],
+  "Excel eksport (.xlsx)": [
+    "templates/partials/_command_palette.html"
+  ],
+  "Excel yuklash": [
+    "templates/dashboard/reports.html",
+    "templates/dashboard/sentiment.html"
+  ],
+  "Familiya": [
+    "templates/dashboard/settings.html"
+  ],
+  "Faol akkauntlar": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Faollik dinamikasi": [
+    "templates/dashboard/app.html"
+  ],
+  "Faollik ulushi": [
+    "templates/dashboard/app.html"
+  ],
+  "Filtrlab, kesib, eksport qilib — ma'lumotni o'z qo'lingizda.": [
+    "templates/account/base.html"
+  ],
+  "Foydalanish shartlari": [
+    "templates/account/signup.html",
+    "templates/dashboard/terms.html"
+  ],
+  "Foydalanuvchilarimiz": [
+    "templates/dashboard/landing.html"
+  ],
+  "GitHub Issues →": [
+    "templates/dashboard/terms.html"
+  ],
+  "Google orqali davom etish": [
+    "templates/socialaccount/snippets/login.html"
+  ],
+  "Google va platforma OAuth. Parollar saqlanmaydi.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Gradient cover sahifasi, KPI xulosasi, platforma jadvali, sentiment namunalari, top postlar — ReportLab orqali.": [
+    "templates/dashboard/reports.html"
+  ],
+  "Ha, chiqish": [
+    "templates/account/logout.html"
+  ],
+  "Ha, loyiha MIT litsenziyasi ostida GitHub'da ochiq. Hissa qo'shishingiz yoki o'z ehtiyojlaringizga moslashtirishingiz mumkin.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ha, loyiha to'liq bepul — diplom ishi sifatida ishlab chiqilgan. Kredit karta kerak emas.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Hali hech qanday akkaunt ulanmagan": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Hali ma'lumot yo'q.": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Hali namunalar yo'q.": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Hali postlar yo'q.": [
+    "templates/dashboard/analytics.html",
+    "templates/dashboard/public_share.html"
+  ],
+  "Hali postlar yo'q. Akkauntingizni ulang yoki demo data'ni seed qiling.": [
+    "templates/dashboard/app.html"
+  ],
+  "Hali sentiment natijalari yo'q.": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Hali tadbirlar yo'q.": [
+    "templates/dashboard/app.html"
+  ],
+  "Hammasi": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Haqiqiy": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Haqiqiy Instagram/YouTube OAuth ishlayaptimi?": [
+    "templates/dashboard/landing.html"
+  ],
+  "Haqiqiy OAuth integratsiyasi API credentials'larini talab qiladi (Facebook Developer, Google Cloud, Bot tokens). Hozir demo ma'lumot bilan ulanadi — real vaqtda grafiklar va sentiment tahlili ishlaydi.": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "Har akkaunt alohida chiziq bilan": [
+    "templates/dashboard/compare.html"
+  ],
+  "Har qanday texnik muammo, feature so'rovi yoki shartlar bo'yicha savol —\n    GitHub Issues tracker orqali hal qilinadi. Biz 48 soat ichida javob\n    berishga harakat qilamiz (best effort, kafolat emas).": [
+    "templates/dashboard/terms.html"
+  ],
+  "Havola ishlamaydi": [
+    "templates/account/password_reset_from_key.html"
+  ],
+  "Hech narsa topilmadi": [
+    "templates/partials/_command_palette.html"
+  ],
+  "Hisobot yuklash": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Hisobotlar": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/reports.html",
+    "templates/partials/_command_palette.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Hisobotlar sizning akkauntingizdagi barcha postlar va kommentlarni o'z ichiga oladi. Agar akkaunt ulanmagan bo'lsa, demo ma'lumotdan foydalaning yoki faqat sarlavha bilan bo'sh hisobot yaratiladi.": [
+    "templates/dashboard/reports.html"
+  ],
+  "Hisobotlarni bir bosishda eksport qiling.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Holati": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Huquqiy ma'lumot": [
+    "templates/dashboard/privacy.html",
+    "templates/dashboard/terms.html"
+  ],
+  "IG · TG · YT · X": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ijtimoiy ovozingizni": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ijtimoiy tarmog'ingizni bir daqiqada kuzatishni boshlang.": [
+    "templates/account/signup.html"
+  ],
+  "Ijtimoiy tarmoq akkauntlaringizni ulab, real ma'lumotni tahlil qiling.": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Ijtimoiy tarmoq analitikasi": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ijtimoiy tarmoq ma'lumotlarini yig'ish va tahlil qilish platformasi. Talabalar, tadqiqotchilar va marketologlar uchun.": [
+    "templates/partials/_footer.html"
+  ],
+  "Ijtimoiy tarmoqlardagi ovozingizni tushuning.": [
+    "templates/account/base.html"
+  ],
+  "Imkoniyatlar": [
+    "templates/dashboard/landing.html"
+  ],
+  "Instagram, Telegram, YouTube va X ma'lumotlarini bir joyda. AI sentiment tahlil, real-time grafiklar, avtomatik hisobotlar — bir necha bosishda.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Instagram, Telegram, YouTube yoki X — xavfsiz OAuth orqali.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Interaktiv grafiklar": [
+    "templates/account/base.html"
+  ],
+  "Interfeys tili": [
+    "templates/dashboard/settings.html"
+  ],
+  "Ishonchlilik": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ism": [
+    "templates/dashboard/settings.html"
+  ],
+  "Ism, familiya va email manzili.": [
+    "templates/dashboard/settings.html"
+  ],
+  "Izoh": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "JSON sifatida yuklab oling": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Jami": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Jami likes": [
+    "templates/dashboard/compare.html"
+  ],
+  "Jonli grafiklar, interaktiv filtrlash va platformalar bo'yicha solishtirish. Har soniyada yangi ma'lumot.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Juda kuchli": [
+    "templates/account/signup.html"
+  ],
+  "Juda zaif": [
+    "templates/account/signup.html"
+  ],
+  "Kamida 8 belgi": [
+    "templates/account/signup.html"
+  ],
+  "Kamida 8 ta belgi": [
+    "templates/account/password_reset_from_key.html",
+    "templates/account/signup.html"
+  ],
+  "Katta harf (A-Z)": [
+    "templates/account/signup.html"
+  ],
+  "Keyingi": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Kichik harf (a-z)": [
+    "templates/account/signup.html"
+  ],
+  "Kim uchun": [
+    "templates/dashboard/landing.html"
+  ],
+  "Kirgan sifatida": [
+    "templates/partials/_navbar.html"
+  ],
+  "Kirish": [
+    "templates/account/login.html",
+    "templates/account/password_reset_from_key_done.html",
+    "templates/account/signup.html",
+    "templates/partials/_command_palette.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Kirish sahifasiga qaytish": [
+    "templates/account/password_reset.html",
+    "templates/account/password_reset_done.html"
+  ],
+  "Kiryapti...": [
+    "templates/account/login.html"
+  ],
+  "Ko'p tilli interfeys": [
+    "templates/account/base.html"
+  ],
+  "Ko'rildi": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Ko'rishlar": [
+    "templates/dashboard/analytics.html",
+    "templates/dashboard/compare.html"
+  ],
+  "Kodi ochiqmi?": [
+    "templates/dashboard/landing.html"
+  ],
+  "Komandalar paneli": [
+    "templates/partials/_command_palette.html"
+  ],
+  "Kommentlar": [
+    "templates/dashboard/analytics.html",
+    "templates/dashboard/reports.html"
+  ],
+  "Kredit karta kerak emas — hoziroq boshlang.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Kredit karta kerak emas. Hoziroq boshlang.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Kuchli": [
+    "templates/account/signup.html"
+  ],
+  "Kunlik yig'ilgan likes soni": [
+    "templates/dashboard/public_share.html"
+  ],
+  "Layklar": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Like": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Likes": [
+    "templates/dashboard/public_share.html"
+  ],
+  "Loyiha holati": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ma'lumot saqlash": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Ma'lumotdan qanday foydalanamiz": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Ma'lumotdan qarorga": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ma'lumotimni yuklab olish (JSON)": [
+    "templates/dashboard/settings.html"
+  ],
+  "Ma'lumotingizni istalgan vaqtda ko'chirib olish (Settings → Export my data).": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Ma'lumotingizni oldin": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Ma'lumotlar qayerda saqlanadi?": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ma'lumotlar shifrlangan ulanish orqali uzatiladi (HTTPS/TLS 1.3) va ma'lumotlar bazasida xavfsiz saqlanadi. OAuth tokenlari alohida shifrlash kaliti bilan himoyalanadi.": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Made with": [
+    "templates/partials/_footer.html"
+  ],
+  "Mahsulot": [
+    "templates/partials/_footer.html"
+  ],
+  "Marketing agentliklari": [
+    "templates/dashboard/landing.html"
+  ],
+  "Masalan:": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "Mavzu": [
+    "templates/dashboard/settings.html",
+    "templates/partials/_command_palette.html"
+  ],
+  "Mavzuni almashtirish": [
+    "templates/account/base.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Maxfiylik siyosati": [
+    "templates/account/signup.html",
+    "templates/dashboard/privacy.html"
+  ],
+  "Maxsus belgi (!@#$ ...)": [
+    "templates/account/signup.html"
+  ],
+  "Men": [
+    "templates/account/signup.html"
+  ],
+  "Meni eslab qol": [
+    "templates/account/login.html"
+  ],
+  "Mening ma'lumotlarim": [
+    "templates/dashboard/settings.html"
+  ],
+  "Menyu": [
+    "templates/partials/_navbar.html"
+  ],
+  "Mijozlarga aniq hisobotlar, kampaniyalar samaradorligi.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Mobil menyu": [
+    "templates/partials/_navbar.html"
+  ],
+  "Mualliflik huquqi yoki qonun himoyalangan ma'lumotlarni noqonuniy to'plash.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Navigatsiya": [
+    "templates/partials/_command_palette.html"
+  ],
+  "Negativ": [
+    "templates/dashboard/compare.html",
+    "templates/dashboard/sentiment.html"
+  ],
+  "Negativ komment yetarli emas.": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Negativ so'zlar": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Neytral": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Nimani qidiryapsiz?": [
+    "templates/partials/_command_palette.html"
+  ],
+  "O'chirish": [
+    "templates/dashboard/accounts.html"
+  ],
+  "O'zbek, rus va ingliz tillarida kommentlarni avtomatik baholash.": [
+    "templates/account/base.html"
+  ],
+  "O'zbek, rus va ingliz tillarida — doim qulay.": [
+    "templates/account/base.html"
+  ],
+  "OAuth orqali ulanganda platformalarning token'lari shifrlangan holda saqlanadi.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Obunachilar": [
+    "templates/dashboard/accounts.html",
+    "templates/dashboard/compare.html",
+    "templates/dashboard/landing.html",
+    "templates/dashboard/public_share.html"
+  ],
+  "Ochish": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Oldingi": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Orqaga": [
+    "templates/404.html"
+  ],
+  "Oxirgi": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Oxirgi 14 kun": [
+    "templates/dashboard/app.html"
+  ],
+  "Oxirgi 30 kunlik dinamika va platforma bo'yicha chuqur tahlil.": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Oxirgi 7 kun": [
+    "templates/dashboard/landing.html"
+  ],
+  "Oxirgi yangilanish:": [
+    "templates/dashboard/privacy.html",
+    "templates/dashboard/terms.html"
+  ],
+  "PDF eksport": [
+    "templates/partials/_command_palette.html"
+  ],
+  "PDF hisobot ichida nima bor?": [
+    "templates/dashboard/landing.html"
+  ],
+  "PDF yuklash": [
+    "templates/dashboard/reports.html"
+  ],
+  "PDF, Excel, CSV": [
+    "templates/dashboard/landing.html"
+  ],
+  "Parol": [
+    "templates/account/login.html",
+    "templates/account/signup.html",
+    "templates/dashboard/settings.html"
+  ],
+  "Parol maxfiyligi uchun siz javobgarsiz.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Parol muvaffaqiyatli o'zgartirildi": [
+    "templates/account/password_reset_from_key_done.html"
+  ],
+  "Parol o'zgartirildi": [
+    "templates/account/password_reset_from_key_done.html"
+  ],
+  "Parolingiz": [
+    "templates/account/login.html"
+  ],
+  "Parollar mos": [
+    "templates/account/signup.html"
+  ],
+  "Parollar mos emas": [
+    "templates/account/signup.html"
+  ],
+  "Parolni ko’rsatish": [
+    "templates/account/login.html",
+    "templates/account/signup.html"
+  ],
+  "Parolni o'zgartirish": [
+    "templates/account/password_reset_from_key.html"
+  ],
+  "Parolni qayta kiriting": [
+    "templates/account/password_reset_from_key.html",
+    "templates/account/signup.html"
+  ],
+  "Parolni takrorlang": [
+    "templates/account/password_reset_from_key.html",
+    "templates/account/signup.html"
+  ],
+  "Parolni tiklash": [
+    "templates/account/email/password_reset_key_message.html",
+    "templates/account/password_reset.html"
+  ],
+  "Parolni tiklash havolasi yaroqsiz, muddati o'tgan yoki allaqachon ishlatilgan.": [
+    "templates/account/password_reset_from_key.html"
+  ],
+  "Parolni tiklash havolasini yubordik. Emailingizdagi xatni oching va havolaga o'ting.": [
+    "templates/account/password_reset_done.html"
+  ],
+  "Parolni tiklash so'rovingiz": [
+    "templates/account/email/password_reset_key_message.html"
+  ],
+  "Parolni tiklash xati yuborish": [
+    "templates/dashboard/settings.html"
+  ],
+  "Parolni unutdingizmi?": [
+    "templates/account/login.html"
+  ],
+  "Parolni yashirish": [
+    "templates/account/login.html",
+    "templates/account/signup.html"
+  ],
+  "Platform-side account id": [
+    "apps/social/models.py"
+  ],
+  "Platforma": [
+    "templates/dashboard/accounts.html",
+    "templates/dashboard/analytics.html",
+    "templates/dashboard/top_posts.html"
+  ],
+  "Platforma bo'yicha": [
+    "templates/dashboard/analytics.html",
+    "templates/dashboard/app.html"
+  ],
+  "Platforma sizning akkauntingiz bo'yicha to'playdigan barcha ma'lumotlarni yuklab oling (GDPR-mos).": [
+    "templates/dashboard/settings.html"
+  ],
+  "Platformaning butun manba kodi va dizayni MIT litsenziyasi ostida\n    taqdim etilgan. Siz kodni o'zingizning ehtiyojlaringizga moslashtirishingiz,\n    tarqatishingiz va ta'limdan foydalanishingiz mumkin. Mualliflikni saqlash —\n    MIT litsenziyasi matnini kopiya bilan birga yuborish kifoya.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Post": [
+    "templates/dashboard/analytics.html",
+    "templates/dashboard/top_posts.html"
+  ],
+  "Post turi": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "PostgreSQL (prod) yoki SQLite (dev) ma'lumotlar bazasida. OAuth tokenlari shifrlangan holda saqlanadi, parollar hech qachon saqlanmaydi.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Postlar": [
+    "templates/dashboard/accounts.html",
+    "templates/dashboard/analytics.html",
+    "templates/dashboard/compare.html",
+    "templates/dashboard/landing.html",
+    "templates/dashboard/public_share.html",
+    "templates/dashboard/reports.html"
+  ],
+  "Postlar (30 kun)": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Postlar · layklar · ko'rishlar": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Postlaringizning qamrovi va faolligi jonli grafikada.": [
+    "templates/account/base.html"
+  ],
+  "Pozitiv": [
+    "templates/dashboard/compare.html",
+    "templates/dashboard/sentiment.html"
+  ],
+  "Pozitiv komment yetarli emas.": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Pozitiv so'zlar": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Pozitiv · neytral · negativ": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Profil": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/settings.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Profil ma'lumotlari": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Profil sozlamalari": [
+    "templates/dashboard/settings.html"
+  ],
+  "Public @username or channel id": [
+    "apps/social/models.py"
+  ],
+  "Public Telegram kanalidan haqiqiy maʼlumot tortib olinadi: views, reaksiyalar, forwardlar va komment soni. Postlar fonda Celery task orqali yigʻiladi.": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "Public dashboard": [
+    "templates/dashboard/public_share.html"
+  ],
+  "Public link": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Public snapshot": [
+    "templates/dashboard/public_share.html"
+  ],
+  "Qanday ishlaydi": [
+    "templates/dashboard/landing.html",
+    "templates/partials/_footer.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Qanday ma'lumot to'playmiz": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Qanday qilib sentiment aniqligini baholaysiz?": [
+    "templates/dashboard/landing.html"
+  ],
+  "Qaysi platformalar qo'llab-quvvatlanadi?": [
+    "templates/dashboard/landing.html"
+  ],
+  "Qayta urinish": [
+    "templates/500.html"
+  ],
+  "Qidirish": [
+    "templates/404.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Qidiruv va komandalar": [
+    "templates/partials/_navbar.html"
+  ],
+  "Qidiruv yoki komanda...": [
+    "templates/dashboard/_shell.html"
+  ],
+  "Qo'llab-quvvatlanadigan platformalar": [
+    "templates/dashboard/landing.html"
+  ],
+  "Qo'llash": [
+    "templates/dashboard/settings.html"
+  ],
+  "Qorong'u": [
+    "templates/dashboard/settings.html"
+  ],
+  "Quyidagi harakatlar taqiqlanadi:": [
+    "templates/dashboard/terms.html"
+  ],
+  "Raqam (0-9)": [
+    "templates/account/signup.html"
+  ],
+  "Raqamlar": [
+    "templates/partials/_navbar.html"
+  ],
+  "Raqamlarda": [
+    "templates/dashboard/landing.html"
+  ],
+  "Real rejim — Telegram MTProto": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "Real-time analitika": [
+    "templates/dashboard/landing.html"
+  ],
+  "Real-time statistika": [
+    "templates/account/base.html"
+  ],
+  "Resurslar": [
+    "templates/partials/_command_palette.html",
+    "templates/partials/_footer.html"
+  ],
+  "Ro'yxatdan o'ting": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ro'yxatdan o'tish": [
+    "templates/account/login.html",
+    "templates/account/signup.html",
+    "templates/partials/_footer.html"
+  ],
+  "Ro’yxatdan o’tish": [
+    "templates/partials/_command_palette.html"
+  ],
+  "Sahifa": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Sahifa topilmadi": [
+    "templates/404.html"
+  ],
+  "Sahifadagi yuqori paneldan tilni istagan vaqtda o'zgartirishingiz mumkin.": [
+    "templates/dashboard/settings.html"
+  ],
+  "Salom, <strong>{{ user_display }}</strong>!": [
+    "templates/account/email/email_confirmation_message.html"
+  ],
+  "Salom, <strong>{{ username }}</strong>!": [
+    "templates/account/email/password_reset_key_message.html"
+  ],
+  "Sana": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Saqlash": [
+    "templates/dashboard/settings.html"
+  ],
+  "Saralash": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "Savolingiz...": [
+    "templates/dashboard/chat.html"
+  ],
+  "Savollar uchun:": [
+    "templates/dashboard/terms.html"
+  ],
+  "Savollar — GitHub issue orqali yuborish.": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Schema va OAuth callback infrastrukturasi tayyor. Haqiqiy ulanish uchun Meta Business Verification (7-14 kun review), Google Cloud OAuth client va Telegram Bot Token kerak. Hozirda loyiha demo rejimda ishlaydi — realistik ma'lumot, haqiqiy sentiment modeli, haqiqiy PDF/Excel eksport. API credentials qo'yilgach kod o'zgarmaydi, avtomatik haqiqiy rejimga o'tadi.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Sentiment": [
+    "templates/dashboard/_shell.html",
+    "templates/partials/_command_palette.html"
+  ],
+  "Sentiment +3%": [
+    "templates/dashboard/landing.html"
+  ],
+  "Sentiment natijalari": [
+    "templates/dashboard/reports.html"
+  ],
+  "Sentiment tahlili": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Sentiment tahlili (AI model orqali).": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Sentiment tahlili qanday ishlaydi?": [
+    "templates/dashboard/landing.html"
+  ],
+  "Server xatosi": [
+    "templates/500.html"
+  ],
+  "Serverda kutilmagan xato yuz berdi. Bir oz kuting va qayta urinib ko'ring.": [
+    "templates/500.html"
+  ],
+  "Shaxsiy ma'lumot": [
+    "templates/dashboard/settings.html"
+  ],
+  "Siz Social Analytics akkauntingiz uchun parolni tiklash so'rovini\n  yubordingiz. Yangi parol o'rnatish uchun quyidagi tugmani bosing:": [
+    "templates/account/email/password_reset_key_message.html"
+  ],
+  "Siz qidirgan sahifa mavjud emas yoki ko'chirilgan. URL'ni tekshirib ko'ring yoki bosh sahifaga qayting.": [
+    "templates/404.html"
+  ],
+  "Siz ro'yxatdan o'tganda haqiqiy email manzilingizni kiritishingiz kerak.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Siz tomonidan ulagan ijtimoiy tarmoq akkaunt ma'lumotlari (handle, follower count).": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Siz ulagan ijtimoiy tarmoq akkauntlaringizdagi post va\n    kommentlar faqat sizning shaxsiy dashboardingiz uchun tahlil qilinadi.\n    Biz ma'lumotingizni uchinchi tomonlarga sotmaymiz yoki ulashmaymiz.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Sizga tasdiqlash xati yubordik. Iltimos, emailingizdagi havolaga o'ting.": [
+    "templates/account/verification_sent.html"
+  ],
+  "Sizning akkauntingizdagi postlar va kommentlar tahlil uchun.": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Sizning huquqlaringiz": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Social Analytics platformasiga ro'yxatdan o'tganingiz uchun rahmat.\n  Akkauntni faollashtirish uchun quyidagi tugmani bosing:": [
+    "templates/account/email/email_confirmation_message.html"
+  ],
+  "Social Analytics saytidan (keyinchalik \"Xizmat\") foydalanib,\n    siz quyidagi shartlar va qoidalarga rozilik bildirasiz. Agar siz\n    ushbu shartlarning biror qismiga rozi bo'lmasangiz, Xizmatdan\n    foydalanmang.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Social Analytics — ijtimoiy tarmoqlarda (Instagram, Telegram,\n    YouTube, X) postlar va kommentlarni tahlil qilish platformasi. Xizmat\n    ta'lim va tadqiqot maqsadlarida yaratilgan diplom loyihasi.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Solishtirish": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/compare.html"
+  ],
+  "Solishtirish uchun kamida 2 ta akkaunt kerak.": [
+    "templates/dashboard/compare.html"
+  ],
+  "Sozlamalar": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/delete_account.html",
+    "templates/dashboard/settings.html",
+    "templates/partials/_command_palette.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Spam papkasini tekshiring": [
+    "templates/account/verification_sent.html"
+  ],
+  "Spam yoki Promotions papkasini tekshiring": [
+    "templates/account/password_reset_done.html"
+  ],
+  "Summary, Posts, Comments, Sentiment, Platforms — openpyxl bilan formatlangan, filter va donut chart bilan.": [
+    "templates/dashboard/reports.html"
+  ],
+  "Tabiiy tilda yozing — AI siz'ning real ma'lumotingiz asosida javob beradi. OpenAI (gpt-4o-mini) orqali.": [
+    "templates/dashboard/chat.html"
+  ],
+  "Tadbirlar": [
+    "templates/dashboard/app.html"
+  ],
+  "Tahlil qilingan postlar": [
+    "templates/dashboard/landing.html"
+  ],
+  "Tahlilni ko'ring": [
+    "templates/dashboard/landing.html"
+  ],
+  "Taklif:": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Talabalar": [
+    "templates/dashboard/landing.html"
+  ],
+  "Talabalar, tadqiqotchilar va marketologlar uchun": [
+    "templates/dashboard/landing.html"
+  ],
+  "Tasdiqlash": [
+    "templates/account/email_confirm.html",
+    "templates/dashboard/delete_account.html"
+  ],
+  "Telegram, YouTube va Instagram ma'lumotlarini yig'ib, sentiment tahlil va interaktiv dashboardlar bilan qarorlar qabul qiling.": [
+    "templates/account/base.html"
+  ],
+  "Tez-tez so'raladigan savollar": [
+    "templates/dashboard/landing.html"
+  ],
+  "Tiklash havolasini yuborish": [
+    "templates/account/password_reset.html"
+  ],
+  "Til": [
+    "templates/account/base.html",
+    "templates/dashboard/sentiment.html",
+    "templates/dashboard/settings.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Til bo'yicha sentiment": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Tizim ishlamoqda": [
+    "templates/partials/_footer.html"
+  ],
+  "To'liq tarjima qilingan.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Top post": [
+    "templates/dashboard/compare.html"
+  ],
+  "Top post tahlili": [
+    "templates/dashboard/chat.html"
+  ],
+  "Top postlar": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/app.html",
+    "templates/dashboard/public_share.html",
+    "templates/dashboard/top_posts.html"
+  ],
+  "Tortib olinadigan post soni": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "True for accounts seeded by the demo generator.": [
+    "apps/social/models.py"
+  ],
+  "Uch darajali tiered engine: (1) XLM-RoBERTa transformer (opt-in, cardiffnlp tomonidan Twitter korpusida o'qitilgan, ~82% F1), (2) VADER lexicon O'zbek/Rus keyword kengaytmasi bilan (~75% F1 ikki tilda), (3) fallback keyword engine. Har komment uchun model nomi DB'da saqlanadi, natijalarni modellar aro solishtirish mumkin.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Ulangan": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Ulangan akkauntlar": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Ulanmagan": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Ulash": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Ulash va ma'lumot yuklash": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "Ulashish": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Umumiy taqsimot": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Ushbu akkauntni o’chirishni xohlaysizmi?": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Ushbu hujjat akademik diplom loyihasi uchun shaklda tayyorlangan va yuridik maslahat sifatida qaralmaydi.": [
+    "templates/dashboard/terms.html"
+  ],
+  "Ushbu siyosat GDPR prinsiplariga asoslanib tayyorlangan, lekin yuridik ekspert tomonidan imzolanmagan. Diplom loyihasi shaklida.": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Ushbu xatni siz so'ramagan bo'lsangiz, e'tiborsiz qoldiring.": [
+    "templates/account/email/email_confirmation_message.html"
+  ],
+  "Ushbu xizmat akademik diplom loyihasi sifatida yaratilgan. Biz\n    platformaning uzluksiz ishlashi, ma'lumotlarning yo'qolmasligi yoki\n    uchinchi tomon API'lari (Instagram, Telegram, YouTube, X) bilan uzluksiz\n    aloqa bo'yicha kafolat bermaymiz. Siz xizmatdan \"as-is\" foydalanasiz.\n    Biznes maqsadida foydalanish uchun o'zingiz tekshiring.": [
+    "templates/dashboard/terms.html"
+  ],
+  "XLM-RoBERTa (ko'p tilli transformer modeli) kommentlarni pozitiv, neytral va negativ kategoriyalarga ajratadi — o'zbek, rus va ingliz tillarida.": [
+    "templates/dashboard/landing.html"
+  ],
+  "XLM-RoBERTa modeli — o'zbek, rus va ingliz tillarida.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Xat kelmayaptimi?": [
+    "templates/account/password_reset_done.html",
+    "templates/account/verification_sent.html"
+  ],
+  "Xavfli zona": [
+    "templates/dashboard/settings.html"
+  ],
+  "Xavfsiz OAuth": [
+    "templates/dashboard/landing.html"
+  ],
+  "Xavfsizlik uchun parolni muntazam yangilab turing.": [
+    "templates/dashboard/settings.html"
+  ],
+  "Xizmat sifati va xatolarni aniqlash uchun (anonim).": [
+    "templates/dashboard/privacy.html"
+  ],
+  "Xizmatga zarar yetkazishga urinish (DDoS, injection, bot spam).": [
+    "templates/dashboard/terms.html"
+  ],
+  "Xush kelibsiz": [
+    "templates/account/login.html"
+  ],
+  "Xususiyatlar": [
+    "templates/partials/_footer.html",
+    "templates/partials/_navbar.html"
+  ],
+  "Xususiyatlarni ko'rish": [
+    "templates/dashboard/landing.html"
+  ],
+  "Yana bitta ulash": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Yangi": [
+    "templates/dashboard/_shell.html"
+  ],
+  "Yangi havola so'rash": [
+    "templates/account/password_reset_from_key.html"
+  ],
+  "Yangi parol": [
+    "templates/account/password_reset_from_key.html"
+  ],
+  "Yangi parol o'rnatish": [
+    "templates/account/email/password_reset_key_message.html",
+    "templates/account/password_reset_from_key.html"
+  ],
+  "Yangi parolingiz bilan endi akkauntga kirishingiz mumkin.": [
+    "templates/account/password_reset_from_key_done.html"
+  ],
+  "Yangi parolni kiriting va uni takrorlang.": [
+    "templates/account/password_reset_from_key.html"
+  ],
+  "Yangi tasdiqlash so'rash": [
+    "templates/account/email_confirm.html"
+  ],
+  "Yaratilgan hisobotlar tarixi": [
+    "templates/dashboard/delete_account.html"
+  ],
+  "Yaratilmoqda...": [
+    "templates/account/signup.html"
+  ],
+  "Yetarli": [
+    "templates/account/signup.html"
+  ],
+  "Yig'ishdan hisobotgacha — barchasi bir joyda, barchasi avtomatlashtirilgan.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Yopish": [
+    "templates/partials/_message_item.html",
+    "templates/partials/_messages.html"
+  ],
+  "Yorug'": [
+    "templates/dashboard/settings.html"
+  ],
+  "Yorug' yoki qorong'u — tizim sozlamalari bo'yicha avtomatik.": [
+    "templates/dashboard/settings.html"
+  ],
+  "Yuborish": [
+    "templates/dashboard/chat.html"
+  ],
+  "Yuqoridagi platformalardan birini tanlab, demo ma'lumot yuklang yoki OAuth orqali haqiqiy akkauntingizni ulang.": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Zaif": [
+    "templates/account/signup.html"
+  ],
+  "akkauntini ulash": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "bilan tanishdim va roziman.": [
+    "templates/account/signup.html"
+  ],
+  "demo ma'lumot": [
+    "templates/dashboard/accounts.html"
+  ],
+  "env var'ni sozlashi kerak. Kalitni": [
+    "templates/dashboard/chat.html"
+  ],
+  "in Tashkent": [
+    "templates/partials/_footer.html"
+  ],
+  "kommentlar": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "kun": [
+    "templates/dashboard/app.html",
+    "templates/dashboard/top_posts.html"
+  ],
+  "o'sish": [
+    "templates/dashboard/landing.html"
+  ],
+  "obunachi": [
+    "templates/dashboard/compare.html"
+  ],
+  "ochish": [
+    "templates/partials/_command_palette.html"
+  ],
+  "oxirgi hafta": [
+    "templates/dashboard/landing.html"
+  ],
+  "oy/oy": [
+    "templates/dashboard/app.html"
+  ],
+  "pastga": [
+    "templates/dashboard/landing.html"
+  ],
+  "platforma": [
+    "templates/dashboard/landing.html"
+  ],
+  "postlar": [
+    "templates/dashboard/landing.html"
+  ],
+  "pozitiv kommentlar": [
+    "templates/dashboard/landing.html"
+  ],
+  "professional tushuning": [
+    "templates/dashboard/landing.html"
+  ],
+  "saytidan olish mumkin.": [
+    "templates/dashboard/chat.html"
+  ],
+  "tanlash": [
+    "templates/partials/_command_palette.html"
+  ],
+  "tillar": [
+    "templates/dashboard/landing.html"
+  ],
+  "tomonidan quvvatlanadi": [
+    "templates/dashboard/public_share.html"
+  ],
+  "ulangan": [
+    "templates/dashboard/accounts.html"
+  ],
+  "ushbu havola 3 kun ichida amal qiladi. Agar siz\n    so'ramagan bo'lsangiz, xatni o'chirib tashlang — parolingiz o'zgarmaydi.": [
+    "templates/account/email/password_reset_key_message.html"
+  ],
+  "va": [
+    "templates/account/signup.html"
+  ],
+  "yoki": [
+    "templates/account/login.html",
+    "templates/account/signup.html"
+  ],
+  "{{ n }} ta komment tahlil qilindi · model: {{ m }}": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "{{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring.\n        {% plural %}\n          {{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring.": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "— keyin o'chirish xavfsiz bo'ladi.": [
+    "templates/dashboard/delete_account.html"
+  ]
+}
