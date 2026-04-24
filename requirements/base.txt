@@ -22,6 +22,11 @@ redis>=5.0,<6.0
 # HTTP client (collectors)
 requests>=2.31,<3.0
 
+# Google API clients — YouTube Data API v3 (Phase 3) OAuth + REST.
+# Instagram uses plain `requests` so no extra SDK is needed there.
+google-api-python-client>=2.100,<3.0
+google-auth-oauthlib>=1.2,<2.0
+
 # Telegram MTProto client — real-mode collector for public channels (Phase 4).
 # Uses a server-side user session (TELEGRAM_SESSION_STRING) to read any public
 # channel by @username; see docs/TELEGRAM_SETUP.md for one-time setup.

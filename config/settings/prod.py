@@ -16,6 +16,12 @@ DEBUG = False
 SECRET_KEY = env("SECRET_KEY")
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
+# When deployed on Render's free tier there is no Redis broker — run Celery
+# tasks inline so "Connect Instagram/YouTube/Refresh" still works. On paid
+# tiers with a real Redis add-on, set CELERY_TASK_ALWAYS_EAGER=false.
+CELERY_TASK_ALWAYS_EAGER = env.bool("CELERY_TASK_ALWAYS_EAGER", default=False)
+CELERY_TASK_EAGER_PROPAGATES = True
+
 # Postgres in prod (Railway/Render provide DATABASE_URL)
 DATABASES = {
     "default": env.db("DATABASE_URL"),

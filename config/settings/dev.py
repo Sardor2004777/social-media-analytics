@@ -57,3 +57,9 @@ CORS_ALLOWED_ORIGINS = [
 # Relax allauth email verification in dev (console backend can't really "send")
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+
+# Run Celery tasks inline in dev so you don't need a local Redis + worker
+# just to click "Connect YouTube". Prod still uses the real async queue.
+# Set CELERY_TASK_ALWAYS_EAGER=false in .env if you want to test the real broker.
+CELERY_TASK_ALWAYS_EAGER = env.bool("CELERY_TASK_ALWAYS_EAGER", default=True)
+CELERY_TASK_EAGER_PROPAGATES = True

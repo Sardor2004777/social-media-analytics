@@ -3,9 +3,10 @@ from __future__ import annotations
 
 import logging
 import random
-from datetime import timedelta
+from datetime import timedelta, timezone as dt_timezone
 
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count, Sum
@@ -21,7 +22,20 @@ from apps.collectors.services.telegram import (
     TelegramNotConfigured,
     run_sync,
 )
-from apps.collectors.tasks import sync_telegram_account
+from apps.collectors.services.instagram import (
+    InstagramCollector,
+    InstagramNoBusinessAccount,
+    InstagramNotConfigured,
+)
+from apps.collectors.services.youtube import (
+    YouTubeCollector,
+    YouTubeNotConfigured,
+)
+from apps.collectors.tasks import (
+    sync_instagram_account,
+    sync_telegram_account,
+    sync_youtube_account,
+)
 
 from .models import ConnectedAccount, Platform, Post, PublicShareLink
 
@@ -82,16 +96,84 @@ def accounts_list(request: HttpRequest) -> HttpResponse:
         ) if active else ""
 
     connected_platforms = {a.platform for a in accounts}
-    available = [
-        {"code": code, **meta, "connected": code in connected_platforms}
-        for code, meta in PLATFORM_META.items()
-    ]
+    available = []
+    for code, meta in PLATFORM_META.items():
+        # Real OAuth flow for platforms with configured credentials; everything
+        # else (unconfigured Google-/Meta-backed platforms, X, Telegram without
+        # MTProto session) falls through to the demo connect form.
+        if code == Platform.YOUTUBE.value and YouTubeCollector.is_configured():
+            connect_url = reverse("social:youtube_connect_start")
+            real_mode = True
+        elif code == Platform.INSTAGRAM.value and InstagramCollector.is_configured():
+            connect_url = reverse("social:instagram_connect_start")
+            real_mode = True
+        else:
+            connect_url = reverse("social:connect", kwargs={"platform": code})
+            real_mode = (
+                code == Platform.TELEGRAM.value and TelegramCollector.is_configured()
+            )
+        available.append({
+            "code": code,
+            **meta,
+            "connected": code in connected_platforms,
+            "connect_url": connect_url,
+            "real_mode": real_mode,
+        })
 
     return render(request, "dashboard/accounts.html", {
         "active_nav": "accounts",
         "accounts":  accounts,
         "available": available,
     })
+
+
+@login_required
+@require_POST
+def account_refresh(request: HttpRequest, pk: int) -> HttpResponse:
+    """Trigger an immediate re-sync of a real-mode account.
+
+    Runs the platform collector synchronously (via ``.apply()``) so the user
+    gets updated KPIs on the very next page load instead of waiting for the
+    periodic Celery Beat tick.
+    """
+    account = get_object_or_404(ConnectedAccount, pk=pk, user=request.user)
+    if account.is_demo:
+        messages.info(request, "Demo akkauntni yangilab bo'lmaydi.")
+        return redirect("social:accounts")
+
+    try:
+        if account.platform == Platform.YOUTUBE:
+            result = sync_youtube_account.apply(args=[account.id]).get()
+            messages.success(
+                request,
+                f"@{account.handle} yangilandi — +{result.get('created', 0)} yangi video, "
+                f"{result.get('updated', 0)} yangilandi, "
+                f"{result.get('follower_count', 0):,} obunachi.",
+            )
+        elif account.platform == Platform.INSTAGRAM:
+            result = sync_instagram_account.apply(args=[account.id]).get()
+            messages.success(
+                request,
+                f"@{account.handle} yangilandi — +{result.get('created', 0)} yangi post, "
+                f"{result.get('updated', 0)} yangilandi, "
+                f"{result.get('follower_count', 0):,} obunachi.",
+            )
+        elif account.platform == Platform.TELEGRAM:
+            result = sync_telegram_account.apply(args=[account.id]).get()
+            messages.success(
+                request,
+                f"@{account.handle} yangilandi — +{result.get('created', 0)} yangi post, "
+                f"{result.get('updated', 0)} yangilandi.",
+            )
+        else:
+            messages.info(
+                request,
+                f"{account.get_platform_display()} uchun avtomatik yangilash hali mavjud emas.",
+            )
+    except Exception as e:
+        logger.warning("Refresh failed for account %s: %s", account.id, e)
+        messages.error(request, f"Yangilash muvaffaqiyatsiz: {e}")
+    return redirect("social:accounts")
 
 
 @login_required
@@ -267,6 +349,205 @@ def toggle_share_link(request: HttpRequest, pk: int) -> HttpResponse:
             reverse("social:public_share", kwargs={"token": link.token})
         )
         messages.success(request, f"Public link yaratildi: {share_url}")
+    return redirect("social:accounts")
+
+
+# ---------------------------------------------------------------- YouTube OAuth
+
+
+def _youtube_redirect_uri(request: HttpRequest) -> str:
+    """Absolute URI of the YouTube OAuth callback, as seen from outside.
+
+    Must match exactly what's registered in Google Cloud Console →
+    OAuth client → Authorized redirect URIs.
+    """
+    return request.build_absolute_uri(reverse("social:youtube_connect_callback"))
+
+
+@login_required
+def youtube_connect_start(request: HttpRequest) -> HttpResponse:
+    """Kick off the Google OAuth flow that grants youtube.readonly."""
+    import os
+    import secrets as _secrets
+
+    # google-auth-oauthlib refuses http:// redirect_uri by default; allow it in dev.
+    if settings.DEBUG:
+        os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+    # Google silently adds the profile scope + reorders the list on return —
+    # oauthlib otherwise raises "Scope has changed". Relaxing is standard practice.
+    os.environ["OAUTHLIB_RELAX_TOKEN_SCOPE"] = "1"
+
+    if not YouTubeCollector.is_configured():
+        messages.error(
+            request,
+            "YouTube integratsiyasi sozlanmagan — .env faylga "
+            "YOUTUBE_OAUTH_CLIENT_ID va YOUTUBE_OAUTH_SECRET qo'shing.",
+        )
+        return redirect("social:accounts")
+
+    state = _secrets.token_urlsafe(24)
+    redirect_uri = _youtube_redirect_uri(request)
+    try:
+        auth_url, code_verifier = YouTubeCollector.build_auth_url(redirect_uri, state)
+    except YouTubeNotConfigured as e:
+        messages.error(request, str(e))
+        return redirect("social:accounts")
+    # Persist state + PKCE verifier to session — both are required on callback.
+    request.session["youtube_oauth_state"] = state
+    request.session["youtube_oauth_code_verifier"] = code_verifier
+    return redirect(auth_url)
+
+
+@login_required
+def youtube_connect_callback(request: HttpRequest) -> HttpResponse:
+    """Handle Google's redirect back: exchange code → tokens → ConnectedAccount."""
+    import os
+
+    if settings.DEBUG:
+        os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+    os.environ["OAUTHLIB_RELAX_TOKEN_SCOPE"] = "1"
+
+    err = request.GET.get("error")
+    if err:
+        messages.error(request, f"YouTube ulash bekor qilindi: {err}")
+        return redirect("social:accounts")
+
+    code = request.GET.get("code")
+    state = request.GET.get("state")
+    expected_state = request.session.pop("youtube_oauth_state", None)
+    if not code or not state or state != expected_state:
+        messages.error(request, "YouTube ulash: noto'g'ri yoki eskirgan so'rov.")
+        return redirect("social:accounts")
+
+    redirect_uri = _youtube_redirect_uri(request)
+    code_verifier = request.session.pop("youtube_oauth_code_verifier", "")
+    try:
+        creds = YouTubeCollector.exchange_code(code, redirect_uri, code_verifier)
+        info = YouTubeCollector.fetch_mine_channel(
+            access_token=creds.token,
+            refresh_token=creds.refresh_token or "",
+        )
+    except YouTubeNotConfigured as e:
+        messages.error(request, str(e))
+        return redirect("social:accounts")
+    except Exception as e:
+        logger.warning("YouTube connect failed: %s", e)
+        messages.error(request, f"YouTube ulash muvaffaqiyatsiz: {e}")
+        return redirect("social:accounts")
+
+    account, _ = ConnectedAccount.objects.update_or_create(
+        platform=Platform.YOUTUBE,
+        external_id=info.external_id,
+        defaults={
+            "user":           request.user,
+            "handle":         info.handle,
+            "display_name":   info.display_name,
+            "avatar_url":     info.avatar_url,
+            "follower_count": info.follower_count,
+            "access_token":   creds.token or "",
+            "refresh_token":  creds.refresh_token or "",
+            "token_expires_at": creds.expiry.replace(tzinfo=dt_timezone.utc) if creds.expiry else None,
+            "scopes":         " ".join(creds.scopes or []),
+            "is_demo":        False,
+        },
+    )
+    sync_youtube_account.delay(account.id)
+    messages.success(
+        request,
+        f"YouTube kanali @{info.handle} ulandi — {info.follower_count:,} obunachi. "
+        f"Videolar fonda yig'ilmoqda.",
+    )
+    return redirect("social:accounts")
+
+
+# --------------------------------------------------------------- Instagram OAuth
+
+
+def _instagram_redirect_uri(request: HttpRequest) -> str:
+    """Absolute URI of the Instagram OAuth callback — must match exactly
+    what's set in Meta App Dashboard → Facebook Login → Valid OAuth Redirect URIs."""
+    return request.build_absolute_uri(reverse("social:instagram_connect_callback"))
+
+
+@login_required
+def instagram_connect_start(request: HttpRequest) -> HttpResponse:
+    """Kick off the Meta Graph API OAuth flow (Instagram Business)."""
+    import secrets as _secrets
+
+    if not InstagramCollector.is_configured():
+        messages.error(
+            request,
+            "Instagram integratsiyasi sozlanmagan — .env faylga "
+            "META_APP_ID va META_APP_SECRET qo'shing.",
+        )
+        return redirect("social:accounts")
+
+    state = _secrets.token_urlsafe(24)
+    request.session["instagram_oauth_state"] = state
+    redirect_uri = _instagram_redirect_uri(request)
+    try:
+        auth_url = InstagramCollector.build_auth_url(redirect_uri, state)
+    except InstagramNotConfigured as e:
+        messages.error(request, str(e))
+        return redirect("social:accounts")
+    return redirect(auth_url)
+
+
+@login_required
+def instagram_connect_callback(request: HttpRequest) -> HttpResponse:
+    """Handle Meta's redirect: code → long-lived token → IG Business acct."""
+    err = request.GET.get("error_description") or request.GET.get("error")
+    if err:
+        messages.error(request, f"Instagram ulash bekor qilindi: {err}")
+        return redirect("social:accounts")
+
+    code = request.GET.get("code")
+    state = request.GET.get("state")
+    expected_state = request.session.pop("instagram_oauth_state", None)
+    if not code or not state or state != expected_state:
+        messages.error(request, "Instagram ulash: noto'g'ri yoki eskirgan so'rov.")
+        return redirect("social:accounts")
+
+    redirect_uri = _instagram_redirect_uri(request)
+    try:
+        access_token, expires_in = InstagramCollector.exchange_code(code, redirect_uri)
+        ig_user_id, page_token = InstagramCollector.find_ig_business_account(access_token)
+        info = InstagramCollector.fetch_account_info(ig_user_id, page_token)
+    except InstagramNotConfigured as e:
+        messages.error(request, str(e))
+        return redirect("social:accounts")
+    except InstagramNoBusinessAccount as e:
+        messages.error(request, str(e))
+        return redirect("social:accounts")
+    except Exception as e:
+        logger.warning("Instagram connect failed: %s", e)
+        messages.error(request, f"Instagram ulash muvaffaqiyatsiz: {e}")
+        return redirect("social:accounts")
+
+    # Page token is what we need for all downstream IG calls, not the user token.
+    expires_at = timezone.now() + timedelta(seconds=expires_in)
+    account, _ = ConnectedAccount.objects.update_or_create(
+        platform=Platform.INSTAGRAM,
+        external_id=info.external_id,
+        defaults={
+            "user":             request.user,
+            "handle":           info.handle,
+            "display_name":     info.display_name,
+            "avatar_url":       info.avatar_url,
+            "follower_count":   info.follower_count,
+            "access_token":     page_token,    # store the Page token
+            "refresh_token":    "",            # Meta doesn't issue refresh tokens
+            "token_expires_at": expires_at,
+            "scopes":           ",".join(["instagram_basic", "pages_show_list"]),
+            "is_demo":          False,
+        },
+    )
+    sync_instagram_account.delay(account.id)
+    messages.success(
+        request,
+        f"Instagram @{info.handle} ulandi — {info.follower_count:,} obunachi. "
+        f"Postlar fonda yig'ilmoqda.",
+    )
     return redirect("social:accounts")
 
 

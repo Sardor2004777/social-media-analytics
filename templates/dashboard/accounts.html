@@ -36,7 +36,13 @@
         </div>
       </div>
       <p class="mt-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{{ p.desc }}</p>
-      <a href="{% url 'social:connect' p.code %}" class="btn-ghost btn-full mt-4 !text-xs">
+      {% if p.real_mode %}
+        <div class="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          {% trans "Haqiqiy ma'lumot" %}
+        </div>
+      {% endif %}
+      <a href="{{ p.connect_url }}" class="btn-ghost btn-full mt-4 !text-xs">
         <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         {% if p.connected %}{% trans "Yana bitta ulash" %}{% else %}{% trans "Ulash" %}{% endif %}
       </a>
@@ -99,6 +105,15 @@
                     <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
                     {% trans "Public link" %}
                   </a>
+                {% endif %}
+                {% if not a.is_demo %}
+                  <form method="post" action="{% url 'social:refresh' a.pk %}" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="inline-flex items-center gap-1 text-xs font-medium text-brand-600 dark:text-brand-400 hover:underline" title="{% trans 'Hozir yangilash' %}">
+                      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                      {% trans "Yangilash" %}
+                    </button>
+                  </form>
                 {% endif %}
                 <form method="post" action="{% url 'social:toggle_share' a.pk %}" class="inline">
                   {% csrf_token %}

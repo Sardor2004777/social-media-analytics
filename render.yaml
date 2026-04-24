@@ -67,10 +67,30 @@ services:
       - key: ENCRYPTION_KEY
         sync: false
 
-      # Google OAuth (optional — for Google sign-in via allauth)
+      # Google OAuth — Google sign-in via allauth + YouTube Data API v3.
+      # Reuse the same Client ID/Secret for both (saves a Meta project).
       - key: GOOGLE_OAUTH_CLIENT_ID
         sync: false
       - key: GOOGLE_OAUTH_SECRET
+        sync: false
+      - key: YOUTUBE_OAUTH_CLIENT_ID
+        sync: false
+      - key: YOUTUBE_OAUTH_SECRET
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
+
+      # Meta Graph API — Instagram Business integration (Phase 4). Requires
+      # an app at developers.facebook.com with Facebook Login for Business.
+      - key: META_APP_ID
+        sync: false
+      - key: META_APP_SECRET
+        sync: false
+
+      # X (Twitter) API v2 — OAuth 2.0 PKCE. Basic tier is paid.
+      - key: X_CLIENT_ID
+        sync: false
+      - key: X_CLIENT_SECRET
         sync: false
 
       # Telegram MTProto real mode (optional — leave blank for demo-only mode)
@@ -113,3 +133,10 @@ services:
       # Collectors poll cadence (used by Celery Beat; harmless without workers)
       - key: COLLECT_INTERVAL_HOURS
         value: "6"
+
+      # Render free tier has no Redis. Running Celery eagerly (inline with the
+      # web request) keeps "Connect Instagram / YouTube / Refresh" working
+      # without a worker process. Upgrade to paid Redis + worker service later
+      # and flip this to "false" for true background processing.
+      - key: CELERY_TASK_ALWAYS_EAGER
+        value: "true"

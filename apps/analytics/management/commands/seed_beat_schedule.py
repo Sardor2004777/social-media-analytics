@@ -26,6 +26,24 @@ SCHEDULES = [
         "crontab":  {"minute": "0", "hour": "9", "day_of_week": "*"},  # Daily 09:00
         "description": "Daily 09:00 — z-score anomaly scan over all live accounts.",
     },
+    {
+        "name":     "collectors.sync_youtube",
+        "task":     "apps.collectors.tasks.sync_all_youtube_accounts",
+        "crontab":  {"minute": "0", "hour": "*/6", "day_of_week": "*"},  # every 6h
+        "description": "Every 6 hours — pull fresh channel/video stats for all connected YouTube accounts.",
+    },
+    {
+        "name":     "collectors.sync_instagram",
+        "task":     "apps.collectors.tasks.sync_all_instagram_accounts",
+        "crontab":  {"minute": "15", "hour": "*/6", "day_of_week": "*"},  # every 6h, offset 15m
+        "description": "Every 6 hours — pull fresh profile/media stats for all Instagram accounts.",
+    },
+    {
+        "name":     "collectors.sync_telegram",
+        "task":     "apps.collectors.tasks.sync_all_telegram_accounts",
+        "crontab":  {"minute": "30", "hour": "*/6", "day_of_week": "*"},  # every 6h, offset 30m
+        "description": "Every 6 hours — pull fresh channel/message stats for all Telegram accounts.",
+    },
 ]
 
 

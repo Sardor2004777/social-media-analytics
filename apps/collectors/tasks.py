@@ -13,7 +13,13 @@ from django.db import transaction
 
 from apps.social.models import ConnectedAccount, Platform, Post, PostType
 
+from .services.instagram import (
+    InstagramCollector,
+    InstagramNoBusinessAccount,
+    InstagramNotConfigured,
+)
 from .services.telegram import TelegramCollector, run_sync
+from .services.youtube import YouTubeCollector, YouTubeNotConfigured
 
 logger = logging.getLogger(__name__)
 
@@ -109,4 +115,242 @@ def sync_all_telegram_accounts() -> dict:
     )
     for aid in ids:
         sync_telegram_account.delay(aid)
+    return {"enqueued": len(ids), "account_ids": ids}
+
+
+# ------------------------------------------------------------------- YouTube
+
+
+@shared_task(
+    bind=True,
+    queue="collectors",
+    name="apps.collectors.tasks.sync_youtube_account",
+    autoretry_for=(Exception,),
+    retry_backoff=30,
+    retry_backoff_max=600,
+    retry_jitter=True,
+    max_retries=3,
+)
+def sync_youtube_account(self, account_id: int, video_limit: int = 50) -> dict:
+    """Refresh channel metadata + last ``video_limit`` videos for a YouTube account.
+
+    Uses the per-account encrypted OAuth tokens. Demo accounts are skipped.
+    Existing videos are updated in-place via the ``(account, external_id)``
+    unique key; new ones are inserted.
+    """
+    try:
+        account = ConnectedAccount.objects.get(
+            id=account_id, platform=Platform.YOUTUBE
+        )
+    except ConnectedAccount.DoesNotExist:
+        logger.warning("sync_youtube_account: account %s not found", account_id)
+        return {"account_id": account_id, "status": "not_found"}
+
+    if account.is_demo:
+        logger.info("sync_youtube_account: skipping demo account %s", account_id)
+        return {"account_id": account_id, "status": "skipped_demo"}
+
+    if not account.access_token:
+        logger.warning(
+            "sync_youtube_account: no access_token for account %s — reconnect required",
+            account_id,
+        )
+        return {"account_id": account_id, "status": "missing_token"}
+
+    try:
+        info = YouTubeCollector.fetch_mine_channel(
+            access_token=account.access_token,
+            refresh_token=account.refresh_token,
+        )
+        videos = YouTubeCollector.fetch_recent_videos(
+            access_token=account.access_token,
+            channel_id=account.external_id,
+            limit=video_limit,
+            refresh_token=account.refresh_token,
+        )
+    except YouTubeNotConfigured as e:
+        logger.error("sync_youtube_account: %s", e)
+        return {"account_id": account_id, "status": "not_configured"}
+
+    with transaction.atomic():
+        account.display_name = info.display_name or account.display_name
+        account.avatar_url = info.avatar_url or account.avatar_url
+        account.follower_count = info.follower_count
+        account.save(update_fields=[
+            "display_name", "avatar_url", "follower_count", "updated_at",
+        ])
+
+        created = 0
+        updated = 0
+        for v in videos:
+            denom = max(v.views, 1)
+            _obj, is_new = Post.objects.update_or_create(
+                account=account,
+                external_id=v.external_id,
+                defaults={
+                    "post_type":       PostType.VIDEO,
+                    "caption":         v.caption,
+                    "url":             v.url,
+                    "published_at":    v.published_at,
+                    "views":           v.views,
+                    "likes":           v.likes,
+                    "comments_count":  v.comments_count,
+                    "shares":          0,  # YouTube Data API doesn't expose share count
+                    "engagement_rate": (v.likes + v.comments_count) / denom,
+                },
+            )
+            if is_new:
+                created += 1
+            else:
+                updated += 1
+
+    logger.info(
+        "sync_youtube_account: %s (@%s) → +%d new / %d updated",
+        account.id, account.handle, created, updated,
+    )
+    return {
+        "account_id":     account_id,
+        "status":         "ok",
+        "handle":         account.handle,
+        "created":        created,
+        "updated":        updated,
+        "follower_count": info.follower_count,
+    }
+
+
+@shared_task(
+    queue="collectors",
+    name="apps.collectors.tasks.sync_all_youtube_accounts",
+)
+def sync_all_youtube_accounts() -> dict:
+    """Fan-out task: enqueue a sync for every real (non-demo) YouTube account."""
+    ids = list(
+        ConnectedAccount.objects.filter(
+            platform=Platform.YOUTUBE, is_demo=False
+        ).exclude(access_token="").values_list("id", flat=True)
+    )
+    for aid in ids:
+        sync_youtube_account.delay(aid)
+    return {"enqueued": len(ids), "account_ids": ids}
+
+
+# ----------------------------------------------------------------- Instagram
+
+
+@shared_task(
+    bind=True,
+    queue="collectors",
+    name="apps.collectors.tasks.sync_instagram_account",
+    autoretry_for=(Exception,),
+    retry_backoff=30,
+    retry_backoff_max=600,
+    retry_jitter=True,
+    max_retries=3,
+)
+def sync_instagram_account(self, account_id: int, media_limit: int = 50) -> dict:
+    """Refresh IG Business profile + last ``media_limit`` media items.
+
+    Uses the encrypted Facebook *Page* access token (not the user token) — IG
+    Graph API requires page tokens for all downstream calls.
+    """
+    try:
+        account = ConnectedAccount.objects.get(
+            id=account_id, platform=Platform.INSTAGRAM
+        )
+    except ConnectedAccount.DoesNotExist:
+        logger.warning("sync_instagram_account: account %s not found", account_id)
+        return {"account_id": account_id, "status": "not_found"}
+
+    if account.is_demo:
+        logger.info("sync_instagram_account: skipping demo account %s", account_id)
+        return {"account_id": account_id, "status": "skipped_demo"}
+
+    if not account.access_token:
+        logger.warning(
+            "sync_instagram_account: no access_token for account %s — reconnect required",
+            account_id,
+        )
+        return {"account_id": account_id, "status": "missing_token"}
+
+    try:
+        info = InstagramCollector.fetch_account_info(
+            ig_user_id=account.external_id,
+            page_token=account.access_token,
+        )
+        media = InstagramCollector.fetch_recent_media(
+            ig_user_id=account.external_id,
+            page_token=account.access_token,
+            limit=media_limit,
+        )
+    except (InstagramNotConfigured, InstagramNoBusinessAccount) as e:
+        logger.error("sync_instagram_account: %s", e)
+        return {"account_id": account_id, "status": "error", "detail": str(e)}
+
+    # Map Meta media_type → our PostType
+    _POST_TYPE = {
+        "IMAGE":           PostType.PHOTO,
+        "VIDEO":           PostType.VIDEO,
+        "CAROUSEL_ALBUM":  PostType.CAROUSEL,
+        "REELS":           PostType.REEL,
+    }
+
+    with transaction.atomic():
+        account.display_name = info.display_name or account.display_name
+        account.avatar_url = info.avatar_url or account.avatar_url
+        account.follower_count = info.follower_count
+        account.save(update_fields=[
+            "display_name", "avatar_url", "follower_count", "updated_at",
+        ])
+
+        created = 0
+        updated = 0
+        for m in media:
+            denom = max(m.likes + m.comments_count, 1)
+            _obj, is_new = Post.objects.update_or_create(
+                account=account,
+                external_id=m.external_id,
+                defaults={
+                    "post_type":       _POST_TYPE.get(m.media_type, PostType.PHOTO),
+                    "caption":         m.caption,
+                    "url":             m.url,
+                    "published_at":    m.published_at,
+                    "views":           0,   # needs insights scope; keep 0 for now
+                    "likes":           m.likes,
+                    "comments_count": m.comments_count,
+                    "shares":          0,
+                    "engagement_rate": (m.likes + m.comments_count) / denom,
+                },
+            )
+            if is_new:
+                created += 1
+            else:
+                updated += 1
+
+    logger.info(
+        "sync_instagram_account: %s (@%s) → +%d new / %d updated",
+        account.id, account.handle, created, updated,
+    )
+    return {
+        "account_id":     account_id,
+        "status":         "ok",
+        "handle":         account.handle,
+        "created":        created,
+        "updated":        updated,
+        "follower_count": info.follower_count,
+    }
+
+
+@shared_task(
+    queue="collectors",
+    name="apps.collectors.tasks.sync_all_instagram_accounts",
+)
+def sync_all_instagram_accounts() -> dict:
+    """Fan-out task: enqueue a sync for every real (non-demo) Instagram account."""
+    ids = list(
+        ConnectedAccount.objects.filter(
+            platform=Platform.INSTAGRAM, is_demo=False
+        ).exclude(access_token="").values_list("id", flat=True)
+    )
+    for aid in ids:
+        sync_instagram_account.delay(aid)
     return {"enqueued": len(ids), "account_ids": ids}

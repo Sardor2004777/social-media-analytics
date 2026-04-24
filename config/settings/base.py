@@ -167,6 +167,14 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
+# Auto-link a Google sign-in to an existing local account when their verified
+# emails match. Without this, a user who first signed up with email/password
+# and later clicks "Sign in with Google" gets stuck on an "email already
+# exists" page — we'd rather transparently link the two so the Google token
+# becomes usable on the existing profile.
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "/accounts/login/"

@@ -14,6 +14,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.fields import EncryptedTextField
 from apps.core.models import TimestampedModel
 
 
@@ -39,6 +40,14 @@ class ConnectedAccount(TimestampedModel):
     follower_count  = models.PositiveIntegerField(default=0)
     following_count = models.PositiveIntegerField(default=0)
 
+    # OAuth credentials — encrypted at rest via Fernet (ENCRYPTION_KEY).
+    # Empty for Telegram MTProto (server-side session) and for public-only
+    # YouTube reads using YOUTUBE_API_KEY.
+    access_token     = EncryptedTextField(blank=True, default="")
+    refresh_token    = EncryptedTextField(blank=True, default="")
+    token_expires_at = models.DateTimeField(null=True, blank=True)
+    scopes           = models.CharField(max_length=512, blank=True, default="")
+
     is_demo = models.BooleanField(
         default=False,
         db_index=True,
@@ -54,6 +63,16 @@ class ConnectedAccount(TimestampedModel):
 
     def __str__(self) -> str:
         return f"{self.get_platform_display()}: @{self.handle}"
+
+    @property
+    def needs_token_refresh(self) -> bool:
+        """True when the access token is expired or about to expire (60s slack)."""
+        from datetime import timedelta
+        from django.utils import timezone
+
+        if not self.token_expires_at:
+            return False
+        return self.token_expires_at <= timezone.now() + timedelta(seconds=60)
 
 
 class PostType(models.TextChoices):
