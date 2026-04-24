@@ -1,22 +1,28 @@
-"""Instagram Graph API collector — OAuth + account/media fetching.
+"""Instagram API with Instagram Login — direct IG OAuth, no Facebook Page required.
 
-Instagram is accessed via Meta's *Graph API* (not the deprecated Basic
-Display API). The account being analysed must be a **Business / Creator
-account linked to a Facebook Page** — personal accounts cannot grant the
-needed scopes. End-user flow:
+Meta's newer Instagram API (announced 2024) lets users sign in *directly*
+with their Instagram credentials on instagram.com, bypassing the whole
+Facebook-Login → Page → IG-Business-account chain. The Instagram account
+must still be **Business** or **Creator**, but there's no need to own a
+Facebook Page.
 
-    User → "Connect Instagram"
-    → redirects to facebook.com/dialog/oauth with page scopes
-    → user picks a Facebook Page
-    → callback exchanges code → short-lived token
-    → exchange short → long-lived (60-day) token
-    → list /me/accounts, pick the first Page whose
-      instagram_business_account is set
-    → persist IG user-id + long-lived token encrypted on ConnectedAccount
+Setup (one-time, in Meta Developer dashboard):
+    1. Add product "Instagram" to the app.
+    2. Under "Instagram → API setup with Instagram business login":
+         - Set an Instagram business login redirect URI to
+           ``<site>/social/connect/instagram/callback/``
+    3. Note the **Instagram App ID** and **Instagram App Secret** under that
+       product's settings — these differ from the main Meta App ID/Secret.
+       Put them in .env as ``META_APP_ID`` / ``META_APP_SECRET`` (we reuse
+       the same env var names for simplicity).
 
-Requires ``META_APP_ID`` + ``META_APP_SECRET`` in .env. The redirect URI
-must match what's registered in the Meta App dashboard — we compute it
-from the Django request so localhost and production hosts both work.
+Flow:
+    user → instagram.com/oauth/authorize (IG login + consent)
+    → redirect back with ``code``
+    → POST /oauth/access_token → short-lived user token (1h)
+    → GET /access_token?grant_type=ig_exchange_token → long-lived (60 days)
+    → GET /me?fields=... → account info
+    → persist long-lived token encrypted on ConnectedAccount
 """
 from __future__ import annotations
 
@@ -28,20 +34,16 @@ import requests
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
 
-# Meta bumps its Graph API version ~every quarter; older versions keep
-# working for a year+. Pin here to get predictable field behaviour.
-API_VERSION = "v21.0"
-BASE_URL = f"https://graph.facebook.com/{API_VERSION}"
-OAUTH_DIALOG = f"https://www.facebook.com/{API_VERSION}/dialog/oauth"
+# Instagram business login endpoints (different from Facebook Graph API).
+AUTH_DIALOG        = "https://www.instagram.com/oauth/authorize"
+TOKEN_SHORT_URL    = "https://api.instagram.com/oauth/access_token"
+TOKEN_LONG_URL     = "https://graph.instagram.com/access_token"
+GRAPH_BASE         = "https://graph.instagram.com"
 
-# Minimum scopes for read-only analytics. ``business_management`` and
-# ``pages_read_engagement`` require app review for production but they also
-# reject outright in dev mode on fresh apps, so we only request what the app
-# has by default: basic IG account reads + the Page list that surfaces the
-# instagram_business_account link.
+# Minimal scopes for read-only analytics. Adding ``instagram_business_manage_insights``
+# later unlocks views/reach metrics but usually requires app review.
 SCOPES = [
-    "instagram_basic",
-    "pages_show_list",
+    "instagram_business_basic",
 ]
 
 
@@ -50,7 +52,7 @@ class InstagramNotConfigured(RuntimeError):
 
 
 class InstagramNoBusinessAccount(RuntimeError):
-    """Raised when the user's FB Pages don't expose an IG Business account."""
+    """Kept for API compatibility — not raised in the Instagram-Login flow."""
 
 
 @dataclass
@@ -75,7 +77,7 @@ class IGMediaInfo:
 
 
 class InstagramCollector:
-    """Thin requests-based wrapper around Meta Graph API v21.0."""
+    """Instagram Login flow + Graph API v21 data calls."""
 
     @staticmethod
     def is_configured() -> bool:
@@ -88,7 +90,9 @@ class InstagramCollector:
     def _require_configured(cls) -> None:
         if not cls.is_configured():
             raise InstagramNotConfigured(
-                "META_APP_ID / META_APP_SECRET are not set in .env"
+                "META_APP_ID / META_APP_SECRET are not set in .env (use the "
+                "Instagram App ID + Secret from Meta Developer → Instagram → "
+                "API setup with Instagram business login)."
             )
 
     # ------------------------------------------------------------------ OAuth
@@ -103,34 +107,37 @@ class InstagramCollector:
             "scope":         ",".join(SCOPES),
             "response_type": "code",
         }
-        return f"{OAUTH_DIALOG}?{urlencode(params)}"
+        return f"{AUTH_DIALOG}?{urlencode(params)}"
 
     @classmethod
     def exchange_code(cls, code: str, redirect_uri: str) -> tuple[str, int]:
-        """Swap ``code`` for a short-lived user token, then upgrade it to the
-        60-day long-lived token. Returns ``(access_token, expires_in_seconds)``.
+        """Swap ``code`` for a short-lived (1h) token, then upgrade to long-
+        lived (60d). Returns ``(access_token, expires_in_seconds)``.
         """
         cls._require_configured()
-        short = requests.get(
-            f"{BASE_URL}/oauth/access_token",
-            params={
+        # Step 1: code → short-lived token (POST form-encoded).
+        short = requests.post(
+            TOKEN_SHORT_URL,
+            data={
                 "client_id":     settings.META_APP_ID,
                 "client_secret": settings.META_APP_SECRET,
+                "grant_type":    "authorization_code",
                 "redirect_uri":  redirect_uri,
                 "code":          code,
             },
             timeout=15,
         )
         short.raise_for_status()
-        short_token = short.json()["access_token"]
+        short_json = short.json()
+        short_token = short_json["access_token"]
 
+        # Step 2: short → long-lived token.
         long = requests.get(
-            f"{BASE_URL}/oauth/access_token",
+            TOKEN_LONG_URL,
             params={
-                "grant_type":        "fb_exchange_token",
-                "client_id":         settings.META_APP_ID,
-                "client_secret":     settings.META_APP_SECRET,
-                "fb_exchange_token": short_token,
+                "grant_type":    "ig_exchange_token",
+                "client_secret": settings.META_APP_SECRET,
+                "access_token":  short_token,
             },
             timeout=15,
         )
@@ -138,44 +145,48 @@ class InstagramCollector:
         data = long.json()
         return data["access_token"], int(data.get("expires_in", 5184000))
 
-    # ------------------------------------------------------------------- Data
-
     @classmethod
-    def find_ig_business_account(cls, access_token: str) -> tuple[str, str]:
-        """Walk the user's Facebook Pages and return ``(ig_user_id, page_token)``
-        of the first Page that has a linked Instagram Business account.
-
-        We use the *Page* access token (not the user token) for downstream
-        IG calls — that's what Meta requires once you've selected a page.
+    def refresh_long_lived(cls, long_token: str) -> tuple[str, int]:
+        """Refresh a long-lived token before the 60-day expiry. Returns
+        ``(new_token, expires_in_seconds)``. Call from a periodic task.
         """
         resp = requests.get(
-            f"{BASE_URL}/me/accounts",
-            params={
-                "fields":       "id,name,access_token,instagram_business_account",
-                "access_token": access_token,
-            },
+            f"{GRAPH_BASE}/refresh_access_token",
+            params={"grant_type": "ig_refresh_token", "access_token": long_token},
             timeout=15,
         )
         resp.raise_for_status()
-        pages = resp.json().get("data", [])
-        for p in pages:
-            ig = p.get("instagram_business_account")
-            if ig and ig.get("id"):
-                return ig["id"], p["access_token"]
-        raise InstagramNoBusinessAccount(
-            "Facebook Page'larda Instagram Business akkaunti topilmadi. "
-            "IG akkauntingizni Business rejimga o'tkazing va Facebook Page'ga "
-            "bog'lang."
+        d = resp.json()
+        return d["access_token"], int(d.get("expires_in", 5184000))
+
+    # ------------------------------------------------------------------- Data
+
+    # The Facebook-Login flow used a page token to look up an IG account; the
+    # Instagram-Login flow gives us the IG account directly via /me. Keep the
+    # signature for backward compat with existing views/tasks, but derive both
+    # values from a single /me call.
+    @classmethod
+    def find_ig_business_account(cls, access_token: str) -> tuple[str, str]:
+        """Return ``(ig_user_id, access_token)`` — we already have the token
+        tied to the right IG account, so the "search across Pages" step from
+        the old Facebook Login flow is a no-op here.
+        """
+        resp = requests.get(
+            f"{GRAPH_BASE}/me",
+            params={"fields": "id", "access_token": access_token},
+            timeout=15,
         )
+        resp.raise_for_status()
+        return resp.json()["id"], access_token
 
     @classmethod
-    def fetch_account_info(cls, ig_user_id: str, page_token: str) -> IGAccountInfo:
+    def fetch_account_info(cls, ig_user_id: str, access_token: str) -> IGAccountInfo:
         resp = requests.get(
-            f"{BASE_URL}/{ig_user_id}",
+            f"{GRAPH_BASE}/{ig_user_id}",
             params={
-                "fields":       "id,username,name,profile_picture_url,"
-                                "followers_count,media_count",
-                "access_token": page_token,
+                "fields":       "id,username,name,account_type,"
+                                "profile_picture_url,followers_count,media_count",
+                "access_token": access_token,
             },
             timeout=15,
         )
@@ -192,15 +203,15 @@ class InstagramCollector:
 
     @classmethod
     def fetch_recent_media(
-        cls, ig_user_id: str, page_token: str, limit: int = 50
+        cls, ig_user_id: str, access_token: str, limit: int = 50
     ) -> list[IGMediaInfo]:
         out: list[IGMediaInfo] = []
-        url: str | None = f"{BASE_URL}/{ig_user_id}/media"
+        url: str | None = f"{GRAPH_BASE}/{ig_user_id}/media"
         params: dict | None = {
             "fields":       "id,caption,media_type,permalink,timestamp,"
                             "like_count,comments_count",
             "limit":        min(50, limit),
-            "access_token": page_token,
+            "access_token": access_token,
         }
         while url and len(out) < limit:
             resp = requests.get(url, params=params, timeout=15)
@@ -220,6 +231,5 @@ class InstagramCollector:
                 if len(out) >= limit:
                     break
             url = (data.get("paging") or {}).get("next")
-            # Subsequent page URLs from Meta embed query params already.
             params = None
         return out
