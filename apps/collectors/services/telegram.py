@@ -136,8 +136,10 @@ class TelegramCollector:
             )
 
     async def fetch_recent_messages(
-        self, username: str, limit: int = 50
+        self, username: str, limit: int | None = 50
     ) -> list[ChannelMessage]:
+        """``limit=None`` paginates through every available post — slow on
+        large channels but the only way to seed full history for analytics."""
         username = _normalise_handle(username)
         messages: list[ChannelMessage] = []
         async with self._authed_client() as client:

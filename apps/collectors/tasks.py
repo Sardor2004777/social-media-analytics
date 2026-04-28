@@ -49,8 +49,11 @@ def sync_telegram_account(self, account_id: int, post_limit: int = 50) -> dict:
 
     collector = TelegramCollector()
     info = run_sync(collector.fetch_channel_info(account.handle))
+    # ``post_limit=0`` (sentinel from the Connect view) means "every post" —
+    # forward as ``None`` so Telethon iter_messages paginates until exhausted.
+    fetch_limit = None if post_limit == 0 else post_limit
     messages = run_sync(
-        collector.fetch_recent_messages(account.handle, limit=post_limit)
+        collector.fetch_recent_messages(account.handle, limit=fetch_limit)
     )
 
     with transaction.atomic():

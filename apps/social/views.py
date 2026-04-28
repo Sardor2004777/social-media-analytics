@@ -209,10 +209,19 @@ class ConnectForm(forms.Form):
     )
     posts = forms.IntegerField(
         min_value=10,
-        max_value=300,
+        max_value=5000,
         initial=60,
         widget=forms.NumberInput(attrs={"class": "field-input !w-32"}),
         help_text="Demo uchun necha ta post seed qilinsin",
+    )
+    # Real-mode only: pull every available post instead of the slider value.
+    # Backed by Telethon's iter_messages(limit=None); takes longer for big channels.
+    fetch_all = forms.BooleanField(
+        required=False,
+        initial=False,
+        widget=forms.CheckboxInput(attrs={
+            "class": "h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500",
+        }),
     )
 
     def clean_handle(self) -> str:
@@ -271,12 +280,20 @@ def account_connect(request: HttpRequest, platform: str) -> HttpResponse:
                             "is_demo": False,
                         },
                     )
-                    sync_telegram_account.delay(account.id, post_limit=posts)
+                    # ``post_limit=0`` is our sentinel for "fetch every post"
+                    # (Telethon iter_messages will paginate until exhausted).
+                    effective_limit = 0 if form.cleaned_data.get("fetch_all") else posts
+                    sync_telegram_account.delay(account.id, post_limit=effective_limit)
+                    extra = (
+                        " Hamma postlar yig'ilmoqda — katta kanal uchun "
+                        "bir necha daqiqa kutish mumkin."
+                        if effective_limit == 0 else
+                        " Postlar fonda yig'ilmoqda."
+                    )
                     messages.success(
                         request,
                         f"@{info.handle} ({platform_meta['label']}) ulandi — "
-                        f"{info.follower_count:,} obunachi. "
-                        f"Postlar fonda yig'ilmoqda.",
+                        f"{info.follower_count:,} obunachi.{extra}",
                     )
                     return redirect("social:accounts")
             else:

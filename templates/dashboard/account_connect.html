@@ -51,13 +51,27 @@
         {{ form.posts }}
         <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
           {% if real_mode %}
-            {% trans "10 dan 300 gacha. Kanaldan so'nggi shuncha postni — views, reaksiyalar, forwardlar bilan — tortib olamiz." %}
+            {% trans "10 dan 5000 gacha. Kanaldan so'nggi shuncha postni — views, reaksiyalar, forwardlar bilan — tortib olamiz." %}
           {% else %}
-            {% trans "10 dan 300 gacha. Har post uchun 3–14 komment + AI sentiment tahlili avtomatik yaratiladi." %}
+            {% trans "10 dan 5000 gacha. Har post uchun 3–14 komment + AI sentiment tahlili avtomatik yaratiladi." %}
           {% endif %}
         </p>
         {% if form.posts.errors %}<div class="field-error">{{ form.posts.errors|join:" " }}</div>{% endif %}
       </div>
+
+      {% if real_mode %}
+        <div class="field">
+          <label class="inline-flex items-start gap-3 cursor-pointer select-none">
+            {{ form.fetch_all }}
+            <span class="text-sm">
+              <span class="font-semibold text-slate-900 dark:text-white">{% trans "Hamma postlarni olish" %}</span>
+              <span class="block mt-0.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                {% trans "Yuqoridagi limitni e'tiborsiz qoldirib, kanaldagi barcha mavjud postlarni yig'adi. Katta kanallarda bir necha daqiqa vaqt olishi mumkin." %}
+              </span>
+            </span>
+          </label>
+        </div>
+      {% endif %}
 
       {% if real_mode %}
         <div class="rounded-card border border-emerald-200 dark:border-emerald-900/60 bg-emerald-50/60 dark:bg-emerald-950/40 p-4 text-sm text-emerald-800 dark:text-emerald-200">
