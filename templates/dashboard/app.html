@@ -14,6 +14,25 @@
 
 {% block dash_content %}
 
+  {# Demo-only banner — every connected account is mock-seeded #}
+  {% if has_only_demo %}
+    <div class="rounded-xl border border-amber-200 dark:border-amber-800/60 bg-amber-50/70 dark:bg-amber-950/30 px-4 py-3 sm:px-5 flex items-start sm:items-center gap-3 flex-wrap" data-reveal>
+      <span class="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-300">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </span>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-semibold text-amber-900 dark:text-amber-100">{% trans "Hozir demo ma'lumot ko'rsatilyapti" %}</div>
+        <p class="text-xs text-amber-800/80 dark:text-amber-200/80 mt-0.5 leading-relaxed">
+          {% trans "Telegram, YouTube yoki VK akkauntingizni ulab, real grafiklar va tavsiyalarni oling." %}
+        </p>
+      </div>
+      <a href="{% url 'social:accounts' %}" class="btn-primary !text-xs !py-2 !px-3 whitespace-nowrap">
+        {% trans "Real akkaunt ulash" %}
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  {% endif %}
+
   {# Welcome / empty state #}
   {% if not connected_accounts %}
     <div class="relative overflow-hidden rounded-2xl border border-brand-200 dark:border-brand-800 bg-gradient-to-br from-brand-50 via-white to-indigo-50 dark:from-brand-900/40 dark:via-slate-900 dark:to-indigo-900/30 p-6 sm:p-8">

@@ -192,6 +192,11 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
     # ---------------- Recommendations ----------------
     recommendations = build_recommendations(user)
 
+    # First-time UX: when every connected account is demo-seeded, surface a
+    # quiet banner at the top of the dashboard pointing the user at /social/
+    # so they can wire up a real Telegram / YouTube / VK account.
+    has_only_demo = bool(accounts) and all(a.is_demo for a in accounts)
+
     # ---------------- KPIs (display) ----------------
     def trend_pct(window_days: int = 7) -> dict[int, float]:
         # Very small helper: ratio of last `window` to previous `window` for each metric.
@@ -225,6 +230,7 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         "top_posts": top_posts,
         "timeline": timeline,
         "recommendations": recommendations,
+        "has_only_demo":   has_only_demo,
         "connected_accounts": accounts,
         "range_days":    days_window,
         "range_options": [7, 14, 30, 90],
