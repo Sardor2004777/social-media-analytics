@@ -1,0 +1,82 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Mavzu klasterlari" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "Mavzu klasterlari" %}{% endblock %}
+
+{% block dash_content %}
+<div data-reveal>
+  <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+    {% trans "Mavzu klasterlari" %}
+    <span class="text-brand-600 dark:text-brand-400">— TF-IDF + KMeans</span>
+  </h1>
+  <p class="mt-1 text-slate-600 dark:text-slate-400">
+    {% trans "Postlaringiz mavzu bo'yicha avtomatik guruhlanadi va har klaster engagement'i taqqoslanadi." %}
+  </p>
+</div>
+
+{% if error %}
+  <div class="card p-10 text-center">
+    <p class="text-sm text-slate-600 dark:text-slate-400">{{ error }}</p>
+  </div>
+{% else %}
+  {% if best_cluster %}
+    <div class="rounded-xl border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/60 dark:bg-emerald-950/30 px-5 py-4 flex items-start gap-3" data-reveal>
+      <span class="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-300">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </span>
+      <div class="flex-1 min-w-0 text-sm">
+        <div class="font-semibold text-emerald-900 dark:text-emerald-100">{% trans "Eng samarali klaster:" %} <span class="font-mono">{{ best_cluster.label }}</span></div>
+        <p class="mt-0.5 text-emerald-800/80 dark:text-emerald-200/80 leading-relaxed">
+          {% blocktrans with eng=best_cluster.avg_engagement_pct sz=best_cluster.size %}{{ sz }} ta post o'rtacha engagement {{ eng }}%. Shu mavzudagi postlarni ko'paytirish maqsadga muvofiq.{% endblocktrans %}
+        </p>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5" data-reveal>
+    {% for c in clusters %}
+      <div class="card p-5 {% if c.cluster_id == best_cluster.cluster_id %}border-emerald-300 dark:border-emerald-700{% endif %}">
+        <div class="flex items-start justify-between gap-3 mb-4">
+          <div class="min-w-0">
+            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{% trans "Klaster" %} #{{ forloop.counter }}</div>
+            <div class="mt-1 text-base font-semibold text-slate-900 dark:text-white truncate">{{ c.label }}</div>
+          </div>
+          {% if c.cluster_id == best_cluster.cluster_id %}
+            <span class="chip-brand text-[10px] shrink-0">⭐ {% trans "Eng yaxshi" %}</span>
+          {% endif %}
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 mb-4 text-center">
+          <div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Postlar" %}</div>
+            <div class="mt-0.5 text-lg font-bold tabular text-slate-900 dark:text-white">{{ c.size }}</div>
+          </div>
+          <div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "O'rt. engagement" %}</div>
+            <div class="mt-0.5 text-lg font-bold tabular text-emerald-600 dark:text-emerald-400">{{ c.avg_engagement_pct }}%</div>
+          </div>
+          <div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "O'rt. likes" %}</div>
+            <div class="mt-0.5 text-lg font-bold tabular text-rose-600 dark:text-rose-400">{{ c.avg_likes }}</div>
+          </div>
+        </div>
+
+        {% if c.sample_caption %}
+          <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div class="text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">{% trans "Eng yaxshi namuna" %}</div>
+            <p class="text-sm text-slate-700 dark:text-slate-300 italic leading-relaxed">«{{ c.sample_caption }}»</p>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="card p-5 bg-slate-50/70 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800" data-reveal>
+    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+      <strong>{% trans "Texnik tafsilot:" %}</strong>
+      {% trans "TfidfVectorizer (max_features=300, min_df=2, max_df=0.85) bilan postlar vektorlashtiriladi, KMeans (n_init='auto', random_state=42) klasterlaydi. Klaster nomi — markaz vektorining top-3 tokenidan olingan." %}
+    </p>
+  </div>
+{% endif %}
+{% endblock %}

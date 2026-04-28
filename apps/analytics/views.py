@@ -30,6 +30,7 @@ from .services.chat import (
     generate_weekly_digest,
     is_configured as chat_is_configured,
 )
+from .services.clustering import NotEnoughPosts, cluster_posts
 from .services.predict import NotEnoughData, predict_for_inputs
 from .services.wordcloud import WordcloudEntry, top_words
 
@@ -453,6 +454,28 @@ def sentiment_page(request: HttpRequest) -> HttpResponse:
         "topic_matrix": topic_matrix,
     }
     return render(request, "dashboard/sentiment.html", ctx)
+
+
+@login_required
+def topic_clusters_page(request: HttpRequest) -> HttpResponse:
+    """TF-IDF + KMeans clustering of the user's post captions."""
+    clusters: list = []
+    error = None
+    try:
+        clusters = cluster_posts(request.user)
+    except NotEnoughPosts as e:
+        error = str(e)
+    except Exception as e:
+        logger.exception("Clustering failed for user %s", request.user.id)
+        error = f"Texnik xato: {e}"
+
+    best_cluster = clusters[0] if clusters else None
+    return render(request, "dashboard/clusters.html", {
+        "active_nav":   "clusters",
+        "clusters":     clusters,
+        "best_cluster": best_cluster,
+        "error":        error,
+    })
 
 
 @login_required

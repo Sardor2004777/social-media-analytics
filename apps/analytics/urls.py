@@ -13,4 +13,5 @@ urlpatterns = [
     path("digest/",   views.ai_digest,          name="digest"),
     path("predict/",  views.engagement_predict, name="predict"),
     path("correlation/", views.correlation_page, name="correlation"),
+    path("clusters/",    views.topic_clusters_page, name="clusters"),
 ]
