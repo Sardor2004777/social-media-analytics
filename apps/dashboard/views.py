@@ -24,7 +24,7 @@ from django.utils import timezone
 from apps.analytics.models import SentimentLabel, SentimentResult
 from apps.analytics.services.recommendations import build_recommendations
 from apps.collectors.models import Comment
-from apps.social.models import ConnectedAccount, Platform, Post, PostType
+from apps.social.models import ConnectedAccount, FollowerSnapshot, Platform, Post, PostType
 
 
 def _safe_best_post_recipe(user):
@@ -226,6 +226,34 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
     # ---------------- Optimal Posting AI (heatmap + ML grid search) -----------
     best_recipe = _safe_best_post_recipe(user)
 
+    # ---------------- Audience growth (follower snapshots last 30 days) -----
+    growth_window = 30
+    growth_start = (now - timedelta(days=growth_window - 1)).date()
+    growth_labels = [
+        (growth_start + timedelta(days=i)).strftime("%d %b")
+        for i in range(growth_window)
+    ]
+    # Sum follower_count across all of the user's accounts per day. Missing
+    # days are forward-filled with the prior day's value so the line doesn't
+    # collapse to zero on a no-sync day.
+    snaps_qs = (
+        FollowerSnapshot.objects
+        .filter(account__user=user, recorded_on__gte=growth_start)
+        .values("recorded_on")
+        .annotate(total=Sum("count"))
+        .order_by("recorded_on")
+    )
+    by_day = {row["recorded_on"]: row["total"] or 0 for row in snaps_qs}
+    growth_series: list[int] = []
+    last_seen = sum(a.follower_count for a in accounts)
+    for i in range(growth_window):
+        day = growth_start + timedelta(days=i)
+        if day in by_day:
+            last_seen = by_day[day]
+        growth_series.append(int(last_seen))
+    growth_delta = growth_series[-1] - growth_series[0] if growth_series else 0
+    growth_pct = round(growth_delta * 100 / max(growth_series[0], 1), 1) if growth_series and growth_series[0] else 0.0
+
     # ---------------- Cross-platform performance comparison ------------------
     # Per-platform avg engagement_rate for the user's connected accounts —
     # the dashboard's "which platform is winning" callout.
@@ -338,6 +366,12 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         "cross_platform":       cross_platform,
         "cross_platform_winner": cross_platform_winner,
         "pattern_insights":     pattern_insights,
+        "audience_growth": {
+            "labels": growth_labels,
+            "series": growth_series,
+            "delta":  growth_delta,
+            "pct":    growth_pct,
+        },
         "connected_accounts": accounts,
         "range_days":    days_window,
         "range_options": [7, 14, 30, 90],

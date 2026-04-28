@@ -11,7 +11,23 @@ import logging
 from celery import shared_task
 from django.db import transaction
 
-from apps.social.models import ConnectedAccount, Platform, Post, PostType
+from apps.social.models import ConnectedAccount, FollowerSnapshot, Platform, Post, PostType
+
+
+def _snapshot_followers(account: ConnectedAccount) -> None:
+    """Idempotently record today's follower_count as a FollowerSnapshot.
+
+    Called by every sync_*_account task after the account row is updated.
+    update_or_create on (account, today) keeps the table to one row per
+    account per UTC day — repeated refreshes just update the count.
+    """
+    from django.utils import timezone as _tz
+    today = _tz.now().date()
+    FollowerSnapshot.objects.update_or_create(
+        account=account,
+        recorded_on=today,
+        defaults={"count": account.follower_count},
+    )
 
 from .services.instagram import (
     InstagramCollector,
@@ -166,6 +182,7 @@ def sync_telegram_account(self, account_id: int, post_limit: int = 50) -> dict:
             else:
                 updated += 1
 
+    _snapshot_followers(account)
     logger.info(
         "sync_telegram_account: %s (@%s) → +%d new / %d updated",
         account.id, account.handle, created, updated,
@@ -285,6 +302,7 @@ def sync_youtube_account(self, account_id: int, video_limit: int = 50) -> dict:
             else:
                 updated += 1
 
+    _snapshot_followers(account)
     logger.info(
         "sync_youtube_account: %s (@%s) → +%d new / %d updated",
         account.id, account.handle, created, updated,
@@ -407,6 +425,7 @@ def sync_instagram_account(self, account_id: int, media_limit: int = 50) -> dict
             else:
                 updated += 1
 
+    _snapshot_followers(account)
     logger.info(
         "sync_instagram_account: %s (@%s) → +%d new / %d updated",
         account.id, account.handle, created, updated,
@@ -526,6 +545,7 @@ def sync_vk_account(self, account_id: int, post_limit: int = 100) -> dict:
             else:
                 updated += 1
 
+    _snapshot_followers(account)
     logger.info(
         "sync_vk_account: %s (@%s) → +%d new / %d updated",
         account.id, account.handle, created, updated,

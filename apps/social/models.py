@@ -76,6 +76,33 @@ class ConnectedAccount(TimestampedModel):
         return self.token_expires_at <= timezone.now() + timedelta(seconds=60)
 
 
+class FollowerSnapshot(TimestampedModel):
+    """Daily snapshot of a ConnectedAccount.follower_count.
+
+    Written by the sync_*_account Celery tasks after each successful pull
+    (skipped if a snapshot already exists for the same UTC date — keeps
+    storage to one row per account per day no matter how many refreshes
+    fire). Drives the audience-growth chart on the dashboard.
+    """
+    account = models.ForeignKey(
+        "social.ConnectedAccount",
+        on_delete=models.CASCADE,
+        related_name="follower_snapshots",
+    )
+    count = models.PositiveIntegerField()
+    recorded_on = models.DateField(db_index=True)
+
+    class Meta:
+        unique_together = [("account", "recorded_on")]
+        ordering = ["-recorded_on"]
+        indexes = [
+            models.Index(fields=["account", "-recorded_on"]),
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.account.handle} {self.recorded_on}: {self.count}"
+
+
 class PostType(models.TextChoices):
     PHOTO        = "photo",        "Photo"
     VIDEO        = "video",        "Video"
