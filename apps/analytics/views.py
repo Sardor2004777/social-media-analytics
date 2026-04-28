@@ -149,6 +149,43 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
     weekday_names = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"]
     weekday_full = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba",
                     "Juma", "Shanba", "Yakshanba"]
+
+    # ---------------- Top topics + hashtags from post captions ----------------
+    import re as _re
+    captions = list(
+        Post.objects.filter(account__user=user)
+        .exclude(caption="")
+        .values_list("caption", flat=True)[:1000]
+    )
+    top_topics_entries = top_words(captions, n=30)
+    hashtag_re = _re.compile(r"#(\w{2,30})", flags=_re.UNICODE)
+    hashtag_counter: Counter = Counter()
+    for cap in captions:
+        for tag in hashtag_re.findall(cap):
+            hashtag_counter[tag.lower()] += 1
+    top_hashtags = [
+        {"tag": t, "count": c}
+        for t, c in hashtag_counter.most_common(15)
+    ]
+    # Engagement comparison — current 30 days vs prior 30 days.
+    prior_start = start - timedelta(days=window_days)
+    prior_qs = Post.objects.filter(
+        account__user=user,
+        published_at__gte=prior_start,
+        published_at__lt=start,
+    )
+    cur_eng_avg   = posts_qs.aggregate(v=Avg("engagement_rate"))["v"] or 0
+    prior_eng_avg = prior_qs.aggregate(v=Avg("engagement_rate"))["v"] or 0
+    if prior_eng_avg:
+        eng_delta_pct = round((cur_eng_avg - prior_eng_avg) * 100 / prior_eng_avg, 1)
+    else:
+        eng_delta_pct = 0.0
+    cur_post_count   = posts_qs.count()
+    prior_post_count = prior_qs.count()
+    if prior_post_count:
+        post_delta_pct = round((cur_post_count - prior_post_count) * 100 / prior_post_count, 1)
+    else:
+        post_delta_pct = 0.0
     # Pre-zip rows so the template doesn't need awkward index gymnastics.
     # Each row is {"name": "Du", "cells": [{"hour": 0, "value": 1.2, "ratio": 0.4}, …]}.
     safe_max = heatmap_max or 1
@@ -183,6 +220,14 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
             "weekday": weekday_full[best_wd] if best_val else "",
             "hour": best_hr,
             "engagement": best_val,
+        },
+        "top_topics":   top_topics_entries,
+        "top_hashtags": top_hashtags,
+        "comparison": {
+            "post_delta_pct":     post_delta_pct,
+            "engagement_delta_pct": eng_delta_pct,
+            "engagement_now":     round(cur_eng_avg * 100, 2),
+            "engagement_prior":   round(prior_eng_avg * 100, 2),
         },
     }
     return render(request, "dashboard/analytics.html", ctx)

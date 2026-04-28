@@ -6,17 +6,23 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
-  <meta name="description" content="{% block meta_description %}Ijtimoiy tarmoq analitikasi — Instagram, Telegram, YouTube va X ma'lumotlarini bir joyda, AI sentiment tahlili bilan.{% endblock %}">
+  <meta name="description" content="{% block meta_description %}Telegram, YouTube va VKontakte akkauntlaringizni bir joyda tahlil qiling — AI sentiment, vaqt heatmap, eng yaxshi mavzular va avtomatik tavsiyalar.{% endblock %}">
+  <meta name="keywords" content="ijtimoiy tarmoq analitikasi, Telegram analitika, YouTube analitika, VK analitika, sentiment tahlil, AI tavsiyalar, dashboard, postlar statistikasi">
+  <meta name="author" content="Social Analytics">
 
   <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
   <link rel="apple-touch-icon" href="{% static 'favicon.svg' %}">
 
-  {# Open Graph #}
+  {# Open Graph + Twitter Card #}
   <meta property="og:type"        content="website">
   <meta property="og:site_name"   content="Social Analytics">
-  <meta property="og:title"       content="{% block og_title %}Social Analytics{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Ijtimoiy tarmoq analitikasi · AI sentiment · hisobotlar.{% endblock %}">
-  <meta name="twitter:card"       content="summary">
+  <meta property="og:title"       content="{% block og_title %}Social Analytics — Ijtimoiy tarmoq analitikasi{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Telegram, YouTube, VKontakte akkauntlaringizni bir joyda. AI sentiment, vaqt heatmap, hashtag tahlili va avtomatik tavsiyalar.{% endblock %}">
+  <meta property="og:image"       content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'favicon.svg' %}{% endblock %}">
+  <meta property="og:locale"      content="uz_UZ">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="{% block tw_title %}Social Analytics{% endblock %}">
+  <meta name="twitter:description" content="{% block tw_description %}Telegram, YouTube, VKontakte analitikasi · AI sentiment · vaqt heatmap.{% endblock %}">
 
   <title>{% block title %}Social Analytics{% endblock %}</title>
 

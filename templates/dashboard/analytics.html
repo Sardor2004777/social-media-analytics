@@ -133,6 +133,92 @@
   </div>
 </div>
 
+{# ----- 30-day vs 30-day comparison strip ----- #}
+{% if comparison.engagement_now or comparison.post_delta_pct %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4" data-reveal>
+  <div class="card p-5">
+    <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{% trans "Post chastotasi" %}</div>
+    <div class="mt-1.5 flex items-baseline gap-2">
+      <div class="text-2xl font-bold text-slate-900 dark:text-white tabular">{{ comparison.post_delta_pct|floatformat:0 }}%</div>
+      {% if comparison.post_delta_pct > 0 %}
+        <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-0.5">↑ {% trans "o'sdi" %}</span>
+      {% elif comparison.post_delta_pct < 0 %}
+        <span class="text-xs font-semibold text-rose-600 dark:text-rose-400 inline-flex items-center gap-0.5">↓ {% trans "kamaydi" %}</span>
+      {% else %}
+        <span class="text-xs font-semibold text-slate-400 inline-flex items-center gap-0.5">— {% trans "o'zgarmagan" %}</span>
+      {% endif %}
+    </div>
+    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{% trans "Oldingi 30 kunga nisbatan" %}</p>
+  </div>
+
+  <div class="card p-5">
+    <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{% trans "Engagement (hozirgi)" %}</div>
+    <div class="mt-1.5 flex items-baseline gap-2">
+      <div class="text-2xl font-bold text-slate-900 dark:text-white tabular">{{ comparison.engagement_now }}%</div>
+      <span class="text-xs text-slate-400">vs {{ comparison.engagement_prior }}%</span>
+    </div>
+    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{% trans "30 kunlik o'rtacha engagement" %}</p>
+  </div>
+
+  <div class="card p-5">
+    <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{% trans "Engagement o'zgarishi" %}</div>
+    <div class="mt-1.5 flex items-baseline gap-2">
+      <div class="text-2xl font-bold tabular {% if comparison.engagement_delta_pct >= 0 %}text-emerald-600 dark:text-emerald-400{% else %}text-rose-600 dark:text-rose-400{% endif %}">
+        {% if comparison.engagement_delta_pct > 0 %}+{% endif %}{{ comparison.engagement_delta_pct|floatformat:1 }}%
+      </div>
+    </div>
+    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{% trans "Oldingi 30 kunga nisbatan" %}</p>
+  </div>
+</div>
+{% endif %}
+
+{# ----- TOP TOPICS + HASHTAGS ----- #}
+{% if top_topics or top_hashtags %}
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6" data-reveal>
+  {% if top_topics %}
+  <div class="card p-6">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Top mavzular" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Postlaringizdagi eng faol so'zlar" %}</p>
+      </div>
+      <span class="chip text-[11px]">{{ top_topics|length }}</span>
+    </div>
+    <div class="mt-5 flex flex-wrap gap-x-3 gap-y-2 items-baseline leading-relaxed">
+      {% for w in top_topics %}
+        <span class="text-brand-700 dark:text-brand-300 font-medium hover:text-brand-900 dark:hover:text-brand-100 transition-colors"
+              style="font-size: {{ w.weight|floatformat:2 }}em; opacity: {{ w.weight }};"
+              title="{{ w.count }}× uchradi">{{ w.text }}</span>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if top_hashtags %}
+  <div class="card p-6">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Top hashtaglar" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Eng ko'p ishlatilgan #teglar" %}</p>
+      </div>
+      <span class="chip text-[11px]">{{ top_hashtags|length }}</span>
+    </div>
+    <ul class="mt-5 space-y-2">
+      {% for h in top_hashtags %}
+        <li class="flex items-center gap-3 text-sm">
+          <span class="font-mono text-brand-600 dark:text-brand-400 font-semibold">#{{ h.tag }}</span>
+          <span class="flex-1 h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+            <span class="block h-full bg-gradient-to-r from-brand-500 to-indigo-500" style="width: {% widthratio h.count top_hashtags.0.count 100 %}%"></span>
+          </span>
+          <span class="text-xs text-slate-500 dark:text-slate-400 tabular w-8 text-right">{{ h.count }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
 {# ----- BEST TIME HEATMAP ----- #}
 {% if heatmap_max > 0 %}
 <div class="card overflow-hidden" data-reveal>
