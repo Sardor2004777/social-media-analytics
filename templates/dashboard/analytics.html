@@ -219,6 +219,71 @@
 </div>
 {% endif %}
 
+{# ----- ENGAGEMENT FUNNEL ----- #}
+{% if funnel_steps.0.value %}
+<div class="card overflow-hidden" data-reveal>
+  <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+    <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Engagement funnel" %}</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Auditoriya postdan oxirgi harakatga qadar qanday qisqaradi" %}</p>
+  </div>
+  <div class="p-6 space-y-4">
+    {% for step in funnel_steps %}
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-sm">
+          <span class="font-medium text-slate-700 dark:text-slate-300">{{ step.label }}</span>
+          <span class="flex items-center gap-3">
+            <span class="tabular text-slate-900 dark:text-white font-semibold">{{ step.value }}</span>
+            <span class="tabular text-xs text-slate-500 dark:text-slate-400 w-16 text-right">{{ step.pct }}%</span>
+          </span>
+        </div>
+        <div class="relative h-7 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden">
+          <div class="absolute inset-y-0 left-0 rounded-lg bg-gradient-to-r {{ step.color }} transition-all"
+               style="width: {{ step.pct }}%;"></div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{# ----- POST LENGTH ANALYSIS ----- #}
+{% if length_buckets %}
+<div class="card overflow-hidden" data-reveal>
+  <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex-wrap gap-3">
+    <div>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Post uzunligi tahlili" %}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Caption uzunligi vs engagement (so'nggi 30 kun)" %}</p>
+    </div>
+    {% if best_length and best_length.count %}
+      <div class="text-xs text-slate-600 dark:text-slate-400">
+        {% trans "Eng yaxshisi:" %} <span class="font-semibold text-emerald-600 dark:text-emerald-400">{{ best_length.label }} {% trans "belgi" %}</span> — engagement {{ best_length.avg_engagement|floatformat:2 }}%
+      </div>
+    {% endif %}
+  </div>
+  <div class="p-6 space-y-2.5">
+    {% for b in length_buckets %}
+      <div class="flex items-center gap-3 text-sm">
+        <span class="w-20 font-medium text-slate-700 dark:text-slate-300">{{ b.label }}</span>
+        <span class="flex-1 h-3 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+          <span class="block h-full rounded-full
+            {% if best_length and b.label == best_length.label %}bg-gradient-to-r from-emerald-500 to-teal-500
+            {% else %}bg-gradient-to-r from-brand-400 to-indigo-500{% endif %}"
+            style="width: {% if best_length and best_length.avg_engagement %}{% widthratio b.avg_engagement best_length.avg_engagement 100 %}%{% else %}0%{% endif %};"></span>
+        </span>
+        <span class="w-20 text-right tabular text-slate-900 dark:text-white font-semibold">{{ b.avg_engagement|floatformat:2 }}%</span>
+        <span class="w-16 text-right text-xs text-slate-500 dark:text-slate-400">{{ b.count }} post</span>
+      </div>
+    {% endfor %}
+    {% if best_length and best_length.count >= 3 %}
+      <p class="mt-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+        💡 <strong>{% trans "Tavsiya:" %}</strong>
+        {% blocktrans with len=best_length.label avg=best_length.avg_engagement|floatformat:1 %}{{ len }} belgi atrofida yozilgan postlaringiz o'rtacha {{ avg }}% engagement berdi — ushbu uzunlikda yozishga harakat qiling.{% endblocktrans %}
+      </p>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
 {# ----- BEST TIME HEATMAP ----- #}
 {% if heatmap_max > 0 %}
 <div class="card overflow-hidden" data-reveal>

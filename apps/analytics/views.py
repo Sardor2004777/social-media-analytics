@@ -167,6 +167,73 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
         {"tag": t, "count": c}
         for t, c in hashtag_counter.most_common(15)
     ]
+    # ---------------- Post-length buckets — engagement vs caption length -----
+    # Buckets are inclusive lower / exclusive upper. The last bucket catches
+    # everything 401+ chars so a single 5000-char essay doesn't blow the chart.
+    LENGTH_BUCKETS = [
+        ("0–80",    0,    80),
+        ("80–150",  80,   150),
+        ("150–300", 150,  300),
+        ("300–500", 300,  500),
+        ("500+",    500,  10**9),
+    ]
+    bucket_stats = []
+    for label, lo, hi in LENGTH_BUCKETS:
+        bucket_qs = Post.objects.filter(
+            account__user=user, published_at__gte=start,
+        ).extra(  # noqa: S610  small fixed expression, no user input
+            where=["LENGTH(caption) >= %s AND LENGTH(caption) < %s"],
+            params=[lo, hi],
+        )
+        cnt = bucket_qs.count()
+        if cnt == 0:
+            bucket_stats.append({
+                "label": label, "count": 0, "avg_engagement": 0,
+                "avg_likes": 0, "avg_views": 0,
+            })
+            continue
+        agg = bucket_qs.aggregate(
+            avg_eng=Avg("engagement_rate"),
+            avg_lk=Avg("likes"),
+            avg_vw=Avg("views"),
+        )
+        bucket_stats.append({
+            "label":          label,
+            "count":          cnt,
+            "avg_engagement": round((agg["avg_eng"] or 0) * 100, 2),
+            "avg_likes":      int(agg["avg_lk"] or 0),
+            "avg_views":      int(agg["avg_vw"] or 0),
+        })
+    # Best bucket by avg engagement (skipping empty ones).
+    best_bucket = max(
+        (b for b in bucket_stats if b["count"] > 0),
+        key=lambda b: b["avg_engagement"],
+        default=None,
+    )
+
+    # ---------------- Engagement funnel: views → likes → comments → shares ---
+    funnel_agg = posts_qs.aggregate(
+        v=Sum("views"),
+        l=Sum("likes"),
+        c=Sum("comments_count"),
+        s=Sum("shares"),
+    )
+    funnel_v = int(funnel_agg["v"] or 0)
+    funnel_l = int(funnel_agg["l"] or 0)
+    funnel_c = int(funnel_agg["c"] or 0)
+    funnel_s = int(funnel_agg["s"] or 0)
+    # Each step's % is relative to views (the top of the funnel). When we have
+    # no views yet (groups, low-data accounts) the funnel collapses gracefully
+    # to zeros — template hides the block in that case.
+    def _pct(num, denom):
+        return round(num * 100 / denom, 2) if denom else 0
+    funnel_steps = [
+        {"label": "Ko'rishlar", "value": funnel_v, "pct": 100,                       "color": "from-sky-500 to-blue-600"},
+        {"label": "Likes",      "value": funnel_l, "pct": _pct(funnel_l, funnel_v),  "color": "from-emerald-500 to-teal-500"},
+        {"label": "Kommentlar", "value": funnel_c, "pct": _pct(funnel_c, funnel_v),  "color": "from-amber-500 to-orange-500"},
+        {"label": "Repostlar",  "value": funnel_s, "pct": _pct(funnel_s, funnel_v),  "color": "from-rose-500 to-pink-500"},
+    ]
+
     # Engagement comparison — current 30 days vs prior 30 days.
     prior_start = start - timedelta(days=window_days)
     prior_qs = Post.objects.filter(
@@ -223,6 +290,9 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
         },
         "top_topics":   top_topics_entries,
         "top_hashtags": top_hashtags,
+        "length_buckets": bucket_stats,
+        "best_length":    best_bucket,
+        "funnel_steps":   funnel_steps,
         "comparison": {
             "post_delta_pct":     post_delta_pct,
             "engagement_delta_pct": eng_delta_pct,
