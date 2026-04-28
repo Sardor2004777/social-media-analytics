@@ -132,6 +132,43 @@
     </div>
   </div>
 
+  {# ----- AI-FREE RECOMMENDATIONS ----- #}
+  {% if recommendations %}
+  <div class="card overflow-hidden" data-reveal>
+    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Sizga tavsiyalar" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Real ma'lumotlardan kelib chiqib avtomatik yaratildi" %}</p>
+      </div>
+      <span class="hidden sm:inline-flex items-center gap-1 chip-brand text-[11px]">
+        <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        Insights
+      </span>
+    </div>
+    <ul class="divide-y divide-slate-100 dark:divide-slate-800">
+      {% for r in recommendations %}
+        <li class="flex items-start gap-4 px-6 py-4">
+          <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg
+            bg-{{ r.accent }}-100 dark:bg-{{ r.accent }}-900/40 text-{{ r.accent }}-600 dark:text-{{ r.accent }}-400">
+            {% if r.icon == 'trending-up' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            {% elif r.icon == 'layers' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            {% elif r.icon == 'alert-circle' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            {% elif r.icon == 'smile' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            {% elif r.icon == 'calendar' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            {% elif r.icon == 'award' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            {% elif r.icon == 'upload-cloud' %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/><polyline points="16 16 12 12 8 16"/></svg>
+            {% else %}<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>{% endif %}
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-semibold text-slate-900 dark:text-white">{{ r.headline }}</div>
+            <p class="mt-0.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{{ r.body }}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
   {# ----- POST TYPE BREAKDOWN ----- #}
   <div class="card p-6" data-reveal>
     <div class="flex items-start justify-between gap-3 flex-wrap">

@@ -22,6 +22,7 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 
 from apps.analytics.models import SentimentLabel, SentimentResult
+from apps.analytics.services.recommendations import build_recommendations
 from apps.collectors.models import Comment
 from apps.social.models import ConnectedAccount, Platform, Post, PostType
 
@@ -188,6 +189,9 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
     # ---------------- Activity timeline ----------------
     timeline = _build_timeline(user, now)
 
+    # ---------------- Recommendations ----------------
+    recommendations = build_recommendations(user)
+
     # ---------------- KPIs (display) ----------------
     def trend_pct(window_days: int = 7) -> dict[int, float]:
         # Very small helper: ratio of last `window` to previous `window` for each metric.
@@ -220,6 +224,7 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         "post_types": post_types or _empty_platforms(),
         "top_posts": top_posts,
         "timeline": timeline,
+        "recommendations": recommendations,
         "connected_accounts": accounts,
         "range_days":    days_window,
         "range_options": [7, 14, 30, 90],

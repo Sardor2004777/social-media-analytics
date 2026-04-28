@@ -56,30 +56,35 @@ PLATFORM_META = {
         "tint":  "from-fuchsia-500 to-orange-400",
         "icon":  "IG",
         "desc":  "Instagram Business API orqali postlar, reels va kommentlarni tahlil qiling.",
+        "prod_note": "Real ulash uchun Instagram Business akkaunt + Meta App Review kerak. Hozir demo rejimda ko'rsatiladi.",
     },
     Platform.TELEGRAM: {
         "label": "Telegram",
         "tint":  "from-sky-500 to-blue-600",
         "icon":  "TG",
         "desc":  "Kanal yoki guruh statistikasi — views, forwards va reaksiyalar.",
+        "prod_note": "",
     },
     Platform.YOUTUBE: {
         "label": "YouTube",
         "tint":  "from-red-500 to-rose-600",
         "icon":  "YT",
         "desc":  "Videolar, watch time, kommentlar va obunachilarning o'sishi.",
+        "prod_note": "",
     },
     Platform.X: {
         "label": "X (Twitter)",
         "tint":  "from-slate-800 to-slate-900",
         "icon":  "X",
         "desc":  "Tweet impressions, retweetlar va followers dinamikasi.",
+        "prod_note": "Real ulash uchun X API Basic tariffi ($100/oy) talab qilinadi. Hozir demo rejimda ko'rsatiladi.",
     },
     Platform.VK: {
         "label": "VKontakte",
         "tint":  "from-blue-500 to-indigo-600",
         "icon":  "VK",
         "desc":  "VK devor postlari — likes, kommentlar, repostlar va views.",
+        "prod_note": "",
     },
 }
 
