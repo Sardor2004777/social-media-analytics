@@ -72,6 +72,18 @@ def sync_telegram_account(self, account_id: int, post_limit: int = 50) -> dict:
         account.follower_count = info.follower_count
         account.save()
 
+        # Map Telegram media kind onto our cross-platform PostType so the
+        # dashboard can break down by photo / video / text instead of
+        # lumping everything under CHANNEL_POST.
+        _MEDIA_TO_POST_TYPE = {
+            "photo":    PostType.PHOTO,
+            "video":    PostType.VIDEO,
+            "audio":    PostType.CHANNEL_POST,    # no PostType.AUDIO yet
+            "document": PostType.CHANNEL_POST,
+            "poll":     PostType.CHANNEL_POST,
+            "text":     PostType.CHANNEL_POST,
+        }
+
         created = 0
         updated = 0
         for m in messages:
@@ -80,7 +92,7 @@ def sync_telegram_account(self, account_id: int, post_limit: int = 50) -> dict:
                 account=account,
                 external_id=m.external_id,
                 defaults={
-                    "post_type": PostType.CHANNEL_POST,
+                    "post_type": _MEDIA_TO_POST_TYPE.get(m.media_kind, PostType.CHANNEL_POST),
                     "caption": m.caption,
                     "url": m.url,
                     "published_at": m.published_at,

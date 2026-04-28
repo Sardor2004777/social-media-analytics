@@ -90,6 +90,27 @@ class ChannelMessage:
     likes: int
     comments_count: int
     shares: int
+    media_kind: str   # "photo" | "video" | "document" | "audio" | "poll" | "text"
+
+
+def _classify_media(msg: Message) -> str:
+    """Bucket a Telegram :class:`Message` into an analytics-friendly media kind.
+
+    Order matters: ``msg.video`` and ``msg.photo`` are convenience properties
+    that look at ``msg.media`` under the hood, so we check those first; the
+    plain ``document`` fallback covers PDFs, archives, etc.
+    """
+    if getattr(msg, "photo", None):
+        return "photo"
+    if getattr(msg, "video", None) or getattr(msg, "video_note", None) or getattr(msg, "gif", None):
+        return "video"
+    if getattr(msg, "voice", None) or getattr(msg, "audio", None):
+        return "audio"
+    if getattr(msg, "poll", None):
+        return "poll"
+    if getattr(msg, "document", None):
+        return "document"
+    return "text"
 
 
 def _normalise_handle(raw: str) -> str | int:
@@ -276,6 +297,7 @@ class TelegramCollector:
                         likes=likes,
                         comments_count=replies,
                         shares=int(msg.forwards or 0),
+                        media_kind=_classify_media(msg),
                     )
                 )
         return messages
