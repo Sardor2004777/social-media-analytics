@@ -2,13 +2,16 @@
   "(likes + comments + shares) / views": [
     "apps/social/models.py"
   ],
+  "1 / 3 — telefon raqamingiz": [
+    "templates/dashboard/telegram_phone.html"
+  ],
   "1. Shartlarning qabul qilinishi": [
     "templates/dashboard/terms.html"
   ],
-  "10 dan 300 gacha. Har post uchun 3–14 komment + AI sentiment tahlili avtomatik yaratiladi.": [
+  "10 dan 5000 gacha. Har post uchun 3–14 komment + AI sentiment tahlili avtomatik yaratiladi.": [
     "templates/dashboard/account_connect.html"
   ],
-  "10 dan 300 gacha. Kanaldan so'nggi shuncha postni — views, reaksiyalar, forwardlar bilan — tortib olamiz.": [
+  "10 dan 5000 gacha. Kanaldan so'nggi shuncha postni — views, reaksiyalar, forwardlar bilan — tortib olamiz.": [
     "templates/dashboard/account_connect.html"
   ],
   "10. Nizolarni hal etish": [
@@ -17,11 +20,17 @@
   "2 dan 3 tagacha akkaunt tanlang:": [
     "templates/dashboard/compare.html"
   ],
+  "2-3 akkauntni yonma-yon solishtirish": [
+    "templates/dashboard/help.html"
+  ],
   "2. Xizmatning tavsifi": [
     "templates/dashboard/terms.html"
   ],
   "2–3 ta akkaunt tanlang va KPI'lar bilan 30-kunlik trendni yonma-yon ko'ring.": [
     "templates/dashboard/compare.html"
+  ],
+  "3 / 3 — 2-bosqichli tasdiqlash paroli": [
+    "templates/dashboard/telegram_password.html"
   ],
   "3 qadamda boshlang": [
     "templates/dashboard/landing.html"
@@ -35,8 +44,17 @@
   "30 kunlik likes dinamikasi": [
     "templates/dashboard/compare.html"
   ],
+  "30 kunlik o'rtacha engagement": [
+    "templates/dashboard/analytics.html"
+  ],
+  "30 kunlik obunachi soni dinamikasi": [
+    "templates/dashboard/app.html"
+  ],
   "30 kunlik tendensiya": [
     "templates/dashboard/analytics.html"
+  ],
+  "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari, hashtag": [
+    "templates/dashboard/help.html"
   ],
   "30-kunlik likes dinamikasi": [
     "templates/dashboard/public_share.html"
@@ -80,9 +98,30 @@
   "AI Chat hali sozlanmagan": [
     "templates/dashboard/chat.html"
   ],
+  "AI Haftalik Xulosa": [
+    "templates/dashboard/ai_digest.html"
+  ],
+  "AI Xulosa": [
+    "templates/dashboard/_shell.html"
+  ],
+  "AI hisobotlar nima uchun pulli?": [
+    "templates/dashboard/help.html"
+  ],
   "AI sentiment tahlili": [
     "templates/account/base.html",
     "templates/dashboard/landing.html"
+  ],
+  "AI sozlanmagan": [
+    "templates/dashboard/ai_digest.html"
+  ],
+  "API hujjati:": [
+    "templates/dashboard/settings.html"
+  ],
+  "API kirish kaliti": [
+    "templates/dashboard/settings.html"
+  ],
+  "Admin": [
+    "templates/dashboard/telegram_channels.html"
   ],
   "Administrator": [
     "templates/dashboard/chat.html"
@@ -92,6 +131,7 @@
     "templates/account/email/password_reset_key_message.html"
   ],
   "Akkaunt": [
+    "templates/dashboard/competitors.html",
     "templates/partials/_command_palette.html"
   ],
   "Akkaunt ulash": [
@@ -124,14 +164,23 @@
     "templates/dashboard/delete_account.html"
   ],
   "Akkauntlar": [
+    "templates/dashboard/accounts.html",
+    "templates/dashboard/help.html",
     "templates/dashboard/reports.html"
   ],
   "Akkauntlarim": [
     "templates/dashboard/_shell.html",
     "templates/dashboard/account_connect.html",
     "templates/dashboard/accounts.html",
+    "templates/dashboard/telegram_channels.html",
+    "templates/dashboard/telegram_code.html",
+    "templates/dashboard/telegram_password.html",
+    "templates/dashboard/telegram_phone.html",
     "templates/partials/_command_palette.html",
     "templates/partials/_navbar.html"
+  ],
+  "Akkauntlarim sahifasiga o'ting va Telegram, YouTube yoki VK akkauntingizni ulang.": [
+    "templates/dashboard/help.html"
   ],
   "Akkauntlarni solishtirish": [
     "templates/dashboard/compare.html"
@@ -146,10 +195,23 @@
   "Akkauntni o'chirish (barcha ma'lumot yo'q qilinadi).": [
     "templates/dashboard/privacy.html"
   ],
+  "Akkauntni public link orqali ulashish": [
+    "templates/dashboard/help.html"
+  ],
+  "Aloqa kuchsiz": [
+    "templates/dashboard/correlation.html"
+  ],
+  "Analitika sahifalarida chuqur tahlil — heatmap, post turi, sentiment, ML bashorat.": [
+    "templates/dashboard/help.html"
+  ],
   "Analytics": [
     "templates/dashboard/_shell.html",
+    "templates/dashboard/help.html",
     "templates/partials/_command_palette.html",
     "templates/partials/_navbar.html"
+  ],
+  "Anomaliya aniqlash tizimi tomonidan avtomatik yaratilgan ogohlantirishlar.": [
+    "templates/dashboard/alerts.html"
   ],
   "Asl post": [
     "templates/dashboard/public_share.html"
@@ -160,6 +222,12 @@
   "Assalomu alaykum! Dashboard ma'lumotingiz haqida savol bering — masalan, eng yaxshi ishlayotgan platforma, postlaringiz haqida tahlil, yoki engagement trendlari.": [
     "templates/dashboard/chat.html"
   ],
+  "Auditoriya o'sishi": [
+    "templates/dashboard/app.html"
+  ],
+  "Auditoriya postdan oxirgi harakatga qadar qanday qisqaradi": [
+    "templates/dashboard/analytics.html"
+  ],
   "Auditoriyani tushuning, qaysi kontent ishlayotganini biling.": [
     "templates/dashboard/landing.html"
   ],
@@ -169,7 +237,7 @@
   "Avtomatik": [
     "templates/dashboard/settings.html"
   ],
-  "Ayni paytda: Instagram (Graph API), Telegram (Bot API), YouTube (Data API v3), X (v2 API). Keyingi bosqichda TikTok va LinkedIn rejalashtirilgan.": [
+  "Ayni paytda real ulashda: Telegram (MTProto), YouTube (Data API v3), VKontakte (API v5). Demo rejimda: Instagram (Business akkaunt + Meta App Review talab qiladi), X (Basic tariff $100/oy).": [
     "templates/dashboard/landing.html"
   ],
   "Barcha davr": [
@@ -193,17 +261,36 @@
   "Barchasi bir dashboardda.": [
     "templates/dashboard/landing.html"
   ],
+  "Bashorat qilish": [
+    "templates/dashboard/predict.html"
+  ],
+  "Bashorat tayyor emas": [
+    "templates/dashboard/predict.html"
+  ],
   "Bekor qilish": [
     "templates/account/logout.html",
     "templates/dashboard/account_connect.html",
     "templates/dashboard/accounts.html",
-    "templates/dashboard/delete_account.html"
+    "templates/dashboard/delete_account.html",
+    "templates/dashboard/telegram_phone.html"
   ],
   "Bepul akkaunt yaratish": [
     "templates/dashboard/landing.html"
   ],
   "Bepul boshlash": [
     "templates/dashboard/landing.html"
+  ],
+  "Bildirishnomalar": [
+    "templates/dashboard/alerts.html"
+  ],
+  "Bildirishnomalar yo'q. Anomaliya tizimi ish boshlasa, bu yerda paydo bo'ladi.": [
+    "templates/dashboard/alerts.html"
+  ],
+  "Bir bosish bilan AI sizning postlaringiz, kommentlaringiz va engagement'ingizni o'qib, qisqa va aniq haftalik tahlil yozadi (Markdown formatda).": [
+    "templates/dashboard/ai_digest.html"
+  ],
+  "Bir bosish bilan haftalik AI hisobot": [
+    "templates/dashboard/help.html"
   ],
   "Bir necha daqiqa kuting": [
     "templates/account/verification_sent.html"
@@ -233,6 +320,7 @@
     "templates/404.html",
     "templates/500.html",
     "templates/dashboard/_shell.html",
+    "templates/dashboard/help.html",
     "templates/partials/_command_palette.html"
   ],
   "Bosh sahifaga qaytish": [
@@ -241,13 +329,23 @@
   ],
   "Boshlash": [
     "templates/dashboard/app.html",
+    "templates/dashboard/help.html",
     "templates/partials/_navbar.html"
+  ],
+  "Boshqa akkaunt": [
+    "templates/dashboard/telegram_channels.html"
   ],
   "Boshqa akkauntni tanlash": [
     "templates/dashboard/compare.html"
   ],
   "Boshqa foydalanuvchilarning akkauntlariga ruxsatsiz kirish.": [
     "templates/dashboard/terms.html"
+  ],
+  "Boshqa raqam": [
+    "templates/dashboard/telegram_password.html"
+  ],
+  "Bu Telegram'ning Settings → Privacy → Two-Step Verification bo'limida o'zingiz o'rnatgan parol. Saytda saqlanmaydi — faqat sessiya yaratish uchun ishlatiladi.": [
+    "templates/dashboard/telegram_password.html"
   ],
   "Bu amalni ortga qaytarib bo'lmaydi": [
     "templates/dashboard/delete_account.html"
@@ -273,6 +371,18 @@
   "Bugun boshlang": [
     "templates/dashboard/landing.html"
   ],
+  "Buyruqlar paneli": [
+    "templates/dashboard/help.html"
+  ],
+  "Caption uzunligi": [
+    "templates/dashboard/predict.html"
+  ],
+  "Caption uzunligi vs engagement (so'nggi 30 kun)": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Chap tomondagi formani to'ldirib 'Bashorat qilish' tugmasini bosing.": [
+    "templates/dashboard/predict.html"
+  ],
   "Chiqish": [
     "templates/account/logout.html",
     "templates/dashboard/_shell.html",
@@ -283,8 +393,14 @@
   "Chiqishni tasdiqlaysizmi?": [
     "templates/account/logout.html"
   ],
+  "Cloud parolingiz": [
+    "templates/dashboard/telegram_password.html"
+  ],
   "Cookie'lar": [
     "templates/dashboard/privacy.html"
+  ],
+  "Dark/light": [
+    "templates/dashboard/help.html"
   ],
   "Dashboard": [
     "templates/dashboard/_shell.html",
@@ -299,6 +415,9 @@
   ],
   "Dashboard va hisobotlar yaratish uchun.": [
     "templates/dashboard/privacy.html"
+  ],
+  "Dashboard'da KPI'lar, AI tavsiyalar va eng yaxshi posting AI ko'rinadi.": [
+    "templates/dashboard/help.html"
   ],
   "Dashboard, sentiment va top postlar. Hisobotni yuklab oling.": [
     "templates/dashboard/landing.html"
@@ -322,7 +441,10 @@
     "templates/dashboard/account_connect.html"
   ],
   "Demo rejim": [
-    "templates/dashboard/account_connect.html"
+    "templates/dashboard/account_connect.html",
+    "templates/dashboard/accounts.html",
+    "templates/dashboard/help.html",
+    "templates/dashboard/landing.html"
   ],
   "Diplom loyihasi": [
     "templates/account/base.html",
@@ -332,8 +454,14 @@
   "Diplom va kurs ishlarida real ma'lumot bilan tadqiqot.": [
     "templates/dashboard/landing.html"
   ],
+  "Discussion rate": [
+    "templates/dashboard/app.html"
+  ],
   "E2E shifrlangan": [
     "templates/dashboard/landing.html"
+  ],
+  "Egasi": [
+    "templates/dashboard/telegram_channels.html"
   ],
   "Eksport": [
     "templates/partials/_command_palette.html"
@@ -382,6 +510,9 @@
   "Emailni tasdiqlash": [
     "templates/account/email_confirm.html"
   ],
+  "Eng ko'p ishlatilgan #teglar": [
+    "templates/dashboard/analytics.html"
+  ],
   "Eng negativ kommentlar": [
     "templates/dashboard/sentiment.html"
   ],
@@ -391,24 +522,72 @@
   "Eng pozitiv kontent": [
     "templates/dashboard/chat.html"
   ],
+  "Eng samarali klaster:": [
+    "templates/dashboard/clusters.html"
+  ],
+  "Eng yaxshi": [
+    "templates/dashboard/clusters.html"
+  ],
+  "Eng yaxshi 25% post o'rtasidagi qiymatlar (qolganlariga nisbatan)": [
+    "templates/dashboard/app.html"
+  ],
+  "Eng yaxshi namuna": [
+    "templates/dashboard/clusters.html"
+  ],
   "Eng yaxshi platforma?": [
     "templates/dashboard/chat.html"
   ],
   "Eng yaxshi postlar (top 20)": [
     "templates/dashboard/analytics.html"
   ],
+  "Eng yaxshi vaqt": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Eng yaxshisi:": [
+    "templates/dashboard/analytics.html"
+  ],
   "Engagement": [
     "templates/dashboard/compare.html",
     "templates/dashboard/public_share.html"
   ],
+  "Engagement (hozirgi)": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Engagement Bashorati": [
+    "templates/dashboard/predict.html"
+  ],
+  "Engagement bashorati": [
+    "templates/dashboard/predict.html"
+  ],
+  "Engagement funnel": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Engagement o'zgarishi": [
+    "templates/dashboard/analytics.html"
+  ],
   "Engagement pasayishi?": [
     "templates/dashboard/chat.html"
+  ],
+  "Engagementga eng ko'p ta'sir qiluvchi xususiyatlar": [
+    "templates/dashboard/predict.html"
   ],
   "Eslatma": [
     "templates/dashboard/reports.html"
   ],
+  "Eslatma (ixtiyoriy)": [
+    "templates/dashboard/competitors.html"
+  ],
+  "Eslatma / sizniki": [
+    "templates/dashboard/competitors.html"
+  ],
+  "Eslatma — nima uchun kuzatasiz": [
+    "apps/social/models.py"
+  ],
   "Eslatma:": [
     "templates/account/email/password_reset_key_message.html"
+  ],
+  "Excel + PDF eksport": [
+    "templates/dashboard/help.html"
   ],
   "Excel eksport (.xlsx)": [
     "templates/partials/_command_palette.html"
@@ -432,6 +611,9 @@
   "Filtrlab, kesib, eksport qilib — ma'lumotni o'z qo'lingizda.": [
     "templates/account/base.html"
   ],
+  "Foydalanish misoli:": [
+    "templates/dashboard/settings.html"
+  ],
   "Foydalanish shartlari": [
     "templates/account/signup.html",
     "templates/dashboard/terms.html"
@@ -442,6 +624,9 @@
   "GitHub Issues →": [
     "templates/dashboard/terms.html"
   ],
+  "Google OAuth bilan kirib, video, watch time, kommentlar va obunachilarni yig'ish.": [
+    "templates/dashboard/help.html"
+  ],
   "Google orqali davom etish": [
     "templates/socialaccount/snippets/login.html"
   ],
@@ -451,6 +636,15 @@
   "Gradient cover sahifasi, KPI xulosasi, platforma jadvali, sentiment namunalari, top postlar — ReportLab orqali.": [
     "templates/dashboard/reports.html"
   ],
+  "Guruhlar": [
+    "templates/dashboard/telegram_channels.html"
+  ],
+  "Ha": [
+    "templates/dashboard/predict.html"
+  ],
+  "Ha — Settings → Ma'lumotlarni eksport (GDPR JSON), yoki Reports sahifasidan Excel/PDF.": [
+    "templates/dashboard/help.html"
+  ],
   "Ha, chiqish": [
     "templates/account/logout.html"
   ],
@@ -459,6 +653,15 @@
   ],
   "Ha, loyiha to'liq bepul — diplom ishi sifatida ishlab chiqilgan. Kredit karta kerak emas.": [
     "templates/dashboard/landing.html"
+  ],
+  "Hafta kuni": [
+    "templates/dashboard/predict.html"
+  ],
+  "Hafta kuni × soat — engagement bo'yicha (so'nggi 30 kun)": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Haftalik xulosa": [
+    "templates/dashboard/ai_digest.html"
   ],
   "Hali hech qanday akkaunt ulanmagan": [
     "templates/dashboard/accounts.html"
@@ -476,13 +679,23 @@
   "Hali postlar yo'q. Akkauntingizni ulang yoki demo data'ni seed qiling.": [
     "templates/dashboard/app.html"
   ],
+  "Hali raqobatchi qo'shilmagan.": [
+    "templates/dashboard/competitors.html"
+  ],
   "Hali sentiment natijalari yo'q.": [
     "templates/dashboard/sentiment.html"
   ],
   "Hali tadbirlar yo'q.": [
     "templates/dashboard/app.html"
   ],
+  "Hamma postlarni olish": [
+    "templates/dashboard/account_connect.html"
+  ],
+  "Hamma postlarni olish (sekinroq, lekin to'liq tarix)": [
+    "templates/dashboard/telegram_channels.html"
+  ],
   "Hammasi": [
+    "templates/dashboard/telegram_channels.html",
     "templates/dashboard/top_posts.html"
   ],
   "Haqiqiy": [
@@ -494,11 +707,17 @@
   "Haqiqiy OAuth integratsiyasi API credentials'larini talab qiladi (Facebook Developer, Google Cloud, Bot tokens). Hozir demo ma'lumot bilan ulanadi — real vaqtda grafiklar va sentiment tahlili ishlaydi.": [
     "templates/dashboard/account_connect.html"
   ],
+  "Haqiqiy ma'lumot": [
+    "templates/dashboard/accounts.html"
+  ],
   "Har akkaunt alohida chiziq bilan": [
     "templates/dashboard/compare.html"
   ],
   "Har qanday texnik muammo, feature so'rovi yoki shartlar bo'yicha savol —\n    GitHub Issues tracker orqali hal qilinadi. Biz 48 soat ichida javob\n    berishga harakat qilamiz (best effort, kafolat emas).": [
     "templates/dashboard/terms.html"
+  ],
+  "Hashtag soni": [
+    "templates/dashboard/predict.html"
   ],
   "Havola ishlamaydi": [
     "templates/account/password_reset_from_key.html"
@@ -521,7 +740,16 @@
   "Hisobotlarni bir bosishda eksport qiling.": [
     "templates/dashboard/landing.html"
   ],
+  "Hisobotni yaratish": [
+    "templates/dashboard/ai_digest.html"
+  ],
   "Holati": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Hozir demo ma'lumot ko'rsatilyapti": [
+    "templates/dashboard/app.html"
+  ],
+  "Hozir yangilash": [
     "templates/dashboard/accounts.html"
   ],
   "Huquqiy ma'lumot": [
@@ -550,9 +778,7 @@
     "templates/account/base.html"
   ],
   "Imkoniyatlar": [
-    "templates/dashboard/landing.html"
-  ],
-  "Instagram, Telegram, YouTube va X ma'lumotlarini bir joyda. AI sentiment tahlil, real-time grafiklar, avtomatik hisobotlar — bir necha bosishda.": [
+    "templates/dashboard/help.html",
     "templates/dashboard/landing.html"
   ],
   "Instagram, Telegram, YouTube yoki X — xavfsiz OAuth orqali.": [
@@ -585,6 +811,12 @@
   "Jami likes": [
     "templates/dashboard/compare.html"
   ],
+  "Jami obunachilar": [
+    "templates/dashboard/accounts.html"
+  ],
+  "Jami postlar": [
+    "templates/dashboard/accounts.html"
+  ],
   "Jonli grafiklar, interaktiv filtrlash va platformalar bo'yicha solishtirish. Har soniyada yangi ma'lumot.": [
     "templates/dashboard/landing.html"
   ],
@@ -594,6 +826,9 @@
   "Juda zaif": [
     "templates/account/signup.html"
   ],
+  "KPI'lar, faollik dinamikasi, top postlar, tavsiyalar": [
+    "templates/dashboard/help.html"
+  ],
   "Kamida 8 belgi": [
     "templates/account/signup.html"
   ],
@@ -601,10 +836,17 @@
     "templates/account/password_reset_from_key.html",
     "templates/account/signup.html"
   ],
+  "Kanal tanlash": [
+    "templates/dashboard/telegram_channels.html"
+  ],
+  "Kanallar": [
+    "templates/dashboard/telegram_channels.html"
+  ],
   "Katta harf (A-Z)": [
     "templates/account/signup.html"
   ],
   "Keyingi": [
+    "templates/dashboard/app.html",
     "templates/dashboard/top_posts.html"
   ],
   "Kichik harf (a-z)": [
@@ -620,6 +862,7 @@
     "templates/account/login.html",
     "templates/account/password_reset_from_key_done.html",
     "templates/account/signup.html",
+    "templates/dashboard/telegram_password.html",
     "templates/partials/_command_palette.html",
     "templates/partials/_navbar.html"
   ],
@@ -629,6 +872,15 @@
   ],
   "Kiryapti...": [
     "templates/account/login.html"
+  ],
+  "Klaster": [
+    "templates/dashboard/clusters.html"
+  ],
+  "Klasterlar": [
+    "templates/dashboard/_shell.html"
+  ],
+  "Klaviatura yorliqlari": [
+    "templates/dashboard/help.html"
   ],
   "Ko'p tilli interfeys": [
     "templates/account/base.html"
@@ -640,6 +892,15 @@
     "templates/dashboard/analytics.html",
     "templates/dashboard/compare.html"
   ],
+  "Kod": [
+    "templates/dashboard/telegram_code.html"
+  ],
+  "Kod Telegram ilovangizga (boshqa qurilmadagi sessiyaga) keladi — ba'zida SMS sifatida ham yuboriladi.": [
+    "templates/dashboard/telegram_code.html"
+  ],
+  "Kod yuborish": [
+    "templates/dashboard/telegram_phone.html"
+  ],
   "Kodi ochiqmi?": [
     "templates/dashboard/landing.html"
   ],
@@ -650,6 +911,19 @@
     "templates/dashboard/analytics.html",
     "templates/dashboard/reports.html"
   ],
+  "Kommentlar / Views": [
+    "templates/dashboard/app.html"
+  ],
+  "Korrelyatsiya": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/correlation.html"
+  ],
+  "Korrelyatsiya hisoblash uchun kommentli postlardan kamida 5 ta kerak.": [
+    "templates/dashboard/correlation.html"
+  ],
+  "Korsatish": [
+    "templates/dashboard/settings.html"
+  ],
   "Kredit karta kerak emas — hoziroq boshlang.": [
     "templates/dashboard/landing.html"
   ],
@@ -659,8 +933,17 @@
   "Kuchli": [
     "templates/account/signup.html"
   ],
+  "Kuchli pozitiv korrelyatsiya": [
+    "templates/dashboard/correlation.html"
+  ],
+  "Kuchli salbiy korrelyatsiya": [
+    "templates/dashboard/correlation.html"
+  ],
   "Kunlik yig'ilgan likes soni": [
     "templates/dashboard/public_share.html"
+  ],
+  "Kutilgan natija": [
+    "templates/dashboard/predict.html"
   ],
   "Layklar": [
     "templates/dashboard/analytics.html"
@@ -668,11 +951,36 @@
   "Like": [
     "templates/dashboard/top_posts.html"
   ],
+  "Like rate": [
+    "templates/dashboard/app.html"
+  ],
   "Likes": [
     "templates/dashboard/public_share.html"
   ],
+  "Likes / Views": [
+    "templates/dashboard/app.html"
+  ],
+  "Limit: 6 ta so'rov / soatda · ~3-5 soniya kutish": [
+    "templates/dashboard/ai_digest.html"
+  ],
+  "Linear Regression sizning postlaringiz tarixini o'rganib, kelgusi post engagement'ini bashorat qiladi.": [
+    "templates/dashboard/predict.html"
+  ],
   "Loyiha holati": [
     "templates/dashboard/landing.html"
+  ],
+  "Loyihaning barcha imkoniyatlari, qanday foydalanish va texnik tafsilotlar.": [
+    "templates/dashboard/help.html"
+  ],
+  "ML Bashorat": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/predict.html"
+  ],
+  "ML model bilan o'ynash": [
+    "templates/dashboard/app.html"
+  ],
+  "ML model qancha aniq?": [
+    "templates/dashboard/help.html"
   ],
   "Ma'lumot saqlash": [
     "templates/dashboard/privacy.html"
@@ -682,6 +990,9 @@
   ],
   "Ma'lumotdan qarorga": [
     "templates/dashboard/landing.html"
+  ],
+  "Ma'lumotim eksport qila olamanmi?": [
+    "templates/dashboard/help.html"
   ],
   "Ma'lumotimni yuklab olish (JSON)": [
     "templates/dashboard/settings.html"
@@ -698,6 +1009,9 @@
   "Ma'lumotlar shifrlangan ulanish orqali uzatiladi (HTTPS/TLS 1.3) va ma'lumotlar bazasida xavfsiz saqlanadi. OAuth tokenlari alohida shifrlash kaliti bilan himoyalanadi.": [
     "templates/dashboard/privacy.html"
   ],
+  "Ma'lumotlarim qayerda saqlanadi?": [
+    "templates/dashboard/help.html"
+  ],
   "Made with": [
     "templates/partials/_footer.html"
   ],
@@ -710,9 +1024,18 @@
   "Masalan:": [
     "templates/dashboard/account_connect.html"
   ],
+  "Maslahat:": [
+    "templates/dashboard/predict.html"
+  ],
   "Mavzu": [
     "templates/dashboard/settings.html",
     "templates/partials/_command_palette.html"
+  ],
+  "Mavzu klasterlari": [
+    "templates/dashboard/clusters.html"
+  ],
+  "Mavzu × Sentiment matritsasi": [
+    "templates/dashboard/sentiment.html"
   ],
   "Mavzuni almashtirish": [
     "templates/account/base.html",
@@ -725,11 +1048,17 @@
   "Maxsus belgi (!@#$ ...)": [
     "templates/account/signup.html"
   ],
+  "Media bormi?": [
+    "templates/dashboard/predict.html"
+  ],
   "Men": [
     "templates/account/signup.html"
   ],
   "Meni eslab qol": [
     "templates/account/login.html"
+  ],
+  "Mening kanallarim": [
+    "templates/dashboard/telegram_channels.html"
   ],
   "Mening ma'lumotlarim": [
     "templates/dashboard/settings.html"
@@ -742,6 +1071,15 @@
   ],
   "Mobil menyu": [
     "templates/partials/_navbar.html"
+  ],
+  "Model sifati (R²)": [
+    "templates/dashboard/predict.html"
+  ],
+  "Model — sklearn.linear_model.LinearRegression. Target — log1p(likes). Inputlar: hafta kuni, soat, caption uzunligi, hashtag soni, media mavjudligi. Real-time, har so'rovda qayta o'qitadi (~50ms).": [
+    "templates/dashboard/predict.html"
+  ],
+  "Model:": [
+    "templates/dashboard/ai_digest.html"
   ],
   "Mualliflik huquqi yoki qonun himoyalangan ma'lumotlarni noqonuniy to'plash.": [
     "templates/dashboard/terms.html"
@@ -765,8 +1103,30 @@
   "Nimani qidiryapsiz?": [
     "templates/partials/_command_palette.html"
   ],
+  "Nusxalandi": [
+    "templates/dashboard/settings.html"
+  ],
+  "Nusxalash": [
+    "templates/dashboard/settings.html"
+  ],
   "O'chirish": [
-    "templates/dashboard/accounts.html"
+    "templates/dashboard/accounts.html",
+    "templates/dashboard/competitors.html"
+  ],
+  "O'rganilgan postlar:": [
+    "templates/dashboard/predict.html"
+  ],
+  "O'rt. engagement": [
+    "templates/dashboard/clusters.html"
+  ],
+  "O'rt. likes": [
+    "templates/dashboard/clusters.html"
+  ],
+  "O'rtacha pozitiv korrelyatsiya": [
+    "templates/dashboard/correlation.html"
+  ],
+  "O'rtacha — bashorat taxminiy. Ko'proq post yiglinsa aniqlik oshadi.": [
+    "templates/dashboard/predict.html"
   ],
   "O'zbek, rus va ingliz tillarida kommentlarni avtomatik baholash.": [
     "templates/account/base.html"
@@ -777,9 +1137,13 @@
   "OAuth orqali ulanganda platformalarning token'lari shifrlangan holda saqlanadi.": [
     "templates/dashboard/terms.html"
   ],
+  "OPENAI_API_KEY env var sozlanishi kerak.": [
+    "templates/dashboard/ai_digest.html"
+  ],
   "Obunachilar": [
     "templates/dashboard/accounts.html",
     "templates/dashboard/compare.html",
+    "templates/dashboard/competitors.html",
     "templates/dashboard/landing.html",
     "templates/dashboard/public_share.html"
   ],
@@ -789,8 +1153,21 @@
   "Oldingi": [
     "templates/dashboard/top_posts.html"
   ],
+  "Oldingi 30 kunga nisbatan": [
+    "templates/dashboard/analytics.html"
+  ],
+  "OpenAI API har so'rovga to'lov oladi (~$0.001 har so'rovga). Bizdа rate limit (6/soat, 20/soat) — token sarflashni cheklash uchun.": [
+    "templates/dashboard/help.html"
+  ],
+  "OpenAI sizning real ma'lumotingiz asosida haftalik tahlil yozadi: nima yaxshi ishladi, nima yomon, keyingi hafta nima qilish kerak.": [
+    "templates/dashboard/ai_digest.html"
+  ],
+  "Optimal Posting AI": [
+    "templates/dashboard/app.html"
+  ],
   "Orqaga": [
-    "templates/404.html"
+    "templates/404.html",
+    "templates/dashboard/app.html"
   ],
   "Oxirgi": [
     "templates/dashboard/top_posts.html"
@@ -803,6 +1180,9 @@
   ],
   "Oxirgi 7 kun": [
     "templates/dashboard/landing.html"
+  ],
+  "Oxirgi sync": [
+    "templates/dashboard/accounts.html"
   ],
   "Oxirgi yangilanish:": [
     "templates/dashboard/privacy.html",
@@ -881,17 +1261,30 @@
     "templates/account/login.html",
     "templates/account/signup.html"
   ],
+  "Past — engagement tasodifiy. Ko'proq post yoki o'xshash ma'lumot kerak.": [
+    "templates/dashboard/predict.html"
+  ],
+  "Pearson r": [
+    "templates/dashboard/correlation.html"
+  ],
   "Platform-side account id": [
     "apps/social/models.py"
   ],
   "Platforma": [
     "templates/dashboard/accounts.html",
     "templates/dashboard/analytics.html",
+    "templates/dashboard/competitors.html",
     "templates/dashboard/top_posts.html"
   ],
   "Platforma bo'yicha": [
     "templates/dashboard/analytics.html",
     "templates/dashboard/app.html"
+  ],
+  "Platforma engagement solishtiruvi": [
+    "templates/dashboard/app.html"
+  ],
+  "Platforma integratsiyalari": [
+    "templates/dashboard/help.html"
   ],
   "Platforma sizning akkauntingiz bo'yicha to'playdigan barcha ma'lumotlarni yuklab oling (GDPR-mos).": [
     "templates/dashboard/settings.html"
@@ -903,15 +1296,31 @@
     "templates/dashboard/analytics.html",
     "templates/dashboard/top_posts.html"
   ],
+  "Post chastotasi": [
+    "templates/dashboard/analytics.html"
+  ],
   "Post turi": [
     "templates/dashboard/top_posts.html"
+  ],
+  "Post turlari bo'yicha": [
+    "templates/dashboard/app.html"
+  ],
+  "Post uzunligi tahlili": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Post xususiyatlari": [
+    "templates/dashboard/predict.html"
   ],
   "PostgreSQL (prod) yoki SQLite (dev) ma'lumotlar bazasida. OAuth tokenlari shifrlangan holda saqlanadi, parollar hech qachon saqlanmaydi.": [
     "templates/dashboard/landing.html"
   ],
+  "PostgreSQL bazada (Render). Sizning OAuth tokenlaringiz Fernet shifrlash bilan saqlanadi. Akkauntni o'chirsangiz hammasi cascade bilan o'chadi.": [
+    "templates/dashboard/help.html"
+  ],
   "Postlar": [
     "templates/dashboard/accounts.html",
     "templates/dashboard/analytics.html",
+    "templates/dashboard/clusters.html",
     "templates/dashboard/compare.html",
     "templates/dashboard/landing.html",
     "templates/dashboard/public_share.html",
@@ -920,7 +1329,16 @@
   "Postlar (30 kun)": [
     "templates/dashboard/analytics.html"
   ],
+  "Postlar avtomatik fonda yig'iladi (10-30 soniya).": [
+    "templates/dashboard/help.html"
+  ],
   "Postlar · layklar · ko'rishlar": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Postlaringiz mavzu bo'yicha avtomatik guruhlanadi va har klaster engagement'i taqqoslanadi.": [
+    "templates/dashboard/clusters.html"
+  ],
+  "Postlaringizdagi eng faol so'zlar": [
     "templates/dashboard/analytics.html"
   ],
   "Postlaringizning qamrovi va faolligi jonli grafikada.": [
@@ -933,11 +1351,23 @@
   "Pozitiv komment yetarli emas.": [
     "templates/dashboard/sentiment.html"
   ],
+  "Pozitiv kommentlar engagement'ni oshiradimi? Pearson korrelyatsiyasi bilan tekshiramiz.": [
+    "templates/dashboard/correlation.html"
+  ],
   "Pozitiv so'zlar": [
     "templates/dashboard/sentiment.html"
   ],
   "Pozitiv · neytral · negativ": [
     "templates/dashboard/sentiment.html"
+  ],
+  "Pozitiv/negativ kommentlar, mavzu × sentiment matritsa": [
+    "templates/dashboard/help.html"
+  ],
+  "Production: Instagram Business akkaunt + Meta App Review (1-2 hafta) talab qiladi. Hozir demo.": [
+    "templates/dashboard/help.html"
+  ],
+  "Production: X API Basic tariffi ($100/oy). Hozir demo.": [
+    "templates/dashboard/help.html"
   ],
   "Profil": [
     "templates/dashboard/_shell.html",
@@ -953,11 +1383,17 @@
   "Public @username or channel id": [
     "apps/social/models.py"
   ],
+  "Public @username yoki kanal id": [
+    "apps/social/models.py"
+  ],
   "Public Telegram kanalidan haqiqiy maʼlumot tortib olinadi: views, reaksiyalar, forwardlar va komment soni. Postlar fonda Celery task orqali yigʻiladi.": [
     "templates/dashboard/account_connect.html"
   ],
   "Public dashboard": [
     "templates/dashboard/public_share.html"
+  ],
+  "Public kanallarni ulang va sizning akkauntingiz bilan obunachi soni bo'yicha solishtiring.": [
+    "templates/dashboard/competitors.html"
   ],
   "Public link": [
     "templates/dashboard/accounts.html"
@@ -973,8 +1409,17 @@
   "Qanday ma'lumot to'playmiz": [
     "templates/dashboard/privacy.html"
   ],
+  "Qanday post yozmoqchisiz?": [
+    "templates/dashboard/predict.html"
+  ],
   "Qanday qilib sentiment aniqligini baholaysiz?": [
     "templates/dashboard/landing.html"
+  ],
+  "Qaysi kanalni tahlil qilamiz?": [
+    "templates/dashboard/telegram_channels.html"
+  ],
+  "Qaysi mavzudagi postlaringizga qanday reaktsiya keladi": [
+    "templates/dashboard/sentiment.html"
   ],
   "Qaysi platformalar qo'llab-quvvatlanadi?": [
     "templates/dashboard/landing.html"
@@ -982,9 +1427,15 @@
   "Qayta urinish": [
     "templates/500.html"
   ],
+  "Qaytadan yaratish": [
+    "templates/dashboard/ai_digest.html"
+  ],
   "Qidirish": [
     "templates/404.html",
     "templates/partials/_navbar.html"
+  ],
+  "Qidirish...": [
+    "templates/dashboard/telegram_channels.html"
   ],
   "Qidiruv va komandalar": [
     "templates/partials/_navbar.html"
@@ -997,6 +1448,9 @@
   ],
   "Qo'llash": [
     "templates/dashboard/settings.html"
+  ],
+  "Qo'shish": [
+    "templates/dashboard/competitors.html"
   ],
   "Qorong'u": [
     "templates/dashboard/settings.html"
@@ -1013,8 +1467,42 @@
   "Raqamlarda": [
     "templates/dashboard/landing.html"
   ],
+  "Raqamni o'zgartirish": [
+    "templates/dashboard/telegram_code.html"
+  ],
+  "Raqobatchilar": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/competitors.html"
+  ],
+  "Raqobatchilarni kuzatish": [
+    "templates/dashboard/competitors.html"
+  ],
+  "Rasm, video, matn va boshqa kontent ulushlari": [
+    "templates/dashboard/app.html"
+  ],
+  "Real OAuth": [
+    "templates/dashboard/landing.html"
+  ],
+  "Real OAuth · API v5.131": [
+    "templates/dashboard/help.html"
+  ],
+  "Real OAuth · Data API v3": [
+    "templates/dashboard/help.html"
+  ],
+  "Real OAuth · MTProto": [
+    "templates/dashboard/help.html"
+  ],
+  "Real akkaunt ulash": [
+    "templates/dashboard/app.html"
+  ],
+  "Real ma'lumotlardan kelib chiqib avtomatik yaratildi": [
+    "templates/dashboard/app.html"
+  ],
   "Real rejim — Telegram MTProto": [
     "templates/dashboard/account_connect.html"
+  ],
+  "Real ulangan": [
+    "templates/dashboard/accounts.html"
   ],
   "Real-time analitika": [
     "templates/dashboard/landing.html"
@@ -1037,6 +1525,9 @@
   "Ro’yxatdan o’tish": [
     "templates/partials/_command_palette.html"
   ],
+  "R² (model sifati) sizning ma'lumotingizga bog'liq. 100+ post bo'lsa odatda 0.4-0.7 oralig'ida — bashorat taxminiy, lekin trend to'g'ri.": [
+    "templates/dashboard/help.html"
+  ],
   "Sahifa": [
     "templates/dashboard/top_posts.html"
   ],
@@ -1045,6 +1536,12 @@
   ],
   "Sahifadagi yuqori paneldan tilni istagan vaqtda o'zgartirishingiz mumkin.": [
     "templates/dashboard/settings.html"
+  ],
+  "Sahifani chop etish": [
+    "templates/dashboard/help.html"
+  ],
+  "Salbiy korrelyatsiya": [
+    "templates/dashboard/correlation.html"
   ],
   "Salom, <strong>{{ user_display }}</strong>!": [
     "templates/account/email/email_confirmation_message.html"
@@ -1070,6 +1567,9 @@
   "Savollar — GitHub issue orqali yuborish.": [
     "templates/dashboard/privacy.html"
   ],
+  "Scatter plot": [
+    "templates/dashboard/correlation.html"
+  ],
   "Schema va OAuth callback infrastrukturasi tayyor. Haqiqiy ulanish uchun Meta Business Verification (7-14 kun review), Google Cloud OAuth client va Telegram Bot Token kerak. Hozirda loyiha demo rejimda ishlaydi — realistik ma'lumot, haqiqiy sentiment modeli, haqiqiy PDF/Excel eksport. API credentials qo'yilgach kod o'zgarmaydi, avtomatik haqiqiy rejimga o'tadi.": [
     "templates/dashboard/landing.html"
   ],
@@ -1079,6 +1579,9 @@
   ],
   "Sentiment +3%": [
     "templates/dashboard/landing.html"
+  ],
+  "Sentiment dinamikasi": [
+    "templates/dashboard/sentiment.html"
   ],
   "Sentiment natijalari": [
     "templates/dashboard/reports.html"
@@ -1092,11 +1595,17 @@
   "Sentiment tahlili qanday ishlaydi?": [
     "templates/dashboard/landing.html"
   ],
+  "Sentiment × Engagement": [
+    "templates/dashboard/correlation.html"
+  ],
   "Server xatosi": [
     "templates/500.html"
   ],
   "Serverda kutilmagan xato yuz berdi. Bir oz kuting va qayta urinib ko'ring.": [
     "templates/500.html"
+  ],
+  "Shares / Views": [
+    "templates/dashboard/app.html"
   ],
   "Shaxsiy ma'lumot": [
     "templates/dashboard/settings.html"
@@ -1119,11 +1628,41 @@
   "Sizga tasdiqlash xati yubordik. Iltimos, emailingizdagi havolaga o'ting.": [
     "templates/account/verification_sent.html"
   ],
+  "Sizga tavsiyalar": [
+    "templates/dashboard/app.html"
+  ],
+  "Sizniki": [
+    "templates/dashboard/competitors.html"
+  ],
+  "Sizning JWT tokeningiz:": [
+    "templates/dashboard/settings.html"
+  ],
+  "Sizning Telegram akkauntingizda kanal yoki guruh topilmadi.": [
+    "templates/dashboard/telegram_channels.html"
+  ],
+  "Sizning Telegram sessiyangiz shifrlangan holda saqlanadi va faqat sizning kanal/guruh ma'lumotlaringizni o'qish uchun ishlatiladi. Saytdan istalgan vaqt o'chirib tashlashingiz mumkin.": [
+    "templates/dashboard/telegram_phone.html"
+  ],
   "Sizning akkauntingizdagi postlar va kommentlar tahlil uchun.": [
     "templates/dashboard/privacy.html"
   ],
+  "Sizning akkauntlaringiz va kuzatuvdagi raqobatchilar yonma-yon": [
+    "templates/dashboard/competitors.html"
+  ],
   "Sizning huquqlaringiz": [
     "templates/dashboard/privacy.html"
+  ],
+  "Sizning ulangan tarmoqlaringiz qaysisida ish yaxshiroq": [
+    "templates/dashboard/app.html"
+  ],
+  "Skriptingiz yoki ilovangizdan REST API'ga kirish uchun JWT token. Barcha so'rovlarda Authorization sarlavhasiga qo'shing.": [
+    "templates/dashboard/settings.html"
+  ],
+  "So'nggi 30 kun — kommentlardagi pozitiv / neytral / negativ sonlari": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "Soat": [
+    "templates/dashboard/predict.html"
   ],
   "Social Analytics platformasiga ro'yxatdan o'tganingiz uchun rahmat.\n  Akkauntni faollashtirish uchun quyidagi tugmani bosing:": [
     "templates/account/email/email_confirmation_message.html"
@@ -1141,6 +1680,9 @@
   "Solishtirish uchun kamida 2 ta akkaunt kerak.": [
     "templates/dashboard/compare.html"
   ],
+  "Solishtirma jadval": [
+    "templates/dashboard/competitors.html"
+  ],
   "Sozlamalar": [
     "templates/dashboard/_shell.html",
     "templates/dashboard/delete_account.html",
@@ -1157,6 +1699,9 @@
   "Summary, Posts, Comments, Sentiment, Platforms — openpyxl bilan formatlangan, filter va donut chart bilan.": [
     "templates/dashboard/reports.html"
   ],
+  "Tabiiy tilda savol bering, AI sizning ma'lumotingiz haqida javob beradi": [
+    "templates/dashboard/help.html"
+  ],
   "Tabiiy tilda yozing — AI siz'ning real ma'lumotingiz asosida javob beradi. OpenAI (gpt-4o-mini) orqali.": [
     "templates/dashboard/chat.html"
   ],
@@ -1165,6 +1710,12 @@
   ],
   "Tahlil qilingan postlar": [
     "templates/dashboard/landing.html"
+  ],
+  "Tahlil qilish": [
+    "templates/dashboard/telegram_channels.html"
+  ],
+  "Tahlilda": [
+    "templates/dashboard/correlation.html"
   ],
   "Tahlilni ko'ring": [
     "templates/dashboard/landing.html"
@@ -1180,13 +1731,75 @@
   ],
   "Tasdiqlash": [
     "templates/account/email_confirm.html",
-    "templates/dashboard/delete_account.html"
+    "templates/dashboard/delete_account.html",
+    "templates/dashboard/telegram_code.html"
+  ],
+  "Tasdiqlash kodi": [
+    "templates/dashboard/telegram_code.html"
+  ],
+  "Tavsiya:": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Telefon raqam + SMS kod orqali kirish, kanal/guruh tanlash, postlar va kommentlar yig'ish.": [
+    "templates/dashboard/help.html"
+  ],
+  "Telefon raqami": [
+    "templates/dashboard/telegram_phone.html"
+  ],
+  "Telegram 2FA paroli": [
+    "templates/dashboard/telegram_password.html"
+  ],
+  "Telegram cloud paroli": [
+    "templates/dashboard/telegram_password.html"
+  ],
+  "Telegram kanali tanlash": [
+    "templates/dashboard/telegram_channels.html"
+  ],
+  "Telegram kodi": [
+    "templates/dashboard/telegram_code.html"
+  ],
+  "Telegram public kanallar avtomatik tortib olinadi (sizning Telegram session'ingiz orqali). YouTube uchun handle saqlanadi, statistika keyinroq qo'lda yangilanadi.": [
+    "templates/dashboard/competitors.html"
+  ],
+  "Telegram'dan kelgan kod": [
+    "templates/dashboard/telegram_code.html"
+  ],
+  "Telegram'ga kirish": [
+    "templates/dashboard/telegram_phone.html"
+  ],
+  "Telegram'ga ro'yxatdan o'tgan raqamingiz, xalqaro formatda. Sizga SMS-kod yuboriladi.": [
+    "templates/dashboard/telegram_phone.html"
+  ],
+  "Telegram'ga ulanish": [
+    "templates/dashboard/telegram_phone.html"
+  ],
+  "Telegram'ingizda jami {{ total }} ta kanal/guruh.{% plural %}Telegram'ingizda jami {{ total }} ta kanal/guruh.": [
+    "templates/dashboard/telegram_channels.html"
   ],
   "Telegram, YouTube va Instagram ma'lumotlarini yig'ib, sentiment tahlil va interaktiv dashboardlar bilan qarorlar qabul qiling.": [
     "templates/account/base.html"
   ],
+  "Telegram, YouTube va VK ma'lumotlaringizni real ulang; Instagram va X demo rejimda ko'ring. AI sentiment tahlil, real-time grafiklar, avtomatik tavsiyalar — bir necha bosishda.": [
+    "templates/dashboard/landing.html"
+  ],
+  "Telegram, YouTube yoki VK akkauntingizni ulab, real grafiklar va tavsiyalarni oling.": [
+    "templates/dashboard/app.html"
+  ],
+  "Texnik stek": [
+    "templates/dashboard/help.html"
+  ],
+  "Texnik tafsilot:": [
+    "templates/dashboard/clusters.html",
+    "templates/dashboard/predict.html"
+  ],
+  "Tez-tez beriladigan savollar": [
+    "templates/dashboard/help.html"
+  ],
   "Tez-tez so'raladigan savollar": [
     "templates/dashboard/landing.html"
+  ],
+  "TfidfVectorizer (max_features=300, min_df=2, max_df=0.85) bilan postlar vektorlashtiriladi, KMeans (n_init='auto', random_state=42) klasterlaydi. Klaster nomi — markaz vektorining top-3 tokenidan olingan.": [
+    "templates/dashboard/clusters.html"
   ],
   "Tiklash havolasini yuborish": [
     "templates/account/password_reset.html"
@@ -1206,6 +1819,12 @@
   "To'liq tarjima qilingan.": [
     "templates/dashboard/landing.html"
   ],
+  "Top hashtaglar": [
+    "templates/dashboard/analytics.html"
+  ],
+  "Top mavzular": [
+    "templates/dashboard/analytics.html"
+  ],
   "Top post": [
     "templates/dashboard/compare.html"
   ],
@@ -1218,11 +1837,17 @@
     "templates/dashboard/public_share.html",
     "templates/dashboard/top_posts.html"
   ],
+  "Top postlardagi naqshlar": [
+    "templates/dashboard/app.html"
+  ],
   "Tortib olinadigan post soni": [
     "templates/dashboard/account_connect.html"
   ],
   "True for accounts seeded by the demo generator.": [
     "apps/social/models.py"
+  ],
+  "Tushundim!": [
+    "templates/dashboard/app.html"
   ],
   "Uch darajali tiered engine: (1) XLM-RoBERTa transformer (opt-in, cardiffnlp tomonidan Twitter korpusida o'qitilgan, ~82% F1), (2) VADER lexicon O'zbek/Rus keyword kengaytmasi bilan (~75% F1 ikki tilda), (3) fallback keyword engine. Har komment uchun model nomi DB'da saqlanadi, natijalarni modellar aro solishtirish mumkin.": [
     "templates/dashboard/landing.html"
@@ -1263,6 +1888,15 @@
   "Ushbu xizmat akademik diplom loyihasi sifatida yaratilgan. Biz\n    platformaning uzluksiz ishlashi, ma'lumotlarning yo'qolmasligi yoki\n    uchinchi tomon API'lari (Instagram, Telegram, YouTube, X) bilan uzluksiz\n    aloqa bo'yicha kafolat bermaymiz. Siz xizmatdan \"as-is\" foydalanasiz.\n    Biznes maqsadida foydalanish uchun o'zingiz tekshiring.": [
     "templates/dashboard/terms.html"
   ],
+  "VK OAuth bilan kirib, devor postlari (likes, kommentlar, repostlar) yig'ish.": [
+    "templates/dashboard/help.html"
+  ],
+  "Virality": [
+    "templates/dashboard/app.html"
+  ],
+  "X = pozitiv komment %, Y = engagement %": [
+    "templates/dashboard/correlation.html"
+  ],
   "XLM-RoBERTa (ko'p tilli transformer modeli) kommentlarni pozitiv, neytral va negativ kategoriyalarga ajratadi — o'zbek, rus va ingliz tillarida.": [
     "templates/dashboard/landing.html"
   ],
@@ -1273,6 +1907,9 @@
     "templates/account/password_reset_done.html",
     "templates/account/verification_sent.html"
   ],
+  "Xato:": [
+    "templates/dashboard/ai_digest.html"
+  ],
   "Xavfli zona": [
     "templates/dashboard/settings.html"
   ],
@@ -1281,6 +1918,9 @@
   ],
   "Xavfsizlik uchun parolni muntazam yangilab turing.": [
     "templates/dashboard/settings.html"
+  ],
+  "Xavfsizlik:": [
+    "templates/dashboard/telegram_phone.html"
   ],
   "Xizmat sifati va xatolarni aniqlash uchun (anonim).": [
     "templates/dashboard/privacy.html"
@@ -1301,9 +1941,6 @@
   "Yana bitta ulash": [
     "templates/dashboard/accounts.html"
   ],
-  "Yangi": [
-    "templates/dashboard/_shell.html"
-  ],
   "Yangi havola so'rash": [
     "templates/account/password_reset_from_key.html"
   ],
@@ -1320,14 +1957,29 @@
   "Yangi parolni kiriting va uni takrorlang.": [
     "templates/account/password_reset_from_key.html"
   ],
+  "Yangi raqobatchi qo'shish": [
+    "templates/dashboard/competitors.html"
+  ],
   "Yangi tasdiqlash so'rash": [
     "templates/account/email_confirm.html"
+  ],
+  "Yangi xulosa yaratish": [
+    "templates/dashboard/ai_digest.html"
+  ],
+  "Yangilash": [
+    "templates/dashboard/accounts.html"
   ],
   "Yaratilgan hisobotlar tarixi": [
     "templates/dashboard/delete_account.html"
   ],
   "Yaratilmoqda...": [
     "templates/account/signup.html"
+  ],
+  "Yashirish": [
+    "templates/dashboard/settings.html"
+  ],
+  "Yetakchi:": [
+    "templates/dashboard/app.html"
   ],
   "Yetarli": [
     "templates/account/signup.html"
@@ -1336,8 +1988,20 @@
     "templates/dashboard/landing.html"
   ],
   "Yopish": [
+    "templates/dashboard/alerts.html",
+    "templates/dashboard/app.html",
     "templates/partials/_message_item.html",
     "templates/partials/_messages.html"
+  ],
+  "Yoq": [
+    "templates/dashboard/predict.html"
+  ],
+  "Yordam": [
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/help.html"
+  ],
+  "Yordam markazi": [
+    "templates/dashboard/help.html"
   ],
   "Yorug'": [
     "templates/dashboard/settings.html"
@@ -1348,14 +2012,29 @@
   "Yuborish": [
     "templates/dashboard/chat.html"
   ],
+  "Yuqori — model ma'lumotlaringizni yaxshi tushunadi.": [
+    "templates/dashboard/predict.html"
+  ],
+  "Yuqoridagi 'Korsatish' tugmasini bosing — token serverdan olinadi.": [
+    "templates/dashboard/settings.html"
+  ],
+  "Yuqoridagi limitni e'tiborsiz qoldirib, kanaldagi barcha mavjud postlarni yig'adi. Katta kanallarda bir necha daqiqa vaqt olishi mumkin.": [
+    "templates/dashboard/account_connect.html"
+  ],
   "Yuqoridagi platformalardan birini tanlab, demo ma'lumot yuklang yoki OAuth orqali haqiqiy akkauntingizni ulang.": [
     "templates/dashboard/accounts.html"
   ],
   "Zaif": [
     "templates/account/signup.html"
   ],
+  "a'zo": [
+    "templates/dashboard/telegram_channels.html"
+  ],
   "akkauntini ulash": [
     "templates/dashboard/account_connect.html"
+  ],
+  "belgi": [
+    "templates/dashboard/analytics.html"
   ],
   "bilan tanishdim va roziman.": [
     "templates/account/signup.html"
@@ -1366,8 +2045,14 @@
   "env var'ni sozlashi kerak. Kalitni": [
     "templates/dashboard/chat.html"
   ],
+  "faqat matn": [
+    "templates/dashboard/app.html"
+  ],
   "in Tashkent": [
     "templates/partials/_footer.html"
+  ],
+  "kamaydi": [
+    "templates/dashboard/analytics.html"
   ],
   "kommentlar": [
     "templates/dashboard/sentiment.html"
@@ -1376,11 +2061,22 @@
     "templates/dashboard/app.html",
     "templates/dashboard/top_posts.html"
   ],
+  "media (rasm/video) bilan": [
+    "templates/dashboard/app.html"
+  ],
+  "o'sdi": [
+    "templates/dashboard/analytics.html"
+  ],
   "o'sish": [
     "templates/dashboard/landing.html"
   ],
+  "o'zgarmagan": [
+    "templates/dashboard/analytics.html",
+    "templates/dashboard/app.html"
+  ],
   "obunachi": [
-    "templates/dashboard/compare.html"
+    "templates/dashboard/compare.html",
+    "templates/dashboard/telegram_channels.html"
   ],
   "ochish": [
     "templates/partials/_command_palette.html"
@@ -1406,11 +2102,26 @@
   "professional tushuning": [
     "templates/dashboard/landing.html"
   ],
+  "r = 1.0 mukammal pozitiv · r = 0 aloqa yo'q · r = -1.0 mukammal salbiy": [
+    "templates/dashboard/correlation.html"
+  ],
   "saytidan olish mumkin.": [
     "templates/dashboard/chat.html"
   ],
+  "scikit-learn modeli engagement bashorat qiladi": [
+    "templates/dashboard/help.html"
+  ],
+  "ta layk": [
+    "templates/dashboard/predict.html"
+  ],
+  "ta post ishtirok etdi.": [
+    "templates/dashboard/correlation.html"
+  ],
   "tanlash": [
     "templates/partials/_command_palette.html"
+  ],
+  "tezkor hisobot": [
+    "templates/dashboard/ai_digest.html"
   ],
   "tillar": [
     "templates/dashboard/landing.html"
@@ -1427,15 +2138,33 @@
   "va": [
     "templates/account/signup.html"
   ],
+  "yangi": [
+    "templates/dashboard/alerts.html"
+  ],
   "yoki": [
     "templates/account/login.html",
     "templates/account/signup.html"
+  ],
+  "{{ day }} kuni soat {{ hr }}:00 da post chiqaring": [
+    "templates/dashboard/app.html"
+  ],
+  "{{ len }} belgi atrofida yozilgan postlaringiz o'rtacha {{ avg }}% engagement berdi — ushbu uzunlikda yozishga harakat qiling.": [
+    "templates/dashboard/analytics.html"
   ],
   "{{ n }} ta komment tahlil qilindi · model: {{ m }}": [
     "templates/dashboard/sentiment.html"
   ],
   "{{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring.\n        {% plural %}\n          {{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring.": [
     "templates/dashboard/top_posts.html"
+  ],
+  "{{ sz }} ta post o'rtacha engagement {{ eng }}%. Shu mavzudagi postlarni ko'paytirish maqsadga muvofiq.": [
+    "templates/dashboard/clusters.html"
+  ],
+  "~{{ cl }} belgili caption · {{ hc }} ta hashtag": [
+    "templates/dashboard/app.html"
+  ],
+  "~{{ n }} layk kutiladi": [
+    "templates/dashboard/app.html"
   ],
   "— keyin o'chirish xavfsiz bo'ladi.": [
     "templates/dashboard/delete_account.html"
