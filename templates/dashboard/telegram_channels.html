@@ -9,58 +9,112 @@
 {% endblock %}
 
 {% block dash_content %}
-<div class="max-w-3xl mx-auto space-y-6" data-reveal>
+<div class="max-w-3xl mx-auto space-y-6"
+     x-data="{
+       picked: null,
+       filter: 'broadcast',
+       q: '',
+       broadcastCount: {{ broadcast_count }},
+       megagroupCount: {{ megagroup_count }},
+       match(el) {
+         if (this.filter !== 'all' && el.dataset.type !== this.filter) return false;
+         if (!this.q) return true;
+         const needle = this.q.toLowerCase();
+         return el.dataset.search.includes(needle);
+       }
+     }">
+
   <div class="flex items-center gap-4">
     <span class="inline-flex h-14 w-14 items-center justify-center rounded-2xl text-white text-lg font-bold bg-gradient-to-br from-sky-500 to-blue-600 shadow-card">TG</span>
     <div>
       <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{% trans "Qaysi kanalni tahlil qilamiz?" %}</h1>
-      <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{% trans "Telegram'da a'zo bo'lgan barcha kanal va guruhlaringiz ro'yxati." %}</p>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
+        {% blocktrans count total=channels|length %}Telegram'ingizda jami {{ total }} ta kanal/guruh.{% plural %}Telegram'ingizda jami {{ total }} ta kanal/guruh.{% endblocktrans %}
+      </p>
     </div>
   </div>
 
   {% if channels %}
-    <div class="card divide-y divide-slate-200 dark:divide-slate-800">
-      {% for c in channels %}
-        <form method="post" class="flex items-center gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
-          {% csrf_token %}
-          <input type="hidden" name="channel_id" value="{{ c.external_id }}">
-          <input type="hidden" name="handle"     value="{{ c.handle }}">
-          <input type="hidden" name="title"      value="{{ c.display_name }}">
-          <input type="hidden" name="followers"  value="{{ c.follower_count }}">
-          <input type="hidden" name="fetch_all"  value="1">
+    <form method="post" class="card overflow-hidden">
+      {% csrf_token %}
+      <input type="hidden" name="fetch_all" value="1">
+      <input type="hidden" name="channel_id" :value="picked?.id">
+      <input type="hidden" name="handle"     :value="picked?.handle">
+      <input type="hidden" name="title"      :value="picked?.title">
+      <input type="hidden" name="followers"  :value="picked?.followers">
 
-          <span class="inline-flex h-10 w-10 items-center justify-center rounded-full text-white text-xs font-bold
-            {% if c.is_broadcast %}bg-gradient-to-br from-sky-500 to-blue-600
-            {% else %}bg-gradient-to-br from-emerald-500 to-teal-600{% endif %}">
-            {{ c.display_name|slice:":1"|upper }}
-          </span>
-
-          <div class="flex-1 min-w-0">
-            <div class="font-semibold text-slate-900 dark:text-white truncate">{{ c.display_name }}</div>
-            <div class="mt-0.5 flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-              {% if c.handle %}<span>@{{ c.handle }}</span>{% endif %}
-              <span class="inline-flex items-center gap-1">
-                <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-                {{ c.follower_count|default:0 }}
-              </span>
-              {% if c.is_broadcast %}
-                <span class="chip-brand text-[10px]">{% trans "Kanal" %}</span>
-              {% else %}
-                <span class="chip text-[10px]">{% trans "Guruh" %}</span>
-              {% endif %}
-            </div>
-          </div>
-
-          <button type="submit" class="btn-ghost !text-xs whitespace-nowrap">
-            {% trans "Tahlil qilish" %}
-            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      <div class="px-5 pt-5 pb-3 flex items-center gap-3 flex-wrap border-b border-slate-200 dark:border-slate-800">
+        <div class="inline-flex rounded-lg bg-slate-100 dark:bg-slate-800 p-1 text-xs font-medium">
+          <button type="button" @click="filter='broadcast'"
+                  :class="filter==='broadcast' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'"
+                  class="px-3 py-1.5 rounded-md transition">
+            {% trans "Kanallar" %} <span x-text="broadcastCount" class="ml-1 opacity-70"></span>
           </button>
-        </form>
-      {% endfor %}
-    </div>
-    <p class="text-xs text-slate-500 dark:text-slate-400">
-      {% trans "Tanlanganda barcha postlar yig'iladi — katta kanallarda bir necha daqiqa kutish mumkin." %}
-    </p>
+          <button type="button" @click="filter='megagroup'"
+                  :class="filter==='megagroup' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'"
+                  class="px-3 py-1.5 rounded-md transition">
+            {% trans "Guruhlar" %} <span x-text="megagroupCount" class="ml-1 opacity-70"></span>
+          </button>
+          <button type="button" @click="filter='all'"
+                  :class="filter==='all' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'"
+                  class="px-3 py-1.5 rounded-md transition">
+            {% trans "Hammasi" %}
+          </button>
+        </div>
+
+        <div class="relative flex-1 min-w-[200px]">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" x-model="q"
+                 placeholder="{% trans 'Qidirish...' %}"
+                 class="field-input !pl-9 !py-1.5 text-sm">
+        </div>
+      </div>
+
+      <div class="max-h-[60vh] overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
+        {% for c in channels %}
+          <label class="flex items-center gap-3 px-5 py-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/40 transition"
+                 data-type="{% if c.is_broadcast %}broadcast{% else %}megagroup{% endif %}"
+                 data-search="{{ c.display_name|lower }} {{ c.handle|lower }}"
+                 x-show="match($el)"
+                 :class="picked?.id === '{{ c.external_id }}' ? 'bg-brand-50 dark:bg-brand-900/20' : ''">
+            <input type="radio" name="_pick" class="sr-only"
+                   @change="picked = {
+                     id:'{{ c.external_id }}',
+                     handle:'{{ c.handle|escapejs }}',
+                     title:'{{ c.display_name|escapejs }}',
+                     followers:{{ c.follower_count|default:0 }}
+                   }">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-full text-white text-xs font-bold shrink-0
+              {% if c.is_broadcast %}bg-gradient-to-br from-sky-500 to-blue-600
+              {% else %}bg-gradient-to-br from-emerald-500 to-teal-600{% endif %}">
+              {{ c.display_name|slice:":1"|upper }}
+            </span>
+            <div class="flex-1 min-w-0">
+              <div class="font-medium text-sm text-slate-900 dark:text-white truncate">{{ c.display_name }}</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 truncate">
+                {% if c.handle %}@{{ c.handle }} · {% endif %}{{ c.follower_count|default:0 }} {% if c.is_broadcast %}{% trans "obunachi" %}{% else %}{% trans "a'zo" %}{% endif %}
+              </div>
+            </div>
+            <svg x-show="picked?.id === '{{ c.external_id }}'" x-cloak
+                 class="h-5 w-5 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </label>
+        {% endfor %}
+      </div>
+
+      <div class="px-5 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 bg-slate-50/50 dark:bg-slate-900/30">
+        <div class="text-xs text-slate-500 dark:text-slate-400">
+          {% trans "Tanlanganda barcha postlar yig'iladi — katta kanallarda bir necha daqiqa kutish mumkin." %}
+        </div>
+        <button type="submit" :disabled="!picked"
+                :class="picked ? '' : 'opacity-40 cursor-not-allowed'"
+                class="btn-primary whitespace-nowrap">
+          {% trans "Tahlil qilish" %}
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </form>
   {% else %}
     <div class="card p-10 text-center">
       <p class="text-sm text-slate-600 dark:text-slate-400">

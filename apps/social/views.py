@@ -782,9 +782,12 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
         messages.error(request, f"Kanallar olishda xato: {e}")
         return redirect("social:telegram_connect_start")
 
+    broadcast_count = sum(1 for c in channels if c.is_broadcast)
     return render(request, "dashboard/telegram_channels.html", {
-        "active_nav": "accounts",
-        "channels":   channels,
+        "active_nav":      "accounts",
+        "channels":        channels,
+        "broadcast_count": broadcast_count,
+        "megagroup_count": len(channels) - broadcast_count,
     })
 
 
