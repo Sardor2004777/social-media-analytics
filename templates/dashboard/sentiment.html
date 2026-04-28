@@ -170,11 +170,25 @@
   </div>
 </div>
 
+<div class="card p-6" data-reveal>
+  <div class="flex items-start justify-between gap-3 flex-wrap">
+    <div>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Sentiment dinamikasi" %}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "So'nggi 30 kun — kommentlardagi pozitiv / neytral / negativ sonlari" %}</p>
+    </div>
+  </div>
+  <div class="mt-5 h-72">
+    <canvas id="sentimentTimeline"></canvas>
+  </div>
+</div>
+
 {{ distribution|json_script:"dist-data" }}
+{{ timeline|json_script:"sent-timeline-data" }}
 <script>
 (function() {
   const dist = JSON.parse(document.getElementById('dist-data').textContent);
-  let chart;
+  const tl   = JSON.parse(document.getElementById('sent-timeline-data').textContent);
+  let chart, lineChart;
   function isDark() { return document.documentElement.classList.contains('dark'); }
 
   function build() {
@@ -188,9 +202,45 @@
       options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { position: 'bottom', labels: { color: isDark() ? '#e2e8f0' : '#0f172a', usePointStyle: true, padding: 16 } } } },
     });
   }
-  function reload() { if (chart) chart.destroy(); build(); }
+
+  function buildTimeline() {
+    const ctx = document.getElementById('sentimentTimeline').getContext('2d');
+    const grad = (color, alpha) => {
+      const g = ctx.createLinearGradient(0, 0, 0, 260);
+      g.addColorStop(0, color.replace('1)', alpha + ')'));
+      g.addColorStop(1, color.replace('1)', '0)'));
+      return g;
+    };
+    lineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: tl.labels,
+        datasets: [
+          { label: 'Pozitiv', data: tl.positive, borderColor: '#10b981', backgroundColor: grad('rgba(16,185,129,1)', '0.25'), fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0 },
+          { label: 'Neytral', data: tl.neutral,  borderColor: '#64748b', backgroundColor: grad('rgba(100,116,139,1)', '0.15'), fill: true, tension: 0.35, borderWidth: 2, pointRadius: 0 },
+          { label: 'Negativ', data: tl.negative, borderColor: '#f43f5e', backgroundColor: grad('rgba(244,63,94,1)',  '0.25'), fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0 },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { position: 'bottom', labels: { color: isDark() ? '#e2e8f0' : '#0f172a', usePointStyle: true, padding: 16 } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: isDark() ? '#64748b' : '#94a3b8', maxRotation: 0, autoSkipPadding: 16 } },
+          y: { beginAtZero: true, grid: { color: isDark() ? 'rgba(148,163,184,0.12)' : 'rgba(148,163,184,0.22)' }, ticks: { color: isDark() ? '#64748b' : '#94a3b8' } },
+        },
+      },
+    });
+  }
+
+  function reload() {
+    if (chart) chart.destroy();
+    if (lineChart) lineChart.destroy();
+    build();
+    buildTimeline();
+  }
   window._reloadDashboardCharts = reload;
   build();
+  buildTimeline();
 })();
 </script>
 {% endblock %}

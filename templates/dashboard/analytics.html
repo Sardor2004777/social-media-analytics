@@ -132,6 +132,60 @@
   </div>
 </div>
 
+{# ----- BEST TIME HEATMAP ----- #}
+{% if heatmap_max > 0 %}
+<div class="card overflow-hidden" data-reveal>
+  <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex-wrap gap-3">
+    <div>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Eng yaxshi vaqt" %}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Hafta kuni × soat — engagement bo'yicha (so'nggi 30 kun)" %}</p>
+    </div>
+    {% if best_time.engagement %}
+      <div class="text-xs text-slate-600 dark:text-slate-400">
+        <span class="font-semibold text-emerald-600 dark:text-emerald-400">{{ best_time.weekday }}, {{ best_time.hour }}:00</span>
+        — engagement {{ best_time.engagement|floatformat:1 }}%
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="px-6 py-5 overflow-x-auto">
+    <table class="border-separate border-spacing-[2px] text-[10px] text-slate-500 dark:text-slate-400 mx-auto">
+      <thead>
+        <tr>
+          <th class="w-8"></th>
+          {% for h in "012345678901234567890123" %}
+            <th class="w-5 text-center font-normal {% if forloop.counter0|divisibleby:3 %}{% else %}opacity-0{% endif %}">{{ forloop.counter0 }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in heatmap_rows %}
+          <tr>
+            <td class="text-right pr-2 font-medium text-slate-600 dark:text-slate-400">{{ row.name }}</td>
+            {% for cell in row.cells %}
+              <td class="w-5 h-5 rounded-sm"
+                  style="background: rgba(16,185,129,{{ cell.ratio|floatformat:3 }});"
+                  title="{{ cell.hour }}:00 — {{ cell.value|floatformat:2 }}%">
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="mt-4 flex items-center justify-center gap-2 text-[10px] text-slate-500 dark:text-slate-400">
+      <span>Kam</span>
+      <span class="inline-flex">
+        <span class="inline-block w-4 h-3 rounded-sm" style="background:rgba(16,185,129,0.15)"></span>
+        <span class="inline-block w-4 h-3 rounded-sm" style="background:rgba(16,185,129,0.4)"></span>
+        <span class="inline-block w-4 h-3 rounded-sm" style="background:rgba(16,185,129,0.65)"></span>
+        <span class="inline-block w-4 h-3 rounded-sm" style="background:rgba(16,185,129,0.9)"></span>
+      </span>
+      <span>Yuqori</span>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {{ trend|json_script:"trend-data" }}
 <script>
 (function() {

@@ -121,6 +121,49 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
             "published_at": p.published_at,
         })
 
+    # ---------------- Best-time heatmap: 7 weekdays × 24 hours ----------------
+    # Average engagement rate per (weekday, hour) bucket. Empty cells render
+    # at 0; the template colour-scales each cell against the matrix max.
+    heatmap = [[0.0] * 24 for _ in range(7)]
+    counts  = [[0] * 24 for _ in range(7)]
+    for p in (
+        Post.objects.filter(account__user=user, published_at__gte=start)
+        .values("published_at", "engagement_rate")
+    ):
+        ts = p["published_at"]
+        wd = ts.weekday()
+        hr = ts.hour
+        heatmap[wd][hr] += p["engagement_rate"] or 0
+        counts[wd][hr] += 1
+    for wd in range(7):
+        for hr in range(24):
+            if counts[wd][hr]:
+                heatmap[wd][hr] = round(heatmap[wd][hr] / counts[wd][hr] * 100, 2)
+    heatmap_max = max((max(row) for row in heatmap), default=0)
+    # Best (weekday, hour) over the window — featured under the grid.
+    best_wd, best_hr, best_val = 0, 0, 0.0
+    for wd in range(7):
+        for hr in range(24):
+            if heatmap[wd][hr] > best_val:
+                best_wd, best_hr, best_val = wd, hr, heatmap[wd][hr]
+    weekday_names = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"]
+    weekday_full = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba",
+                    "Juma", "Shanba", "Yakshanba"]
+    # Pre-zip rows so the template doesn't need awkward index gymnastics.
+    # Each row is {"name": "Du", "cells": [{"hour": 0, "value": 1.2, "ratio": 0.4}, …]}.
+    safe_max = heatmap_max or 1
+    heatmap_rows = []
+    for wd in range(7):
+        cells = []
+        for hr in range(24):
+            v = heatmap[wd][hr]
+            cells.append({
+                "hour": hr,
+                "value": v,
+                "ratio": round(v / safe_max, 3) if v else 0,
+            })
+        heatmap_rows.append({"name": weekday_names[wd], "cells": cells})
+
     ctx: dict[str, Any] = {
         "active_nav": "analytics",
         "trend": {
@@ -134,6 +177,13 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
         "total_posts": posts_qs.count(),
         "total_views": sum(views_series),
         "total_likes": sum(likes_series),
+        "heatmap_rows": heatmap_rows,
+        "heatmap_max": heatmap_max,
+        "best_time": {
+            "weekday": weekday_full[best_wd] if best_val else "",
+            "hour": best_hr,
+            "engagement": best_val,
+        },
     }
     return render(request, "dashboard/analytics.html", ctx)
 
@@ -204,6 +254,26 @@ def sentiment_page(request: HttpRequest) -> HttpResponse:
         label=SentimentLabel.NEGATIVE
     ).values_list("comment__body", flat=True)
 
+    # Sentiment timeline — last 30 days, stacked counts by label.
+    now = timezone.now()
+    days = 30
+    start = now - timedelta(days=days - 1)
+    pos_series = [0] * days
+    neu_series = [0] * days
+    neg_series = [0] * days
+    for row in results_qs.filter(comment__published_at__gte=start).values(
+        "comment__published_at", "label"
+    ):
+        idx = (row["comment__published_at"].date() - start.date()).days
+        if 0 <= idx < days:
+            if row["label"] == SentimentLabel.POSITIVE:
+                pos_series[idx] += 1
+            elif row["label"] == SentimentLabel.NEGATIVE:
+                neg_series[idx] += 1
+            else:
+                neu_series[idx] += 1
+    timeline_labels = [(start + timedelta(days=i)).strftime("%d %b") for i in range(days)]
+
     ctx: dict[str, Any] = {
         "active_nav": "sentiment",
         "distribution": distribution,
@@ -214,6 +284,12 @@ def sentiment_page(request: HttpRequest) -> HttpResponse:
         "wordcloud_negative": [_cloud_entry(w) for w in top_words(neg_bodies)],
         "total_analyzed": sum(dist_counts.values()),
         "model_used": results_qs.values_list("model_name", flat=True).first() or "—",
+        "timeline": {
+            "labels":   timeline_labels,
+            "positive": pos_series,
+            "neutral":  neu_series,
+            "negative": neg_series,
+        },
     }
     return render(request, "dashboard/sentiment.html", ctx)
 
