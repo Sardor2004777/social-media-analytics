@@ -456,6 +456,53 @@ def sentiment_page(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
+def correlation_page(request: HttpRequest) -> HttpResponse:
+    """Sentiment × engagement scatter — does positive comment share track
+    higher engagement? Renders one point per post with X = positive share
+    of comments, Y = engagement rate."""
+    user = request.user
+    points = []
+    for p in (
+        Post.objects.filter(account__user=user)
+        .annotate(comment_count=Count("comments"))
+        .filter(comment_count__gt=0)[:500]
+    ):
+        labels = Counter(
+            SentimentResult.objects.filter(comment__post=p)
+            .values_list("label", flat=True)
+        )
+        total = sum(labels.values())
+        if total == 0:
+            continue
+        pos_pct = labels.get(SentimentLabel.POSITIVE, 0) * 100 / total
+        points.append({
+            "x": round(pos_pct, 1),
+            "y": round((p.engagement_rate or 0) * 100, 2),
+            "label": (p.caption or "")[:40],
+        })
+
+    # Pearson correlation coefficient — quick "are these even related" signal.
+    correlation = 0.0
+    if len(points) >= 5:
+        xs = [pt["x"] for pt in points]
+        ys = [pt["y"] for pt in points]
+        n = len(xs)
+        mx = sum(xs) / n
+        my = sum(ys) / n
+        num = sum((xs[i] - mx) * (ys[i] - my) for i in range(n))
+        den_x = (sum((xs[i] - mx) ** 2 for i in range(n))) ** 0.5
+        den_y = (sum((ys[i] - my) ** 2 for i in range(n))) ** 0.5
+        correlation = round(num / (den_x * den_y), 3) if den_x and den_y else 0
+
+    return render(request, "dashboard/correlation.html", {
+        "active_nav":   "correlation",
+        "points":       points,
+        "correlation":  correlation,
+        "has_data":     len(points) >= 5,
+    })
+
+
+@login_required
 def analytics_compare(request: HttpRequest) -> HttpResponse:
     """Side-by-side comparison of 2–3 user-owned ConnectedAccounts.
 

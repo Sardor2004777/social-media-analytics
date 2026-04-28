@@ -12,4 +12,5 @@ urlpatterns = [
     path("chat/",     views.analytics_chat,     name="chat"),
     path("digest/",   views.ai_digest,          name="digest"),
     path("predict/",  views.engagement_predict, name="predict"),
+    path("correlation/", views.correlation_page, name="correlation"),
 ]
