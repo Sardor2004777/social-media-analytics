@@ -1,0 +1,148 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Yordam" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "Yordam" %}{% endblock %}
+
+{% block dash_content %}
+<div data-reveal>
+  <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{% trans "Yordam markazi" %}</h1>
+  <p class="mt-1 text-slate-600 dark:text-slate-400">{% trans "Loyihaning barcha imkoniyatlari, qanday foydalanish va texnik tafsilotlar." %}</p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6" data-reveal>
+
+  {# Getting started #}
+  <div class="card p-6">
+    <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+      <svg class="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      {% trans "Boshlash" %}
+    </h2>
+    <ol class="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
+      <li class="flex gap-3"><span class="shrink-0 w-6 h-6 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 flex items-center justify-center text-xs font-bold">1</span>
+        <span>{% trans "Akkauntlarim sahifasiga o'ting va Telegram, YouTube yoki VK akkauntingizni ulang." %}</span></li>
+      <li class="flex gap-3"><span class="shrink-0 w-6 h-6 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 flex items-center justify-center text-xs font-bold">2</span>
+        <span>{% trans "Postlar avtomatik fonda yig'iladi (10-30 soniya)." %}</span></li>
+      <li class="flex gap-3"><span class="shrink-0 w-6 h-6 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 flex items-center justify-center text-xs font-bold">3</span>
+        <span>{% trans "Dashboard'da KPI'lar, AI tavsiyalar va eng yaxshi posting AI ko'rinadi." %}</span></li>
+      <li class="flex gap-3"><span class="shrink-0 w-6 h-6 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 flex items-center justify-center text-xs font-bold">4</span>
+        <span>{% trans "Analitika sahifalarida chuqur tahlil — heatmap, post turi, sentiment, ML bashorat." %}</span></li>
+    </ol>
+  </div>
+
+  {# Features #}
+  <div class="card p-6">
+    <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+      <svg class="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      {% trans "Imkoniyatlar" %}
+    </h2>
+    <ul class="mt-4 space-y-2.5 text-sm text-slate-700 dark:text-slate-300">
+      <li>📊 <strong>Dashboard</strong> — {% trans "KPI'lar, faollik dinamikasi, top postlar, tavsiyalar" %}</li>
+      <li>📈 <strong>Analytics</strong> — {% trans "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari, hashtag" %}</li>
+      <li>😊 <strong>Sentiment</strong> — {% trans "Pozitiv/negativ kommentlar, mavzu × sentiment matritsa" %}</li>
+      <li>🤖 <strong>AI Chat</strong> — {% trans "Tabiiy tilda savol bering, AI sizning ma'lumotingiz haqida javob beradi" %}</li>
+      <li>📝 <strong>AI Xulosa</strong> — {% trans "Bir bosish bilan haftalik AI hisobot" %}</li>
+      <li>🔮 <strong>ML Bashorat</strong> — {% trans "scikit-learn modeli engagement bashorat qiladi" %}</li>
+      <li>🔄 <strong>Solishtirish</strong> — {% trans "2-3 akkauntni yonma-yon solishtirish" %}</li>
+      <li>📄 <strong>Hisobotlar</strong> — {% trans "Excel + PDF eksport" %}</li>
+      <li>🔗 <strong>Public Share</strong> — {% trans "Akkauntni public link orqali ulashish" %}</li>
+    </ul>
+  </div>
+
+  {# Keyboard shortcuts #}
+  <div class="card p-6">
+    <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+      <svg class="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/></svg>
+      {% trans "Klaviatura yorliqlari" %}
+    </h2>
+    <ul class="mt-4 space-y-2 text-sm">
+      <li class="flex items-center justify-between"><span class="text-slate-700 dark:text-slate-300">{% trans "Buyruqlar paneli" %}</span><span class="kbd">Ctrl + K</span></li>
+      <li class="flex items-center justify-between"><span class="text-slate-700 dark:text-slate-300">{% trans "Yordam" %}</span><span class="kbd">?</span></li>
+      <li class="flex items-center justify-between"><span class="text-slate-700 dark:text-slate-300">{% trans "Bosh sahifa" %}</span><span class="kbd">G + H</span></li>
+      <li class="flex items-center justify-between"><span class="text-slate-700 dark:text-slate-300">{% trans "Akkauntlar" %}</span><span class="kbd">G + A</span></li>
+      <li class="flex items-center justify-between"><span class="text-slate-700 dark:text-slate-300">{% trans "Analytics" %}</span><span class="kbd">G + N</span></li>
+      <li class="flex items-center justify-between"><span class="text-slate-700 dark:text-slate-300">{% trans "Sahifani chop etish" %}</span><span class="kbd">Ctrl + P</span></li>
+      <li class="flex items-center justify-between"><span class="text-slate-700 dark:text-slate-300">{% trans "Dark/light" %}</span><span class="kbd">Ctrl + Shift + L</span></li>
+    </ul>
+  </div>
+
+  {# Tech stack #}
+  <div class="card p-6">
+    <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+      <svg class="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+      {% trans "Texnik stek" %}
+    </h2>
+    <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+      <dt class="text-slate-500 dark:text-slate-400">Backend</dt><dd class="font-mono text-slate-800 dark:text-slate-200">Django 5.2 + DRF</dd>
+      <dt class="text-slate-500 dark:text-slate-400">ML</dt><dd class="font-mono text-slate-800 dark:text-slate-200">scikit-learn 1.8</dd>
+      <dt class="text-slate-500 dark:text-slate-400">AI</dt><dd class="font-mono text-slate-800 dark:text-slate-200">OpenAI gpt-4o-mini</dd>
+      <dt class="text-slate-500 dark:text-slate-400">Sentiment</dt><dd class="font-mono text-slate-800 dark:text-slate-200">VADER + transformers</dd>
+      <dt class="text-slate-500 dark:text-slate-400">Database</dt><dd class="font-mono text-slate-800 dark:text-slate-200">PostgreSQL / SQLite</dd>
+      <dt class="text-slate-500 dark:text-slate-400">Tasks</dt><dd class="font-mono text-slate-800 dark:text-slate-200">Celery + Redis</dd>
+      <dt class="text-slate-500 dark:text-slate-400">Frontend</dt><dd class="font-mono text-slate-800 dark:text-slate-200">Tailwind + Alpine + Chart.js</dd>
+      <dt class="text-slate-500 dark:text-slate-400">Deploy</dt><dd class="font-mono text-slate-800 dark:text-slate-200">Render</dd>
+    </dl>
+  </div>
+
+  {# Platform integrations #}
+  <div class="card p-6 lg:col-span-2">
+    <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+      <svg class="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>
+      {% trans "Platforma integratsiyalari" %}
+    </h2>
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="rounded-lg border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/40 dark:bg-emerald-950/30 p-4">
+        <div class="font-semibold text-emerald-900 dark:text-emerald-200">Telegram</div>
+        <div class="mt-1 text-xs text-emerald-700 dark:text-emerald-300">{% trans "Real OAuth · MTProto" %}</div>
+        <p class="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{% trans "Telefon raqam + SMS kod orqali kirish, kanal/guruh tanlash, postlar va kommentlar yig'ish." %}</p>
+      </div>
+      <div class="rounded-lg border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/40 dark:bg-emerald-950/30 p-4">
+        <div class="font-semibold text-emerald-900 dark:text-emerald-200">YouTube</div>
+        <div class="mt-1 text-xs text-emerald-700 dark:text-emerald-300">{% trans "Real OAuth · Data API v3" %}</div>
+        <p class="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{% trans "Google OAuth bilan kirib, video, watch time, kommentlar va obunachilarni yig'ish." %}</p>
+      </div>
+      <div class="rounded-lg border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/40 dark:bg-emerald-950/30 p-4">
+        <div class="font-semibold text-emerald-900 dark:text-emerald-200">VKontakte</div>
+        <div class="mt-1 text-xs text-emerald-700 dark:text-emerald-300">{% trans "Real OAuth · API v5.131" %}</div>
+        <p class="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{% trans "VK OAuth bilan kirib, devor postlari (likes, kommentlar, repostlar) yig'ish." %}</p>
+      </div>
+      <div class="rounded-lg border border-amber-200 dark:border-amber-800/60 bg-amber-50/40 dark:bg-amber-950/30 p-4">
+        <div class="font-semibold text-amber-900 dark:text-amber-200">Instagram</div>
+        <div class="mt-1 text-xs text-amber-700 dark:text-amber-300">{% trans "Demo rejim" %}</div>
+        <p class="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{% trans "Production: Instagram Business akkaunt + Meta App Review (1-2 hafta) talab qiladi. Hozir demo." %}</p>
+      </div>
+      <div class="rounded-lg border border-amber-200 dark:border-amber-800/60 bg-amber-50/40 dark:bg-amber-950/30 p-4">
+        <div class="font-semibold text-amber-900 dark:text-amber-200">X (Twitter)</div>
+        <div class="mt-1 text-xs text-amber-700 dark:text-amber-300">{% trans "Demo rejim" %}</div>
+        <p class="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{% trans "Production: X API Basic tariffi ($100/oy). Hozir demo." %}</p>
+      </div>
+    </div>
+  </div>
+
+  {# FAQ #}
+  <div class="card p-6 lg:col-span-2">
+    <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+      <svg class="h-5 w-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      {% trans "Tez-tez beriladigan savollar" %}
+    </h2>
+    <div class="mt-4 space-y-4 text-sm">
+      <div>
+        <div class="font-semibold text-slate-900 dark:text-white">{% trans "Ma'lumotlarim qayerda saqlanadi?" %}</div>
+        <p class="mt-1 text-slate-600 dark:text-slate-400 leading-relaxed">{% trans "PostgreSQL bazada (Render). Sizning OAuth tokenlaringiz Fernet shifrlash bilan saqlanadi. Akkauntni o'chirsangiz hammasi cascade bilan o'chadi." %}</p>
+      </div>
+      <div>
+        <div class="font-semibold text-slate-900 dark:text-white">{% trans "Ma'lumotim eksport qila olamanmi?" %}</div>
+        <p class="mt-1 text-slate-600 dark:text-slate-400 leading-relaxed">{% trans "Ha — Settings → Ma'lumotlarni eksport (GDPR JSON), yoki Reports sahifasidan Excel/PDF." %}</p>
+      </div>
+      <div>
+        <div class="font-semibold text-slate-900 dark:text-white">{% trans "AI hisobotlar nima uchun pulli?" %}</div>
+        <p class="mt-1 text-slate-600 dark:text-slate-400 leading-relaxed">{% trans "OpenAI API har so'rovga to'lov oladi (~$0.001 har so'rovga). Bizdа rate limit (6/soat, 20/soat) — token sarflashni cheklash uchun." %}</p>
+      </div>
+      <div>
+        <div class="font-semibold text-slate-900 dark:text-white">{% trans "ML model qancha aniq?" %}</div>
+        <p class="mt-1 text-slate-600 dark:text-slate-400 leading-relaxed">{% trans "R² (model sifati) sizning ma'lumotingizga bog'liq. 100+ post bo'lsa odatda 0.4-0.7 oralig'ida — bashorat taxminiy, lekin trend to'g'ri." %}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
