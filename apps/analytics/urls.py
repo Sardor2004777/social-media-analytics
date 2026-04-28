@@ -14,4 +14,8 @@ urlpatterns = [
     path("predict/",  views.engagement_predict, name="predict"),
     path("correlation/", views.correlation_page, name="correlation"),
     path("clusters/",    views.topic_clusters_page, name="clusters"),
+    path("translate/",   views.ai_translate,        name="translate"),
+    path("alerts/",      views.alerts_inbox,        name="alerts"),
+    path("alerts/<int:pk>/dismiss/", views.alerts_dismiss, name="alerts_dismiss"),
+    path("alerts/unread/json/", views.alerts_unread_count, name="alerts_unread_json"),
 ]

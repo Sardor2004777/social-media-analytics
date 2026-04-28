@@ -29,6 +29,7 @@ from .services.chat import (
     ask as chat_ask,
     generate_weekly_digest,
     is_configured as chat_is_configured,
+    translate_text,
 )
 from .services.clustering import NotEnoughPosts, cluster_posts
 from .services.predict import NotEnoughData, predict_for_inputs
@@ -454,6 +455,66 @@ def sentiment_page(request: HttpRequest) -> HttpResponse:
         "topic_matrix": topic_matrix,
     }
     return render(request, "dashboard/sentiment.html", ctx)
+
+
+@login_required
+@rate_limit(key="translate", rate="30/h", scope="user", methods=("POST",))
+@require_http_methods(["POST"])
+def ai_translate(request: HttpRequest) -> HttpResponse:
+    """Inline OpenAI translation endpoint — used by the sentiment top-examples
+    cards. POST {"text": "...", "lang": "uz|ru|en"} → {"translation": "..."}.
+    """
+    text = (request.POST.get("text") or "").strip()
+    lang = (request.POST.get("lang") or "uz").lower()
+    if not text:
+        return JsonResponse({"error": "Matn bo'sh."}, status=400)
+    if lang not in {"uz", "ru", "en"}:
+        lang = "uz"
+    try:
+        resp = translate_text(text, target_lang=lang)
+    except ChatNotConfigured as e:
+        return JsonResponse({"error": str(e)}, status=503)
+    except Exception as e:
+        logger.exception("Translate failed for user %s", request.user.id)
+        return JsonResponse({"error": f"Texnik xato: {e}"}, status=500)
+    return JsonResponse({"translation": resp.answer.strip(), "model": resp.model})
+
+
+@login_required
+def alerts_inbox(request: HttpRequest) -> HttpResponse:
+    """In-app notifications inbox — lists every Alert for the user's accounts."""
+    from apps.analytics.models import Alert
+    alerts = list(
+        Alert.objects.filter(account__user=request.user)
+        .select_related("account")
+        .order_by("-created_at")[:200]
+    )
+    return render(request, "dashboard/alerts.html", {
+        "active_nav": "alerts",
+        "alerts":     alerts,
+        "unread":     sum(1 for a in alerts if not a.dismissed_at),
+    })
+
+
+@login_required
+@require_http_methods(["POST"])
+def alerts_dismiss(request: HttpRequest, pk: int) -> HttpResponse:
+    """Mark a single alert as dismissed (sets dismissed_at). HTMX-friendly."""
+    from apps.analytics.models import Alert
+    Alert.objects.filter(pk=pk, account__user=request.user).update(
+        dismissed_at=timezone.now(),
+    )
+    return redirect("analytics:alerts")
+
+
+@login_required
+def alerts_unread_count(request: HttpRequest) -> JsonResponse:
+    """JSON endpoint polled by the navbar bell to update the unread badge."""
+    from apps.analytics.models import Alert
+    count = Alert.objects.filter(
+        account__user=request.user, dismissed_at__isnull=True,
+    ).count()
+    return JsonResponse({"unread": count})
 
 
 @login_required

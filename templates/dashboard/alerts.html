@@ -1,0 +1,51 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Bildirishnomalar" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "Bildirishnomalar" %}{% endblock %}
+
+{% block dash_content %}
+<div class="flex items-start justify-between gap-3 flex-wrap" data-reveal>
+  <div>
+    <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{% trans "Bildirishnomalar" %}</h1>
+    <p class="mt-1 text-slate-600 dark:text-slate-400">{% trans "Anomaliya aniqlash tizimi tomonidan avtomatik yaratilgan ogohlantirishlar." %}</p>
+  </div>
+  {% if unread %}
+    <span class="chip-brand text-xs">{{ unread }} {% trans "yangi" %}</span>
+  {% endif %}
+</div>
+
+{% if alerts %}
+<div class="card overflow-hidden" data-reveal>
+  <ul class="divide-y divide-slate-100 dark:divide-slate-800">
+    {% for a in alerts %}
+      <li class="flex items-start gap-4 px-6 py-4 {% if not a.dismissed_at %}bg-amber-50/40 dark:bg-amber-950/20{% endif %}">
+        <span class="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </span>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 text-sm">
+            <span class="font-semibold text-slate-900 dark:text-white">@{{ a.account.handle }}</span>
+            <span class="text-slate-400">·</span>
+            <span class="text-slate-600 dark:text-slate-400">{{ a.get_metric_display }}</span>
+            {% if a.z_score %}<span class="chip text-[10px]">z = {{ a.z_score|floatformat:1 }}</span>{% endif %}
+          </div>
+          <p class="mt-1 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{{ a.message|default:"" }}</p>
+          <div class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ a.created_at|date:"d M, H:i" }}</div>
+        </div>
+        {% if not a.dismissed_at %}
+          <form method="post" action="{% url 'analytics:alerts_dismiss' a.pk %}" class="shrink-0">
+            {% csrf_token %}
+            <button type="submit" class="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">{% trans "Yopish" %}</button>
+          </form>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% else %}
+<div class="card p-10 text-center">
+  <p class="text-sm text-slate-600 dark:text-slate-400">{% trans "Bildirishnomalar yo'q. Anomaliya tizimi ish boshlasa, bu yerda paydo bo'ladi." %}</p>
+</div>
+{% endif %}
+{% endblock %}

@@ -200,6 +200,26 @@ Rules:
 """
 
 
+def translate_text(text: str, target_lang: str = "uz") -> ChatResponse:
+    """Translate ``text`` into ``target_lang`` (uz / ru / en).
+
+    Reuses the OpenAI client + ChatNotConfigured plumbing the analytics chat
+    already has — no separate translation service / API key. Capped at 400
+    output tokens (one short comment is plenty)."""
+    LANG_NAMES = {
+        "uz": "Uzbek (Latin script)",
+        "ru": "Russian",
+        "en": "English",
+    }
+    target_name = LANG_NAMES.get(target_lang, "Uzbek (Latin script)")
+    system = (
+        "You are a translation assistant. Translate the user-provided text "
+        f"into {target_name}. Output ONLY the translated text — no quotes, "
+        "no explanations, no language label. Preserve emojis and punctuation."
+    )
+    return _chat_completion(system=system, user_msg=text[:1000], max_tokens=400)
+
+
 def generate_weekly_digest(user) -> ChatResponse:
     """Generate a short AI-written weekly summary for ``user``'s accounts.
 
