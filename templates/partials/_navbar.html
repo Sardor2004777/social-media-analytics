@@ -67,22 +67,40 @@
           <span class="kbd !text-[10px]">⌘K</span>
         </button>
 
-        <form action="{% url 'set_language' %}" method="post" class="hidden sm:inline-flex">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.get_full_path }}">
-          <select
-            name="language"
-            onchange="this.form.submit()"
-            class="rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-medium text-slate-600 dark:text-slate-300 px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
-            aria-label="{% trans 'Til' %}"
-          >
-            {% for lang_code, lang_name in LANGUAGES %}
-              <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
-                {{ lang_name }}
-              </option>
-            {% endfor %}
-          </select>
-        </form>
+        <div x-data="{ open: false }" class="relative hidden sm:inline-flex">
+          <button type="button" @click="open = !open" @click.outside="open = false"
+                  class="inline-flex items-center gap-1.5 rounded-pill border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-200 px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 transition focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+                  aria-label="{% trans 'Til' %}">
+            <span class="text-base leading-none">{% if LANGUAGE_CODE == 'uz' %}🇺🇿{% elif LANGUAGE_CODE == 'ru' %}🇷🇺{% else %}🇬🇧{% endif %}</span>
+            <span class="uppercase tracking-wider">{{ LANGUAGE_CODE }}</span>
+            <svg class="h-3 w-3 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div x-show="open" x-cloak x-transition.opacity
+               class="absolute right-0 top-full mt-2 w-44 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-card overflow-hidden z-50">
+            <form action="{% url 'set_language' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
+              <button type="submit" name="language" value="uz"
+                      class="flex items-center gap-3 w-full px-4 py-2.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition {% if LANGUAGE_CODE == 'uz' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 font-semibold{% else %}text-slate-700 dark:text-slate-200{% endif %}">
+                <span class="text-lg leading-none">🇺🇿</span>
+                <span>O'zbekcha</span>
+                {% if LANGUAGE_CODE == 'uz' %}<svg class="ml-auto h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>{% endif %}
+              </button>
+              <button type="submit" name="language" value="ru"
+                      class="flex items-center gap-3 w-full px-4 py-2.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition {% if LANGUAGE_CODE == 'ru' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 font-semibold{% else %}text-slate-700 dark:text-slate-200{% endif %}">
+                <span class="text-lg leading-none">🇷🇺</span>
+                <span>Русский</span>
+                {% if LANGUAGE_CODE == 'ru' %}<svg class="ml-auto h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>{% endif %}
+              </button>
+              <button type="submit" name="language" value="en"
+                      class="flex items-center gap-3 w-full px-4 py-2.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition {% if LANGUAGE_CODE == 'en' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 font-semibold{% else %}text-slate-700 dark:text-slate-200{% endif %}">
+                <span class="text-lg leading-none">🇬🇧</span>
+                <span>English</span>
+                {% if LANGUAGE_CODE == 'en' %}<svg class="ml-auto h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>{% endif %}
+              </button>
+            </form>
+          </div>
+        </div>
 
         <button
           type="button"
