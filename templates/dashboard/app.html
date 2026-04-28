@@ -178,6 +178,63 @@
   </div>
   {% endif %}
 
+  {# ----- CROSS-PLATFORM PERFORMANCE ----- #}
+  {% if cross_platform|length >= 2 %}
+  <div class="card overflow-hidden" data-reveal>
+    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Platforma engagement solishtiruvi" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Sizning ulangan tarmoqlaringiz qaysisida ish yaxshiroq" %}</p>
+      </div>
+      {% if cross_platform_winner %}
+        <div class="text-xs text-slate-600 dark:text-slate-400">
+          {% trans "Yetakchi:" %}
+          <span class="font-semibold" style="color: {{ cross_platform_winner.color }};">{{ cross_platform_winner.name }}</span>
+          ({{ cross_platform_winner.avg_eng|floatformat:2 }}%)
+        </div>
+      {% endif %}
+    </div>
+    <div class="p-6 space-y-3">
+      {% for cp in cross_platform %}
+        <div class="flex items-center gap-4 text-sm">
+          <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-white text-[10px] font-bold"
+                style="background: {{ cp.color }};">
+            {% if cp.code == 'instagram' %}IG{% elif cp.code == 'telegram' %}TG{% elif cp.code == 'youtube' %}YT{% elif cp.code == 'vk' %}VK{% else %}X{% endif %}
+          </span>
+          <span class="w-24 font-medium text-slate-900 dark:text-white">{{ cp.name }}</span>
+          <span class="flex-1 h-3 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+            <span class="block h-full rounded-full" style="width: {% widthratio cp.ratio 1 100 %}%; background: {{ cp.color }};"></span>
+          </span>
+          <span class="w-20 text-right tabular text-slate-900 dark:text-white font-semibold">{{ cp.avg_eng }}%</span>
+          <span class="hidden sm:inline w-24 text-right text-xs text-slate-500 dark:text-slate-400">{{ cp.posts }} post</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {# ----- CAPTION PATTERN INSIGHTS ----- #}
+  {% if pattern_insights %}
+  <div class="card overflow-hidden" data-reveal>
+    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Top postlardagi naqshlar" %}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Eng yaxshi 25% post o'rtasidagi qiymatlar (qolganlariga nisbatan)" %}</p>
+    </div>
+    <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      {% for ins in pattern_insights %}
+        <div class="rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+          <div class="text-xs font-medium text-slate-500 dark:text-slate-400">{{ ins.label }}</div>
+          <div class="mt-1 text-2xl font-bold tabular text-slate-900 dark:text-white">{{ ins.top_avg }}<span class="text-xs ml-1 font-normal text-slate-500">{{ ins.unit }}</span></div>
+          <div class="mt-1 text-[11px] {% if ins.ratio > 1.2 %}text-emerald-600 dark:text-emerald-400{% elif ins.ratio < 0.8 and ins.ratio > 0 %}text-rose-600 dark:text-rose-400{% else %}text-slate-500 dark:text-slate-400{% endif %}">
+            {% if ins.ratio > 0 %}{{ ins.ratio }}x{% else %}—{% endif %}
+            <span class="text-slate-400">vs</span> {{ ins.rest_avg }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
   {# ----- ENGAGEMENT QUALITY ----- #}
   {% if quality.has_views %}
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" data-reveal>

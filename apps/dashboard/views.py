@@ -226,6 +226,74 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
     # ---------------- Optimal Posting AI (heatmap + ML grid search) -----------
     best_recipe = _safe_best_post_recipe(user)
 
+    # ---------------- Cross-platform performance comparison ------------------
+    # Per-platform avg engagement_rate for the user's connected accounts —
+    # the dashboard's "which platform is winning" callout.
+    cross_platform = []
+    cp_rows = (
+        user_posts.values("account__platform")
+        .annotate(
+            avg_eng=Avg("engagement_rate"),
+            posts=Count("id"),
+            sum_likes=Sum("likes"),
+            sum_views=Sum("views"),
+        )
+        .order_by("-avg_eng")
+    )
+    cp_max_eng = max((r["avg_eng"] or 0 for r in cp_rows), default=0) or 1
+    for r in cp_rows:
+        p = r["account__platform"]
+        cross_platform.append({
+            "code":      p,
+            "name":      PLATFORM_LABELS.get(p, p.title()),
+            "color":     PLATFORM_COLORS.get(p, "#94a3b8"),
+            "avg_eng":   round((r["avg_eng"] or 0) * 100, 2),
+            "ratio":     round((r["avg_eng"] or 0) / cp_max_eng, 3),
+            "posts":     r["posts"],
+            "sum_likes": int(r["sum_likes"] or 0),
+            "sum_views": int(r["sum_views"] or 0),
+        })
+    cross_platform_winner = cross_platform[0] if cross_platform else None
+
+    # ---------------- Caption pattern insights -------------------------------
+    # Compares the *top quartile* of posts (by engagement_rate) to the rest.
+    # Surfaces concrete patterns: "high-engagement posts use 2.3x more
+    # emoji" / "have 1.4x more questions" / etc.
+    import re as _re_pattern
+    EMOJI_RE = _re_pattern.compile(
+        r"[\U0001F300-\U0001FAFF\U00002600-\U000027BF\U0001F600-\U0001F64F]"
+    )
+    QUESTION_RE = _re_pattern.compile(r"\?")
+    HASHTAG_RE = _re_pattern.compile(r"#\w{2,30}", flags=_re_pattern.UNICODE)
+    LINK_RE = _re_pattern.compile(r"https?://\S+")
+
+    pattern_posts = list(user_posts.exclude(caption="").values("caption", "engagement_rate"))
+    pattern_insights: list[dict] = []
+    if len(pattern_posts) >= 8:
+        pattern_posts.sort(key=lambda p: p["engagement_rate"] or 0, reverse=True)
+        cutoff = max(2, len(pattern_posts) // 4)   # top 25%
+        top = pattern_posts[:cutoff]
+        rest = pattern_posts[cutoff:]
+        def _avg(items, fn):
+            return sum(fn(p["caption"]) for p in items) / max(len(items), 1)
+        for label, fn, unit in [
+            ("Emojilar",       lambda c: len(EMOJI_RE.findall(c)),    "ta"),
+            ("Savol belgilari", lambda c: len(QUESTION_RE.findall(c)), "ta"),
+            ("Hashtaglar",     lambda c: len(HASHTAG_RE.findall(c)),   "ta"),
+            ("Linklar",        lambda c: len(LINK_RE.findall(c)),      "ta"),
+            ("Caption belgi",  lambda c: len(c),                       "belgi"),
+        ]:
+            top_avg = round(_avg(top, fn), 2)
+            rest_avg = round(_avg(rest, fn), 2) or 0.01   # avoid /0
+            ratio = round(top_avg / rest_avg, 2) if rest_avg else 0
+            pattern_insights.append({
+                "label":    label,
+                "top_avg":  top_avg,
+                "rest_avg": round(rest_avg, 2),
+                "ratio":    ratio,
+                "unit":     unit,
+            })
+
     # First-time UX: when every connected account is demo-seeded, surface a
     # quiet banner at the top of the dashboard pointing the user at /social/
     # so they can wire up a real Telegram / YouTube / VK account.
@@ -265,8 +333,11 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         "timeline": timeline,
         "recommendations": recommendations,
         "has_only_demo":   has_only_demo,
-        "quality":         quality,
-        "best_recipe":     best_recipe,
+        "quality":              quality,
+        "best_recipe":          best_recipe,
+        "cross_platform":       cross_platform,
+        "cross_platform_winner": cross_platform_winner,
+        "pattern_insights":     pattern_insights,
         "connected_accounts": accounts,
         "range_days":    days_window,
         "range_options": [7, 14, 30, 90],
