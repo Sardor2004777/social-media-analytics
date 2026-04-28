@@ -328,6 +328,10 @@ YOUTUBE_OAUTH_SECRET = env("YOUTUBE_OAUTH_SECRET", default="")
 X_CLIENT_ID = env("X_CLIENT_ID", default="")
 X_CLIENT_SECRET = env("X_CLIENT_SECRET", default="")
 
+# VKontakte (Standalone/Website app at https://vk.com/editapp)
+VK_CLIENT_ID = env("VK_CLIENT_ID", default="")
+VK_CLIENT_SECRET = env("VK_CLIENT_SECRET", default="")
+
 # ==============================================================================
 # Email (overridden per env)
 # ==============================================================================

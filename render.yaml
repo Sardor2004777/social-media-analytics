@@ -93,6 +93,13 @@ services:
       - key: X_CLIENT_SECRET
         sync: false
 
+      # VKontakte — Standalone/Website app at https://vk.com/editapp.
+      # Free tier; OAuth code flow + wall.get for personal accounts.
+      - key: VK_CLIENT_ID
+        sync: false
+      - key: VK_CLIENT_SECRET
+        sync: false
+
       # Telegram MTProto real mode (optional — leave blank for demo-only mode)
       # See docs/TELEGRAM_SETUP.md for one-time setup.
       - key: TELEGRAM_API_ID

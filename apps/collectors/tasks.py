@@ -19,6 +19,7 @@ from .services.instagram import (
     InstagramNotConfigured,
 )
 from .services.telegram import TelegramCollector, run_sync
+from .services.vk import VKAPIError, VKCollector, VKNotConfigured
 from .services.youtube import YouTubeCollector, YouTubeNotConfigured
 
 logger = logging.getLogger(__name__)
@@ -433,4 +434,123 @@ def sync_all_instagram_accounts() -> dict:
     )
     for aid in ids:
         sync_instagram_account.delay(aid)
+    return {"enqueued": len(ids), "account_ids": ids}
+
+
+# --------------------------------------------------------------------- VK
+
+
+@shared_task(
+    bind=True,
+    queue="collectors",
+    name="apps.collectors.tasks.sync_vk_account",
+    autoretry_for=(Exception,),
+    retry_backoff=30,
+    retry_backoff_max=600,
+    retry_jitter=True,
+    max_retries=3,
+)
+def sync_vk_account(self, account_id: int, post_limit: int = 100) -> dict:
+    """Refresh VK profile + last ``post_limit`` wall posts.
+
+    Uses the encrypted user-bound access_token. Demo accounts are skipped.
+    """
+    try:
+        account = ConnectedAccount.objects.get(
+            id=account_id, platform=Platform.VK
+        )
+    except ConnectedAccount.DoesNotExist:
+        logger.warning("sync_vk_account: account %s not found", account_id)
+        return {"account_id": account_id, "status": "not_found"}
+
+    if account.is_demo:
+        logger.info("sync_vk_account: skipping demo account %s", account_id)
+        return {"account_id": account_id, "status": "skipped_demo"}
+
+    if not account.access_token:
+        logger.warning(
+            "sync_vk_account: no access_token for account %s — reconnect required",
+            account_id,
+        )
+        return {"account_id": account_id, "status": "missing_token"}
+
+    try:
+        info = VKCollector.fetch_account_info(account.external_id, account.access_token)
+        posts = VKCollector.fetch_recent_posts(
+            owner_id=account.external_id,
+            access_token=account.access_token,
+            limit=post_limit,
+        )
+    except (VKNotConfigured, VKAPIError) as e:
+        logger.error("sync_vk_account: %s", e)
+        return {"account_id": account_id, "status": "error", "detail": str(e)}
+
+    _MEDIA_TO_POST_TYPE = {
+        "photo":    PostType.PHOTO,
+        "video":    PostType.VIDEO,
+        "audio":    PostType.CHANNEL_POST,
+        "link":     PostType.CHANNEL_POST,
+        "document": PostType.CHANNEL_POST,
+        "text":     PostType.CHANNEL_POST,
+    }
+
+    with transaction.atomic():
+        account.display_name = info.display_name or account.display_name
+        account.avatar_url = info.avatar_url or account.avatar_url
+        account.follower_count = info.follower_count
+        account.save(update_fields=[
+            "display_name", "avatar_url", "follower_count", "updated_at",
+        ])
+
+        created = 0
+        updated = 0
+        for p in posts:
+            denom = max(p.views, 1)
+            _obj, is_new = Post.objects.update_or_create(
+                account=account,
+                external_id=p.external_id,
+                defaults={
+                    "post_type":       _MEDIA_TO_POST_TYPE.get(p.media_kind, PostType.CHANNEL_POST),
+                    "caption":         p.caption,
+                    "url":             p.url,
+                    "published_at":    p.published_at,
+                    "views":           p.views,
+                    "likes":           p.likes,
+                    "comments_count":  p.comments_count,
+                    "shares":          p.shares,
+                    "engagement_rate": (p.likes + p.comments_count + p.shares) / denom,
+                },
+            )
+            if is_new:
+                created += 1
+            else:
+                updated += 1
+
+    logger.info(
+        "sync_vk_account: %s (@%s) → +%d new / %d updated",
+        account.id, account.handle, created, updated,
+    )
+    return {
+        "account_id":     account_id,
+        "status":         "ok",
+        "handle":         account.handle,
+        "created":        created,
+        "updated":        updated,
+        "follower_count": info.follower_count,
+    }
+
+
+@shared_task(
+    queue="collectors",
+    name="apps.collectors.tasks.sync_all_vk_accounts",
+)
+def sync_all_vk_accounts() -> dict:
+    """Fan-out task: enqueue a sync for every real (non-demo) VK account."""
+    ids = list(
+        ConnectedAccount.objects.filter(
+            platform=Platform.VK, is_demo=False
+        ).exclude(access_token="").values_list("id", flat=True)
+    )
+    for aid in ids:
+        sync_vk_account.delay(aid)
     return {"enqueued": len(ids), "account_ids": ids}

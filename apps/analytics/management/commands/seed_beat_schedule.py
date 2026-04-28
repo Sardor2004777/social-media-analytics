@@ -44,6 +44,12 @@ SCHEDULES = [
         "crontab":  {"minute": "30", "hour": "*/6", "day_of_week": "*"},  # every 6h, offset 30m
         "description": "Every 6 hours — pull fresh channel/message stats for all Telegram accounts.",
     },
+    {
+        "name":     "collectors.sync_vk",
+        "task":     "apps.collectors.tasks.sync_all_vk_accounts",
+        "crontab":  {"minute": "45", "hour": "*/6", "day_of_week": "*"},  # every 6h, offset 45m
+        "description": "Every 6 hours — pull fresh wall posts + counters for all VK accounts.",
+    },
 ]
 
 

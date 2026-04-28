@@ -35,12 +35,14 @@ PLATFORM_COLORS = {
     Platform.TELEGRAM:  "#0ea5e9",
     Platform.YOUTUBE:   "#ef4444",
     Platform.X:         "#0f172a",
+    Platform.VK:        "#4c75a3",
 }
 PLATFORM_LABELS = {
     Platform.INSTAGRAM: "Instagram",
     Platform.TELEGRAM:  "Telegram",
     Platform.YOUTUBE:   "YouTube",
     Platform.X:         "X",
+    Platform.VK:        "VKontakte",
 }
 
 

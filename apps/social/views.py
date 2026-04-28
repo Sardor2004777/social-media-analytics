@@ -29,6 +29,11 @@ from apps.collectors.services.instagram import (
     InstagramNoBusinessAccount,
     InstagramNotConfigured,
 )
+from apps.collectors.services.vk import (
+    VKAPIError,
+    VKCollector,
+    VKNotConfigured,
+)
 from apps.collectors.services.youtube import (
     YouTubeCollector,
     YouTubeNotConfigured,
@@ -36,6 +41,7 @@ from apps.collectors.services.youtube import (
 from apps.collectors.tasks import (
     sync_instagram_account,
     sync_telegram_account,
+    sync_vk_account,
     sync_youtube_account,
 )
 
@@ -68,6 +74,12 @@ PLATFORM_META = {
         "tint":  "from-slate-800 to-slate-900",
         "icon":  "X",
         "desc":  "Tweet impressions, retweetlar va followers dinamikasi.",
+    },
+    Platform.VK: {
+        "label": "VKontakte",
+        "tint":  "from-blue-500 to-indigo-600",
+        "icon":  "VK",
+        "desc":  "VK devor postlari — likes, kommentlar, repostlar va views.",
     },
 }
 
@@ -111,6 +123,9 @@ def accounts_list(request: HttpRequest) -> HttpResponse:
             real_mode = True
         elif code == Platform.TELEGRAM.value and TelegramCollector.is_configured():
             connect_url = reverse("social:telegram_connect_start")
+            real_mode = True
+        elif code == Platform.VK.value and VKCollector.is_configured():
+            connect_url = reverse("social:vk_connect_start")
             real_mode = True
         else:
             connect_url = reverse("social:connect", kwargs={"platform": code})
@@ -167,6 +182,14 @@ def account_refresh(request: HttpRequest, pk: int) -> HttpResponse:
                 request,
                 f"@{account.handle} yangilandi — +{result.get('created', 0)} yangi post, "
                 f"{result.get('updated', 0)} yangilandi.",
+            )
+        elif account.platform == Platform.VK:
+            result = sync_vk_account.apply(args=[account.id]).get()
+            messages.success(
+                request,
+                f"@{account.handle} yangilandi — +{result.get('created', 0)} yangi post, "
+                f"{result.get('updated', 0)} yangilandi, "
+                f"{result.get('follower_count', 0):,} obunachi.",
             )
         else:
             messages.info(
@@ -838,6 +861,94 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
         "megagroup_count": len(channels) - broadcast_count,
         "owned_count":     owned_count,
     })
+
+
+# ----------------------------------------------------------------- VK OAuth
+
+
+def _vk_redirect_uri(request: HttpRequest) -> str:
+    """Absolute callback URI — must match what's set in vk.com/editapp →
+    Settings → Authorized redirect URI."""
+    return request.build_absolute_uri(reverse("social:vk_connect_callback"))
+
+
+@login_required
+def vk_connect_start(request: HttpRequest) -> HttpResponse:
+    """Kick off the VK OAuth flow."""
+    import secrets as _secrets
+
+    if not VKCollector.is_configured():
+        messages.error(
+            request,
+            "VK integratsiyasi sozlanmagan — .env'ga VK_CLIENT_ID va "
+            "VK_CLIENT_SECRET qo'shing.",
+        )
+        return redirect("social:accounts")
+
+    state = _secrets.token_urlsafe(24)
+    request.session["vk_oauth_state"] = state
+    redirect_uri = _vk_redirect_uri(request)
+    try:
+        auth_url = VKCollector.build_auth_url(redirect_uri, state)
+    except VKNotConfigured as e:
+        messages.error(request, str(e))
+        return redirect("social:accounts")
+    return redirect(auth_url)
+
+
+@login_required
+def vk_connect_callback(request: HttpRequest) -> HttpResponse:
+    """VK redirected back: exchange code → token → fetch profile → save."""
+    err = request.GET.get("error_description") or request.GET.get("error")
+    if err:
+        messages.error(request, f"VK ulash bekor qilindi: {err}")
+        return redirect("social:accounts")
+
+    code = request.GET.get("code")
+    state = request.GET.get("state")
+    expected_state = request.session.pop("vk_oauth_state", None)
+    if not code or not state or state != expected_state:
+        messages.error(request, "VK ulash: noto'g'ri yoki eskirgan so'rov.")
+        return redirect("social:accounts")
+
+    redirect_uri = _vk_redirect_uri(request)
+    try:
+        access_token, vk_user_id, expires_in = VKCollector.exchange_code(code, redirect_uri)
+        info = VKCollector.fetch_account_info(vk_user_id, access_token)
+    except (VKNotConfigured, VKAPIError) as e:
+        messages.error(request, str(e))
+        return redirect("social:accounts")
+    except Exception as e:
+        logger.warning("VK connect failed: %s", e)
+        messages.error(request, f"VK ulash muvaffaqiyatsiz: {e}")
+        return redirect("social:accounts")
+
+    expires_at = (
+        timezone.now() + timedelta(seconds=expires_in) if expires_in else None
+    )
+    account, _ = ConnectedAccount.objects.update_or_create(
+        platform=Platform.VK,
+        external_id=info.external_id,
+        defaults={
+            "user":             request.user,
+            "handle":           info.handle,
+            "display_name":     info.display_name,
+            "avatar_url":       info.avatar_url,
+            "follower_count":   info.follower_count,
+            "access_token":     access_token,
+            "refresh_token":    "",
+            "token_expires_at": expires_at,
+            "scopes":           "wall,offline",
+            "is_demo":          False,
+        },
+    )
+    sync_vk_account.delay(account.id)
+    messages.success(
+        request,
+        f"VKontakte @{info.handle} ulandi — {info.follower_count:,} obunachi. "
+        f"Postlar fonda yig'ilmoqda.",
+    )
+    return redirect("social:accounts")
 
 
 def public_share(request: HttpRequest, token: str) -> HttpResponse:

@@ -79,8 +79,9 @@
                   {% if a.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
                   {% elif a.platform == 'telegram' %}bg-sky-500
                   {% elif a.platform == 'youtube' %}bg-red-500
+                  {% elif a.platform == 'vk' %}bg-gradient-to-br from-blue-500 to-indigo-600
                   {% else %}bg-slate-900{% endif %}">
-                  {% if a.platform == 'instagram' %}IG{% elif a.platform == 'telegram' %}TG{% elif a.platform == 'youtube' %}YT{% else %}X{% endif %}
+                  {% if a.platform == 'instagram' %}IG{% elif a.platform == 'telegram' %}TG{% elif a.platform == 'youtube' %}YT{% elif a.platform == 'vk' %}VK{% else %}X{% endif %}
                 </span>
                 <span class="font-medium text-slate-900 dark:text-white">{{ a.get_platform_display }}</span>
               </span>

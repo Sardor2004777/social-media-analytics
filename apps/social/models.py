@@ -23,6 +23,7 @@ class Platform(models.TextChoices):
     TELEGRAM  = "telegram",  "Telegram"
     YOUTUBE   = "youtube",   "YouTube"
     X         = "x",         "X (Twitter)"
+    VK        = "vk",        "VKontakte"
 
 
 class ConnectedAccount(TimestampedModel):
