@@ -151,6 +151,7 @@ class DemoDataGenerator:
         Platform.TELEGRAM:  [PostType.CHANNEL_POST, PostType.CHANNEL_POST, PostType.PHOTO, PostType.VIDEO],
         Platform.YOUTUBE:   [PostType.VIDEO, PostType.VIDEO, PostType.VIDEO],
         Platform.X:         [PostType.TWEET, PostType.TWEET, PostType.TWEET, PostType.PHOTO],
+        Platform.VK:        [PostType.PHOTO, PostType.CHANNEL_POST, PostType.VIDEO, PostType.PHOTO],
     }
 
     # Realistic ranges — used to seed follower counts and pick peak engagement
@@ -159,6 +160,7 @@ class DemoDataGenerator:
         Platform.TELEGRAM:  (1_200, 40_000),
         Platform.YOUTUBE:   (400, 8_000),
         Platform.X:         (200, 6_000),
+        Platform.VK:        (500, 15_000),
     }
 
     def __init__(
@@ -177,7 +179,7 @@ class DemoDataGenerator:
         self,
         user,
         *,
-        platforms: Iterable[str] = (Platform.INSTAGRAM, Platform.TELEGRAM, Platform.YOUTUBE, Platform.X),
+        platforms: Iterable[str] = (Platform.INSTAGRAM, Platform.TELEGRAM, Platform.YOUTUBE, Platform.X, Platform.VK),
         posts_per_platform: int = 120,
         comments_per_post_range: tuple[int, int] = (4, 22),
         days_back: int = 180,
