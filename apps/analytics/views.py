@@ -375,6 +375,45 @@ def sentiment_page(request: HttpRequest) -> HttpResponse:
         label=SentimentLabel.NEGATIVE
     ).values_list("comment__body", flat=True)
 
+    # ---------------- Topic × sentiment matrix ----------------
+    # For each top topic in user's posts, count comment-sentiments tied to
+    # posts that mention that topic. Surfaces "which subjects get what
+    # reaction" — e.g. a sports channel might get 80% positive on training
+    # tips but 40% negative on match-day debates.
+    import re as _re_topic
+    user_post_caps = list(
+        Post.objects.filter(account__user=user)
+        .exclude(caption="")
+        .values_list("id", "caption")[:500]
+    )
+    topic_words = top_words([cap for _, cap in user_post_caps], n=8)
+    topic_matrix = []
+    for tw in topic_words:
+        # Find posts that mention this token (case-insensitive whole-word match).
+        pattern = _re_topic.compile(r"\b" + _re_topic.escape(tw.text) + r"\b", _re_topic.IGNORECASE)
+        post_ids = [pid for pid, cap in user_post_caps if pattern.search(cap)]
+        if not post_ids:
+            continue
+        labels = Counter(
+            results_qs.filter(comment__post_id__in=post_ids).values_list("label", flat=True)
+        )
+        total_lbl = sum(labels.values())
+        if total_lbl < 3:
+            continue
+        topic_matrix.append({
+            "topic":         tw.text,
+            "post_count":    len(post_ids),
+            "total":         total_lbl,
+            "positive":      labels.get(SentimentLabel.POSITIVE, 0),
+            "negative":      labels.get(SentimentLabel.NEGATIVE, 0),
+            "neutral":       labels.get(SentimentLabel.NEUTRAL, 0),
+            "positive_pct":  round(labels.get(SentimentLabel.POSITIVE, 0) * 100 / total_lbl, 1),
+            "negative_pct":  round(labels.get(SentimentLabel.NEGATIVE, 0) * 100 / total_lbl, 1),
+            "neutral_pct":   round(labels.get(SentimentLabel.NEUTRAL, 0) * 100 / total_lbl, 1),
+        })
+    # Sort by positive_pct desc — best-received topics surface first.
+    topic_matrix.sort(key=lambda r: r["positive_pct"], reverse=True)
+
     # Sentiment timeline — last 30 days, stacked counts by label.
     now = timezone.now()
     days = 30
@@ -411,6 +450,7 @@ def sentiment_page(request: HttpRequest) -> HttpResponse:
             "neutral":  neu_series,
             "negative": neg_series,
         },
+        "topic_matrix": topic_matrix,
     }
     return render(request, "dashboard/sentiment.html", ctx)
 

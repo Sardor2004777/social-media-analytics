@@ -135,6 +135,38 @@ def build_recommendations(user) -> list[Recommendation]:
                 accent="emerald",
             ))
 
+    # 4a. Posting consistency score — std-dev of gap intervals over last 30 days.
+    # Low std-dev = regular cadence (good), high = bursts + droughts (bad).
+    # Score: 100 = perfect daily consistency, 0 = random bursts.
+    timestamps = sorted(posts.values_list("published_at", flat=True))
+    if len(timestamps) >= 4:
+        gaps_hours = [
+            (timestamps[i+1] - timestamps[i]).total_seconds() / 3600
+            for i in range(len(timestamps) - 1)
+        ]
+        avg_gap = sum(gaps_hours) / len(gaps_hours)
+        if avg_gap > 0:
+            variance = sum((g - avg_gap) ** 2 for g in gaps_hours) / len(gaps_hours)
+            std = variance ** 0.5
+            cv = std / avg_gap                # coefficient of variation
+            consistency_score = max(0, min(100, int(100 * (1 - min(cv, 1)))))
+            if consistency_score < 50:
+                out.append(Recommendation(
+                    headline=f"Postlar tartibi past ({consistency_score}/100)",
+                    body="Auditoriya doimiy ritm bilan to'planadi. Postlarni teng intervalga "
+                         "tushiring — har 2-3 kunda yoki haftada bir xil kunlarda.",
+                    icon="calendar",
+                    accent="amber",
+                ))
+            elif consistency_score >= 80:
+                out.append(Recommendation(
+                    headline=f"Tartib mukammal ({consistency_score}/100)",
+                    body="Postlaringiz teng intervalda chiqyapti — auditoriya kutgan vaqtda "
+                         "kontent oladi. Davom eting.",
+                    icon="award",
+                    accent="emerald",
+                ))
+
     # 4. Posting cadence — gaps in the last 14 days.
     last_14 = posts.filter(published_at__gte=now - timedelta(days=14))
     last_14_count = last_14.count()
