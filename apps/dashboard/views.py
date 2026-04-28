@@ -23,7 +23,25 @@ from django.utils import timezone
 
 from apps.analytics.models import SentimentLabel, SentimentResult
 from apps.collectors.models import Comment
-from apps.social.models import ConnectedAccount, Platform, Post
+from apps.social.models import ConnectedAccount, Platform, Post, PostType
+
+
+POST_TYPE_LABELS = {
+    PostType.PHOTO:        "Rasmlar",
+    PostType.VIDEO:        "Videolar",
+    PostType.REEL:         "Reellar",
+    PostType.CAROUSEL:     "Karusellar",
+    PostType.TWEET:        "Tweetlar",
+    PostType.CHANNEL_POST: "Matn / boshqa",
+}
+POST_TYPE_COLORS = {
+    PostType.PHOTO:        "#0ea5e9",
+    PostType.VIDEO:        "#f43f5e",
+    PostType.REEL:         "#a855f7",
+    PostType.CAROUSEL:     "#f59e0b",
+    PostType.TWEET:        "#0f172a",
+    PostType.CHANNEL_POST: "#64748b",
+}
 
 
 PLATFORM_COLORS = {
@@ -101,7 +119,34 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         Comment.objects.filter(post__account__user=user, published_at__gte=start),
         days_window, now,
     )
+    # Per-day sums of likes + views — drives a second activity chart that
+    # answers "how is engagement trending over time" instead of just "how
+    # often did I post".
+    per_day_likes = [0] * days_window
+    per_day_views = [0] * days_window
+    for p in user_posts.filter(published_at__gte=start).values("published_at", "likes", "views"):
+        idx = (p["published_at"].date() - start.date()).days
+        if 0 <= idx < days_window:
+            per_day_likes[idx] += p["likes"] or 0
+            per_day_views[idx] += p["views"] or 0
     labels = [(now - timedelta(days=days_window - 1 - i)).strftime("%d %b") for i in range(days_window)]
+
+    # ---------------- Post-type breakdown (photo / video / text / …) ----------------
+    type_rows = (
+        user_posts.values("post_type")
+        .annotate(post_count=Count("id"))
+        .order_by("-post_count")
+    )
+    post_types: list[dict] = []
+    pt_total = sum(row["post_count"] for row in type_rows) or 1
+    for row in type_rows:
+        pt = row["post_type"]
+        post_types.append({
+            "name":  POST_TYPE_LABELS.get(pt, pt.title() if isinstance(pt, str) else str(pt)),
+            "value": row["post_count"],
+            "color": POST_TYPE_COLORS.get(pt, "#94a3b8"),
+            "pct":   round(row["post_count"] * 100 / pt_total, 1),
+        })
 
     # ---------------- Platform breakdown ----------------
     per_platform = (
@@ -166,8 +211,11 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
             "labels": labels,
             "posts": per_day_posts,
             "engagement": per_day_comments,
+            "likes": per_day_likes,
+            "views": per_day_views,
         },
         "platforms": platforms or _empty_platforms(),
+        "post_types": post_types or _empty_platforms(),
         "top_posts": top_posts,
         "timeline": timeline,
         "connected_accounts": accounts,

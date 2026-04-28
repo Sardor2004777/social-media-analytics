@@ -132,6 +132,31 @@
     </div>
   </div>
 
+  {# ----- POST TYPE BREAKDOWN ----- #}
+  <div class="card p-6" data-reveal>
+    <div class="flex items-start justify-between gap-3 flex-wrap">
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Post turlari bo'yicha" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Rasm, video, matn va boshqa kontent ulushlari" %}</p>
+      </div>
+    </div>
+    <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+      <div class="h-48 md:col-span-1 flex items-center justify-center">
+        <canvas id="postTypeChart"></canvas>
+      </div>
+      <ul class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        {% for p in post_types %}
+          <li class="flex items-center gap-3 text-sm">
+            <span class="inline-flex h-2.5 w-2.5 rounded-full" style="background:{{ p.color }}"></span>
+            <span class="flex-1 text-slate-700 dark:text-slate-300">{{ p.name }}</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">{{ p.value }}</span>
+            <span class="font-medium text-slate-900 dark:text-white tabular-nums w-12 text-right">{{ p.pct }}%</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
   {# ----- TOP POSTS + TIMELINE ----- #}
   <div class="grid grid-cols-1 lg:grid-cols-5 gap-6" data-reveal>
 
@@ -239,12 +264,14 @@
 
 {{ activity|json_script:"activity-data" }}
 {{ platforms|json_script:"platform-data" }}
+{{ post_types|json_script:"post-types-data" }}
 
 <script>
 (function() {
   const activity = JSON.parse(document.getElementById('activity-data').textContent);
   const platforms = JSON.parse(document.getElementById('platform-data').textContent);
-  let activityChart, platformChart;
+  const postTypes = JSON.parse(document.getElementById('post-types-data').textContent);
+  let activityChart, platformChart, postTypeChart;
   function isDark() { return document.documentElement.classList.contains('dark'); }
   function axisColor() { return isDark() ? '#64748b' : '#94a3b8'; }
   function gridColor() { return isDark() ? 'rgba(148,163,184,0.12)' : 'rgba(148,163,184,0.22)'; }
@@ -268,6 +295,8 @@
         datasets: [
           { label: 'Postlar', data: activity.posts, borderColor: '#4f46e5', backgroundColor: grad, fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5 },
           { label: 'Kommentlar', data: activity.engagement, borderColor: '#10b981', backgroundColor: grad2, fill: true, tension: 0.35, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, yAxisID: 'y1' },
+          { label: 'Likelar', data: activity.likes, borderColor: '#f43f5e', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2, borderDash: [4,3], pointRadius: 0, pointHoverRadius: 5, yAxisID: 'y1', hidden: false },
+          { label: 'Ko\'rishlar', data: activity.views, borderColor: '#0ea5e9', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2, borderDash: [2,3], pointRadius: 0, pointHoverRadius: 5, yAxisID: 'y1', hidden: true },
         ],
       },
       options: {
@@ -301,14 +330,33 @@
     });
   }
 
+  function buildPostTypes() {
+    const el = document.getElementById('postTypeChart');
+    if (!el) return;
+    const ctx = el.getContext('2d');
+    postTypeChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: postTypes.map(p => p.name),
+        datasets: [{ data: postTypes.map(p => p.value), backgroundColor: postTypes.map(p => p.color), borderWidth: 3, borderColor: isDark() ? '#0f172a' : '#ffffff', hoverOffset: 6 }],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '60%',
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg(), borderColor: tooltipBorder(), borderWidth: 1, titleColor: tooltipText(), bodyColor: tooltipText(), padding: 10, cornerRadius: 8 } },
+      },
+    });
+  }
+
   function reload() {
     if (activityChart) activityChart.destroy();
     if (platformChart) platformChart.destroy();
-    buildActivity(); buildPlatform();
+    if (postTypeChart) postTypeChart.destroy();
+    buildActivity(); buildPlatform(); buildPostTypes();
   }
   window._reloadDashboardCharts = reload;
   buildActivity();
   buildPlatform();
+  buildPostTypes();
 })();
 </script>
 {% endblock %}
