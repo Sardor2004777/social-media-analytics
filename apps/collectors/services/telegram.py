@@ -35,7 +35,14 @@ from telethon.errors import (
 from telethon.sessions import StringSession
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.messages import GetFullChatRequest
-from telethon.tl.types import Channel, Chat, Message
+from telethon.tl.types import (
+    Channel,
+    Chat,
+    InputChannel,
+    InputPeerChannel,
+    InputPeerChat,
+    Message,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -72,6 +79,8 @@ class ChannelInfo:
 class UserChannel:
     """A channel/group from the logged-in user's dialogs list."""
     external_id: str
+    access_hash: int      # 0 for legacy Chat (not needed), required for Channel
+    entity_type: str      # "channel" | "chat"
     handle: str           # may be empty for private channels
     display_name: str
     is_broadcast: bool    # one-way channel (admin posts, others read)
@@ -188,19 +197,22 @@ class TelegramCollector:
         finally:
             await client.disconnect()
 
-    async def fetch_channel_info(self, username: str) -> ChannelInfo:
+    async def fetch_channel_info(
+        self,
+        username: str,
+        *,
+        entity_type: str | None = None,
+        access_hash: int = 0,
+    ) -> ChannelInfo:
+        """Resolve a Telegram entity by username, numeric id + access_hash,
+        or numeric id (Chat). Pass ``entity_type`` (``"channel"`` or
+        ``"chat"``) + ``access_hash`` when reconnecting to a previously
+        picked channel — Telethon's StringSession does NOT persist its
+        access-hash cache, so we have to feed it back in via InputPeer.
+        """
         target = _normalise_handle(username)
         async with self._authed_client() as client:
-            try:
-                entity = await client.get_entity(target)
-            except ValueError as e:
-                # Telethon raises ValueError for "Could not find the input
-                # entity" — surface as a real error rather than an opaque
-                # crash so the picker / sync task can show a useful message.
-                raise ValueError(
-                    f"Telegram bu kanal/guruhni topa olmadi: {target}. "
-                    f"Akkauntingiz hali a'zo bo'lmagan bo'lishi mumkin."
-                ) from e
+            entity = await self._resolve_entity(client, target, entity_type, access_hash)
             if isinstance(entity, Channel):
                 full = await client(GetFullChannelRequest(entity))
                 handle = entity.username or (str(target) if isinstance(target, str) else "")
@@ -215,8 +227,6 @@ class TelegramCollector:
                 # full-chat schema. participants_count lives directly on full_chat.
                 full = await client(GetFullChatRequest(entity.id))
                 participants = full.full_chat.participants
-                # Some versions expose ChatParticipants.participants list; fall
-                # back to len(...) if available, otherwise use the entity hint.
                 count = (
                     len(participants.participants)
                     if participants and getattr(participants, "participants", None)
@@ -232,6 +242,30 @@ class TelegramCollector:
                 f"{target} Telegram kanali yoki guruhi emas "
                 f"(turi: {type(entity).__name__})."
             )
+
+    @staticmethod
+    async def _resolve_entity(client, target, entity_type: str | None, access_hash: int):
+        """Return a Channel or Chat object for ``target`` using whichever
+        resolution path actually has the data Telethon needs:
+
+        * ``entity_type="chat"`` → ``InputPeerChat(int)`` (no hash needed)
+        * ``entity_type="channel"`` + ``access_hash`` → ``InputPeerChannel`` so
+          the lookup works even though StringSession dropped the entity cache.
+        * Fallback (username string, or no hint) → ``client.get_entity(target)``.
+        """
+        try:
+            if entity_type == "chat" and isinstance(target, int):
+                return await client.get_entity(InputPeerChat(chat_id=target))
+            if entity_type == "channel" and isinstance(target, int) and access_hash:
+                return await client.get_entity(
+                    InputPeerChannel(channel_id=target, access_hash=access_hash)
+                )
+            return await client.get_entity(target)
+        except ValueError as e:
+            raise ValueError(
+                f"Telegram bu kanal/guruhni topa olmadi: {target}. "
+                f"Akkauntingiz hali a'zo bo'lmagan bo'lishi mumkin."
+            ) from e
 
     async def list_user_dialogs(self) -> tuple[list["UserChannel"], str]:
         """List every channel + group + legacy chat the session-owner is in.
@@ -254,6 +288,8 @@ class TelegramCollector:
                     is_admin = bool(getattr(ent, "admin_rights", None))
                     out.append(UserChannel(
                         external_id    = str(ent.id),
+                        access_hash    = int(getattr(ent, "access_hash", 0) or 0),
+                        entity_type    = "channel",
                         handle         = ent.username or "",
                         display_name   = ent.title or "",
                         is_broadcast   = bool(getattr(ent, "broadcast", False)),
@@ -271,6 +307,8 @@ class TelegramCollector:
                         continue
                     out.append(UserChannel(
                         external_id    = str(ent.id),
+                        access_hash    = 0,                # not needed for Chat
+                        entity_type    = "chat",
                         handle         = "",
                         display_name   = ent.title or "",
                         is_broadcast   = False,
@@ -291,20 +329,19 @@ class TelegramCollector:
         return out, refreshed_session
 
     async def fetch_recent_messages(
-        self, username: str, limit: int | None = 50
+        self,
+        username: str,
+        limit: int | None = 50,
+        *,
+        entity_type: str | None = None,
+        access_hash: int = 0,
     ) -> list[ChannelMessage]:
         """``limit=None`` paginates through every available post — slow on
         large channels but the only way to seed full history for analytics."""
         target = _normalise_handle(username)
         messages: list[ChannelMessage] = []
         async with self._authed_client() as client:
-            try:
-                entity = await client.get_entity(target)
-            except ValueError as e:
-                raise ValueError(
-                    f"Telegram bu kanal/guruhni topa olmadi: {target}. "
-                    f"Akkauntingiz hali a'zo bo'lmagan bo'lishi mumkin."
-                ) from e
+            entity = await self._resolve_entity(client, target, entity_type, access_hash)
             if not isinstance(entity, (Channel, Chat)):
                 raise ValueError(
                     f"{target} Telegram kanali yoki guruhi emas "

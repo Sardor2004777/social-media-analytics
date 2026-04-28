@@ -58,12 +58,30 @@ def sync_telegram_account(self, account_id: int, post_limit: int = 50) -> dict:
     # path stored an @handle there, also fine via get_entity.
     handle_or_id = account.handle or account.external_id
 
-    info = run_sync(collector.fetch_channel_info(handle_or_id))
+    # Recover entity_type + access_hash that the picker stuffed into scopes:
+    # "tg:<channel|chat>:<access_hash>". Falls back to ("channel", 0) for
+    # legacy rows from the @handle-only flow.
+    entity_type, access_hash = "channel", 0
+    if account.scopes and account.scopes.startswith("tg:"):
+        parts = account.scopes.split(":", 2)
+        if len(parts) == 3:
+            entity_type = parts[1] or "channel"
+            try:
+                access_hash = int(parts[2] or 0)
+            except ValueError:
+                access_hash = 0
+
+    info = run_sync(collector.fetch_channel_info(
+        handle_or_id, entity_type=entity_type, access_hash=access_hash,
+    ))
     # ``post_limit=0`` (sentinel from the Connect view) means "every post" —
     # forward as ``None`` so Telethon iter_messages paginates until exhausted.
     fetch_limit = None if post_limit == 0 else post_limit
     messages = run_sync(
-        collector.fetch_recent_messages(handle_or_id, limit=fetch_limit)
+        collector.fetch_recent_messages(
+            handle_or_id, limit=fetch_limit,
+            entity_type=entity_type, access_hash=access_hash,
+        )
     )
 
     with transaction.atomic():

@@ -744,21 +744,29 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
         title = request.POST.get("title") or handle or external_id
         followers = int(request.POST.get("followers") or 0)
         fetch_all = request.POST.get("fetch_all") == "1"
+        entity_type = request.POST.get("entity_type") or "channel"
+        try:
+            access_hash = int(request.POST.get("access_hash") or 0)
+        except ValueError:
+            access_hash = 0
         if not external_id:
             messages.error(request, "Kanal tanlanmadi.")
             return redirect("social:telegram_channels")
 
-        # Pre-flight: attempt a single fetch_channel_info before persisting
-        # anything. This catches "you're a member but Telegram won't let the
-        # API read this channel" cases up-front, instead of leaving the user
-        # staring at an empty dashboard later. Use the access-hash-warm
-        # session string the picker GET stashed; falls back to the original
-        # post-login session if the user came straight to /channels/.
+        # Telethon's StringSession does NOT serialise the access-hash cache
+        # iter_dialogs builds, so the post-login session alone can't resolve
+        # private/numeric channels. We carry the hash through the form and
+        # rebuild an InputPeer in the collector — works for chats too (no
+        # hash, just the int id).
         warm_session = request.session.get(_TG_DIALOGS_KEY) or session_string
         collector = TelegramCollector(session_string=warm_session)
         probe_target = handle or external_id
         try:
-            info = run_sync(collector.fetch_channel_info(probe_target))
+            info = run_sync(collector.fetch_channel_info(
+                probe_target,
+                entity_type=entity_type,
+                access_hash=access_hash,
+            ))
         except Exception as e:
             logger.warning("Telegram probe failed for %s: %s", probe_target, e)
             messages.error(
@@ -767,6 +775,12 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
                 f"Boshqa kanal tanlang yoki kanal egasiga murojaat qiling.",
             )
             return redirect("social:telegram_channels")
+
+        # Stash entity-type + access_hash on the account so the Celery sync
+        # task can rebuild an InputPeer without re-listing dialogs. Re-uses
+        # the existing ``scopes`` column rather than running another
+        # migration; format: "tg:<channel|chat>:<access_hash>".
+        scopes_blob = f"tg:{entity_type}:{access_hash}"
 
         account, _ = ConnectedAccount.objects.update_or_create(
             platform=Platform.TELEGRAM,
@@ -783,6 +797,7 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
                 # Celery sync task resolve the channel by id on later runs
                 # without re-listing every dialog.
                 "access_token":   warm_session,     # encrypted by EncryptedTextField
+                "scopes":         scopes_blob,
                 "is_demo":        False,
             },
         )

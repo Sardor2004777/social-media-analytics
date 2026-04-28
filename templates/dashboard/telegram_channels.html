@@ -40,10 +40,12 @@
     <form method="post" class="card overflow-hidden">
       {% csrf_token %}
       <input type="hidden" name="fetch_all" value="1">
-      <input type="hidden" name="channel_id" :value="picked?.id">
-      <input type="hidden" name="handle"     :value="picked?.handle">
-      <input type="hidden" name="title"      :value="picked?.title">
-      <input type="hidden" name="followers"  :value="picked?.followers">
+      <input type="hidden" name="channel_id"   :value="picked?.id">
+      <input type="hidden" name="access_hash"  :value="picked?.access_hash">
+      <input type="hidden" name="entity_type"  :value="picked?.entity_type">
+      <input type="hidden" name="handle"       :value="picked?.handle">
+      <input type="hidden" name="title"        :value="picked?.title">
+      <input type="hidden" name="followers"    :value="picked?.followers">
 
       <div class="px-5 pt-5 pb-3 flex items-center gap-3 flex-wrap border-b border-slate-200 dark:border-slate-800">
         <div class="inline-flex rounded-lg bg-slate-100 dark:bg-slate-800 p-1 text-xs font-medium">
@@ -88,6 +90,8 @@
             <input type="radio" name="_pick" class="sr-only"
                    @change="picked = {
                      id:'{{ c.external_id }}',
+                     access_hash:'{{ c.access_hash }}',
+                     entity_type:'{{ c.entity_type }}',
                      handle:'{{ c.handle|escapejs }}',
                      title:'{{ c.display_name|escapejs }}',
                      followers:{{ c.follower_count|default:0 }}
