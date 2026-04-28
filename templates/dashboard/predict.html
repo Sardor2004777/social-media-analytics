@@ -1,0 +1,144 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Engagement Bashorati" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "ML Bashorat" %}{% endblock %}
+
+{% block dash_content %}
+<div data-reveal>
+  <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+    {% trans "Engagement bashorati" %}
+    <span class="text-brand-600 dark:text-brand-400">— ML model</span>
+  </h1>
+  <p class="mt-1 text-slate-600 dark:text-slate-400">
+    {% trans "Linear Regression sizning postlaringiz tarixini o'rganib, kelgusi post engagement'ini bashorat qiladi." %}
+  </p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6" data-reveal>
+
+  {# Input form #}
+  <div class="card p-6">
+    <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-1">{% trans "Post xususiyatlari" %}</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400 mb-5">{% trans "Qanday post yozmoqchisiz?" %}</p>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      <div class="field">
+        <label class="field-label">{% trans "Hafta kuni" %}</label>
+        <select name="weekday" class="field-input">
+          {% for v, label in weekday_options %}
+            <option value="{{ v }}" {% if form.weekday == v %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div class="field">
+          <label class="field-label">{% trans "Soat" %} (0-23)</label>
+          <input type="number" name="hour" min="0" max="23" value="{{ form.hour }}" class="field-input">
+        </div>
+        <div class="field">
+          <label class="field-label">{% trans "Caption uzunligi" %}</label>
+          <input type="number" name="caption_len" min="0" max="5000" value="{{ form.caption_len }}" class="field-input">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div class="field">
+          <label class="field-label">{% trans "Hashtag soni" %}</label>
+          <input type="number" name="hashtag_count" min="0" max="30" value="{{ form.hashtag_count }}" class="field-input">
+        </div>
+        <div class="field">
+          <label class="field-label">{% trans "Media bormi?" %}</label>
+          <div class="flex items-center gap-3 h-[42px]">
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="has_media" value="1" {% if form.has_media %}checked{% endif %}>
+              <span class="text-sm">{% trans "Ha" %}</span>
+            </label>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="has_media" value="0" {% if not form.has_media %}checked{% endif %}>
+              <span class="text-sm">{% trans "Yoq" %}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary btn-full">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        {% trans "Bashorat qilish" %}
+      </button>
+    </form>
+  </div>
+
+  {# Result panel #}
+  <div class="card p-6">
+    {% if error %}
+      <div class="rounded-card border border-amber-200 dark:border-amber-900/60 bg-amber-50/60 dark:bg-amber-950/40 p-4 text-sm text-amber-800 dark:text-amber-200 leading-relaxed">
+        <strong class="font-semibold">{% trans "Maslahat:" %}</strong> {{ error }}
+      </div>
+    {% elif prediction %}
+      <div class="text-center pb-5 border-b border-slate-200 dark:border-slate-800">
+        <div class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">{% trans "Kutilgan natija" %}</div>
+        <div class="mt-2 text-5xl font-bold tabular bg-clip-text text-transparent bg-gradient-to-br from-brand-500 via-indigo-500 to-fuchsia-500">
+          {{ prediction.expected_likes }}
+        </div>
+        <div class="mt-1 text-sm text-slate-600 dark:text-slate-400">{% trans "ta layk" %}</div>
+        <div class="mt-3 inline-flex items-center gap-2 chip-brand">
+          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          ~{{ prediction.expected_engagement_pct }}% engagement
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <div class="flex items-center justify-between text-xs mb-3">
+          <span class="font-medium text-slate-700 dark:text-slate-300">{% trans "Model sifati (R²)" %}</span>
+          <span class="tabular text-slate-900 dark:text-white font-semibold">{{ prediction.r2 }}</span>
+        </div>
+        <div class="h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+          <div class="h-full bg-gradient-to-r {% if prediction.r2 >= 0.5 %}from-emerald-500 to-teal-500{% elif prediction.r2 >= 0.2 %}from-amber-500 to-orange-500{% else %}from-rose-500 to-pink-500{% endif %}" style="width: {% widthratio prediction.r2 1 100 %}%;"></div>
+        </div>
+        <p class="mt-2 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+          {% if prediction.r2 >= 0.5 %}{% trans "Yuqori — model ma'lumotlaringizni yaxshi tushunadi." %}
+          {% elif prediction.r2 >= 0.2 %}{% trans "O'rtacha — bashorat taxminiy. Ko'proq post yiglinsa aniqlik oshadi." %}
+          {% else %}{% trans "Past — engagement tasodifiy. Ko'proq post yoki o'xshash ma'lumot kerak." %}{% endif %}
+          <br>{% trans "O'rganilgan postlar:" %} <strong>{{ prediction.sample_size }}</strong> ta.
+        </p>
+      </div>
+
+      <div class="mt-6">
+        <h4 class="text-sm font-semibold text-slate-900 dark:text-white mb-3">{% trans "Engagementga eng ko'p ta'sir qiluvchi xususiyatlar" %}</h4>
+        <ul class="space-y-2">
+          {% for label, weight in prediction.feature_weights.items %}
+            <li class="flex items-center gap-3 text-sm">
+              <span class="w-32 text-slate-600 dark:text-slate-400">{{ label }}</span>
+              <span class="flex-1 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                <span class="block h-full bg-gradient-to-r from-brand-500 to-indigo-500" style="width: {{ weight }}%;"></span>
+              </span>
+              <span class="w-12 text-right tabular text-xs text-slate-500 dark:text-slate-400">{{ weight }}%</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+      <div class="flex flex-col items-center justify-center text-center h-full py-10">
+        <div class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500/20 to-indigo-500/20 text-brand-600 dark:text-brand-400 mb-4">
+          <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Bashorat tayyor emas" %}</h3>
+        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed">
+          {% trans "Chap tomondagi formani to'ldirib 'Bashorat qilish' tugmasini bosing." %}
+        </p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card p-5 bg-slate-50/70 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800" data-reveal>
+  <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+    <strong>{% trans "Texnik tafsilot:" %}</strong>
+    {% trans "Model — sklearn.linear_model.LinearRegression. Target — log1p(likes). Inputlar: hafta kuni, soat, caption uzunligi, hashtag soni, media mavjudligi. Real-time, har so'rovda qayta o'qitadi (~50ms)." %}
+  </p>
+</div>
+{% endblock %}

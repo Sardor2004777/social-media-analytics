@@ -30,6 +30,7 @@ from .services.chat import (
     generate_weekly_digest,
     is_configured as chat_is_configured,
 )
+from .services.predict import NotEnoughData, predict_for_inputs
 from .services.wordcloud import WordcloudEntry, top_words
 
 logger = logging.getLogger(__name__)
@@ -672,6 +673,54 @@ def ai_digest(request: HttpRequest) -> HttpResponse:
         "digest_md":   digest_md,
         "digest_model": digest_model,
         "error":       error,
+    })
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def engagement_predict(request: HttpRequest) -> HttpResponse:
+    """ML engagement predictor — sklearn LinearRegression on the user's posts.
+
+    GET shows the form pre-filled with sane defaults (Monday 10:00, 100 chars,
+    3 hashtags, with media). POST runs the model and renders the result inline.
+    """
+    # Sane defaults so a first-time visitor sees a meaningful prediction.
+    form_values = {
+        "weekday":       int(request.POST.get("weekday")       or 0),
+        "hour":          int(request.POST.get("hour")          or 10),
+        "caption_len":   int(request.POST.get("caption_len")   or 100),
+        "hashtag_count": int(request.POST.get("hashtag_count") or 3),
+        "has_media":     request.POST.get("has_media") == "1" if request.method == "POST" else True,
+    }
+    prediction = None
+    error = None
+
+    if request.method == "POST":
+        try:
+            prediction = predict_for_inputs(
+                request.user,
+                weekday=form_values["weekday"],
+                hour=form_values["hour"],
+                caption_len=form_values["caption_len"],
+                hashtag_count=form_values["hashtag_count"],
+                has_media=form_values["has_media"],
+            )
+        except NotEnoughData as e:
+            error = str(e)
+        except Exception as e:
+            logger.exception("Predict failed for user %s", request.user.id)
+            error = f"Texnik xato: {e}"
+
+    weekday_options = [
+        (0, "Dushanba"), (1, "Seshanba"), (2, "Chorshanba"), (3, "Payshanba"),
+        (4, "Juma"),     (5, "Shanba"),   (6, "Yakshanba"),
+    ]
+    return render(request, "dashboard/predict.html", {
+        "active_nav":      "predict",
+        "form":            form_values,
+        "prediction":      prediction,
+        "error":           error,
+        "weekday_options": weekday_options,
     })
 
 

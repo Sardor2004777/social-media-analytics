@@ -11,4 +11,5 @@ urlpatterns = [
     path("top/",      views.analytics_top_posts, name="top_posts"),
     path("chat/",     views.analytics_chat,     name="chat"),
     path("digest/",   views.ai_digest,          name="digest"),
+    path("predict/",  views.engagement_predict, name="predict"),
 ]
