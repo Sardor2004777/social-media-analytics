@@ -107,12 +107,33 @@ def accounts_list(request: HttpRequest) -> HttpResponse:
     # Resolve each account's active share link from the prefetched rows so the
     # template can render a single "Share" toggle + copyable URL without extra
     # queries per row.
+    now = timezone.now()
     for a in accounts:
         active = next((l for l in a.share_links.all() if l.is_active), None)
         a.active_share_link = active
         a.public_share_url = request.build_absolute_uri(
             reverse("social:public_share", kwargs={"token": active.token})
         ) if active else ""
+        # Human-readable "last sync" — TimestampedModel.updated_at is bumped
+        # by sync_*_account on every successful pull, so this is a faithful
+        # signal of "how fresh is this account's data".
+        delta = now - a.updated_at
+        secs = int(delta.total_seconds())
+        if secs < 60:
+            a.last_sync_human = "hozir"
+        elif secs < 3600:
+            a.last_sync_human = f"{secs // 60} daqiqa oldin"
+        elif secs < 86400:
+            a.last_sync_human = f"{secs // 3600} soat oldin"
+        else:
+            a.last_sync_human = f"{secs // 86400} kun oldin"
+
+    # Quick-stats strip at the top of the accounts page.
+    stats = {
+        "total_followers": sum(a.follower_count for a in accounts),
+        "total_posts":     sum(a.posts_total or 0 for a in accounts),
+        "real_count":      sum(1 for a in accounts if not a.is_demo),
+    }
 
     connected_platforms = {a.platform for a in accounts}
     available = []
@@ -147,6 +168,7 @@ def accounts_list(request: HttpRequest) -> HttpResponse:
         "active_nav": "accounts",
         "accounts":  accounts,
         "available": available,
+        "stats":     stats,
     })
 
 

@@ -15,6 +15,28 @@
   </div>
 </div>
 
+{# ---------- Quick stats summary ---------- #}
+{% if accounts %}
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3" data-reveal>
+  <div class="card p-4">
+    <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Akkauntlar" %}</div>
+    <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white tabular">{{ accounts|length }}</div>
+  </div>
+  <div class="card p-4">
+    <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Jami obunachilar" %}</div>
+    <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white tabular">{{ stats.total_followers|default:0 }}</div>
+  </div>
+  <div class="card p-4">
+    <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Jami postlar" %}</div>
+    <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white tabular">{{ stats.total_posts|default:0 }}</div>
+  </div>
+  <div class="card p-4">
+    <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Real ulangan" %}</div>
+    <div class="mt-1 text-xl font-bold text-emerald-600 dark:text-emerald-400 tabular">{{ stats.real_count|default:0 }}<span class="text-sm font-medium text-slate-400 dark:text-slate-500"> / {{ accounts|length }}</span></div>
+  </div>
+</div>
+{% endif %}
+
 {# ---------- Connect CTAs ---------- #}
 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4" data-reveal>
   {% for p in available %}
@@ -74,6 +96,7 @@
           <th class="text-right px-6 py-3 font-semibold">{% trans "Obunachilar" %}</th>
           <th class="text-right px-6 py-3 font-semibold">{% trans "Postlar" %}</th>
           <th class="text-right px-6 py-3 font-semibold">Engagement</th>
+          <th class="text-right px-6 py-3 font-semibold">{% trans "Oxirgi sync" %}</th>
           <th class="text-right px-6 py-3 font-semibold">{% trans "Holati" %}</th>
           <th class="text-right px-6 py-3 font-semibold"></th>
         </tr>
@@ -98,6 +121,9 @@
             <td class="px-6 py-4 text-right tabular text-slate-900 dark:text-white font-medium">{{ a.follower_count|default:0 }}</td>
             <td class="px-6 py-4 text-right tabular text-slate-900 dark:text-white font-medium">{{ a.posts_total|default:0 }}</td>
             <td class="px-6 py-4 text-right tabular text-slate-700 dark:text-slate-300">{% if a.avg_eng %}{{ a.avg_eng|floatformat:2 }}%{% else %}—{% endif %}</td>
+            <td class="px-6 py-4 text-right text-xs text-slate-500 dark:text-slate-400">
+              {{ a.last_sync_human|default:"—" }}
+            </td>
             <td class="px-6 py-4 text-right">
               {% if a.is_demo %}
                 <span class="chip text-[11px]">{% trans "Demo" %}</span>
