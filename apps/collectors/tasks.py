@@ -79,17 +79,46 @@ def sync_telegram_account(self, account_id: int, post_limit: int = 50) -> dict:
     else:
         handle_or_id = account.handle or account.external_id
 
-    info = run_sync(collector.fetch_channel_info(
-        handle_or_id, entity_type=entity_type, access_hash=access_hash,
-    ))
+    try:
+        info = run_sync(collector.fetch_channel_info(
+            handle_or_id, entity_type=entity_type, access_hash=access_hash,
+        ))
+    except Exception as e:
+        logger.warning(
+            "sync_telegram_account: fetch_channel_info failed for account %s "
+            "(handle=%r entity_type=%s ah=%s): %s",
+            account_id, handle_or_id, entity_type, access_hash, e,
+        )
+        return {"account_id": account_id, "status": "fetch_info_failed", "detail": str(e)}
+
     # ``post_limit=0`` (sentinel from the Connect view) means "every post" —
     # forward as ``None`` so Telethon iter_messages paginates until exhausted.
     fetch_limit = None if post_limit == 0 else post_limit
-    messages = run_sync(
-        collector.fetch_recent_messages(
-            handle_or_id, limit=fetch_limit,
-            entity_type=entity_type, access_hash=access_hash,
+    try:
+        messages = run_sync(
+            collector.fetch_recent_messages(
+                handle_or_id, limit=fetch_limit,
+                entity_type=entity_type, access_hash=access_hash,
+            )
         )
+    except Exception as e:
+        logger.warning(
+            "sync_telegram_account: fetch_recent_messages failed for %s: %s",
+            account_id, e,
+        )
+        # Persist the channel-info update even if message fetch fails so the
+        # dashboard at least shows correct title + follower count.
+        with transaction.atomic():
+            account.display_name = info.display_name or account.display_name
+            account.follower_count = info.follower_count
+            account.save(update_fields=[
+                "display_name", "follower_count", "updated_at",
+            ])
+        return {"account_id": account_id, "status": "fetch_messages_failed", "detail": str(e)}
+
+    logger.info(
+        "sync_telegram_account: %s → %d messages fetched (entity_type=%s)",
+        account_id, len(messages), entity_type,
     )
 
     with transaction.atomic():
