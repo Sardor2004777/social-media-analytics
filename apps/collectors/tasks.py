@@ -47,13 +47,23 @@ def sync_telegram_account(self, account_id: int, post_limit: int = 50) -> dict:
         logger.info("sync_telegram_account: skipping demo account %s", account_id)
         return {"account_id": account_id, "status": "skipped_demo"}
 
-    collector = TelegramCollector()
-    info = run_sync(collector.fetch_channel_info(account.handle))
+    # Per-user session (from the phone-login flow) is preferred — falls
+    # back to the platform-wide server session for legacy accounts that
+    # were connected via the "type @username" path.
+    user_session = account.access_token or None
+    collector = TelegramCollector(session_string=user_session)
+
+    # When the user logged in via phone, the picker stored a numeric Telegram
+    # channel id in external_id — Telethon resolves that fine. The legacy
+    # path stored an @handle there, also fine via get_entity.
+    handle_or_id = account.handle or account.external_id
+
+    info = run_sync(collector.fetch_channel_info(handle_or_id))
     # ``post_limit=0`` (sentinel from the Connect view) means "every post" —
     # forward as ``None`` so Telethon iter_messages paginates until exhausted.
     fetch_limit = None if post_limit == 0 else post_limit
     messages = run_sync(
-        collector.fetch_recent_messages(account.handle, limit=fetch_limit)
+        collector.fetch_recent_messages(handle_or_id, limit=fetch_limit)
     )
 
     with transaction.atomic():

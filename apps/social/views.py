@@ -20,6 +20,8 @@ from apps.collectors.services.mock_generator import DemoDataGenerator
 from apps.collectors.services.telegram import (
     TelegramCollector,
     TelegramNotConfigured,
+    TelegramPhoneAuth,
+    TelegramPhoneAuthError,
     run_sync,
 )
 from apps.collectors.services.instagram import (
@@ -107,11 +109,12 @@ def accounts_list(request: HttpRequest) -> HttpResponse:
         elif code == Platform.INSTAGRAM.value and InstagramCollector.is_configured():
             connect_url = reverse("social:instagram_connect_start")
             real_mode = True
+        elif code == Platform.TELEGRAM.value and TelegramCollector.is_configured():
+            connect_url = reverse("social:telegram_connect_start")
+            real_mode = True
         else:
             connect_url = reverse("social:connect", kwargs={"platform": code})
-            real_mode = (
-                code == Platform.TELEGRAM.value and TelegramCollector.is_configured()
-            )
+            real_mode = False
         available.append({
             "code": code,
             **meta,
@@ -566,6 +569,223 @@ def instagram_connect_callback(request: HttpRequest) -> HttpResponse:
         f"Postlar fonda yig'ilmoqda.",
     )
     return redirect("social:accounts")
+
+
+# ----------------------------------------------------------- Telegram phone login
+
+# Django session keys used by the multi-step flow.
+_TG_SESSION_KEY     = "tg_auth_session"        # in-progress Telethon session string
+_TG_PHONE_KEY       = "tg_auth_phone"          # +998...
+_TG_PHONE_HASH_KEY  = "tg_auth_phone_hash"     # phone_code_hash from send_code_request
+_TG_AUTHED_KEY      = "tg_authed_session"      # post-login session (used by picker)
+
+
+class _PhoneForm(forms.Form):
+    phone = forms.CharField(
+        max_length=32,
+        widget=forms.TextInput(attrs={
+            "class": "field-input",
+            "placeholder": "+998901234567",
+            "autocomplete": "tel",
+        }),
+    )
+
+    def clean_phone(self) -> str:
+        v = self.cleaned_data["phone"].strip().replace(" ", "")
+        if not v.startswith("+") or not v[1:].isdigit():
+            raise forms.ValidationError(
+                "Telefon raqami xalqaro formatda kiritilsin (masalan +998901234567)."
+            )
+        return v
+
+
+class _CodeForm(forms.Form):
+    code = forms.CharField(
+        max_length=12,
+        widget=forms.TextInput(attrs={
+            "class": "field-input tracking-widest text-center",
+            "placeholder": "12345",
+            "autocomplete": "one-time-code",
+            "inputmode": "numeric",
+        }),
+    )
+
+
+class _PasswordForm(forms.Form):
+    password = forms.CharField(
+        max_length=256,
+        widget=forms.PasswordInput(attrs={
+            "class": "field-input",
+            "autocomplete": "current-password",
+        }),
+    )
+
+
+@login_required
+def telegram_connect_start(request: HttpRequest) -> HttpResponse:
+    """Step 1 — collect phone number and trigger Telegram's SMS code."""
+    if not TelegramCollector.is_configured():
+        messages.error(
+            request,
+            "Telegram integratsiyasi sozlanmagan — TELEGRAM_API_ID va "
+            "TELEGRAM_API_HASH .env faylda bo'lishi shart.",
+        )
+        return redirect("social:accounts")
+
+    form = _PhoneForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        phone = form.cleaned_data["phone"]
+        try:
+            result = run_sync(TelegramPhoneAuth.send_code(phone))
+        except TelegramPhoneAuthError as e:
+            form.add_error("phone", str(e))
+        except Exception as e:
+            logger.warning("Telegram send_code failed: %s", e)
+            form.add_error(None, f"Telegram xatosi: {e}")
+        else:
+            request.session[_TG_SESSION_KEY] = result.session_string
+            request.session[_TG_PHONE_KEY] = phone
+            request.session[_TG_PHONE_HASH_KEY] = result.phone_code_hash
+            return redirect("social:telegram_code")
+
+    return render(request, "dashboard/telegram_phone.html", {
+        "active_nav": "accounts",
+        "form": form,
+    })
+
+
+@login_required
+def telegram_code_submit(request: HttpRequest) -> HttpResponse:
+    """Step 2 — verify SMS code; on 2FA-needed branch, redirect to password step."""
+    session_string = request.session.get(_TG_SESSION_KEY)
+    phone = request.session.get(_TG_PHONE_KEY)
+    phone_hash = request.session.get(_TG_PHONE_HASH_KEY)
+    if not (session_string and phone and phone_hash):
+        messages.error(request, "Sessiya muddati tugadi — qaytadan boshlang.")
+        return redirect("social:telegram_connect_start")
+
+    form = _CodeForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        code = form.cleaned_data["code"].strip()
+        try:
+            result = run_sync(TelegramPhoneAuth.verify_code(
+                session_string=session_string,
+                phone=phone,
+                code=code,
+                phone_code_hash=phone_hash,
+            ))
+        except TelegramPhoneAuthError as e:
+            form.add_error("code", str(e))
+        except Exception as e:
+            logger.warning("Telegram verify_code failed: %s", e)
+            form.add_error(None, f"Telegram xatosi: {e}")
+        else:
+            if result is None:
+                # 2FA needed — keep in-progress session, send to password step.
+                return redirect("social:telegram_password")
+            # Fully signed in.
+            request.session[_TG_AUTHED_KEY] = result.session_string
+            for k in (_TG_SESSION_KEY, _TG_PHONE_KEY, _TG_PHONE_HASH_KEY):
+                request.session.pop(k, None)
+            return redirect("social:telegram_channels")
+
+    return render(request, "dashboard/telegram_code.html", {
+        "active_nav": "accounts",
+        "form": form,
+        "phone": phone,
+    })
+
+
+@login_required
+def telegram_password_submit(request: HttpRequest) -> HttpResponse:
+    """Step 3 — submit 2FA password (only for accounts with cloud password)."""
+    session_string = request.session.get(_TG_SESSION_KEY)
+    if not session_string:
+        messages.error(request, "Sessiya muddati tugadi — qaytadan boshlang.")
+        return redirect("social:telegram_connect_start")
+
+    form = _PasswordForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        try:
+            result = run_sync(TelegramPhoneAuth.verify_password(
+                session_string=session_string,
+                password=form.cleaned_data["password"],
+            ))
+        except TelegramPhoneAuthError as e:
+            form.add_error("password", str(e))
+        except Exception as e:
+            logger.warning("Telegram verify_password failed: %s", e)
+            form.add_error(None, f"Telegram xatosi: {e}")
+        else:
+            request.session[_TG_AUTHED_KEY] = result.session_string
+            for k in (_TG_SESSION_KEY, _TG_PHONE_KEY, _TG_PHONE_HASH_KEY):
+                request.session.pop(k, None)
+            return redirect("social:telegram_channels")
+
+    return render(request, "dashboard/telegram_password.html", {
+        "active_nav": "accounts",
+        "form": form,
+    })
+
+
+@login_required
+def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
+    """Step 4 — list the user's channels/groups; on POST, create a
+    :class:`ConnectedAccount` for the picked one and seed full history."""
+    session_string = request.session.get(_TG_AUTHED_KEY)
+    if not session_string:
+        messages.error(request, "Telegram'ga avval kiring.")
+        return redirect("social:telegram_connect_start")
+
+    if request.method == "POST":
+        external_id = request.POST.get("channel_id")
+        handle = request.POST.get("handle") or ""
+        title = request.POST.get("title") or handle or external_id
+        followers = int(request.POST.get("followers") or 0)
+        fetch_all = request.POST.get("fetch_all") == "1"
+        if not external_id:
+            messages.error(request, "Kanal tanlanmadi.")
+            return redirect("social:telegram_channels")
+
+        account, _ = ConnectedAccount.objects.update_or_create(
+            platform=Platform.TELEGRAM,
+            external_id=external_id,
+            defaults={
+                "user":           request.user,
+                "handle":         handle or external_id,
+                "display_name":   title,
+                "follower_count": followers,
+                "access_token":   session_string,   # encrypted by EncryptedTextField
+                "is_demo":        False,
+            },
+        )
+        # Clear the bootstrap session — the persisted ConnectedAccount.access_token
+        # is the only copy we need from now on.
+        request.session.pop(_TG_AUTHED_KEY, None)
+
+        # post_limit=0 = "every post" sentinel; matches the connect-form path.
+        sync_telegram_account.delay(account.id, post_limit=0 if fetch_all else 100)
+        extra = (
+            "Hamma postlar fonda yig'ilmoqda — katta kanal uchun bir necha daqiqa kuting."
+            if fetch_all else
+            "So'nggi 100 ta post fonda yig'ilmoqda."
+        )
+        messages.success(request, f"@{handle or title} ulandi. {extra}")
+        return redirect("social:accounts")
+
+    try:
+        channels = run_sync(
+            TelegramCollector(session_string=session_string).list_user_dialogs()
+        )
+    except Exception as e:
+        logger.warning("Telegram list_user_dialogs failed: %s", e)
+        messages.error(request, f"Kanallar olishda xato: {e}")
+        return redirect("social:telegram_connect_start")
+
+    return render(request, "dashboard/telegram_channels.html", {
+        "active_nav": "accounts",
+        "channels":   channels,
+    })
 
 
 def public_share(request: HttpRequest, token: str) -> HttpResponse:

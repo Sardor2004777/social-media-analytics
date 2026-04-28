@@ -1,0 +1,73 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Telegram kanali tanlash" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}
+  <a href="{% url 'social:accounts' %}" class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">{% trans "Akkauntlarim" %}</a>
+  <svg class="h-3.5 w-3.5 text-slate-400 inline mx-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  Telegram · {% trans "Kanal tanlash" %}
+{% endblock %}
+
+{% block dash_content %}
+<div class="max-w-3xl mx-auto space-y-6" data-reveal>
+  <div class="flex items-center gap-4">
+    <span class="inline-flex h-14 w-14 items-center justify-center rounded-2xl text-white text-lg font-bold bg-gradient-to-br from-sky-500 to-blue-600 shadow-card">TG</span>
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{% trans "Qaysi kanalni tahlil qilamiz?" %}</h1>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{% trans "Telegram'da a'zo bo'lgan barcha kanal va guruhlaringiz ro'yxati." %}</p>
+    </div>
+  </div>
+
+  {% if channels %}
+    <div class="card divide-y divide-slate-200 dark:divide-slate-800">
+      {% for c in channels %}
+        <form method="post" class="flex items-center gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+          {% csrf_token %}
+          <input type="hidden" name="channel_id" value="{{ c.external_id }}">
+          <input type="hidden" name="handle"     value="{{ c.handle }}">
+          <input type="hidden" name="title"      value="{{ c.display_name }}">
+          <input type="hidden" name="followers"  value="{{ c.follower_count }}">
+          <input type="hidden" name="fetch_all"  value="1">
+
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-full text-white text-xs font-bold
+            {% if c.is_broadcast %}bg-gradient-to-br from-sky-500 to-blue-600
+            {% else %}bg-gradient-to-br from-emerald-500 to-teal-600{% endif %}">
+            {{ c.display_name|slice:":1"|upper }}
+          </span>
+
+          <div class="flex-1 min-w-0">
+            <div class="font-semibold text-slate-900 dark:text-white truncate">{{ c.display_name }}</div>
+            <div class="mt-0.5 flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+              {% if c.handle %}<span>@{{ c.handle }}</span>{% endif %}
+              <span class="inline-flex items-center gap-1">
+                <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+                {{ c.follower_count|default:0 }}
+              </span>
+              {% if c.is_broadcast %}
+                <span class="chip-brand text-[10px]">{% trans "Kanal" %}</span>
+              {% else %}
+                <span class="chip text-[10px]">{% trans "Guruh" %}</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <button type="submit" class="btn-ghost !text-xs whitespace-nowrap">
+            {% trans "Tahlil qilish" %}
+            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+      {% endfor %}
+    </div>
+    <p class="text-xs text-slate-500 dark:text-slate-400">
+      {% trans "Tanlanganda barcha postlar yig'iladi — katta kanallarda bir necha daqiqa kutish mumkin." %}
+    </p>
+  {% else %}
+    <div class="card p-10 text-center">
+      <p class="text-sm text-slate-600 dark:text-slate-400">
+        {% trans "Sizning Telegram akkauntingizda kanal yoki guruh topilmadi." %}
+      </p>
+      <a href="{% url 'social:telegram_connect_start' %}" class="btn-ghost mt-4 inline-flex">{% trans "Boshqa akkaunt" %}</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
