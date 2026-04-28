@@ -24,7 +24,12 @@ from apps.core.ratelimit import rate_limit
 from apps.social.models import ConnectedAccount, Platform, Post, PostType
 
 from .models import SentimentLabel, SentimentResult
-from .services.chat import ChatNotConfigured, ask as chat_ask, is_configured as chat_is_configured
+from .services.chat import (
+    ChatNotConfigured,
+    ask as chat_ask,
+    generate_weekly_digest,
+    is_configured as chat_is_configured,
+)
 from .services.wordcloud import WordcloudEntry, top_words
 
 logger = logging.getLogger(__name__)
@@ -630,6 +635,43 @@ def analytics_chat(request: HttpRequest) -> HttpResponse:
     return render(request, "dashboard/chat.html", {
         "active_nav": "chat",
         "configured": chat_is_configured(),
+    })
+
+
+@login_required
+@rate_limit(key="digest_ondemand", rate="6/h", scope="user", methods=("POST",))
+@require_http_methods(["GET", "POST"])
+def ai_digest(request: HttpRequest) -> HttpResponse:
+    """On-demand version of the weekly digest — same OpenAI prompt that the
+    Monday email uses, but rendered inline so a user can click "Generate"
+    any time. Rate-limited to 6/hr/user so a button-mash doesn't burn tokens.
+    """
+    digest_md: str | None = None
+    digest_model: str = ""
+    error: str | None = None
+
+    if request.method == "POST":
+        if not chat_is_configured():
+            error = "AI Chat sozlanmagan — administrator OPENAI_API_KEY ni .env'ga qo'shishi kerak."
+        elif not ConnectedAccount.objects.filter(user=request.user).exists():
+            error = "Avval kamida bitta ijtimoiy tarmoq akkauntini ulang."
+        else:
+            try:
+                resp = generate_weekly_digest(request.user)
+                digest_md = resp.answer
+                digest_model = resp.model
+            except ChatNotConfigured as e:
+                error = str(e)
+            except Exception as e:
+                logger.exception("Digest generation failed for user %s", request.user.id)
+                error = f"Texnik xato: {e}"
+
+    return render(request, "dashboard/ai_digest.html", {
+        "active_nav":  "chat",
+        "configured":  chat_is_configured(),
+        "digest_md":   digest_md,
+        "digest_model": digest_model,
+        "error":       error,
     })
 
 

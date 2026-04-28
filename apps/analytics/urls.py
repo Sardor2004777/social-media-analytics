@@ -10,4 +10,5 @@ urlpatterns = [
     path("compare/",  views.analytics_compare,  name="compare"),
     path("top/",      views.analytics_top_posts, name="top_posts"),
     path("chat/",     views.analytics_chat,     name="chat"),
+    path("digest/",   views.ai_digest,          name="digest"),
 ]
