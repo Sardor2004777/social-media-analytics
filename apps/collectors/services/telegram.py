@@ -92,11 +92,19 @@ class ChannelMessage:
     shares: int
 
 
-def _normalise_handle(raw: str) -> str:
-    """Accept ``@foo``, ``foo``, or ``https://t.me/foo`` and return ``foo``."""
+def _normalise_handle(raw: str) -> str | int:
+    """Accept ``@foo``, ``foo``, ``https://t.me/foo``, or a stringified
+    channel id and return whatever Telethon's ``get_entity`` can resolve.
+
+    Numeric ids stay as ``int`` so private/no-username channels (looked up
+    from the user's own dialogs cache) don't get treated as usernames.
+    """
     v = raw.strip().lstrip("@")
     if "/" in v:
         v = v.rsplit("/", 1)[-1]
+    # ``-100123…`` style supergroup ids and plain numeric channel ids.
+    if v.lstrip("-").isdigit():
+        return int(v)
     return v
 
 
@@ -159,19 +167,29 @@ class TelegramCollector:
             await client.disconnect()
 
     async def fetch_channel_info(self, username: str) -> ChannelInfo:
-        username = _normalise_handle(username)
+        target = _normalise_handle(username)
         async with self._authed_client() as client:
-            entity = await client.get_entity(username)
+            try:
+                entity = await client.get_entity(target)
+            except ValueError as e:
+                # Telethon raises ValueError for "Could not find the input
+                # entity" — surface as a real error rather than an opaque
+                # crash so the picker / sync task can show a useful message.
+                raise ValueError(
+                    f"Telegram bu kanal/guruhni topa olmadi: {target}. "
+                    f"Akkauntingiz hali a'zo bo'lmagan bo'lishi mumkin."
+                ) from e
             if not isinstance(entity, Channel):
                 raise ValueError(
-                    f"@{username} Telegram kanali emas "
+                    f"{target} Telegram kanali emas "
                     f"(turi: {type(entity).__name__})."
                 )
             full = await client(GetFullChannelRequest(entity))
+            handle = entity.username or (str(target) if isinstance(target, str) else "")
             return ChannelInfo(
                 external_id=str(entity.id),
-                handle=entity.username or username,
-                display_name=entity.title or username,
+                handle=handle,
+                display_name=entity.title or handle or str(entity.id),
                 follower_count=int(full.full_chat.participants_count or 0),
             )
 
@@ -216,16 +234,24 @@ class TelegramCollector:
     ) -> list[ChannelMessage]:
         """``limit=None`` paginates through every available post — slow on
         large channels but the only way to seed full history for analytics."""
-        username = _normalise_handle(username)
+        target = _normalise_handle(username)
         messages: list[ChannelMessage] = []
         async with self._authed_client() as client:
-            entity = await client.get_entity(username)
+            try:
+                entity = await client.get_entity(target)
+            except ValueError as e:
+                raise ValueError(
+                    f"Telegram bu kanal/guruhni topa olmadi: {target}. "
+                    f"Akkauntingiz hali a'zo bo'lmagan bo'lishi mumkin."
+                ) from e
             if not isinstance(entity, Channel):
                 raise ValueError(
-                    f"@{username} Telegram kanali emas "
+                    f"{target} Telegram kanali emas "
                     f"(turi: {type(entity).__name__})."
                 )
-            channel_handle = entity.username or username
+            channel_handle = entity.username or (
+                str(target) if isinstance(target, str) else str(entity.id)
+            )
             async for msg in client.iter_messages(entity, limit=limit):
                 if not isinstance(msg, Message):
                     continue

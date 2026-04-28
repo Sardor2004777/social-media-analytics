@@ -747,14 +747,34 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
             messages.error(request, "Kanal tanlanmadi.")
             return redirect("social:telegram_channels")
 
+        # Pre-flight: attempt a single fetch_channel_info before persisting
+        # anything. This catches "you're a member but Telegram won't let the
+        # API read this channel" cases up-front, instead of leaving the user
+        # staring at an empty dashboard later.
+        collector = TelegramCollector(session_string=session_string)
+        probe_target = handle or external_id
+        try:
+            info = run_sync(collector.fetch_channel_info(probe_target))
+        except Exception as e:
+            logger.warning("Telegram probe failed for %s: %s", probe_target, e)
+            messages.error(
+                request,
+                f"Bu kanaldan ma'lumot olib bo'lmaydi: {e}. "
+                f"Boshqa kanal tanlang yoki kanal egasiga murojaat qiling.",
+            )
+            return redirect("social:telegram_channels")
+
         account, _ = ConnectedAccount.objects.update_or_create(
             platform=Platform.TELEGRAM,
-            external_id=external_id,
+            external_id=str(info.external_id),
             defaults={
                 "user":           request.user,
-                "handle":         handle or external_id,
-                "display_name":   title,
-                "follower_count": followers,
+                # Prefer the resolved handle (if the channel had no public
+                # username, fall back to the picker's title so the dashboard
+                # shows a name rather than a numeric id).
+                "handle":         info.handle or title or info.external_id,
+                "display_name":   info.display_name or title,
+                "follower_count": info.follower_count or followers,
                 "access_token":   session_string,   # encrypted by EncryptedTextField
                 "is_demo":        False,
             },
@@ -770,7 +790,7 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
             if fetch_all else
             "So'nggi 100 ta post fonda yig'ilmoqda."
         )
-        messages.success(request, f"@{handle or title} ulandi. {extra}")
+        messages.success(request, f"@{info.handle or title} ulandi. {extra}")
         return redirect("social:accounts")
 
     try:
