@@ -45,7 +45,7 @@ from apps.collectors.tasks import (
     sync_youtube_account,
 )
 
-from .models import ConnectedAccount, Platform, Post, PublicShareLink
+from .models import Competitor, ConnectedAccount, Platform, Post, PublicShareLink
 
 logger = logging.getLogger(__name__)
 
@@ -976,6 +976,66 @@ def vk_connect_callback(request: HttpRequest) -> HttpResponse:
         f"Postlar fonda yig'ilmoqda.",
     )
     return redirect("social:accounts")
+
+
+@login_required
+def competitors_list(request: HttpRequest) -> HttpResponse:
+    """List + add competitor channels to track. POST handles the add form."""
+    if request.method == "POST":
+        platform = request.POST.get("platform") or ""
+        handle = (request.POST.get("handle") or "").strip().lstrip("@")
+        note = (request.POST.get("note") or "")[:256]
+        if platform not in {p.value for p in Platform} or not handle:
+            messages.error(request, "Platforma va handle to'ldirilishi shart.")
+            return redirect("social:competitors")
+
+        # Try to resolve display name + followers via the per-platform reader.
+        display_name = handle
+        follower_count = 0
+        try:
+            if platform == Platform.TELEGRAM.value and TelegramCollector.is_configured():
+                info = run_sync(TelegramCollector().fetch_channel_info(handle))
+                display_name = info.display_name or handle
+                follower_count = info.follower_count
+            elif platform == Platform.YOUTUBE.value:
+                # Public YouTube fetch needs an API key; left as a TODO — for now
+                # we just record the handle and let the user fill in stats later.
+                pass
+        except Exception as e:
+            logger.warning("Competitor probe failed for %s/%s: %s", platform, handle, e)
+            messages.warning(request, f"Ma'lumot olib bo'lmadi, lekin saqlandi: {e}")
+
+        Competitor.objects.update_or_create(
+            user=request.user, platform=platform, handle=handle,
+            defaults={
+                "display_name":   display_name,
+                "follower_count": follower_count,
+                "last_synced_at": timezone.now() if follower_count else None,
+                "note":           note,
+            },
+        )
+        messages.success(request, f"@{handle} kuzatuvga qo'shildi.")
+        return redirect("social:competitors")
+
+    competitors = list(Competitor.objects.filter(user=request.user).order_by("-follower_count"))
+    own = list(
+        ConnectedAccount.objects.filter(user=request.user, is_demo=False)
+        .order_by("-follower_count")
+    )
+    return render(request, "dashboard/competitors.html", {
+        "active_nav":  "competitors",
+        "competitors": competitors,
+        "own":         own,
+        "platforms":   Platform.choices,
+    })
+
+
+@login_required
+@require_POST
+def competitor_delete(request: HttpRequest, pk: int) -> HttpResponse:
+    Competitor.objects.filter(user=request.user, pk=pk).delete()
+    messages.success(request, "Raqobatchi o'chirildi.")
+    return redirect("social:competitors")
 
 
 def public_share(request: HttpRequest, token: str) -> HttpResponse:

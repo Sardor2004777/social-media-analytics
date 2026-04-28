@@ -14,6 +14,76 @@
 
 {% block dash_content %}
 
+  {# Onboarding tour — shown once per browser via localStorage flag #}
+  <div x-data="onboardingTour()" x-init="maybeStart()"
+       x-cloak
+       x-show="active"
+       x-transition.opacity
+       class="fixed inset-0 z-[60] bg-slate-950/40 backdrop-blur-sm flex items-center justify-center px-4">
+    <div class="max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-elevate border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div class="px-6 pt-6 pb-2 flex items-center gap-3">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-indigo-600 text-white">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </span>
+        <div class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          {% trans "Boshlash" %} · <span x-text="step + 1"></span>/<span x-text="steps.length"></span>
+        </div>
+      </div>
+      <div class="px-6 py-4">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white" x-text="steps[step].title"></h3>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed" x-text="steps[step].body"></p>
+      </div>
+      <div class="px-6 pb-5 flex items-center justify-between gap-3 flex-wrap">
+        <button type="button" @click="dismiss()" class="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
+          {% trans "Yopish" %}
+        </button>
+        <div class="flex gap-2">
+          <button type="button" @click="step = Math.max(0, step - 1)"
+                  :disabled="step === 0"
+                  :class="step === 0 ? 'opacity-40 cursor-not-allowed' : ''"
+                  class="btn-ghost !text-xs !py-1.5 !px-3">
+            ← {% trans "Orqaga" %}
+          </button>
+          <button type="button" @click="next()" class="btn-primary !text-xs !py-1.5 !px-3">
+            <span x-text="step === steps.length - 1 ? '{% trans 'Tushundim!' %}' : '{% trans 'Keyingi' %}'"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function onboardingTour() {
+    return {
+      active: false,
+      step: 0,
+      steps: [
+        { title: "Xush kelibsiz! 👋", body: "Bu sizning analitika dashboard'ingiz. Bir necha qadamda asosiy joylarni ko'rsatib beraman." },
+        { title: "📊 KPI va grafiklar", body: "Yuqorida — postlar, obunachilar, engagement va sentiment. Pastida — vaqt bo'yicha faollik chartlari." },
+        { title: "🤖 Optimal Posting AI", body: "ML model sizning postlaringizdan o'rganib, qaysi vaqt va format eng yaxshi engagement berishini bashorat qiladi." },
+        { title: "💡 Sizga tavsiyalar", body: "Real ma'lumotdan kelib chiqib avtomatik 5 ta insight: eng yaxshi kun, top mavzu, sentiment trend va boshqalar." },
+        { title: "🔗 Akkauntlar", body: "Chap menyudan 'Akkauntlarim' — Telegram, YouTube, VK akkauntlaringizni real OAuth orqali ulang." },
+        { title: "🆘 Yordam kerak?", body: "Klaviaturada '?' bosing — to'liq yordam markazi ochiladi. Yoki sidebar'dan 'Yordam'." },
+      ],
+      maybeStart() {
+        try {
+          if (!localStorage.getItem('tour_seen')) {
+            setTimeout(() => { this.active = true; }, 1200);
+          }
+        } catch (_) {}
+      },
+      next() {
+        if (this.step < this.steps.length - 1) this.step++;
+        else this.dismiss();
+      },
+      dismiss() {
+        this.active = false;
+        try { localStorage.setItem('tour_seen', '1'); } catch (_) {}
+      },
+    };
+  }
+  </script>
+
   {# Demo-only banner — every connected account is mock-seeded #}
   {% if has_only_demo %}
     <div class="rounded-xl border border-amber-200 dark:border-amber-800/60 bg-amber-50/70 dark:bg-amber-950/30 px-4 py-3 sm:px-5 flex items-start sm:items-center gap-3 flex-wrap" data-reveal>

@@ -1,0 +1,82 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Raqobatchilar" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "Raqobatchilar" %}{% endblock %}
+
+{% block dash_content %}
+<div data-reveal>
+  <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{% trans "Raqobatchilarni kuzatish" %}</h1>
+  <p class="mt-1 text-slate-600 dark:text-slate-400">{% trans "Public kanallarni ulang va sizning akkauntingiz bilan obunachi soni bo'yicha solishtiring." %}</p>
+</div>
+
+<div class="card p-6" data-reveal>
+  <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Yangi raqobatchi qo'shish" %}</h3>
+  <form method="post" class="mt-4 grid grid-cols-1 sm:grid-cols-4 gap-3">
+    {% csrf_token %}
+    <select name="platform" class="field-input">
+      {% for code, label in platforms %}
+        <option value="{{ code }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+    <input type="text" name="handle" placeholder="@kanal_username" class="field-input" required>
+    <input type="text" name="note" placeholder="{% trans 'Eslatma (ixtiyoriy)' %}" class="field-input">
+    <button type="submit" class="btn-primary">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      {% trans "Qo'shish" %}
+    </button>
+  </form>
+  <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
+    {% trans "Telegram public kanallar avtomatik tortib olinadi (sizning Telegram session'ingiz orqali). YouTube uchun handle saqlanadi, statistika keyinroq qo'lda yangilanadi." %}
+  </p>
+</div>
+
+{% if competitors or own %}
+<div class="card overflow-hidden" data-reveal>
+  <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+    <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Solishtirma jadval" %}</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Sizning akkauntlaringiz va kuzatuvdagi raqobatchilar yonma-yon" %}</p>
+  </div>
+  <table class="w-full text-sm">
+    <thead class="bg-slate-50 dark:bg-slate-950/40 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+      <tr>
+        <th class="text-left px-6 py-3 font-semibold">{% trans "Akkaunt" %}</th>
+        <th class="text-left px-6 py-3 font-semibold">{% trans "Platforma" %}</th>
+        <th class="text-right px-6 py-3 font-semibold">{% trans "Obunachilar" %}</th>
+        <th class="text-left px-6 py-3 font-semibold">{% trans "Eslatma / sizniki" %}</th>
+        <th class="text-right px-6 py-3 font-semibold"></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+      {% for o in own %}
+        <tr class="bg-emerald-50/40 dark:bg-emerald-950/20">
+          <td class="px-6 py-3"><span class="inline-flex items-center gap-2"><span class="chip-brand text-[10px]">{% trans "Sizniki" %}</span><strong>@{{ o.handle }}</strong></span></td>
+          <td class="px-6 py-3 text-slate-600 dark:text-slate-300">{{ o.get_platform_display }}</td>
+          <td class="px-6 py-3 text-right tabular font-semibold text-slate-900 dark:text-white">{{ o.follower_count|default:0 }}</td>
+          <td class="px-6 py-3 text-xs text-slate-500 dark:text-slate-400">{{ o.display_name|default:o.handle }}</td>
+          <td class="px-6 py-3"></td>
+        </tr>
+      {% endfor %}
+      {% for c in competitors %}
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+          <td class="px-6 py-3"><strong>@{{ c.handle }}</strong></td>
+          <td class="px-6 py-3 text-slate-600 dark:text-slate-300">{{ c.get_platform_display }}</td>
+          <td class="px-6 py-3 text-right tabular text-slate-900 dark:text-white">{{ c.follower_count|default:0 }}</td>
+          <td class="px-6 py-3 text-xs text-slate-500 dark:text-slate-400">{{ c.note|default:c.display_name }}</td>
+          <td class="px-6 py-3 text-right">
+            <form method="post" action="{% url 'social:competitor_delete' c.pk %}" class="inline">
+              {% csrf_token %}
+              <button type="submit" class="text-xs text-rose-600 dark:text-rose-400 hover:underline">{% trans "O'chirish" %}</button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        {% if not own %}
+          <tr><td colspan="5" class="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400">{% trans "Hali raqobatchi qo'shilmagan." %}</td></tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}

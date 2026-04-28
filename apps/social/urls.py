@@ -20,5 +20,7 @@ urlpatterns = [
     path("<int:pk>/disconnect/",            views.account_disconnect,         name="disconnect"),
     path("<int:pk>/refresh/",               views.account_refresh,            name="refresh"),
     path("<int:pk>/share/",                 views.toggle_share_link,          name="toggle_share"),
+    path("competitors/",                    views.competitors_list,           name="competitors"),
+    path("competitors/<int:pk>/delete/",    views.competitor_delete,          name="competitor_delete"),
     path("share/<str:token>/",              views.public_share,               name="public_share"),
 ]

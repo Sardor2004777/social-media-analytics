@@ -124,6 +124,30 @@
           {% trans "Solishtirish" %}
         </a>
 
+        <a href="{% url 'social:competitors' %}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
+                  {% if active_nav == 'competitors' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300
+                  {% else %}text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+          <svg class="h-5 w-5 {% if active_nav != 'competitors' %}text-slate-400{% endif %}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          {% trans "Raqobatchilar" %}
+        </a>
+
+        <a href="{% url 'analytics:clusters' %}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
+                  {% if active_nav == 'clusters' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300
+                  {% else %}text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+          <svg class="h-5 w-5 {% if active_nav != 'clusters' %}text-slate-400{% endif %}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><line x1="6" y1="9" x2="11" y2="15"/><line x1="18" y1="9" x2="13" y2="15"/></svg>
+          {% trans "Klasterlar" %}
+        </a>
+
+        <a href="{% url 'analytics:correlation' %}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
+                  {% if active_nav == 'correlation' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300
+                  {% else %}text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+          <svg class="h-5 w-5 {% if active_nav != 'correlation' %}text-slate-400{% endif %}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/><circle cx="7" cy="17" r="1.5"/><circle cx="11" cy="14" r="1.5"/><circle cx="15" cy="9" r="1.5"/><circle cx="18" cy="6" r="1.5"/></svg>
+          {% trans "Korrelyatsiya" %}
+        </a>
+
         <a href="{% url 'analytics:top_posts' %}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
                   {% if active_nav == 'top_posts' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300

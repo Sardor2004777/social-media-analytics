@@ -76,6 +76,34 @@ class ConnectedAccount(TimestampedModel):
         return self.token_expires_at <= timezone.now() + timedelta(seconds=60)
 
 
+class Competitor(TimestampedModel):
+    """A public channel/profile the user wants to track without owning it.
+
+    Stores just the bare metadata + a periodically-updated follower count
+    snapshot — no full post sync. Drives the "Raqobatchilar" comparison
+    table on the dashboard, where the user sees their account next to
+    competitor accounts on the same axes (followers, post cadence).
+    """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="competitors",
+    )
+    platform = models.CharField(max_length=16, choices=Platform.choices, db_index=True)
+    handle = models.CharField(max_length=128, help_text=_("Public @username yoki kanal id"))
+    display_name = models.CharField(max_length=256, blank=True)
+    follower_count = models.PositiveIntegerField(default=0)
+    last_synced_at = models.DateTimeField(null=True, blank=True)
+    note = models.CharField(max_length=256, blank=True, help_text=_("Eslatma — nima uchun kuzatasiz"))
+
+    class Meta:
+        unique_together = [("user", "platform", "handle")]
+        ordering = ["-follower_count"]
+
+    def __str__(self) -> str:
+        return f"[{self.platform}] @{self.handle}"
+
+
 class FollowerSnapshot(TimestampedModel):
     """Daily snapshot of a ConnectedAccount.follower_count.
 
