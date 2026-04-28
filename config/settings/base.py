@@ -248,11 +248,31 @@ SIMPLE_JWT = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Social Analytics API",
-    "DESCRIPTION": "REST API for social media analytics platform",
-    "VERSION": "0.1.0",
+    "DESCRIPTION": (
+        "Ijtimoiy tarmoq analitikasi REST API. Telegram, YouTube, "
+        "VKontakte va Instagram (demo) akkauntlaridan yig'ilgan postlar, "
+        "kommentlar, sentiment natijalari va analitik metrikalar.\n\n"
+        "**Authentication:** JWT (HTTP Authorization: Bearer …) yoki Django session.\n\n"
+        "**Rate limits:** anon — 100/kun, user — 1000/kun.\n\n"
+        "**Pagination:** PageNumberPagination, sahifa hajmi 25.\n\n"
+        "**Filtering:** DjangoFilterBackend + ?ordering=, ?search="
+    ),
+    "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,
     "SCHEMA_PATH_PREFIX": r"/api/v[0-9]+/",
+    "TAGS": [
+        {"name": "accounts",  "description": "Foydalanuvchining ulangan ijtimoiy tarmoq akkauntlari"},
+        {"name": "posts",     "description": "Akkauntdan yig'ilgan postlar va metrikalari"},
+        {"name": "comments",  "description": "Postlarga yozilgan kommentlar va sentiment natijalari"},
+        {"name": "analytics", "description": "Hisobot va analitik agregatlar"},
+    ],
+    "CONTACT": {"name": "Social Analytics", "email": "support@social-analytics.app"},
+    "LICENSE": {"name": "MIT"},
+    "SERVERS": [
+        {"url": "https://social-media-analytics-9rre.onrender.com", "description": "Production"},
+        {"url": "http://localhost:8000",                            "description": "Local dev"},
+    ],
 }
 
 # ==============================================================================

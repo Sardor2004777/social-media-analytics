@@ -16,10 +16,13 @@ from datetime import timedelta
 from typing import Any
 
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.db.models import Avg, Count, F, Sum
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.views.decorators.cache import never_cache
+from django.views.decorators.vary import vary_on_cookie
 
 from apps.analytics.models import SentimentLabel, SentimentResult
 from apps.analytics.services.recommendations import build_recommendations
@@ -29,14 +32,25 @@ from apps.social.models import ConnectedAccount, FollowerSnapshot, Platform, Pos
 
 def _safe_best_post_recipe(user):
     """Wrap best_post_recipe so the dashboard never crashes if sklearn
-    blows up on weird data — log + return None and the template hides it."""
+    blows up on weird data — log + return None and the template hides it.
+
+    Cached per-user for 5 minutes — the recipe only changes when new posts
+    arrive, which happens at most every 6h via Celery Beat. The cached
+    result also avoids re-fitting the regression on every page load.
+    """
+    cache_key = f"best_recipe:{user.id}"
+    hit = cache.get(cache_key)
+    if hit is not None:
+        return hit if hit != "__none__" else None
     try:
         from apps.analytics.services.predict import best_post_recipe
-        return best_post_recipe(user)
+        result = best_post_recipe(user)
     except Exception:
         import logging
         logging.getLogger(__name__).exception("best_post_recipe failed")
-        return None
+        result = None
+    cache.set(cache_key, result if result is not None else "__none__", 300)
+    return result
 
 
 POST_TYPE_LABELS = {
