@@ -34,7 +34,8 @@ from telethon.errors import (
 )
 from telethon.sessions import StringSession
 from telethon.tl.functions.channels import GetFullChannelRequest
-from telethon.tl.types import Channel, Message
+from telethon.tl.functions.messages import GetFullChatRequest
+from telethon.tl.types import Channel, Chat, Message
 
 logger = logging.getLogger(__name__)
 
@@ -200,49 +201,81 @@ class TelegramCollector:
                     f"Telegram bu kanal/guruhni topa olmadi: {target}. "
                     f"Akkauntingiz hali a'zo bo'lmagan bo'lishi mumkin."
                 ) from e
-            if not isinstance(entity, Channel):
-                raise ValueError(
-                    f"{target} Telegram kanali emas "
-                    f"(turi: {type(entity).__name__})."
+            if isinstance(entity, Channel):
+                full = await client(GetFullChannelRequest(entity))
+                handle = entity.username or (str(target) if isinstance(target, str) else "")
+                return ChannelInfo(
+                    external_id=str(entity.id),
+                    handle=handle,
+                    display_name=entity.title or handle or str(entity.id),
+                    follower_count=int(full.full_chat.participants_count or 0),
                 )
-            full = await client(GetFullChannelRequest(entity))
-            handle = entity.username or (str(target) if isinstance(target, str) else "")
-            return ChannelInfo(
-                external_id=str(entity.id),
-                handle=handle,
-                display_name=entity.title or handle or str(entity.id),
-                follower_count=int(full.full_chat.participants_count or 0),
+            if isinstance(entity, Chat):
+                # Legacy chat — different RPC, no username, slightly different
+                # full-chat schema. participants_count lives directly on full_chat.
+                full = await client(GetFullChatRequest(entity.id))
+                participants = full.full_chat.participants
+                # Some versions expose ChatParticipants.participants list; fall
+                # back to len(...) if available, otherwise use the entity hint.
+                count = (
+                    len(participants.participants)
+                    if participants and getattr(participants, "participants", None)
+                    else int(getattr(entity, "participants_count", 0) or 0)
+                )
+                return ChannelInfo(
+                    external_id=str(entity.id),
+                    handle="",
+                    display_name=entity.title or str(entity.id),
+                    follower_count=count,
+                )
+            raise ValueError(
+                f"{target} Telegram kanali yoki guruhi emas "
+                f"(turi: {type(entity).__name__})."
             )
 
     async def list_user_dialogs(self) -> list["UserChannel"]:
-        """List every channel/group the *session-owner* user belongs to.
+        """List every channel + group + legacy chat the session-owner is in.
 
-        Used by the per-user phone-login flow's channel picker. Skips DMs
-        and bots — only broadcast channels and supergroups (megagroups) are
-        analytically meaningful.
+        Skips DMs and bots — anything else (broadcast channels, supergroups,
+        legacy Chat groups that haven't been upgraded) shows up in the picker.
         """
         out: list[UserChannel] = []
         async with self._authed_client() as client:
             async for dialog in client.iter_dialogs(archived=False):
                 ent = dialog.entity
-                if not isinstance(ent, Channel):
-                    continue  # users + small groups skipped
-                is_owner = bool(getattr(ent, "creator", False))
-                # admin_rights is a ChatAdminRights or None; anything truthy means
-                # the user has at least one admin permission on the channel.
-                is_admin = bool(getattr(ent, "admin_rights", None))
-                out.append(UserChannel(
-                    external_id    = str(ent.id),
-                    handle         = ent.username or "",
-                    display_name   = ent.title or "",
-                    is_broadcast   = bool(getattr(ent, "broadcast", False)),
-                    is_megagroup   = bool(getattr(ent, "megagroup", False)),
-                    is_owner       = is_owner,
-                    is_admin       = is_admin or is_owner,
-                    follower_count = int(getattr(ent, "participants_count", 0) or 0),
-                ))
-        # Owned channels first, then admin-only, then plain subscriptions.
-        # Within each group: broadcast before megagroup, then alphabetical.
+                if isinstance(ent, Channel):
+                    is_owner = bool(getattr(ent, "creator", False))
+                    is_admin = bool(getattr(ent, "admin_rights", None))
+                    out.append(UserChannel(
+                        external_id    = str(ent.id),
+                        handle         = ent.username or "",
+                        display_name   = ent.title or "",
+                        is_broadcast   = bool(getattr(ent, "broadcast", False)),
+                        is_megagroup   = bool(getattr(ent, "megagroup", False)),
+                        is_owner       = is_owner,
+                        is_admin       = is_admin or is_owner,
+                        follower_count = int(getattr(ent, "participants_count", 0) or 0),
+                    ))
+                elif isinstance(ent, Chat):
+                    # Legacy small groups (max ~200 members, no @username, no
+                    # admin_rights or creator flag on the entity itself).
+                    # Telegram doesn't expose ownership cheaply here, so we
+                    # mark them as non-admin and let the user pick anyway.
+                    if getattr(ent, "deactivated", False):
+                        continue
+                    out.append(UserChannel(
+                        external_id    = str(ent.id),
+                        handle         = "",
+                        display_name   = ent.title or "",
+                        is_broadcast   = False,
+                        is_megagroup   = True,           # treat as a group for filters
+                        is_owner       = False,
+                        is_admin       = False,
+                        follower_count = int(getattr(ent, "participants_count", 0) or 0),
+                    ))
+                # Users / Bots / unknown — skip.
+        # Owned/admin first, then plain subscriptions; broadcast before group;
+        # alphabetical within each tier.
         out.sort(key=lambda c: (
             0 if c.is_owner else (1 if c.is_admin else 2),
             not c.is_broadcast,
@@ -265,14 +298,18 @@ class TelegramCollector:
                     f"Telegram bu kanal/guruhni topa olmadi: {target}. "
                     f"Akkauntingiz hali a'zo bo'lmagan bo'lishi mumkin."
                 ) from e
-            if not isinstance(entity, Channel):
+            if not isinstance(entity, (Channel, Chat)):
                 raise ValueError(
-                    f"{target} Telegram kanali emas "
+                    f"{target} Telegram kanali yoki guruhi emas "
                     f"(turi: {type(entity).__name__})."
                 )
-            channel_handle = entity.username or (
-                str(target) if isinstance(target, str) else str(entity.id)
-            )
+            # Legacy chats have no username; build a usable URL fallback from id.
+            if isinstance(entity, Channel):
+                channel_handle = entity.username or (
+                    str(target) if isinstance(target, str) else str(entity.id)
+                )
+            else:
+                channel_handle = str(entity.id)
             async for msg in client.iter_messages(entity, limit=limit):
                 if not isinstance(msg, Message):
                     continue
