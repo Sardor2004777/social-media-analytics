@@ -38,8 +38,9 @@
       {% if account.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
       {% elif account.platform == 'telegram' %}bg-sky-500
       {% elif account.platform == 'youtube' %}bg-red-500
+      {% elif account.platform == 'vk' %}bg-gradient-to-br from-blue-500 to-indigo-600
       {% else %}bg-slate-900{% endif %}">
-      {% if account.platform == 'instagram' %}IG{% elif account.platform == 'telegram' %}TG{% elif account.platform == 'youtube' %}YT{% else %}X{% endif %}
+      {% if account.platform == 'instagram' %}IG{% elif account.platform == 'telegram' %}TG{% elif account.platform == 'youtube' %}YT{% elif account.platform == 'vk' %}VK{% else %}X{% endif %}
     </span>
     <div class="min-w-0">
       <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white truncate">@{{ account.handle }}</h1>

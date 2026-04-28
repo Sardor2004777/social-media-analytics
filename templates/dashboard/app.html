@@ -209,8 +209,9 @@
               {% if p.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
               {% elif p.platform == 'telegram' %}bg-sky-500
               {% elif p.platform == 'youtube' %}bg-red-500
+              {% elif p.platform == 'vk' %}bg-gradient-to-br from-blue-500 to-indigo-600
               {% else %}bg-slate-900{% endif %}">
-              {% if p.platform == 'instagram' %}IG{% elif p.platform == 'telegram' %}TG{% elif p.platform == 'youtube' %}YT{% else %}X{% endif %}
+              {% if p.platform == 'instagram' %}IG{% elif p.platform == 'telegram' %}TG{% elif p.platform == 'youtube' %}YT{% elif p.platform == 'vk' %}VK{% else %}X{% endif %}
             </span>
             <div class="flex-1 min-w-0">
               <div class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ p.title }}</div>
