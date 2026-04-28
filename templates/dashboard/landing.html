@@ -49,7 +49,7 @@
 
       <p data-reveal data-reveal-delay="200"
          class="mt-6 sm:mt-8 max-w-2xl mx-auto text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-        {% trans "Instagram, Telegram, YouTube va X ma'lumotlarini bir joyda. AI sentiment tahlil, real-time grafiklar, avtomatik hisobotlar — bir necha bosishda." %}
+        {% trans "Telegram, YouTube va VK ma'lumotlaringizni real ulang; Instagram va X demo rejimda ko'ring. AI sentiment tahlil, real-time grafiklar, avtomatik tavsiyalar — bir necha bosishda." %}
       </p>
 
       <div data-reveal data-reveal-delay="320"
@@ -154,19 +154,23 @@
         {% trans "Qo'llab-quvvatlanadigan platformalar" %}
       </div>
       <div class="mt-6 flex items-center justify-center gap-6 sm:gap-12 flex-wrap opacity-80">
-        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-          <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-fuchsia-500 to-orange-400 text-white text-xs font-bold">IG</span>
-          <span class="text-sm font-semibold">Instagram</span>
-        </div>
-        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400" title="{% trans 'Real OAuth' %}">
           <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-sky-500 text-white text-xs font-bold">TG</span>
           <span class="text-sm font-semibold">Telegram</span>
         </div>
-        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400" title="{% trans 'Real OAuth' %}">
           <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-red-500 text-white text-xs font-bold">YT</span>
           <span class="text-sm font-semibold">YouTube</span>
         </div>
-        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+        <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400" title="{% trans 'Real OAuth' %}">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 text-white text-xs font-bold">VK</span>
+          <span class="text-sm font-semibold">VKontakte</span>
+        </div>
+        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-500 opacity-60" title="{% trans 'Demo rejim' %}">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-fuchsia-500 to-orange-400 text-white text-xs font-bold">IG</span>
+          <span class="text-sm font-semibold">Instagram</span>
+        </div>
+        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-500 opacity-60" title="{% trans 'Demo rejim' %}">
           <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-white text-xs font-bold">X</span>
           <span class="text-sm font-semibold">X</span>
         </div>
@@ -542,7 +546,7 @@
             </span>
           </button>
           <div x-show="open" x-collapse x-cloak class="pb-5 text-slate-600 dark:text-slate-400 leading-relaxed">
-            {% trans "Ayni paytda: Instagram (Graph API), Telegram (Bot API), YouTube (Data API v3), X (v2 API). Keyingi bosqichda TikTok va LinkedIn rejalashtirilgan." %}
+            {% trans "Ayni paytda real ulashda: Telegram (MTProto), YouTube (Data API v3), VKontakte (API v5). Demo rejimda: Instagram (Business akkaunt + Meta App Review talab qiladi), X (Basic tariff $100/oy)." %}
           </div>
         </div>
 
