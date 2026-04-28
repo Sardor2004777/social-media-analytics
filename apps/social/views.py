@@ -578,6 +578,7 @@ _TG_SESSION_KEY     = "tg_auth_session"        # in-progress Telethon session st
 _TG_PHONE_KEY       = "tg_auth_phone"          # +998...
 _TG_PHONE_HASH_KEY  = "tg_auth_phone_hash"     # phone_code_hash from send_code_request
 _TG_AUTHED_KEY      = "tg_authed_session"      # post-login session (used by picker)
+_TG_DIALOGS_KEY     = "tg_dialogs_session"     # post-iter_dialogs session (access-hash cache)
 
 
 class _PhoneForm(forms.Form):
@@ -750,8 +751,11 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
         # Pre-flight: attempt a single fetch_channel_info before persisting
         # anything. This catches "you're a member but Telegram won't let the
         # API read this channel" cases up-front, instead of leaving the user
-        # staring at an empty dashboard later.
-        collector = TelegramCollector(session_string=session_string)
+        # staring at an empty dashboard later. Use the access-hash-warm
+        # session string the picker GET stashed; falls back to the original
+        # post-login session if the user came straight to /channels/.
+        warm_session = request.session.get(_TG_DIALOGS_KEY) or session_string
+        collector = TelegramCollector(session_string=warm_session)
         probe_target = handle or external_id
         try:
             info = run_sync(collector.fetch_channel_info(probe_target))
@@ -775,13 +779,17 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
                 "handle":         info.handle or title or info.external_id,
                 "display_name":   info.display_name or title,
                 "follower_count": info.follower_count or followers,
-                "access_token":   session_string,   # encrypted by EncryptedTextField
+                # Persist the warm session — its access-hash cache lets the
+                # Celery sync task resolve the channel by id on later runs
+                # without re-listing every dialog.
+                "access_token":   warm_session,     # encrypted by EncryptedTextField
                 "is_demo":        False,
             },
         )
         # Clear the bootstrap session — the persisted ConnectedAccount.access_token
         # is the only copy we need from now on.
-        request.session.pop(_TG_AUTHED_KEY, None)
+        for k in (_TG_AUTHED_KEY, _TG_DIALOGS_KEY):
+            request.session.pop(k, None)
 
         # post_limit=0 = "every post" sentinel; matches the connect-form path.
         sync_telegram_account.delay(account.id, post_limit=0 if fetch_all else 100)
@@ -794,13 +802,17 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
         return redirect("social:accounts")
 
     try:
-        channels = run_sync(
+        channels, refreshed_session = run_sync(
             TelegramCollector(session_string=session_string).list_user_dialogs()
         )
     except Exception as e:
         logger.warning("Telegram list_user_dialogs failed: %s", e)
         messages.error(request, f"Kanallar olishda xato: {e}")
         return redirect("social:telegram_connect_start")
+
+    # Stash the access-hash-warm session for the POST step so private and
+    # numeric-id channels can be resolved without a second iter_dialogs.
+    request.session[_TG_DIALOGS_KEY] = refreshed_session
 
     broadcast_count = sum(1 for c in channels if c.is_broadcast)
     owned_count = sum(1 for c in channels if c.is_admin)

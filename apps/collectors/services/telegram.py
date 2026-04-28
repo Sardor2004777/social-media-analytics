@@ -233,8 +233,14 @@ class TelegramCollector:
                 f"(turi: {type(entity).__name__})."
             )
 
-    async def list_user_dialogs(self) -> list["UserChannel"]:
+    async def list_user_dialogs(self) -> tuple[list["UserChannel"], str]:
         """List every channel + group + legacy chat the session-owner is in.
+
+        Returns ``(channels, refreshed_session_string)``. The refreshed
+        session contains the access-hash cache that ``iter_dialogs``
+        populates — the picker view persists it back so the subsequent
+        POST (which calls ``fetch_channel_info`` for the picked entity)
+        can resolve private/numeric-id channels without a second fetch.
 
         Skips DMs and bots — anything else (broadcast channels, supergroups,
         legacy Chat groups that haven't been upgraded) shows up in the picker.
@@ -274,6 +280,7 @@ class TelegramCollector:
                         follower_count = int(getattr(ent, "participants_count", 0) or 0),
                     ))
                 # Users / Bots / unknown — skip.
+            refreshed_session = client.session.save()
         # Owned/admin first, then plain subscriptions; broadcast before group;
         # alphabetical within each tier.
         out.sort(key=lambda c: (
@@ -281,7 +288,7 @@ class TelegramCollector:
             not c.is_broadcast,
             c.display_name.lower(),
         ))
-        return out
+        return out, refreshed_session
 
     async def fetch_recent_messages(
         self, username: str, limit: int | None = 50
