@@ -27,6 +27,18 @@ from apps.collectors.models import Comment
 from apps.social.models import ConnectedAccount, Platform, Post, PostType
 
 
+def _safe_best_post_recipe(user):
+    """Wrap best_post_recipe so the dashboard never crashes if sklearn
+    blows up on weird data — log + return None and the template hides it."""
+    try:
+        from apps.analytics.services.predict import best_post_recipe
+        return best_post_recipe(user)
+    except Exception:
+        import logging
+        logging.getLogger(__name__).exception("best_post_recipe failed")
+        return None
+
+
 POST_TYPE_LABELS = {
     PostType.PHOTO:        "Rasmlar",
     PostType.VIDEO:        "Videolar",
@@ -192,6 +204,28 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
     # ---------------- Recommendations ----------------
     recommendations = build_recommendations(user)
 
+    # ---------------- Engagement quality breakdown ----------------
+    # Per-post averages over the trailing window — surfaces "how much of my
+    # audience engages, not just how many of them I have".
+    quality_agg = user_posts.aggregate(
+        v=Sum("views"), l=Sum("likes"),
+        c=Sum("comments_count"), s=Sum("shares"),
+    )
+    qv = int(quality_agg["v"] or 0)
+    ql = int(quality_agg["l"] or 0)
+    qc = int(quality_agg["c"] or 0)
+    qs = int(quality_agg["s"] or 0)
+    def _rate(n, d): return round(n * 100 / d, 2) if d else 0.0
+    quality = {
+        "like_rate":       _rate(ql, qv),    # %  Likes per view
+        "discussion_rate": _rate(qc, qv),    # %  Comments per view
+        "virality_rate":   _rate(qs, qv),    # %  Shares per view
+        "has_views":       qv > 0,
+    }
+
+    # ---------------- Optimal Posting AI (heatmap + ML grid search) -----------
+    best_recipe = _safe_best_post_recipe(user)
+
     # First-time UX: when every connected account is demo-seeded, surface a
     # quiet banner at the top of the dashboard pointing the user at /social/
     # so they can wire up a real Telegram / YouTube / VK account.
@@ -231,6 +265,8 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         "timeline": timeline,
         "recommendations": recommendations,
         "has_only_demo":   has_only_demo,
+        "quality":         quality,
+        "best_recipe":     best_recipe,
         "connected_accounts": accounts,
         "range_days":    days_window,
         "range_options": [7, 14, 30, 90],

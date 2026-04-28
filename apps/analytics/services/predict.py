@@ -142,3 +142,62 @@ def predict_for_inputs(
         sample_size=len(posts),
         feature_weights=weights,
     )
+
+
+def best_post_recipe(user) -> dict | None:
+    """Combine the heatmap's best (weekday, hour) with model search over the
+    other features to produce a single concrete "post like this" suggestion.
+
+    Picks the (caption_len, hashtag_count, has_media) combo that maximises
+    predicted likes among a small grid — the result is what the dashboard's
+    "Optimal Posting AI" card surfaces as a one-line recipe.
+    """
+    try:
+        model, X, y_log, posts = _train(user)
+    except NotEnoughData:
+        return None
+    # Pull best weekday × hour from the same posts (avg engagement_rate).
+    from collections import defaultdict
+    eng_by = defaultdict(list)
+    for p in posts:
+        eng_by[(p.published_at.weekday(), p.published_at.hour)].append(
+            p.engagement_rate or 0
+        )
+    if not eng_by:
+        return None
+    best_slot = max(eng_by.items(), key=lambda kv: sum(kv[1]) / len(kv[1]))
+    wd, hr = best_slot[0]
+
+    # Grid-search remaining 3 features. Caption length grid centres around
+    # bands the post-length analyzer already knows are common; hashtag grid
+    # 0..6 covers the realistic range; media is a binary toggle.
+    grid_caption = [40, 80, 120, 180, 280, 400]
+    grid_hashtags = [0, 2, 4, 6]
+    grid_media = [0, 1]
+
+    best = None
+    for cl in grid_caption:
+        for hc in grid_hashtags:
+            for hm in grid_media:
+                feat = np.array([[wd, hr, cl, hc, hm]], dtype=float)
+                pred = float(np.expm1(model.predict(feat)[0]))
+                if best is None or pred > best["pred"]:
+                    best = {
+                        "pred":          pred,
+                        "weekday":       wd,
+                        "hour":          hr,
+                        "caption_len":   cl,
+                        "hashtag_count": hc,
+                        "has_media":     bool(hm),
+                    }
+    weekday_names_uz = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba",
+                        "Juma", "Shanba", "Yakshanba"]
+    return {
+        "weekday":       weekday_names_uz[best["weekday"]],
+        "weekday_idx":   best["weekday"],
+        "hour":          best["hour"],
+        "caption_len":   best["caption_len"],
+        "hashtag_count": best["hashtag_count"],
+        "has_media":     best["has_media"],
+        "expected_likes": max(0, int(best["pred"])),
+    }
