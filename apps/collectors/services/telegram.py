@@ -75,6 +75,8 @@ class UserChannel:
     display_name: str
     is_broadcast: bool    # one-way channel (admin posts, others read)
     is_megagroup: bool    # supergroup (chat with members)
+    is_owner: bool        # logged-in user created this channel/group
+    is_admin: bool        # logged-in user has any admin rights here
     follower_count: int
 
 
@@ -186,16 +188,27 @@ class TelegramCollector:
                 ent = dialog.entity
                 if not isinstance(ent, Channel):
                     continue  # users + small groups skipped
+                is_owner = bool(getattr(ent, "creator", False))
+                # admin_rights is a ChatAdminRights or None; anything truthy means
+                # the user has at least one admin permission on the channel.
+                is_admin = bool(getattr(ent, "admin_rights", None))
                 out.append(UserChannel(
                     external_id    = str(ent.id),
                     handle         = ent.username or "",
                     display_name   = ent.title or "",
                     is_broadcast   = bool(getattr(ent, "broadcast", False)),
                     is_megagroup   = bool(getattr(ent, "megagroup", False)),
+                    is_owner       = is_owner,
+                    is_admin       = is_admin or is_owner,
                     follower_count = int(getattr(ent, "participants_count", 0) or 0),
                 ))
-        # Broadcast channels first (more analytics-worthy), then megagroups.
-        out.sort(key=lambda c: (not c.is_broadcast, c.display_name.lower()))
+        # Owned channels first, then admin-only, then plain subscriptions.
+        # Within each group: broadcast before megagroup, then alphabetical.
+        out.sort(key=lambda c: (
+            0 if c.is_owner else (1 if c.is_admin else 2),
+            not c.is_broadcast,
+            c.display_name.lower(),
+        ))
         return out
 
     async def fetch_recent_messages(

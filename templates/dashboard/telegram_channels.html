@@ -12,15 +12,17 @@
 <div class="max-w-3xl mx-auto space-y-6"
      x-data="{
        picked: null,
-       filter: 'broadcast',
+       filter: 'owned',
        q: '',
        broadcastCount: {{ broadcast_count }},
        megagroupCount: {{ megagroup_count }},
+       ownedCount: {{ owned_count }},
        match(el) {
-         if (this.filter !== 'all' && el.dataset.type !== this.filter) return false;
+         if (this.filter === 'owned'     && el.dataset.owner !== '1') return false;
+         if (this.filter === 'broadcast' && el.dataset.type !== 'broadcast') return false;
+         if (this.filter === 'megagroup' && el.dataset.type !== 'megagroup') return false;
          if (!this.q) return true;
-         const needle = this.q.toLowerCase();
-         return el.dataset.search.includes(needle);
+         return el.dataset.search.includes(this.q.toLowerCase());
        }
      }">
 
@@ -45,6 +47,11 @@
 
       <div class="px-5 pt-5 pb-3 flex items-center gap-3 flex-wrap border-b border-slate-200 dark:border-slate-800">
         <div class="inline-flex rounded-lg bg-slate-100 dark:bg-slate-800 p-1 text-xs font-medium">
+          <button type="button" @click="filter='owned'"
+                  :class="filter==='owned' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'"
+                  class="px-3 py-1.5 rounded-md transition">
+            {% trans "Mening kanallarim" %} <span x-text="ownedCount" class="ml-1 opacity-70"></span>
+          </button>
           <button type="button" @click="filter='broadcast'"
                   :class="filter==='broadcast' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'"
                   class="px-3 py-1.5 rounded-md transition">
@@ -74,6 +81,7 @@
         {% for c in channels %}
           <label class="flex items-center gap-3 px-5 py-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/40 transition"
                  data-type="{% if c.is_broadcast %}broadcast{% else %}megagroup{% endif %}"
+                 data-owner="{% if c.is_admin %}1{% else %}0{% endif %}"
                  data-search="{{ c.display_name|lower }} {{ c.handle|lower }}"
                  x-show="match($el)"
                  :class="picked?.id === '{{ c.external_id }}' ? 'bg-brand-50 dark:bg-brand-900/20' : ''">
@@ -90,7 +98,14 @@
               {{ c.display_name|slice:":1"|upper }}
             </span>
             <div class="flex-1 min-w-0">
-              <div class="font-medium text-sm text-slate-900 dark:text-white truncate">{{ c.display_name }}</div>
+              <div class="font-medium text-sm text-slate-900 dark:text-white truncate flex items-center gap-2">
+                <span class="truncate">{{ c.display_name }}</span>
+                {% if c.is_owner %}
+                  <span class="chip-brand text-[10px] shrink-0">{% trans "Egasi" %}</span>
+                {% elif c.is_admin %}
+                  <span class="chip text-[10px] shrink-0">{% trans "Admin" %}</span>
+                {% endif %}
+              </div>
               <div class="text-xs text-slate-500 dark:text-slate-400 truncate">
                 {% if c.handle %}@{{ c.handle }} · {% endif %}{{ c.follower_count|default:0 }} {% if c.is_broadcast %}{% trans "obunachi" %}{% else %}{% trans "a'zo" %}{% endif %}
               </div>

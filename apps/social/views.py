@@ -783,11 +783,13 @@ def telegram_channels_pick(request: HttpRequest) -> HttpResponse:
         return redirect("social:telegram_connect_start")
 
     broadcast_count = sum(1 for c in channels if c.is_broadcast)
+    owned_count = sum(1 for c in channels if c.is_admin)
     return render(request, "dashboard/telegram_channels.html", {
         "active_nav":      "accounts",
         "channels":        channels,
         "broadcast_count": broadcast_count,
         "megagroup_count": len(channels) - broadcast_count,
+        "owned_count":     owned_count,
     })
 
 
