@@ -53,11 +53,6 @@ def sync_telegram_account(self, account_id: int, post_limit: int = 50) -> dict:
     user_session = account.access_token or None
     collector = TelegramCollector(session_string=user_session)
 
-    # When the user logged in via phone, the picker stored a numeric Telegram
-    # channel id in external_id — Telethon resolves that fine. The legacy
-    # path stored an @handle there, also fine via get_entity.
-    handle_or_id = account.handle or account.external_id
-
     # Recover entity_type + access_hash that the picker stuffed into scopes:
     # "tg:<channel|chat>:<access_hash>". Falls back to ("channel", 0) for
     # legacy rows from the @handle-only flow.
@@ -70,6 +65,19 @@ def sync_telegram_account(self, account_id: int, post_limit: int = 50) -> dict:
                 access_hash = int(parts[2] or 0)
             except ValueError:
                 access_hash = 0
+
+    # Pick the resolution target:
+    # * Picker-flow rows know their entity_type — use the numeric external_id
+    #   so InputPeer construction in _resolve_entity actually fires. The
+    #   ``handle`` column on these rows can be a human title (e.g. "Shaxsiy
+    #   music") rather than a Telegram @username, which would otherwise be
+    #   misread as a username and fail with "Cannot find any entity".
+    # * Legacy rows (no scopes prefix) keep the old behaviour — try the
+    #   @handle first, fall back to external_id.
+    if account.scopes and account.scopes.startswith("tg:"):
+        handle_or_id = account.external_id
+    else:
+        handle_or_id = account.handle or account.external_id
 
     info = run_sync(collector.fetch_channel_info(
         handle_or_id, entity_type=entity_type, access_hash=access_hash,
