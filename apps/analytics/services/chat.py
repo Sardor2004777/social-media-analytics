@@ -275,3 +275,68 @@ def generate_weekly_digest(user) -> ChatResponse:
         user_msg="Write the weekly digest now.",
         max_tokens=max_tokens,
     )
+
+
+POST_GEN_PROMPT = """You are a social-media copywriter. Below are the user's
+TOP-performing posts (most likes / engagement). Generate THREE NEW post
+caption drafts that match their style — same tone, length range, emoji
+usage, hashtag pattern. Each draft should feel like it could have been
+written by them.
+
+Output strictly this format (no extra commentary, no JSON):
+
+---
+1. <first caption>
+
+2. <second caption>
+
+3. <third caption>
+---
+
+Rules:
+- Match the dominant language (Uzbek / Russian / English) of the top posts.
+- Keep length similar to their average top-post length.
+- Use 1-3 hashtags max if their top posts use hashtags; otherwise none.
+- Don't copy phrases verbatim — generate fresh variations.
+- Topic: keep it broadly aligned (e.g. if they post motivation, suggest motivation).
+"""
+
+
+def _top_posts_context(user, limit: int = 5) -> str:
+    """Build a compact prompt fragment listing the user's top posts.
+
+    Used by the post-draft generator. Keeps captions truncated to 220 chars
+    each so we don't burn tokens on long posts.
+    """
+    posts = (
+        Post.objects
+        .filter(account__user=user)
+        .order_by("-likes")[:limit]
+    )
+    if not posts:
+        return "The user has no posts yet — generate generic but high-quality drafts."
+
+    lines = ["## Top posts (by likes)", ""]
+    for i, p in enumerate(posts, 1):
+        caption = (p.caption or "—").strip().replace("\n", " ")[:220]
+        lines.append(
+            f"{i}. [{p.account.get_platform_display()} @{p.account.handle}] "
+            f"likes={p.likes} views={p.views} | {caption}"
+        )
+    return "\n".join(lines)
+
+
+def generate_post_drafts(user) -> ChatResponse:
+    """Generate 3 new post-caption drafts in the user's style.
+
+    Reads their top 5 posts as a style reference and asks the AI to produce
+    three fresh captions that match. Raises :class:`ChatNotConfigured` same
+    as :func:`ask`.
+    """
+    max_tokens = int(getattr(settings, "OPENAI_POSTGEN_MAX_TOKENS", 600))
+    context = _top_posts_context(user)
+    return _chat_completion(
+        system=POST_GEN_PROMPT + "\n" + context,
+        user_msg="Generate the three drafts now.",
+        max_tokens=max_tokens,
+    )

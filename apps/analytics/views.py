@@ -24,14 +24,17 @@ from apps.core.ratelimit import rate_limit
 from apps.social.models import ConnectedAccount, Platform, Post, PostType
 
 from .models import SentimentLabel, SentimentResult
+from .services.best_time import compute_heatmap, weekday_label
 from .services.chat import (
     ChatNotConfigured,
     ask as chat_ask,
+    generate_post_drafts,
     generate_weekly_digest,
     is_configured as chat_is_configured,
     translate_text,
 )
 from .services.clustering import NotEnoughPosts, cluster_posts
+from .services.hashtags import top_hashtags
 from .services.predict import NotEnoughData, predict_for_inputs
 from .services.wordcloud import WordcloudEntry, top_words
 
@@ -766,6 +769,141 @@ def analytics_top_posts(request: HttpRequest) -> HttpResponse:
         "type_options":     PostType.choices,
     }
     return render(request, "dashboard/top_posts.html", ctx)
+
+
+@login_required
+@require_http_methods(["GET"])
+def hashtags_page(request: HttpRequest) -> HttpResponse:
+    """Top hashtags table — which tags drive the highest avg engagement.
+
+    Uses :func:`apps.analytics.services.hashtags.top_hashtags` over a
+    90-day window. Single-post tags are filtered out by the service so
+    results aren't dominated by one-off lucky tags.
+    """
+    stats = top_hashtags(request.user, days=90, limit=20)
+
+    rendered = [
+        {
+            "tag":            s.tag,
+            "posts":          s.posts,
+            "total_likes":    s.total_likes,
+            "total_views":    s.total_views,
+            "eng_pct":        s.avg_engagement * 100,
+        }
+        for s in stats
+    ]
+    # Compute relative bar width (max engagement = 100% of bar).
+    max_eng = max((s["eng_pct"] for s in rendered), default=0.0)
+    for s in rendered:
+        s["bar_pct"] = (s["eng_pct"] / max_eng * 100) if max_eng > 0 else 0
+
+    return render(request, "dashboard/hashtags.html", {
+        "active_nav": "hashtags",
+        "stats":      rendered,
+    })
+
+
+@login_required
+@require_http_methods(["GET"])
+def best_time_page(request: HttpRequest) -> HttpResponse:
+    """7×24 weekday/hour heatmap of average engagement over the past 90 days.
+
+    Reads from :func:`apps.analytics.services.best_time.compute_heatmap`
+    and renders both the grid and a "top 3 slots" call-out. Empty state
+    if the user has no posts.
+    """
+    cells, top_slots = compute_heatmap(request.user, days=90)
+    has_posts = any(c.posts > 0 for c in cells)
+
+    # Flatten to a list of dicts the template can iterate (weekday-rows,
+    # hour-columns) and a max-engagement value for color scaling.
+    grid: list[list[dict]] = []
+    max_eng = max((c.avg_engagement for c in cells if c.posts > 0), default=0.0)
+    by_key = {(c.weekday, c.hour): c for c in cells}
+    for wd in range(1, 8):
+        row = []
+        for hr in range(24):
+            c = by_key[(wd, hr)]
+            intensity = (c.avg_engagement / max_eng) if max_eng > 0 else 0.0
+            row.append({
+                "weekday": wd,
+                "hour":    hr,
+                "posts":   c.posts,
+                "eng_pct": c.avg_engagement * 100,
+                "intensity": intensity,
+            })
+        grid.append({"label": weekday_label(wd), "cells": row})
+
+    top_rendered = [
+        {
+            "weekday_label": weekday_label(s.weekday),
+            "hour_label":    f"{s.hour:02d}:00",
+            "eng_pct":       s.avg_engagement * 100,
+            "posts":         s.posts,
+        }
+        for s in top_slots
+    ]
+
+    return render(request, "dashboard/best_time.html", {
+        "active_nav": "best_time",
+        "has_posts":  has_posts,
+        "grid":       grid,
+        "top_slots":  top_rendered,
+        "hours":      list(range(24)),
+    })
+
+
+@login_required
+@rate_limit(key="post_gen", rate="10/h", scope="user", methods=("POST",))
+@require_http_methods(["GET", "POST"])
+def ai_post_generator(request: HttpRequest) -> HttpResponse:
+    """Generate 3 new post-caption drafts modelled on the user's top posts.
+
+    GET renders the empty form. POST runs the AI service and renders the
+    drafts inline. Rate-limited (10/h/user) — token cost is higher than a
+    chat reply because the prompt embeds top-post examples.
+    """
+    drafts: list[str] | None = None
+    drafts_model: str = ""
+    error: str | None = None
+
+    if request.method == "POST":
+        if not chat_is_configured():
+            error = "AI hali sozlanmagan."
+        elif not Post.objects.filter(account__user=request.user).exists():
+            error = "Avval kamida bitta postingiz bo'lishi kerak."
+        else:
+            try:
+                resp = generate_post_drafts(request.user)
+                drafts_model = resp.model
+                drafts = _split_drafts(resp.answer)
+            except ChatNotConfigured as e:
+                error = str(e)
+            except Exception:
+                logger.exception("Post-draft generation failed for user %s", request.user.id)
+                error = "Texnik xato. Keyinroq urinib ko'ring."
+
+    return render(request, "dashboard/post_generator.html", {
+        "active_nav":   "post_generator",
+        "configured":   chat_is_configured(),
+        "drafts":       drafts,
+        "drafts_model": drafts_model,
+        "error":        error,
+    })
+
+
+def _split_drafts(answer: str) -> list[str]:
+    """Parse the AI's three-draft output into a clean list.
+
+    The prompt asks for ``1. ... 2. ... 3. ...`` separated by blank lines.
+    This splits on the leading ``N.`` markers, strips, and drops empties.
+    Falls back to a one-item list if the format isn't recognised so the
+    user still sees *something*.
+    """
+    import re
+    parts = re.split(r"^\s*\d+\.\s+", answer, flags=re.MULTILINE)
+    cleaned = [p.strip().strip("-").strip() for p in parts if p.strip()]
+    return cleaned[:3] if cleaned else [answer.strip()]
 
 
 @login_required
