@@ -188,11 +188,58 @@ def detect_anomalies_for_account(
             if was_created:
                 created.append(alert.id)
 
+    # Best-effort email notification — uses the Django email backend (console
+    # in dev, SMTP in prod). Wrapped in try/except so a misconfigured backend
+    # never breaks anomaly detection itself.
+    if created:
+        try:
+            _send_alert_email(account, created)
+        except Exception:
+            logger.warning("alert email failed for account %s", account_id, exc_info=True)
+
     return {
         "account_id": account_id,
         "detected_for": today.isoformat(),
         "new_alert_ids": created,
     }
+
+
+def _send_alert_email(account, new_alert_ids: list[int]) -> None:
+    """Send the account owner one digest email per detection run.
+
+    Combined into a single email per run so a noisy day with multiple
+    flagged metrics doesn't spam the inbox.
+    """
+    from django.conf import settings as dj_settings
+    from django.core.mail import send_mail
+
+    user = account.user
+    if not user.email:
+        return
+    rows = Alert.objects.filter(id__in=new_alert_ids).order_by("-severity", "metric")
+    if not rows:
+        return
+
+    lines = [
+        f"Hi {user.first_name or user.email},",
+        "",
+        f"@{account.handle} ({account.get_platform_display()}) akkauntingiz uchun yangi anomaliyalar aniqlandi:",
+        "",
+    ]
+    for r in rows:
+        lines.append(f"  • [{r.severity.upper()}] {r.message}")
+    lines.append("")
+    lines.append("To'liq ko'rish: https://social-analytics.onrender.com/analytics/alerts/")
+    lines.append("")
+    lines.append("— Social Analytics")
+
+    send_mail(
+        subject=f"[Social Analytics] {len(rows)} ta yangi anomaliya — @{account.handle}",
+        message="\n".join(lines),
+        from_email=getattr(dj_settings, "DEFAULT_FROM_EMAIL", "no-reply@example.com"),
+        recipient_list=[user.email],
+        fail_silently=True,
+    )
 
 
 @shared_task(

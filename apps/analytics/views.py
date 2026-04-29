@@ -20,6 +20,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 
 from apps.collectors.models import Comment
+from apps.core.models import SavedView, log_activity
 from apps.core.ratelimit import rate_limit
 from apps.social.models import ConnectedAccount, Platform, Post, PostType
 
@@ -773,6 +774,101 @@ def analytics_top_posts(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
+@require_http_methods(["GET", "POST", "DELETE"])
+def saved_views_api(request: HttpRequest) -> JsonResponse:
+    """CRUD endpoint for SavedView rows on a given ``page``.
+
+    GET    ?page=top_posts       → list views for that page
+    POST   page=, name=, query=  → create / upsert
+    DELETE ?id=<pk>              → remove a view (must belong to user)
+    """
+    if request.method == "GET":
+        page = (request.GET.get("page") or "").strip()
+        if not page:
+            return JsonResponse({"views": []})
+        rows = SavedView.objects.filter(user=request.user, page=page).order_by("-created_at")
+        return JsonResponse({
+            "views": [
+                {"id": v.id, "name": v.name, "query": v.query}
+                for v in rows
+            ],
+        })
+
+    if request.method == "DELETE":
+        try:
+            pk = int(request.GET.get("id") or 0)
+        except (ValueError, TypeError):
+            return JsonResponse({"error": "Invalid id"}, status=400)
+        SavedView.objects.filter(user=request.user, pk=pk).delete()
+        return JsonResponse({"ok": True})
+
+    # POST = upsert
+    page  = (request.POST.get("page")  or "").strip()
+    name  = (request.POST.get("name")  or "").strip()[:80]
+    query = (request.POST.get("query") or "").strip()[:600]
+    if not page or not name:
+        return JsonResponse({"error": "page va name talab qilinadi"}, status=400)
+    obj, created = SavedView.objects.update_or_create(
+        user=request.user, page=page, name=name,
+        defaults={"query": query},
+    )
+    return JsonResponse({
+        "view": {"id": obj.id, "name": obj.name, "query": obj.query},
+        "created": created,
+    })
+
+
+@login_required
+@rate_limit(key="ai_hashtag", rate="10/h", scope="user", methods=("POST",))
+@require_http_methods(["POST"])
+def ai_hashtag_suggest(request: HttpRequest) -> JsonResponse:
+    """AI: suggest an optimal hashtag combination for the user's next post.
+
+    Reads the same top-hashtags-by-engagement table the /hashtags/ page
+    shows, plus the top 3 posts captions, and asks the AI for a 5-7 tag
+    combo that's likely to perform well. Returns ``{tags: [...]}`` so the
+    front-end can render a copy-friendly list.
+    """
+    if not chat_is_configured():
+        return JsonResponse({"error": "AI hali sozlanmagan."}, status=503)
+
+    stats = top_hashtags(request.user, days=90, limit=15)
+    if not stats:
+        return JsonResponse({"error": "Hashtag tahlili uchun yetarli post yo'q."}, status=400)
+
+    lines = ["Top hashtaglar va o'rtacha engagement (foiz):"]
+    for s in stats[:10]:
+        lines.append(f"- #{s.tag}: {s.avg_engagement * 100:.2f}%, {s.posts} post")
+    context_block = "\n".join(lines)
+
+    question = (
+        "Quyidagi hashtag statistikalariga qarab, mening keyingi postim uchun "
+        "5-7 ta hashtagdan iborat OPTIMAL kombinatsiya tavsiya qil. "
+        "Mashhur lekin shovqinli keng hashtaglardan ko'ra, mening auditoriya "
+        "bilan yaxshi ishlagan tor hashtaglarni afzal ko'r. Faqat hashtag "
+        "ro'yxatini # belgisi bilan, har biri yangi qatorda yoz. Qo'shimcha "
+        "izoh shart emas.\n\n" + context_block
+    )
+
+    try:
+        resp = chat_ask(request.user, question)
+    except ChatNotConfigured as e:
+        return JsonResponse({"error": str(e)}, status=503)
+    except Exception:
+        logger.exception("AI hashtag suggestion failed for user %s", request.user.id)
+        return JsonResponse({"error": "Texnik xato. Keyinroq urinib ko'ring."}, status=500)
+
+    import re
+    tags = re.findall(r"#([\wÀ-￿]{2,40})", resp.answer or "", flags=re.UNICODE)
+    # Deduplicate while preserving order.
+    seen = set()
+    uniq = [t for t in tags if not (t.lower() in seen or seen.add(t.lower()))]
+
+    log_activity(request.user, "ai", f"AI hashtag suggestion ({len(uniq)} tags)", request=request)
+    return JsonResponse({"tags": uniq[:8], "raw": resp.answer})
+
+
+@login_required
 @require_http_methods(["GET"])
 def hashtags_page(request: HttpRequest) -> HttpResponse:
     """Top hashtags table — which tags drive the highest avg engagement.
@@ -992,6 +1088,7 @@ def analytics_chat(request: HttpRequest) -> HttpResponse:
                 status=500,
             )
 
+        log_activity(request.user, "ai", f"AI Chat: {question[:80]}", request=request)
         return JsonResponse({
             "answer": resp.answer,
             "model":  resp.model,

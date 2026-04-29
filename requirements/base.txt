@@ -75,3 +75,7 @@ openpyxl>=3.1,<4.0
 # PDF export — ReportLab is pure-Python so it installs cleanly on Render
 # without the GTK/cairo system deps that WeasyPrint requires.
 reportlab>=4.0,<5.0
+
+# 2FA — TOTP secret generation + code verification (apps/accounts/totp.py).
+# Pure Python, no system deps; QR is rendered client-side from the otpauth URI.
+pyotp>=2.9,<3.0

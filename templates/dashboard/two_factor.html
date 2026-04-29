@@ -1,0 +1,113 @@
+{% extends "dashboard/_shell.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Ikki bosqichli autentifikatsiya" %} · Social Analytics{% endblock %}
+{% block dash_breadcrumb %}{% trans "2FA" %}{% endblock %}
+
+{% block dash_content %}
+<div data-reveal>
+  <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+    {% trans "Ikki bosqichli autentifikatsiya (2FA)" %}
+  </h1>
+  <p class="mt-1 text-slate-600 dark:text-slate-400">
+    {% trans "Akkauntingizni TOTP kodlari bilan himoyalang — Google Authenticator, Authy, 1Password va boshqalarda ishlaydi." %}
+  </p>
+</div>
+
+{% if notice %}
+  <div class="card p-4 border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/60 dark:bg-emerald-900/20" data-reveal>
+    <p class="text-sm text-emerald-700 dark:text-emerald-300">{{ notice }}</p>
+  </div>
+{% endif %}
+{% if error %}
+  <div class="card p-4 border-rose-200 dark:border-rose-800/60 bg-rose-50/60 dark:bg-rose-900/20" data-reveal>
+    <p class="text-sm text-rose-700 dark:text-rose-300">{{ error }}</p>
+  </div>
+{% endif %}
+
+<div class="card p-6 space-y-5" data-reveal>
+  <div class="flex items-center gap-3">
+    <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl
+      {% if totp_enabled %}bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400
+      {% else %}bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400{% endif %}">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    </span>
+    <div class="flex-1">
+      <div class="text-base font-semibold text-slate-900 dark:text-white">
+        {% if totp_enabled %}{% trans "Yoqilgan" %}{% else %}{% trans "O'chirilgan" %}{% endif %}
+      </div>
+      <div class="text-xs text-slate-500 dark:text-slate-400">
+        {% if totp_enabled %}
+          {% trans "Har safar kirishda kod talab qilinadi." %}
+        {% else %}
+          {% trans "Quyidagi QR kodni Authenticator ilovangizga qo'shing va 6 raqamli kodni kiriting." %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if not totp_enabled %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+      <div>
+        <div class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">{% trans "1-qadam: QR kodni scan qiling" %}</div>
+        <div class="bg-white p-3 rounded-lg inline-block border border-slate-200 dark:border-slate-700">
+          <div id="totp-qr" class="h-44 w-44 flex items-center justify-center"></div>
+        </div>
+        <details class="mt-3 text-xs text-slate-500 dark:text-slate-400">
+          <summary class="cursor-pointer hover:text-slate-700 dark:hover:text-slate-200">{% trans "QR ishlamayaptimi? Kodni qo'lda kiriting" %}</summary>
+          <code class="mt-2 block px-2 py-1.5 rounded bg-slate-100 dark:bg-slate-800 font-mono text-[11px] break-all">{{ totp_secret }}</code>
+        </details>
+      </div>
+
+      <form method="post" class="space-y-3">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="enable">
+        <div class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">{% trans "2-qadam: 6 raqamli kodni tasdiqlang" %}</div>
+        <input type="text" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required
+               placeholder="000000"
+               class="field-input text-center text-2xl tracking-widest font-mono">
+        <button type="submit" class="btn-primary btn-full">{% trans "Yoqish" %}</button>
+        <button type="submit" name="action" value="regenerate" formnovalidate
+                class="btn-ghost btn-full !text-xs">
+          {% trans "Yangi maxfiy kod yaratish" %}
+        </button>
+      </form>
+    </div>
+
+    {{ totp_uri|json_script:"totp-uri" }}
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script>
+    (function() {
+      var el = document.getElementById('totp-qr');
+      var uri = JSON.parse(document.getElementById('totp-uri').textContent || '""');
+      if (!el || !uri) return;
+      new QRCode(el, {
+        text: uri,
+        width: 176, height: 176,
+        colorDark: '#0f172a',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+    })();
+    </script>
+  {% else %}
+    <form method="post" class="pt-4 border-t border-slate-200 dark:border-slate-800">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="disable">
+      <button type="submit" class="text-sm font-medium text-rose-600 dark:text-rose-400 hover:underline">
+        {% trans "2FA ni o'chirish" %}
+      </button>
+    </form>
+  {% endif %}
+</div>
+
+<div class="card p-5 bg-slate-50 dark:bg-slate-900/40" data-reveal>
+  <h3 class="text-sm font-semibold text-slate-900 dark:text-white">{% trans "Tavsiya etilgan ilovalar" %}</h3>
+  <ul class="mt-2 text-xs text-slate-600 dark:text-slate-400 space-y-1">
+    <li>• Google Authenticator (iOS, Android)</li>
+    <li>• Authy (cross-platform, cloud sync)</li>
+    <li>• 1Password (parol menejeri ichida)</li>
+    <li>• Microsoft Authenticator</li>
+  </ul>
+</div>
+{% endblock %}

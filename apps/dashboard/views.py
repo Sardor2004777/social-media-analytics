@@ -599,12 +599,12 @@ def global_search(request: HttpRequest) -> JsonResponse:
 
     comments = (
         Comment.objects
-        .filter(post__account__user=user, text__icontains=q)
+        .filter(post__account__user=user, body__icontains=q)
         .select_related("post", "post__account")
         .order_by("-created_at")[:3]
     )
     for c in comments:
-        snippet = (c.text or "").strip().replace("\n", " ")[:80]
+        snippet = (c.body or "").strip().replace("\n", " ")[:80]
         results.append({
             "kind":     "comment",
             "title":    snippet,

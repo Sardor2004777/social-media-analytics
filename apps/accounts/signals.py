@@ -19,9 +19,29 @@ import logging
 import os
 
 from allauth.account.signals import user_signed_up
+from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import receiver
 
 logger = logging.getLogger(__name__)
+
+
+@receiver(user_logged_in)
+def _log_login(sender, request, user, **kwargs) -> None:
+    from apps.core.models import log_activity
+    log_activity(user, "login", "Tizimga kirildi", request=request)
+
+
+@receiver(user_logged_out)
+def _log_logout(sender, request, user, **kwargs) -> None:
+    from apps.core.models import log_activity
+    if user is not None:
+        log_activity(user, "logout", "Tizimdan chiqildi", request=request)
+
+
+@receiver(user_signed_up)
+def _log_signup(sender, request, user, **kwargs) -> None:
+    from apps.core.models import log_activity
+    log_activity(user, "login", "Ro'yxatdan o'tildi", request=request)
 
 
 def _enabled() -> bool:

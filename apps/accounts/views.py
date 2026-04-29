@@ -146,3 +146,96 @@ def delete_account(request: HttpRequest) -> HttpResponse:
     return render(request, "dashboard/delete_account.html", {
         "active_nav": "settings",
     })
+
+
+@login_required
+def activity_log_view(request: HttpRequest) -> HttpResponse:
+    """Show the current user's activity log (last 100 events).
+
+    Per-user audit trail — login, account connect, sync, AI request,
+    export, 2FA changes. Used to give the user transparency into "what
+    happened on my account".
+    """
+    from apps.core.models import ActivityLog
+
+    rows = (
+        ActivityLog.objects
+        .filter(user=request.user)
+        .order_by("-created_at")[:100]
+    )
+    return render(request, "dashboard/activity_log.html", {
+        "active_nav": "settings",
+        "rows":       rows,
+    })
+
+
+@login_required
+def two_factor_setup(request: HttpRequest) -> HttpResponse:
+    """Enable / disable / verify TOTP-based two-factor auth.
+
+    GET   — shows current state. If 2FA is OFF and no secret exists yet,
+            generates one and stashes it on the user (still disabled).
+            Renders the otpauth URI for client-side QR rendering.
+    POST  — branches on ``action``:
+              * ``enable`` + ``code`` → verify the 6-digit code; on success
+                flip ``totp_enabled`` to True.
+              * ``disable``           → clear the secret + flag.
+              * ``regenerate``        → ditch the existing secret, create a
+                fresh one (still disabled until verified).
+    """
+    from apps.accounts.totp import new_secret, provisioning_uri, verify
+
+    user = request.user
+    error: str | None = None
+    notice: str | None = None
+
+    if request.method == "POST":
+        from apps.core.models import log_activity
+        action = (request.POST.get("action") or "").strip()
+        if action == "disable":
+            user.totp_enabled = False
+            user.totp_secret  = ""
+            user.save(update_fields=["totp_enabled", "totp_secret"])
+            log_activity(user, "2fa", "2FA disabled", request=request)
+            notice = "2FA o'chirildi."
+        elif action == "regenerate":
+            user.totp_enabled = False
+            user.totp_secret  = new_secret()
+            user.save(update_fields=["totp_enabled", "totp_secret"])
+            log_activity(user, "2fa", "2FA secret regenerated", request=request)
+            notice = "Yangi maxfiy kod yaratildi. Qayta scan qiling va kodni tasdiqlang."
+        elif action == "enable":
+            code = (request.POST.get("code") or "").strip()
+            if not user.totp_secret:
+                error = "Avval QR kodni Authenticatorga qo'shing, keyin tasdiqlang."
+            elif verify(user.totp_secret, code):
+                user.totp_enabled = True
+                user.save(update_fields=["totp_enabled"])
+                log_activity(user, "2fa", "2FA enabled", request=request)
+                notice = "2FA yoqildi! Endi har safar kirishda kod so'raladi."
+            else:
+                error = "Kod noto'g'ri yoki muddati o'tgan. Qayta urinib ko'ring."
+        else:
+            error = "Noma'lum amal."
+
+    # Make sure a secret exists when 2FA is OFF, so the page can show a QR
+    # ready for the user to scan without an extra round-trip.
+    if not user.totp_enabled and not user.totp_secret:
+        user.totp_secret = new_secret()
+        user.save(update_fields=["totp_secret"])
+
+    uri = ""
+    if user.totp_secret:
+        try:
+            uri = provisioning_uri(user.totp_secret, user.email or user.username)
+        except Exception:
+            uri = ""
+
+    return render(request, "dashboard/two_factor.html", {
+        "active_nav":  "settings",
+        "totp_enabled": user.totp_enabled,
+        "totp_secret":  user.totp_secret,
+        "totp_uri":     uri,
+        "error":        error,
+        "notice":       notice,
+    })

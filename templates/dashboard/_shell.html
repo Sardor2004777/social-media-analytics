@@ -319,6 +319,57 @@
   </div>
 </div>
 
+{# Browser notifications for new sentiment/anomaly alerts.
+
+   Polls /analytics/alerts/unread/json/ once per minute; when the count
+   *increases* fires a desktop Notification. Permission is requested at
+   most once per browser via a localStorage flag.
+
+   Web Push (proper SW push) needs VAPID + a backend push service —
+   skipped for the free-tier deploy; this gives us 90% of the UX with
+   none of the infra. #}
+<script>
+(function() {
+  if (!('Notification' in window)) return;
+
+  // Ask once per browser. Don't nag on every visit.
+  try {
+    if (!localStorage.getItem('notif_asked') && Notification.permission === 'default') {
+      setTimeout(function() {
+        Notification.requestPermission().finally(function() {
+          try { localStorage.setItem('notif_asked', '1'); } catch (_) {}
+        });
+      }, 4000);
+    }
+  } catch (_) {}
+
+  function poll() {
+    if (Notification.permission !== 'granted') return;
+    fetch('{% url "analytics:alerts_unread_json" %}', { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(d) {
+        if (!d || typeof d.count !== 'number') return;
+        var prev = parseInt(sessionStorage.getItem('alerts_count') || '0', 10);
+        if (d.count > prev) {
+          new Notification('Social Analytics', {
+            body: d.count + ' ta yangi tahlil bildirishnomasi',
+            icon: '{% static "favicon.svg" %}',
+            tag:  'analytics-alerts',
+          }).onclick = function() {
+            window.focus();
+            window.location.href = '{% url "analytics:alerts" %}';
+            this.close();
+          };
+        }
+        try { sessionStorage.setItem('alerts_count', String(d.count)); } catch (_) {}
+      })
+      .catch(function() { /* silent */ });
+  }
+  setTimeout(poll, 2500);
+  setInterval(poll, 60_000);
+})();
+</script>
+
 {# ========== MOBILE BOTTOM NAV — visible on small screens only ========== #}
 <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 h-16 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-200 dark:border-slate-800 px-2"
      style="padding-bottom: env(safe-area-inset-bottom);">
@@ -345,9 +396,9 @@
       <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>
       <span class="text-[10px] font-medium">{% trans "Akkaunt" %}</span>
     </a>
-    <a href="{% url 'dashboard:settings' %}"
+    <a href="{% url 'accounts:settings' %}"
        class="flex flex-col items-center justify-center gap-0.5 rounded-lg
-              {% if active_nav == 'profile' %}text-brand-600 dark:text-brand-400{% else %}text-slate-500 dark:text-slate-400{% endif %}">
+              {% if active_nav == 'profile' or active_nav == 'settings' %}text-brand-600 dark:text-brand-400{% else %}text-slate-500 dark:text-slate-400{% endif %}">
       <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span class="text-[10px] font-medium">{% trans "Profil" %}</span>
     </a>
