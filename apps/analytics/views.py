@@ -654,6 +654,7 @@ def analytics_compare(request: HttpRequest) -> HttpResponse:
         summaries.append({
             "id":             acct.id,
             "handle":         acct.handle,
+            "avatar_url":     acct.avatar_url,
             "platform":       acct.platform,
             "platform_label": PLATFORM_LABELS.get(acct.platform, acct.platform.title()),
             "color":          PLATFORM_COLORS.get(acct.platform, "#94a3b8"),

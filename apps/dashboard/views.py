@@ -17,8 +17,8 @@ from typing import Any
 
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
-from django.db.models import Avg, Count, F, Sum
-from django.http import HttpRequest, HttpResponse
+from django.db.models import Avg, Count, F, Q, Sum
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
@@ -548,3 +548,68 @@ def _build_timeline(user, now) -> list[dict]:
 def _empty_platforms() -> list[dict]:
     """Placeholder so the donut chart renders a single 'no data' slice."""
     return [{"name": "Ma'lumot yo'q", "value": 1, "color": "#94a3b8", "icon": "x", "pct": 100.0}]
+
+
+@login_required
+def global_search(request: HttpRequest) -> JsonResponse:
+    """Global search across the user's accounts, posts, and comments.
+
+    Used by the Ctrl+K command palette: when ``q`` is non-empty the palette
+    fetches this endpoint and merges real results with its static nav items.
+
+    Each result has ``{title, subtitle, href, kind}`` so the palette can
+    render a heterogeneous list. Capped at 5 per kind to keep the dropdown
+    short — the user can navigate to the relevant page for the full list.
+    """
+    q = (request.GET.get("q") or "").strip()
+    if len(q) < 2:
+        return JsonResponse({"results": []})
+
+    user = request.user
+    results: list[dict] = []
+
+    accounts = (
+        ConnectedAccount.objects
+        .filter(user=user)
+        .filter(Q(handle__icontains=q) | Q(platform__icontains=q))
+        .order_by("platform")[:5]
+    )
+    for a in accounts:
+        results.append({
+            "kind":     "account",
+            "title":    f"@{a.handle}",
+            "subtitle": a.get_platform_display(),
+            "href":     "/accounts/",
+        })
+
+    posts = (
+        Post.objects
+        .filter(account__user=user, caption__icontains=q)
+        .select_related("account")
+        .order_by("-published_at")[:5]
+    )
+    for p in posts:
+        snippet = (p.caption or "").strip().replace("\n", " ")[:80]
+        results.append({
+            "kind":     "post",
+            "title":    snippet or "(no caption)",
+            "subtitle": f"@{p.account.handle} · {p.likes:,} likes",
+            "href":     f"/analytics/top/?q={q}",
+        })
+
+    comments = (
+        Comment.objects
+        .filter(post__account__user=user, text__icontains=q)
+        .select_related("post", "post__account")
+        .order_by("-created_at")[:3]
+    )
+    for c in comments:
+        snippet = (c.text or "").strip().replace("\n", " ")[:80]
+        results.append({
+            "kind":     "comment",
+            "title":    snippet,
+            "subtitle": f"@{c.post.account.handle}",
+            "href":     "/analytics/sentiment/",
+        })
+
+    return JsonResponse({"results": results})

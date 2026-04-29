@@ -65,6 +65,35 @@
       .dark { color-scheme: light; }
       .dark * { background-color: #fff !important; color: #000 !important; border-color: #ccc !important; }
     }
+
+    /* Loading shimmer skeleton — apply to placeholder elements; gets removed
+       once content is ready by toggling the .skeleton-done class on the parent. */
+    .skeleton {
+      position: relative;
+      background: linear-gradient(90deg,
+        rgba(148, 163, 184, 0.10) 0%,
+        rgba(148, 163, 184, 0.22) 50%,
+        rgba(148, 163, 184, 0.10) 100%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.4s ease-in-out infinite;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dark .skeleton {
+      background: linear-gradient(90deg,
+        rgba(71, 85, 105, 0.20) 0%,
+        rgba(71, 85, 105, 0.40) 50%,
+        rgba(71, 85, 105, 0.20) 100%);
+      background-size: 200% 100%;
+    }
+    @keyframes skeletonShimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-done .skeleton { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .skeleton { animation: none; }
+    }
   </style>
 
   {% block extra_head %}{% endblock %}
@@ -101,6 +130,16 @@
           .catch(function() { /* silent */ });
       });
     }
+  </script>
+
+  {# Once the page is fully loaded, drop skeleton placeholders so we stop
+     animating off-screen DOM (canvas overlay already hides them visually). #}
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.querySelectorAll('.skeleton').forEach(function(el) { el.remove(); });
+      }, 600);
+    });
   </script>
 
   {# Global keyboard shortcuts — '?' opens help, 'g h/a/n' navigate, Ctrl+Shift+L toggles theme #}

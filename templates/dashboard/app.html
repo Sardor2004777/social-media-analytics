@@ -58,12 +58,14 @@
       active: false,
       step: 0,
       steps: [
-        { title: "Xush kelibsiz! 👋", body: "Bu sizning analitika dashboard'ingiz. Bir necha qadamda asosiy joylarni ko'rsatib beraman." },
-        { title: "📊 KPI va grafiklar", body: "Yuqorida — postlar, obunachilar, engagement va sentiment. Pastida — vaqt bo'yicha faollik chartlari." },
-        { title: "🤖 Optimal Posting AI", body: "ML model sizning postlaringizdan o'rganib, qaysi vaqt va format eng yaxshi engagement berishini bashorat qiladi." },
-        { title: "💡 Sizga tavsiyalar", body: "Real ma'lumotdan kelib chiqib avtomatik 5 ta insight: eng yaxshi kun, top mavzu, sentiment trend va boshqalar." },
-        { title: "🔗 Akkauntlar", body: "Chap menyudan 'Akkauntlarim' — Telegram, YouTube, VK akkauntlaringizni real OAuth orqali ulang." },
-        { title: "🆘 Yordam kerak?", body: "Klaviaturada '?' bosing — to'liq yordam markazi ochiladi. Yoki sidebar'dan 'Yordam'." },
+        { title: "Xush kelibsiz! 👋", body: "Bu sizning analitika dashboard'ingiz. Bir necha qadamda asosiy imkoniyatlarni ko'rsatib beraman." },
+        { title: "🔗 1-qadam: Akkaunt ulang", body: "Sidebar → 'Akkauntlarim'. Telegram, YouTube yoki VK ni OAuth orqali ulab, real ma'lumotni torting." },
+        { title: "📊 Analytics + AI Insight", body: "Analytics sahifada KPI'lar tepasida 'AI maslahat' tugmasi — 30 kunlik xulosa va keyingi qadam." },
+        { title: "💬 AI Chat", body: "Tabiiy tilda savol bering: 'Qaysi platforma yaxshi?', 'Engagement nega pasaydi?'. AI sizning real ma'lumotingiz asosida javob beradi." },
+        { title: "✨ AI Post Generator", body: "Yangi! Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi — copy-paste qilib darhol joylashtirishingiz mumkin." },
+        { title: "🕐 Eng yaxshi vaqt", body: "Yangi! 7×24 heatmap qaysi kun va soatda postingiz eng ko'p engagement olganini ko'rsatadi." },
+        { title: "🏷️ Hashtag tahlili", body: "Yangi! Qaysi hashtaglaringiz haqiqatan ishlayapti — top 20 ro'yxati va engagement bo'yicha." },
+        { title: "🆘 Yordam", body: "Klaviaturada '?' bosing yoki Ctrl+K orqali har joyga tezda boring. Sidebar'da 'Yordam' to'liq qo'llanma." },
       ],
       maybeStart() {
         try {
@@ -198,16 +200,18 @@
           <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Oxirgi 14 kun" %}</p>
         </div>
       </div>
-      <div class="mt-5 h-72">
-        <canvas id="activityChart"></canvas>
+      <div class="mt-5 h-72 relative">
+        <div class="skeleton absolute inset-0" aria-hidden="true"></div>
+        <canvas id="activityChart" class="relative z-10"></canvas>
       </div>
     </div>
 
     <div class="card p-6">
       <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Platforma bo'yicha" %}</h3>
       <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Faollik ulushi" %}</p>
-      <div class="mt-5 h-40 flex items-center justify-center">
-        <canvas id="platformChart"></canvas>
+      <div class="mt-5 h-40 flex items-center justify-center relative">
+        <div class="skeleton absolute inset-0 rounded-full !rounded-full" aria-hidden="true"></div>
+        <canvas id="platformChart" class="relative z-10"></canvas>
       </div>
       <ul class="mt-5 space-y-2.5">
         {% for p in platforms %}
@@ -269,8 +273,9 @@
       </div>
     </div>
     <div class="p-6">
-      <div class="h-56">
-        <canvas id="growthChart"></canvas>
+      <div class="h-56 relative">
+        <div class="skeleton absolute inset-0" aria-hidden="true"></div>
+        <canvas id="growthChart" class="relative z-10"></canvas>
       </div>
     </div>
   </div>
@@ -436,8 +441,9 @@
       </div>
     </div>
     <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-      <div class="h-48 md:col-span-1 flex items-center justify-center">
-        <canvas id="postTypeChart"></canvas>
+      <div class="h-48 md:col-span-1 flex items-center justify-center relative">
+        <div class="skeleton absolute inset-0 !rounded-full" aria-hidden="true"></div>
+        <canvas id="postTypeChart" class="relative z-10"></canvas>
       </div>
       <ul class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         {% for p in post_types %}
