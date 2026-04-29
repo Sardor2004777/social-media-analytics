@@ -341,6 +341,13 @@ OPENAI_DIGEST_MAX_TOKENS = env.int("OPENAI_DIGEST_MAX_TOKENS", default=800)
 OPENAI_BASE_URL = env("OPENAI_BASE_URL", default="")
 OPENAI_ORGANIZATION = env("OPENAI_ORGANIZATION", default="")
 
+# Backup AI provider — chat.py falls through to this set when the primary
+# call raises. Lets the deploy pin Gemini as primary + Groq as fallback (or
+# vice-versa) so a regional outage on one provider doesn't kill the chat.
+OPENAI_BACKUP_API_KEY  = env("OPENAI_BACKUP_API_KEY",  default="")
+OPENAI_BACKUP_BASE_URL = env("OPENAI_BACKUP_BASE_URL", default="")
+OPENAI_BACKUP_MODEL    = env("OPENAI_BACKUP_MODEL",    default="")
+
 # YouTube / X
 YOUTUBE_API_KEY = env("YOUTUBE_API_KEY", default="")
 YOUTUBE_OAUTH_CLIENT_ID = env("YOUTUBE_OAUTH_CLIENT_ID", default="")

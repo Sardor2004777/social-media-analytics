@@ -116,8 +116,14 @@ def _build_user_context(user) -> str:
     return "\n".join(lines)
 
 
-def _openai_client():
-    """Lazy import + construct the OpenAI client, or raise ChatNotConfigured."""
+def _openai_client(*, backup: bool = False):
+    """Lazy import + construct the OpenAI client, or raise ChatNotConfigured.
+
+    When ``backup=True`` use the OPENAI_BACKUP_* env vars instead — used by
+    :func:`_chat_completion` to fall through to a second provider (e.g. Groq)
+    if the primary one (e.g. Gemini) errors out. Raises ChatNotConfigured if
+    the requested key set isn't set.
+    """
     try:
         from openai import OpenAI
     except ImportError as e:
@@ -126,45 +132,82 @@ def _openai_client():
             "Add `openai>=1.30,<2.0` to requirements and `pip install`."
         ) from e
 
-    api_key = getattr(settings, "OPENAI_API_KEY", "")
-    if not api_key:
-        raise ChatNotConfigured("OPENAI_API_KEY env var is not set.")
+    if backup:
+        api_key      = getattr(settings, "OPENAI_BACKUP_API_KEY", "")
+        base_url     = getattr(settings, "OPENAI_BACKUP_BASE_URL", "")
+        if not api_key:
+            raise ChatNotConfigured("OPENAI_BACKUP_API_KEY env var is not set.")
+    else:
+        api_key      = getattr(settings, "OPENAI_API_KEY", "")
+        base_url     = getattr(settings, "OPENAI_BASE_URL", "")
+        if not api_key:
+            raise ChatNotConfigured("OPENAI_API_KEY env var is not set.")
 
     kwargs = {"api_key": api_key}
-    base_url = getattr(settings, "OPENAI_BASE_URL", "")
     if base_url:
         kwargs["base_url"] = base_url
     organization = getattr(settings, "OPENAI_ORGANIZATION", "")
-    if organization:
+    if organization and not backup:
         kwargs["organization"] = organization
 
     return OpenAI(**kwargs)
 
 
+def _model_for(backup: bool) -> str:
+    if backup:
+        return (
+            getattr(settings, "OPENAI_BACKUP_MODEL", "")
+            or "llama-3.3-70b-versatile"   # Groq default
+        )
+    return getattr(settings, "OPENAI_MODEL", "gpt-4o-mini")
+
+
 def _chat_completion(system: str, user_msg: str, max_tokens: int) -> ChatResponse:
-    """Single OpenAI chat completion with our standard params."""
-    client = _openai_client()
-    model = getattr(settings, "OPENAI_MODEL", "gpt-4o-mini")
+    """Single OpenAI chat completion with our standard params.
 
-    response = client.chat.completions.create(
-        model=model,
-        max_tokens=max_tokens,
-        temperature=0.3,
-        messages=[
-            {"role": "system", "content": system},
-            {"role": "user",   "content": user_msg},
-        ],
-    )
+    Tries the primary provider first; on any exception (auth, rate-limit,
+    network, region block) falls through to the backup provider when
+    OPENAI_BACKUP_API_KEY is set. The backup attempt's exception bubbles
+    up unchanged when both providers fail, so the caller's existing
+    error-handling path stays valid.
+    """
+    def _call(*, backup: bool) -> ChatResponse:
+        client = _openai_client(backup=backup)
+        model = _model_for(backup)
+        response = client.chat.completions.create(
+            model=model,
+            max_tokens=max_tokens,
+            temperature=0.3,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user",   "content": user_msg},
+            ],
+        )
+        choice = response.choices[0]
+        answer = (choice.message.content or "").strip()
+        usage = response.usage
+        return ChatResponse(
+            answer=answer,
+            model=response.model,
+            tokens_in=getattr(usage, "prompt_tokens", 0) if usage else 0,
+            tokens_out=getattr(usage, "completion_tokens", 0) if usage else 0,
+        )
 
-    choice = response.choices[0]
-    answer = (choice.message.content or "").strip()
-    usage = response.usage
-    return ChatResponse(
-        answer=answer,
-        model=response.model,
-        tokens_in=getattr(usage, "prompt_tokens", 0) if usage else 0,
-        tokens_out=getattr(usage, "completion_tokens", 0) if usage else 0,
-    )
+    try:
+        return _call(backup=False)
+    except ChatNotConfigured:
+        # Primary not configured — try backup outright.
+        return _call(backup=True)
+    except Exception as primary_err:
+        # Primary errored mid-call. If a backup is configured, try it; otherwise
+        # bubble the original exception so the user-visible error stays accurate.
+        if getattr(settings, "OPENAI_BACKUP_API_KEY", ""):
+            try:
+                logger.warning("Primary AI failed (%s); falling back to backup.", primary_err)
+                return _call(backup=True)
+            except Exception:
+                logger.exception("Backup AI also failed")
+        raise
 
 
 def ask(user, question: str) -> ChatResponse:
