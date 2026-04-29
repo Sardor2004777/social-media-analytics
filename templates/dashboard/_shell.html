@@ -319,15 +319,12 @@
   </div>
 </div>
 
-{# Browser notifications for new sentiment/anomaly alerts.
-
-   Polls /analytics/alerts/unread/json/ once per minute; when the count
-   *increases* fires a desktop Notification. Permission is requested at
-   most once per browser via a localStorage flag.
-
-   Web Push (proper SW push) needs VAPID + a backend push service —
-   skipped for the free-tier deploy; this gives us 90% of the UX with
-   none of the infra. #}
+{% comment %}
+  Browser notifications for new sentiment/anomaly alerts. Polls
+  /analytics/alerts/unread/json/ once per minute and fires a desktop
+  Notification when the count increases. Permission is requested at
+  most once per browser via a localStorage flag.
+{% endcomment %}
 <script>
 (function() {
   if (!('Notification' in window)) return;

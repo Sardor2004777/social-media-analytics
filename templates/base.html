@@ -132,8 +132,7 @@
     }
   </script>
 
-  {# Once the page is fully loaded, drop skeleton placeholders so we stop
-     animating off-screen DOM (canvas overlay already hides them visually). #}
+  {% comment %} Drop skeleton placeholders after load so they stop animating off-screen. {% endcomment %}
   <script>
     window.addEventListener('load', function() {
       setTimeout(function() {
