@@ -26,8 +26,8 @@
     </p>
   </div>
 {% else %}
-  <div class="card p-6 flex flex-col h-[calc(100vh-18rem)] min-h-[30rem]" data-reveal>
-    <div id="chat-messages" class="flex-1 space-y-4 overflow-y-auto mb-4 pr-2">
+  <div class="card p-0 flex flex-col h-[calc(100dvh-13rem)] min-h-[28rem] overflow-hidden" data-reveal>
+    <div id="chat-messages" class="flex-1 space-y-4 overflow-y-auto p-6">
       <div class="flex gap-3">
         <span class="shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 text-xs font-bold">AI</span>
         <div class="max-w-[75%] rounded-xl p-3 text-sm bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100">
@@ -36,24 +36,26 @@
       </div>
     </div>
 
-    <div id="chat-suggestions" class="flex flex-wrap gap-2 mb-3">
-      <button type="button" data-question="Qaysi platforma eng yaxshi ishlayapti?" class="btn-ghost !text-xs">💡 {% trans "Eng yaxshi platforma?" %}</button>
-      <button type="button" data-question="Nega engagement pasaydi?" class="btn-ghost !text-xs">📉 {% trans "Engagement pasayishi?" %}</button>
-      <button type="button" data-question="Top postlarim nima uchun mashhur bo'ldi?" class="btn-ghost !text-xs">🔥 {% trans "Top post tahlili" %}</button>
-      <button type="button" data-question="Qanday kontent ko'proq pozitiv sentiment beradi?" class="btn-ghost !text-xs">😊 {% trans "Eng pozitiv kontent" %}</button>
-    </div>
+    <div class="shrink-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur p-4">
+      <div id="chat-suggestions" class="flex flex-wrap gap-2 mb-3">
+        <button type="button" data-question="Qaysi platforma eng yaxshi ishlayapti?" class="btn-ghost !text-xs">💡 {% trans "Eng yaxshi platforma?" %}</button>
+        <button type="button" data-question="Nega engagement pasaydi?" class="btn-ghost !text-xs">📉 {% trans "Engagement pasayishi?" %}</button>
+        <button type="button" data-question="Top postlarim nima uchun mashhur bo'ldi?" class="btn-ghost !text-xs">🔥 {% trans "Top post tahlili" %}</button>
+        <button type="button" data-question="Qanday kontent ko'proq pozitiv sentiment beradi?" class="btn-ghost !text-xs">😊 {% trans "Eng pozitiv kontent" %}</button>
+      </div>
 
-    <form id="chat-form" class="flex gap-3">
-      {% csrf_token %}
-      <input type="text" name="question" id="chat-input"
-             placeholder="{% trans 'Savolingiz...' %}" required
-             maxlength="500" autocomplete="off"
-             class="field-input flex-1" />
-      <button type="submit" id="chat-submit" class="btn-primary">
-        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        {% trans "Yuborish" %}
-      </button>
-    </form>
+      <form id="chat-form" class="flex gap-3">
+        {% csrf_token %}
+        <input type="text" name="question" id="chat-input"
+               placeholder="{% trans 'Savolingiz...' %}" required
+               maxlength="500" autocomplete="off"
+               class="field-input flex-1" />
+        <button type="submit" id="chat-submit" class="btn-primary">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          {% trans "Yuborish" %}
+        </button>
+      </form>
+    </div>
   </div>
 
   <script>

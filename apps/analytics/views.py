@@ -769,6 +769,61 @@ def analytics_top_posts(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
+@rate_limit(key="ai_insight", rate="15/h", scope="user", methods=("POST",))
+@require_http_methods(["POST"])
+def ai_insight(request: HttpRequest) -> JsonResponse:
+    """Lightweight AI insight endpoint — returns 3-4 sentence advice as JSON.
+
+    Used by the "AI maslahat" cards on the analytics overview page and the
+    accounts list. Reuses the chat pipeline, but the prompt is fixed by
+    ``topic`` so the user doesn't have to type a question:
+
+      - ``topic=overview``        — general 30-day summary + next step.
+      - ``topic=account:<pk>``    — specific advice for that ConnectedAccount.
+    """
+    topic = (request.POST.get("topic") or "overview").strip()
+
+    if topic == "overview":
+        question = (
+            "30 kunlik natijalarim haqida 3-4 jumlada qisqa xulosa va keyingi "
+            "qadam bo'yicha aniq tavsiya ber. Qaysi platforma yaxshi ishlamoqda "
+            "va qayerda muammo bor — raqamlar bilan ko'rsat. Bullet point "
+            "ishlatma, oddiy matn yoz."
+        )
+    elif topic.startswith("account:"):
+        try:
+            acct_id = int(topic.split(":", 1)[1])
+        except (ValueError, IndexError):
+            return JsonResponse({"error": "Invalid topic"}, status=400)
+        acct = ConnectedAccount.objects.filter(user=request.user, pk=acct_id).first()
+        if not acct:
+            return JsonResponse({"error": "Akkaunt topilmadi"}, status=404)
+        question = (
+            f"@{acct.handle} ({acct.get_platform_display()}) akkauntim uchun "
+            "kontent strategiyasi bo'yicha 3 ta aniq, amaliy maslahat ber. "
+            "Har biri bitta jumla, raqamlarga asoslangan. Bullet ishlat."
+        )
+    else:
+        return JsonResponse({"error": "Unknown topic"}, status=400)
+
+    if not chat_is_configured():
+        return JsonResponse({"error": "AI hali sozlanmagan."}, status=503)
+
+    try:
+        resp = chat_ask(request.user, question)
+    except ChatNotConfigured as e:
+        return JsonResponse({"error": str(e)}, status=503)
+    except Exception:
+        logger.exception("AI insight failed for user %s topic=%s", request.user.id, topic)
+        return JsonResponse(
+            {"error": "Texnik xato yuz berdi. Keyinroq urinib ko'ring."},
+            status=500,
+        )
+
+    return JsonResponse({"answer": resp.answer, "model": resp.model})
+
+
+@login_required
 @rate_limit(key="chat", rate="20/h", scope="user", methods=("POST",))
 @require_http_methods(["GET", "POST"])
 def analytics_chat(request: HttpRequest) -> HttpResponse:

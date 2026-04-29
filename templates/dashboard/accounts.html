@@ -143,6 +143,11 @@
                     </button>
                   </form>
                 {% endif %}
+                <button type="button" class="ai-advice-btn inline-flex items-center gap-1 text-xs font-medium text-fuchsia-600 dark:text-fuchsia-400 hover:underline"
+                        data-account-id="{{ a.pk }}" data-account-handle="@{{ a.handle }}" title="{% trans 'AI maslahat' %}">
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6z"/></svg>
+                  {% trans "AI" %}
+                </button>
                 <form method="post" action="{% url 'social:toggle_share' a.pk %}" class="inline">
                   {% csrf_token %}
                   <button type="submit" class="inline-flex items-center gap-1 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:underline">
@@ -165,6 +170,79 @@
     </table>
   </div>
 </div>
+{# AI advice modal — populated on demand from per-row buttons #}
+<div id="ai-advice-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-close></div>
+  <div class="relative w-full max-w-lg card p-6 bg-white dark:bg-slate-900">
+    <button type="button" data-close class="absolute top-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="flex items-center gap-3">
+      <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 text-white shadow-md">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6z"/></svg>
+      </span>
+      <div class="flex-1 min-w-0">
+        <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "AI maslahat" %}</h3>
+        <p id="ai-advice-handle" class="text-xs text-slate-500 dark:text-slate-400 truncate"></p>
+      </div>
+    </div>
+    <div id="ai-advice-loading" class="mt-5 hidden text-center py-6">
+      <div class="inline-flex gap-1.5">
+        <span class="h-2 w-2 rounded-full bg-fuchsia-400 animate-pulse"></span>
+        <span class="h-2 w-2 rounded-full bg-fuchsia-400 animate-pulse" style="animation-delay:.2s"></span>
+        <span class="h-2 w-2 rounded-full bg-fuchsia-400 animate-pulse" style="animation-delay:.4s"></span>
+      </div>
+      <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">{% trans "Tayyorlanmoqda..." %}</p>
+    </div>
+    <div id="ai-advice-output" class="mt-5 hidden text-sm text-slate-800 dark:text-slate-100 leading-relaxed whitespace-pre-line"></div>
+    <div id="ai-advice-error" class="mt-5 hidden text-sm text-rose-600 dark:text-rose-400"></div>
+  </div>
+</div>
+<form id="ai-advice-csrf">{% csrf_token %}</form>
+<script>
+(function() {
+  const modal = document.getElementById('ai-advice-modal');
+  const handle = document.getElementById('ai-advice-handle');
+  const loading = document.getElementById('ai-advice-loading');
+  const out = document.getElementById('ai-advice-output');
+  const err = document.getElementById('ai-advice-error');
+  const csrf = document.querySelector('#ai-advice-csrf [name=csrfmiddlewaretoken]').value;
+  function open() { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+  function close() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+  modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', close));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  document.querySelectorAll('.ai-advice-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      handle.textContent = btn.dataset.accountHandle || '';
+      out.classList.add('hidden'); out.textContent = '';
+      err.classList.add('hidden'); err.textContent = '';
+      loading.classList.remove('hidden');
+      open();
+      try {
+        const resp = await fetch('{% url "analytics:insight" %}', {
+          method: 'POST',
+          headers: {'X-CSRFToken': csrf, 'Content-Type': 'application/x-www-form-urlencoded'},
+          body: 'topic=account:' + encodeURIComponent(btn.dataset.accountId),
+        });
+        const data = await resp.json();
+        loading.classList.add('hidden');
+        if (resp.ok && data.answer) {
+          out.textContent = data.answer;
+          out.classList.remove('hidden');
+        } else {
+          err.textContent = data.error || 'Xato yuz berdi';
+          err.classList.remove('hidden');
+        }
+      } catch (e) {
+        loading.classList.add('hidden');
+        err.textContent = 'Tarmoq xatosi: ' + e.message;
+        err.classList.remove('hidden');
+      }
+    });
+  });
+})();
+</script>
+
 {% else %}
 <div class="card p-10 text-center" data-reveal>
   <div class="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400">
