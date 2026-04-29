@@ -463,14 +463,7 @@
       <ul class="divide-y divide-slate-100 dark:divide-slate-800">
         {% for p in top_posts %}
           <li class="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
-            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white text-xs font-bold
-              {% if p.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
-              {% elif p.platform == 'telegram' %}bg-sky-500
-              {% elif p.platform == 'youtube' %}bg-red-500
-              {% elif p.platform == 'vk' %}bg-gradient-to-br from-blue-500 to-indigo-600
-              {% else %}bg-slate-900{% endif %}">
-              {% if p.platform == 'instagram' %}IG{% elif p.platform == 'telegram' %}TG{% elif p.platform == 'youtube' %}YT{% elif p.platform == 'vk' %}VK{% else %}X{% endif %}
-            </span>
+            {% include 'partials/_platform_icon.html' with platform=p.platform size_class="h-10 w-10" %}
             <div class="flex-1 min-w-0">
               <div class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ p.title }}</div>
               <div class="mt-1 flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">

@@ -1039,7 +1039,11 @@ def competitor_delete(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 def public_share(request: HttpRequest, token: str) -> HttpResponse:
-    """Read-only public dashboard snapshot for a shared account — no auth."""
+    """Read-only public dashboard snapshot for a shared account — no auth.
+
+    Renders four chart series + KPIs + post-type breakdown + top posts so
+    the share link is genuinely useful, not just a likes line graph.
+    """
     link = get_object_or_404(PublicShareLink, token=token, is_active=True)
     account = link.account
     now = timezone.now()
@@ -1048,19 +1052,77 @@ def public_share(request: HttpRequest, token: str) -> HttpResponse:
 
     window_days = 30
     start = now - timedelta(days=window_days - 1)
-    buckets = [0] * window_days
-    for p in posts_qs.filter(published_at__gte=start).values("published_at", "likes"):
+    likes_series    = [0] * window_days
+    views_series    = [0] * window_days
+    comments_series = [0] * window_days
+    posts_series    = [0] * window_days
+    for p in posts_qs.filter(published_at__gte=start).values(
+        "published_at", "likes", "views", "comments_count",
+    ):
         idx = (p["published_at"].date() - start.date()).days
         if 0 <= idx < window_days:
-            buckets[idx] += p["likes"]
+            likes_series[idx]    += p["likes"] or 0
+            views_series[idx]    += p["views"] or 0
+            comments_series[idx] += p["comments_count"] or 0
+            posts_series[idx]    += 1
     labels = [(start + timedelta(days=i)).strftime("%d %b") for i in range(window_days)]
 
     agg = posts_qs.aggregate(
         total_likes=Sum("likes"),
         total_views=Sum("views"),
         total_comments=Sum("comments_count"),
+        total_shares=Sum("shares"),
         avg_eng=Avg("engagement_rate"),
     )
+
+    # Post-type breakdown for the donut chart.
+    type_counts: dict[str, int] = {}
+    for row in posts_qs.values("post_type").annotate(c=Count("id")):
+        type_counts[row["post_type"]] = row["c"]
+    POST_TYPE_LABELS = {
+        "photo": "Rasmlar", "video": "Videolar", "reel": "Reels",
+        "carousel": "Karusellar", "tweet": "Tweetlar", "channel_post": "Matn",
+    }
+    POST_TYPE_COLORS = {
+        "photo": "#0ea5e9", "video": "#f43f5e", "reel": "#a855f7",
+        "carousel": "#f59e0b", "tweet": "#0f172a", "channel_post": "#64748b",
+    }
+    post_types = [
+        {
+            "name":  POST_TYPE_LABELS.get(t, t.title() if isinstance(t, str) else str(t)),
+            "value": c,
+            "color": POST_TYPE_COLORS.get(t, "#94a3b8"),
+        }
+        for t, c in sorted(type_counts.items(), key=lambda kv: -kv[1])
+    ]
+
+    # Engagement funnel — same shape as the dashboard's funnel card.
+    qv = int(agg["total_views"] or 0)
+    ql = int(agg["total_likes"] or 0)
+    qc = int(agg["total_comments"] or 0)
+    qs_ = int(agg["total_shares"] or 0)
+    def _pct(n, d): return round(n * 100 / d, 1) if d else 0
+    funnel_steps = [
+        {"label": "Ko'rishlar", "value": qv,  "pct": 100,            "color": "#0ea5e9"},
+        {"label": "Likes",      "value": ql,  "pct": _pct(ql, qv),   "color": "#10b981"},
+        {"label": "Kommentlar", "value": qc,  "pct": _pct(qc, qv),   "color": "#f59e0b"},
+        {"label": "Repostlar",  "value": qs_, "pct": _pct(qs_, qv),  "color": "#f43f5e"},
+    ]
+
+    # Audience growth — pull the FollowerSnapshot rows for this account.
+    growth_start = (now - timedelta(days=window_days - 1)).date()
+    snaps = (
+        FollowerSnapshot.objects.filter(account=account, recorded_on__gte=growth_start)
+        .values_list("recorded_on", "count")
+    )
+    by_day = dict(snaps)
+    growth_series: list[int] = []
+    last_seen = account.follower_count
+    for i in range(window_days):
+        day = growth_start + timedelta(days=i)
+        if day in by_day:
+            last_seen = by_day[day]
+        growth_series.append(int(last_seen))
 
     top_posts = [
         {
@@ -1068,10 +1130,11 @@ def public_share(request: HttpRequest, token: str) -> HttpResponse:
             "likes":    p.likes,
             "views":    p.views,
             "comments": p.comments_count,
+            "post_type": p.post_type,
             "when":     p.published_at,
             "url":      p.url,
         }
-        for p in posts_qs.order_by("-likes")[:10]
+        for p in posts_qs.order_by("-engagement_rate")[:10]
     ]
 
     return render(request, "dashboard/public_share.html", {
@@ -1079,11 +1142,21 @@ def public_share(request: HttpRequest, token: str) -> HttpResponse:
         "kpis": {
             "followers":  account.follower_count,
             "posts":      posts_qs.count(),
-            "likes":      agg["total_likes"] or 0,
-            "views":      agg["total_views"] or 0,
-            "comments":   agg["total_comments"] or 0,
+            "likes":      ql,
+            "views":      qv,
+            "comments":   qc,
+            "shares":     qs_,
             "engagement": round((agg["avg_eng"] or 0) * 100, 2),
         },
-        "chart": {"labels": labels, "series": buckets},
-        "top_posts": top_posts,
+        "chart": {
+            "labels":   labels,
+            "likes":    likes_series,
+            "views":    views_series,
+            "comments": comments_series,
+            "posts":    posts_series,
+            "growth":   growth_series,
+        },
+        "post_types":   post_types,
+        "funnel_steps": funnel_steps,
+        "top_posts":    top_posts,
     })

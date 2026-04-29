@@ -111,14 +111,7 @@
           <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
             <td class="px-6 py-4 text-slate-400 tabular">{{ forloop.counter }}</td>
             <td class="px-6 py-4">
-              <span class="inline-flex h-6 w-6 items-center justify-center rounded-md text-white text-[10px] font-bold
-                {% if p.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
-                {% elif p.platform == 'telegram' %}bg-sky-500
-                {% elif p.platform == 'youtube' %}bg-red-500
-                {% elif p.platform == 'vk' %}bg-gradient-to-br from-blue-500 to-indigo-600
-                {% else %}bg-slate-900{% endif %}">
-                {% if p.platform == 'instagram' %}IG{% elif p.platform == 'telegram' %}TG{% elif p.platform == 'youtube' %}YT{% elif p.platform == 'vk' %}VK{% else %}X{% endif %}
-              </span>
+              {% include 'partials/_platform_icon.html' with platform=p.platform size_class="h-6 w-6" %}
             </td>
             <td class="px-6 py-4 text-slate-800 dark:text-slate-200 max-w-md truncate">{{ p.caption }}</td>
             <td class="px-6 py-4 text-right tabular text-slate-900 dark:text-white font-medium">{{ p.likes }}</td>

@@ -25,7 +25,6 @@
       Social Analytics
     </a>
     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-[11px] font-medium text-emerald-700 dark:text-emerald-300">
-      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
       {% trans "Public snapshot" %}
     </span>
   </div>
@@ -33,64 +32,98 @@
 
 <main class="flex-1 max-w-6xl mx-auto w-full px-4 py-8 space-y-6">
 
+  {# Header — account profile #}
   <div class="flex items-center gap-4">
-    <span class="inline-flex h-14 w-14 items-center justify-center rounded-2xl text-white text-lg font-bold shadow-card
-      {% if account.platform == 'instagram' %}bg-gradient-to-br from-fuchsia-500 to-orange-400
-      {% elif account.platform == 'telegram' %}bg-sky-500
-      {% elif account.platform == 'youtube' %}bg-red-500
-      {% elif account.platform == 'vk' %}bg-gradient-to-br from-blue-500 to-indigo-600
-      {% else %}bg-slate-900{% endif %}">
-      {% if account.platform == 'instagram' %}IG{% elif account.platform == 'telegram' %}TG{% elif account.platform == 'youtube' %}YT{% elif account.platform == 'vk' %}VK{% else %}X{% endif %}
-    </span>
+    {% include 'partials/_platform_icon.html' with platform=account.platform size_class="h-14 w-14" %}
     <div class="min-w-0">
       <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white truncate">@{{ account.handle }}</h1>
       <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ account.display_name|default:account.get_platform_display }} · {{ account.get_platform_display }}</p>
     </div>
   </div>
 
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    <div class="card p-5">
-      <div class="text-xs font-medium text-slate-500 dark:text-slate-400">{% trans "Obunachilar" %}</div>
-      <div class="mt-1 text-2xl font-bold tabular text-slate-900 dark:text-white">{{ kpis.followers|default:0 }}</div>
-    </div>
-    <div class="card p-5">
-      <div class="text-xs font-medium text-slate-500 dark:text-slate-400">{% trans "Postlar" %}</div>
-      <div class="mt-1 text-2xl font-bold tabular text-slate-900 dark:text-white">{{ kpis.posts }}</div>
-    </div>
-    <div class="card p-5">
-      <div class="text-xs font-medium text-slate-500 dark:text-slate-400">{% trans "Likes" %}</div>
-      <div class="mt-1 text-2xl font-bold tabular text-slate-900 dark:text-white">{{ kpis.likes }}</div>
-    </div>
-    <div class="card p-5">
-      <div class="text-xs font-medium text-slate-500 dark:text-slate-400">{% trans "Engagement" %}</div>
-      <div class="mt-1 text-2xl font-bold tabular text-slate-900 dark:text-white">{{ kpis.engagement }}%</div>
-    </div>
+  {# KPI strip — 6 metrics #}
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+    <div class="card p-4"><div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Obunachilar" %}</div><div class="mt-1 text-xl font-bold tabular text-slate-900 dark:text-white">{{ kpis.followers|default:0 }}</div></div>
+    <div class="card p-4"><div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Postlar" %}</div><div class="mt-1 text-xl font-bold tabular text-slate-900 dark:text-white">{{ kpis.posts }}</div></div>
+    <div class="card p-4"><div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Ko'rishlar" %}</div><div class="mt-1 text-xl font-bold tabular text-sky-600 dark:text-sky-400">{{ kpis.views }}</div></div>
+    <div class="card p-4"><div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Likes" %}</div><div class="mt-1 text-xl font-bold tabular text-rose-600 dark:text-rose-400">{{ kpis.likes }}</div></div>
+    <div class="card p-4"><div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Kommentlar" %}</div><div class="mt-1 text-xl font-bold tabular text-amber-600 dark:text-amber-400">{{ kpis.comments }}</div></div>
+    <div class="card p-4"><div class="text-xs text-slate-500 dark:text-slate-400">Engagement</div><div class="mt-1 text-xl font-bold tabular text-emerald-600 dark:text-emerald-400">{{ kpis.engagement }}%</div></div>
   </div>
 
+  {# Activity multi-chart — 4 series #}
   <div class="card p-6">
-    <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "30-kunlik likes dinamikasi" %}</h3>
-    <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Kunlik yig'ilgan likes soni" %}</p>
-    <div class="mt-5 h-72">
-      <canvas id="shareChart"></canvas>
-    </div>
+    <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "30 kunlik faollik dinamikasi" %}</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Postlar · Likes · Kommentlar · Ko'rishlar" %}</p>
+    <div class="mt-5 h-72"><canvas id="activityChart"></canvas></div>
   </div>
 
+  {# Audience growth #}
+  {% if chart.growth.0 %}
+  <div class="card p-6">
+    <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Auditoriya o'sishi" %}</h3>
+    <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "30 kunlik obunachi soni dinamikasi" %}</p>
+    <div class="mt-5 h-56"><canvas id="growthChart"></canvas></div>
+  </div>
+  {% endif %}
+
+  {# Engagement funnel + Post-type donut side-by-side #}
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div class="card p-6 lg:col-span-2">
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Engagement funnel" %}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Ko'rishlardan repostgacha bo'lgan zanjirning konversiyasi" %}</p>
+      <div class="mt-5 space-y-3">
+        {% for step in funnel_steps %}
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-medium text-slate-700 dark:text-slate-300">{{ step.label }}</span>
+              <span class="flex items-center gap-3">
+                <span class="tabular text-slate-900 dark:text-white font-semibold">{{ step.value }}</span>
+                <span class="tabular text-xs text-slate-500 dark:text-slate-400 w-12 text-right">{{ step.pct }}%</span>
+              </span>
+            </div>
+            <div class="relative h-6 rounded-md bg-slate-100 dark:bg-slate-800 overflow-hidden">
+              <div class="absolute inset-y-0 left-0 rounded-md transition-all" style="width: {{ step.pct }}%; background: {{ step.color }};"></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if post_types %}
+    <div class="card p-6">
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Post turlari" %}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Kontent ulushi" %}</p>
+      <div class="mt-5 h-40 flex items-center justify-center"><canvas id="typesChart"></canvas></div>
+      <ul class="mt-5 space-y-2">
+        {% for t in post_types %}
+          <li class="flex items-center gap-2 text-sm">
+            <span class="inline-flex h-2.5 w-2.5 rounded-full" style="background: {{ t.color }};"></span>
+            <span class="flex-1 text-slate-700 dark:text-slate-300">{{ t.name }}</span>
+            <span class="font-medium tabular text-slate-900 dark:text-white">{{ t.value }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+
+  {# Top posts #}
   <div class="card">
     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
       <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Top postlar" %}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "Engagement bo'yicha eng yaxshi 10 ta" %}</p>
     </div>
     <ul class="divide-y divide-slate-100 dark:divide-slate-800">
       {% for p in top_posts %}
         <li class="px-6 py-4">
           <div class="text-sm text-slate-900 dark:text-white leading-relaxed">{{ p.caption }}</div>
           <div class="mt-1.5 flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 flex-wrap">
-            <span class="inline-flex items-center gap-1 tabular">❤ {{ p.likes }}</span>
             <span class="inline-flex items-center gap-1 tabular">👁 {{ p.views }}</span>
+            <span class="inline-flex items-center gap-1 tabular">❤ {{ p.likes }}</span>
             <span class="inline-flex items-center gap-1 tabular">💬 {{ p.comments }}</span>
             <span>{{ p.when|date:"d M Y" }}</span>
-            {% if p.url %}
-              <a href="{{ p.url }}" target="_blank" rel="noopener" class="ml-auto text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium">{% trans "Asl post" %} →</a>
-            {% endif %}
+            {% if p.url %}<a href="{{ p.url }}" target="_blank" rel="noopener" class="ml-auto text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium">{% trans "Asl post" %} →</a>{% endif %}
           </div>
         </li>
       {% empty %}
@@ -106,51 +139,75 @@
 </footer>
 
 {{ chart|json_script:"share-data" }}
+{{ post_types|json_script:"types-data" }}
 <script>
 (function() {
   const data = JSON.parse(document.getElementById('share-data').textContent);
+  const types = JSON.parse(document.getElementById('types-data').textContent);
   const isDark = document.documentElement.classList.contains('dark');
-  const ctx = document.getElementById('shareChart').getContext('2d');
 
-  const grad = ctx.createLinearGradient(0, 0, 0, 280);
-  grad.addColorStop(0, 'rgba(99,102,241,0.35)');
-  grad.addColorStop(1, 'rgba(99,102,241,0)');
+  function gradient(ctx, color, alpha) {
+    const g = ctx.createLinearGradient(0, 0, 0, 280);
+    g.addColorStop(0, color.replace('1)', alpha + ')'));
+    g.addColorStop(1, color.replace('1)', '0)'));
+    return g;
+  }
 
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: data.labels,
-      datasets: [{
-        label: 'Likes',
-        data: data.series,
-        borderColor: '#4f46e5',
-        backgroundColor: grad,
-        fill: true,
-        tension: 0.35,
-        borderWidth: 2.5,
-        pointRadius: 0,
-        pointHoverRadius: 5,
-      }],
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: isDark ? '#0f172a' : '#ffffff',
-          borderColor: isDark ? '#1e293b' : '#e2e8f0',
-          borderWidth: 1,
-          titleColor: isDark ? '#e2e8f0' : '#0f172a',
-          bodyColor: isDark ? '#e2e8f0' : '#0f172a',
-          padding: 12, cornerRadius: 8,
+  // 1. Activity multi-line — posts/likes/comments/views
+  (function() {
+    const ctx = document.getElementById('activityChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.labels,
+        datasets: [
+          { label: 'Postlar',   data: data.posts,    borderColor: '#4f46e5', backgroundColor: gradient(ctx, 'rgba(79,70,229,1)', '0.25'),  fill: true,  tension: 0.35, borderWidth: 2.5, pointRadius: 0 },
+          { label: 'Likes',     data: data.likes,    borderColor: '#f43f5e', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2,   pointRadius: 0, yAxisID: 'y1' },
+          { label: 'Kommentlar',data: data.comments, borderColor: '#f59e0b', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2,   pointRadius: 0, yAxisID: 'y1' },
+          { label: "Ko'rishlar",data: data.views,    borderColor: '#0ea5e9', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2,   pointRadius: 0, yAxisID: 'y1', borderDash: [4,3] },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { position: 'bottom', labels: { color: isDark?'#e2e8f0':'#0f172a', usePointStyle: true, padding: 16 } },
+          tooltip: { backgroundColor: isDark?'#0f172a':'#fff', titleColor: isDark?'#e2e8f0':'#0f172a', bodyColor: isDark?'#e2e8f0':'#0f172a', borderColor: isDark?'#1e293b':'#e2e8f0', borderWidth: 1, padding: 10, cornerRadius: 8 },
+        },
+        scales: {
+          x: { grid: { color: isDark?'rgba(148,163,184,0.12)':'rgba(148,163,184,0.22)' }, ticks: { color: isDark?'#64748b':'#94a3b8', maxRotation: 0, autoSkipPadding: 16 } },
+          y: { beginAtZero: true, position: 'left', grid: { color: isDark?'rgba(148,163,184,0.12)':'rgba(148,163,184,0.22)' }, ticks: { color: isDark?'#64748b':'#94a3b8' } },
+          y1: { beginAtZero: true, position: 'right', grid: { display: false }, ticks: { color: isDark?'#64748b':'#94a3b8' } },
         },
       },
-      scales: {
-        x: { grid: { color: isDark ? 'rgba(148,163,184,0.12)' : 'rgba(148,163,184,0.22)' }, ticks: { color: isDark ? '#64748b' : '#94a3b8' } },
-        y: { grid: { color: isDark ? 'rgba(148,163,184,0.12)' : 'rgba(148,163,184,0.22)' }, ticks: { color: isDark ? '#64748b' : '#94a3b8' }, beginAtZero: true },
+    });
+  })();
+
+  // 2. Audience growth line
+  if (document.getElementById('growthChart')) {
+    const ctx = document.getElementById('growthChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: { labels: data.labels, datasets: [{ label: 'Obunachilar', data: data.growth, borderColor: '#10b981', backgroundColor: gradient(ctx, 'rgba(16,185,129,1)', '0.25'), fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0 }] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: isDark?'#0f172a':'#fff', titleColor: isDark?'#e2e8f0':'#0f172a', bodyColor: isDark?'#e2e8f0':'#0f172a', borderColor: isDark?'#1e293b':'#e2e8f0', borderWidth: 1 } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: isDark?'#64748b':'#94a3b8', maxRotation: 0, autoSkipPadding: 16 } },
+          y: { grid: { color: isDark?'rgba(148,163,184,0.12)':'rgba(148,163,184,0.22)' }, ticks: { color: isDark?'#64748b':'#94a3b8' } },
+        },
       },
-    },
-  });
+    });
+  }
+
+  // 3. Post types donut
+  if (document.getElementById('typesChart') && types.length) {
+    const ctx = document.getElementById('typesChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: { labels: types.map(t => t.name), datasets: [{ data: types.map(t => t.value), backgroundColor: types.map(t => t.color), borderWidth: 3, borderColor: isDark?'#0f172a':'#fff', hoverOffset: 6 }] },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { display: false } } },
+    });
+  }
 })();
 </script>
 
