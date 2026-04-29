@@ -1,0 +1,20 @@
+{
+  "name": "Social Analytics",
+  "short_name": "Analytics",
+  "description": "Multi-platform social media analytics, sentiment + AI insights.",
+  "start_url": "/dashboard/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#7c3aed",
+  "lang": "uz",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/static/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

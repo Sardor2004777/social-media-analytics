@@ -310,7 +310,7 @@
       </div>
     </header>
 
-    <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-6">
+    <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6 lg:py-8 pb-24 lg:pb-8 space-y-6">
       {% if messages %}
         {% include 'partials/_messages.html' %}
       {% endif %}
@@ -318,6 +318,41 @@
     </main>
   </div>
 </div>
+
+{# ========== MOBILE BOTTOM NAV — visible on small screens only ========== #}
+<nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 h-16 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-200 dark:border-slate-800 px-2"
+     style="padding-bottom: env(safe-area-inset-bottom);">
+  <div class="h-full grid grid-cols-5 gap-1">
+    <a href="{% url 'dashboard:app' %}"
+       class="flex flex-col items-center justify-center gap-0.5 rounded-lg
+              {% if active_nav == 'dashboard' %}text-brand-600 dark:text-brand-400{% else %}text-slate-500 dark:text-slate-400{% endif %}">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+      <span class="text-[10px] font-medium">{% trans "Bosh" %}</span>
+    </a>
+    <a href="{% url 'analytics:overview' %}"
+       class="flex flex-col items-center justify-center gap-0.5 rounded-lg
+              {% if active_nav == 'analytics' %}text-brand-600 dark:text-brand-400{% else %}text-slate-500 dark:text-slate-400{% endif %}">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+      <span class="text-[10px] font-medium">{% trans "Analytics" %}</span>
+    </a>
+    <a href="{% url 'analytics:chat' %}"
+       class="flex flex-col items-center justify-center -mt-5 mb-1 rounded-full bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 text-white shadow-lg w-12 h-12 mx-auto">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6z"/></svg>
+    </a>
+    <a href="{% url 'social:accounts' %}"
+       class="flex flex-col items-center justify-center gap-0.5 rounded-lg
+              {% if active_nav == 'accounts' %}text-brand-600 dark:text-brand-400{% else %}text-slate-500 dark:text-slate-400{% endif %}">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>
+      <span class="text-[10px] font-medium">{% trans "Akkaunt" %}</span>
+    </a>
+    <a href="{% url 'dashboard:settings' %}"
+       class="flex flex-col items-center justify-center gap-0.5 rounded-lg
+              {% if active_nav == 'profile' %}text-brand-600 dark:text-brand-400{% else %}text-slate-500 dark:text-slate-400{% endif %}">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="text-[10px] font-medium">{% trans "Profil" %}</span>
+    </a>
+  </div>
+</nav>
 {% endblock %}
 
 {% block extra_body %}{% endblock %}

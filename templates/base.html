@@ -12,6 +12,7 @@
 
   <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
   <link rel="apple-touch-icon" href="{% static 'favicon.svg' %}">
+  <link rel="manifest" href="{% static 'manifest.json' %}">
 
   {# Open Graph + Twitter Card #}
   <meta property="og:type"        content="website">
@@ -91,6 +92,16 @@
 
   {# Client-side polish: reveal-on-scroll, spotlight, counters, cmd+K #}
   <script src="{% static 'js/app.js' %}" defer></script>
+
+  {# PWA service worker registration — silent failure if not supported (e.g. http) #}
+  <script>
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('{% static "sw.js" %}', { scope: '/' })
+          .catch(function() { /* silent */ });
+      });
+    }
+  </script>
 
   {# Global keyboard shortcuts — '?' opens help, 'g h/a/n' navigate, Ctrl+Shift+L toggles theme #}
   <script>
