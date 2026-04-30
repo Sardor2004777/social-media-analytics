@@ -40,8 +40,11 @@ staticfiles/
 /static/css/output.css
 .dev_emails/
 
-# Translation compiled files
-*.mo
+# Translation compiled files — kept in git on purpose so Django has the
+# binary catalogues immediately on deploy without depending on the build
+# step's i18n_compile.py invocation.  Regenerate via:
+#   python tools/i18n_compile.py
+# *.mo
 
 # Environment
 .env
