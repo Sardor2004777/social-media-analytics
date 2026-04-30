@@ -310,7 +310,7 @@
       type: 'line',
       data: {
         labels: data.labels,
-        datasets: [{ label: 'Obunachilar', data: data.series, borderColor: '#10b981', backgroundColor: grad, fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5 }],
+        datasets: [{ label: '{% trans "Obunachilar" %}', data: data.series, borderColor: '#10b981', backgroundColor: grad, fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5 }],
       },
       options: {
         responsive: true, maintainAspectRatio: false,
@@ -605,8 +605,8 @@
       data: {
         labels: activity.labels,
         datasets: [
-          { label: 'Postlar', data: activity.posts, borderColor: '#4f46e5', backgroundColor: grad, fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5 },
-          { label: 'Kommentlar', data: activity.engagement, borderColor: '#10b981', backgroundColor: grad2, fill: true, tension: 0.35, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, yAxisID: 'y1' },
+          { label: '{% trans "Postlar" %}', data: activity.posts, borderColor: '#4f46e5', backgroundColor: grad, fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5 },
+          { label: '{% trans "Kommentlar" %}', data: activity.engagement, borderColor: '#10b981', backgroundColor: grad2, fill: true, tension: 0.35, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, yAxisID: 'y1' },
           { label: 'Likelar', data: activity.likes, borderColor: '#f43f5e', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2, borderDash: [4,3], pointRadius: 0, pointHoverRadius: 5, yAxisID: 'y1', hidden: false },
           { label: 'Ko\'rishlar', data: activity.views, borderColor: '#0ea5e9', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2, borderDash: [2,3], pointRadius: 0, pointHoverRadius: 5, yAxisID: 'y1', hidden: true },
         ],

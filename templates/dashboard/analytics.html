@@ -417,8 +417,8 @@
       data: {
         labels: trend.labels,
         datasets: [
-          { label: 'Postlar', data: trend.posts, borderColor:'#4f46e5', backgroundColor:g1, fill:true, tension:0.35, pointRadius:0, borderWidth:2.5 },
-          { label: 'Layklar', data: trend.likes, borderColor:'#ec4899', backgroundColor:g2, fill:false, tension:0.35, pointRadius:0, borderWidth:2, yAxisID:'y1' },
+          { label: '{% trans "Postlar" %}', data: trend.posts, borderColor:'#4f46e5', backgroundColor:g1, fill:true, tension:0.35, pointRadius:0, borderWidth:2.5 },
+          { label: '{% trans "Layklar" %}', data: trend.likes, borderColor:'#ec4899', backgroundColor:g2, fill:false, tension:0.35, pointRadius:0, borderWidth:2, yAxisID:'y1' },
           { label: "Ko'rishlar", data: trend.views, borderColor:'#10b981', backgroundColor:g3, fill:false, tension:0.35, pointRadius:0, borderWidth:2, yAxisID:'y1' },
         ],
       },

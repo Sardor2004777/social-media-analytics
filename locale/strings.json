@@ -124,11 +124,24 @@
   "<strong class=\"text-slate-900 dark:text-white\">{{ email }}</strong> manzili\n          <strong class=\"text-slate-900 dark:text-white\">{{ user_display }}</strong> foydalanuvchiga tegishli ekanligini tasdiqlang.": [
     "templates/account/email_confirm.html"
   ],
+  "@{handle} yangilandi — +{created} yangi post, {updated} yangilandi, {followers} obunachi.": [
+    "apps/social/views.py"
+  ],
+  "@{handle} yangilandi — +{created} yangi post, {updated} yangilandi.": [
+    "apps/social/views.py"
+  ],
+  "@{handle} yangilandi — +{created} yangi video, {updated} yangilandi, {followers} obunachi.": [
+    "apps/social/views.py"
+  ],
+  "@{handle} — {n} obunachi": [
+    "apps/dashboard/views.py"
+  ],
   "AI": [
     "templates/dashboard/accounts.html"
   ],
   "AI Chat": [
-    "templates/dashboard/_shell.html"
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/help.html"
   ],
   "AI Chat hali sozlanmagan": [
     "templates/dashboard/chat.html"
@@ -143,7 +156,8 @@
     "templates/dashboard/post_generator.html"
   ],
   "AI Xulosa": [
-    "templates/dashboard/_shell.html"
+    "templates/dashboard/_shell.html",
+    "templates/dashboard/help.html"
   ],
   "AI hali sozlanmagan": [
     "templates/dashboard/post_generator.html"
@@ -194,6 +208,9 @@
   ],
   "Akkaunt topilmadi": [
     "apps/analytics/views.py"
+  ],
+  "Akkaunt topilmadi.": [
+    "apps/social/views.py"
   ],
   "Akkaunt ulash": [
     "templates/dashboard/account_connect.html",
@@ -499,6 +516,9 @@
   "Caption uzunligi vs engagement (so'nggi 30 kun)": [
     "templates/dashboard/analytics.html"
   ],
+  "Ch": [
+    "apps/analytics/views.py"
+  ],
   "Chap tomondagi formani to'ldirib 'Bashorat qilish' tugmasini bosing.": [
     "templates/dashboard/predict.html"
   ],
@@ -513,13 +533,21 @@
     "templates/account/logout.html"
   ],
   "Chorshanba": [
-    "apps/analytics/services/recommendations.py"
+    "apps/analytics/services/predict.py",
+    "apps/analytics/services/recommendations.py",
+    "apps/analytics/views.py"
   ],
   "Cloud parolingiz": [
     "templates/dashboard/telegram_password.html"
   ],
+  "Comments": [
+    "templates/dashboard/reports.html"
+  ],
   "Cookie'lar": [
     "templates/dashboard/privacy.html"
+  ],
+  "Cover": [
+    "templates/dashboard/reports.html"
   ],
   "Dark/light": [
     "templates/dashboard/help.html"
@@ -556,6 +584,9 @@
   "Demo": [
     "templates/dashboard/accounts.html"
   ],
+  "Demo akkauntni yangilab bo'lmaydi.": [
+    "apps/social/views.py"
+  ],
   "Demo ko'rish": [
     "templates/dashboard/landing.html"
   ],
@@ -579,8 +610,13 @@
   "Discussion rate": [
     "templates/dashboard/app.html"
   ],
+  "Du": [
+    "apps/analytics/views.py"
+  ],
   "Dushanba": [
-    "apps/analytics/services/recommendations.py"
+    "apps/analytics/services/predict.py",
+    "apps/analytics/services/recommendations.py",
+    "apps/analytics/views.py"
   ],
   "E2E shifrlangan": [
     "templates/dashboard/landing.html"
@@ -638,6 +674,18 @@
   "Eng ko'p ishlatilgan #teglar": [
     "templates/dashboard/analytics.html"
   ],
+  "Eng ko'p izoh": [
+    "apps/analytics/views.py"
+  ],
+  "Eng ko'p ko'rilgan": [
+    "apps/analytics/views.py"
+  ],
+  "Eng ko'p like": [
+    "apps/analytics/views.py"
+  ],
+  "Eng ko'p ulashilgan": [
+    "apps/analytics/views.py"
+  ],
   "Eng negativ kommentlar": [
     "templates/dashboard/sentiment.html"
   ],
@@ -649,6 +697,9 @@
   ],
   "Eng samarali klaster:": [
     "templates/dashboard/clusters.html"
+  ],
+  "Eng yangilari": [
+    "apps/analytics/views.py"
   ],
   "Eng yaxshi": [
     "templates/dashboard/best_time.html",
@@ -681,6 +732,9 @@
   "Eng yaxshisi:": [
     "templates/dashboard/analytics.html"
   ],
+  "Eng yuqori engagement": [
+    "apps/analytics/views.py"
+  ],
   "Engagement": [
     "templates/dashboard/compare.html"
   ],
@@ -706,8 +760,12 @@
   "Engagement pasayishi?": [
     "templates/dashboard/chat.html"
   ],
+  "Engagement rate": [
+    "apps/dashboard/views.py"
+  ],
   "Engagement {pct}% — top post": [
-    "apps/analytics/services/recommendations.py"
+    "apps/analytics/services/recommendations.py",
+    "apps/dashboard/views.py"
   ],
   "Engagementga eng ko'p ta'sir qiluvchi xususiyatlar": [
     "templates/dashboard/predict.html"
@@ -917,6 +975,7 @@
   ],
   "Hisobotlar": [
     "templates/dashboard/_shell.html",
+    "templates/dashboard/help.html",
     "templates/dashboard/reports.html",
     "templates/partials/_command_palette.html",
     "templates/partials/_navbar.html"
@@ -1016,6 +1075,7 @@
     "templates/dashboard/accounts.html"
   ],
   "Jami postlar": [
+    "apps/dashboard/views.py",
     "templates/dashboard/accounts.html"
   ],
   "Jami views": [
@@ -1027,6 +1087,9 @@
   "Joriy filterni saqlash": [
     "templates/dashboard/top_posts.html"
   ],
+  "Ju": [
+    "apps/analytics/views.py"
+  ],
   "Juda ko'p so'rov. Biroz kuting va qayta urinib ko'ring.": [
     "apps/core/ratelimit.py"
   ],
@@ -1037,7 +1100,9 @@
     "templates/account/signup.html"
   ],
   "Juma": [
-    "apps/analytics/services/recommendations.py"
+    "apps/analytics/services/predict.py",
+    "apps/analytics/services/recommendations.py",
+    "apps/analytics/views.py"
   ],
   "KPI'lar, faollik dinamikasi, top postlar, tavsiyalar": [
     "templates/dashboard/help.html"
@@ -1117,6 +1182,7 @@
     "templates/dashboard/top_posts.html"
   ],
   "Ko'rishlar": [
+    "apps/analytics/views.py",
     "templates/dashboard/analytics.html",
     "templates/dashboard/compare.html",
     "templates/dashboard/public_share.html"
@@ -1143,7 +1209,9 @@
     "templates/partials/_command_palette.html"
   ],
   "Kommentlar": [
+    "apps/analytics/views.py",
     "templates/dashboard/analytics.html",
+    "templates/dashboard/app.html",
     "templates/dashboard/public_share.html",
     "templates/dashboard/reports.html"
   ],
@@ -1151,6 +1219,9 @@
     "templates/dashboard/app.html"
   ],
   "Kontent ulushi": [
+    "templates/dashboard/public_share.html"
+  ],
+  "Korishlar": [
     "templates/dashboard/public_share.html"
   ],
   "Korrelyatsiya": [
@@ -1191,6 +1262,7 @@
     "templates/dashboard/app.html"
   ],
   "Likes": [
+    "apps/analytics/views.py",
     "templates/dashboard/public_share.html"
   ],
   "Likes / Views": [
@@ -1210,6 +1282,7 @@
   ],
   "ML Bashorat": [
     "templates/dashboard/_shell.html",
+    "templates/dashboard/help.html",
     "templates/dashboard/predict.html"
   ],
   "ML model bilan o'ynash": [
@@ -1418,7 +1491,9 @@
     "templates/dashboard/ai_digest.html"
   ],
   "Obunachilar": [
+    "apps/dashboard/views.py",
     "templates/dashboard/accounts.html",
+    "templates/dashboard/app.html",
     "templates/dashboard/compare.html",
     "templates/dashboard/competitors.html",
     "templates/dashboard/landing.html",
@@ -1489,6 +1564,9 @@
   "PDF, Excel, CSV": [
     "templates/dashboard/landing.html"
   ],
+  "Pa": [
+    "apps/analytics/views.py"
+  ],
   "Parol": [
     "templates/account/login.html",
     "templates/account/signup.html",
@@ -1554,7 +1632,9 @@
     "templates/dashboard/predict.html"
   ],
   "Payshanba": [
-    "apps/analytics/services/recommendations.py"
+    "apps/analytics/services/predict.py",
+    "apps/analytics/services/recommendations.py",
+    "apps/analytics/views.py"
   ],
   "Pearson r": [
     "templates/dashboard/correlation.html"
@@ -1583,6 +1663,9 @@
   ],
   "Platformaning butun manba kodi va dizayni MIT litsenziyasi ostida\n    taqdim etilgan. Siz kodni o'zingizning ehtiyojlaringizga moslashtirishingiz,\n    tarqatishingiz va ta'limdan foydalanishingiz mumkin. Mualliflikni saqlash —\n    MIT litsenziyasi matnini kopiya bilan birga yuborish kifoya.": [
     "templates/dashboard/terms.html"
+  ],
+  "Platforms": [
+    "templates/dashboard/reports.html"
   ],
   "Post": [
     "templates/dashboard/analytics.html",
@@ -1624,8 +1707,10 @@
   "Postlar": [
     "templates/dashboard/accounts.html",
     "templates/dashboard/analytics.html",
+    "templates/dashboard/app.html",
     "templates/dashboard/clusters.html",
     "templates/dashboard/compare.html",
+    "templates/dashboard/correlation.html",
     "templates/dashboard/hashtags.html",
     "templates/dashboard/landing.html",
     "templates/dashboard/public_share.html",
@@ -1660,6 +1745,9 @@
   ],
   "Postlaringizning qamrovi va faolligi jonli grafikada.": [
     "templates/account/base.html"
+  ],
+  "Posts": [
+    "templates/dashboard/reports.html"
   ],
   "Pozitiv": [
     "templates/dashboard/compare.html",
@@ -1705,6 +1793,9 @@
   ],
   "Public @username yoki kanal id": [
     "apps/social/models.py"
+  ],
+  "Public Share": [
+    "templates/dashboard/help.html"
   ],
   "Public Telegram kanalidan haqiqiy maʼlumot tortib olinadi: views, reaksiyalar, forwardlar va komment soni. Postlar fonda Celery task orqali yigʻiladi.": [
     "templates/dashboard/account_connect.html"
@@ -1842,6 +1933,9 @@
   "Real-time statistika": [
     "templates/account/base.html"
   ],
+  "Repostlar": [
+    "apps/analytics/views.py"
+  ],
   "Resurslar": [
     "templates/partials/_command_palette.html",
     "templates/partials/_footer.html"
@@ -1917,8 +2011,15 @@
   "Schema va OAuth callback infrastrukturasi tayyor. Haqiqiy ulanish uchun Meta Business Verification (7-14 kun review), Google Cloud OAuth client va Telegram Bot Token kerak. Hozirda loyiha demo rejimda ishlaydi — realistik ma'lumot, haqiqiy sentiment modeli, haqiqiy PDF/Excel eksport. API credentials qo'yilgach kod o'zgarmaydi, avtomatik haqiqiy rejimga o'tadi.": [
     "templates/dashboard/landing.html"
   ],
+  "Se": [
+    "apps/analytics/views.py"
+  ],
   "Sentiment": [
+    "apps/dashboard/views.py",
     "templates/dashboard/_shell.html",
+    "templates/dashboard/help.html",
+    "templates/dashboard/reports.html",
+    "templates/dashboard/sentiment.html",
     "templates/partials/_command_palette.html"
   ],
   "Sentiment +3%": [
@@ -1952,10 +2053,17 @@
     "templates/500.html"
   ],
   "Seshanba": [
-    "apps/analytics/services/recommendations.py"
+    "apps/analytics/services/predict.py",
+    "apps/analytics/services/recommendations.py",
+    "apps/analytics/views.py"
+  ],
+  "Sh": [
+    "apps/analytics/views.py"
   ],
   "Shanba": [
-    "apps/analytics/services/recommendations.py"
+    "apps/analytics/services/predict.py",
+    "apps/analytics/services/recommendations.py",
+    "apps/analytics/views.py"
   ],
   "Shares / Views": [
     "templates/dashboard/app.html"
@@ -2034,7 +2142,8 @@
   ],
   "Solishtirish": [
     "templates/dashboard/_shell.html",
-    "templates/dashboard/compare.html"
+    "templates/dashboard/compare.html",
+    "templates/dashboard/help.html"
   ],
   "Solishtirish uchun kamida 2 ta akkaunt kerak.": [
     "templates/dashboard/compare.html"
@@ -2057,6 +2166,9 @@
   ],
   "Statistikangiz asosida 5-7 ta optimal hashtag kombinatsiyasi.": [
     "templates/dashboard/hashtags.html"
+  ],
+  "Summary": [
+    "templates/dashboard/reports.html"
   ],
   "Summary, Posts, Comments, Sentiment, Platforms — openpyxl bilan formatlangan, filter va donut chart bilan.": [
     "templates/dashboard/reports.html"
@@ -2246,6 +2358,9 @@
   "Top postlardagi naqshlar": [
     "templates/dashboard/app.html"
   ],
+  "Top posts": [
+    "templates/dashboard/reports.html"
+  ],
   "Tortib olinadigan post soni": [
     "templates/dashboard/account_connect.html"
   ],
@@ -2309,7 +2424,7 @@
   "Virality": [
     "templates/dashboard/app.html"
   ],
-  "X = pozitiv komment %, Y = engagement %": [
+  "X — pozitiv komment foizi, Y — engagement foizi": [
     "templates/dashboard/correlation.html"
   ],
   "XLM-RoBERTa (ko'p tilli transformer modeli) kommentlarni pozitiv, neytral va negativ kategoriyalarga ajratadi — o'zbek, rus va ingliz tillarida.": [
@@ -2356,8 +2471,13 @@
   "Xususiyatlarni ko'rish": [
     "templates/dashboard/landing.html"
   ],
+  "Ya": [
+    "apps/analytics/views.py"
+  ],
   "Yakshanba": [
-    "apps/analytics/services/recommendations.py"
+    "apps/analytics/services/predict.py",
+    "apps/analytics/services/recommendations.py",
+    "apps/analytics/views.py"
   ],
   "Yana bitta ulash": [
     "templates/dashboard/accounts.html"
@@ -2387,6 +2507,9 @@
   "Yangi post yarating": [
     "templates/dashboard/post_generator.html"
   ],
+  "Yangi post: «{caption}»": [
+    "apps/dashboard/views.py"
+  ],
   "Yangi raqobatchi qo'shish": [
     "templates/dashboard/competitors.html"
   ],
@@ -2398,6 +2521,9 @@
   ],
   "Yangilash": [
     "templates/dashboard/accounts.html"
+  ],
+  "Yangilash muvaffaqiyatsiz: {e}": [
+    "apps/social/views.py"
   ],
   "Yaratilgan hisobotlar tarixi": [
     "templates/dashboard/delete_account.html"
@@ -2472,11 +2598,17 @@
   "akkauntini ulash": [
     "templates/dashboard/account_connect.html"
   ],
+  "auditoriya qarama-qarshi reaksiya beradigan postlarga ko'proq munosabat bildiradi.": [
+    "templates/dashboard/correlation.html"
+  ],
   "belgi": [
     "templates/dashboard/analytics.html"
   ],
   "bilan tanishdim va roziman.": [
     "templates/account/signup.html"
+  ],
+  "bog'liqlik bor, lekin to'liq emas. Boshqa omillar ham ta'sir qiladi.": [
+    "templates/dashboard/correlation.html"
   ],
   "demo ma'lumot": [
     "templates/dashboard/accounts.html"
@@ -2547,8 +2679,14 @@
   "postlar": [
     "templates/dashboard/landing.html"
   ],
+  "pozitiv komment ko'p bo'lsa engagement past. Bahsli mavzular ko'proq engagement keltirayotgan bo'lishi mumkin.": [
+    "templates/dashboard/correlation.html"
+  ],
   "pozitiv kommentlar": [
     "templates/dashboard/landing.html"
+  ],
+  "pozitiv kommentlar engagement bilan birga oshadi. Pozitiv reaktsiya keltiradigan kontentni ko'paytiring.": [
+    "templates/dashboard/correlation.html"
   ],
   "professional tushuning": [
     "templates/dashboard/landing.html"
@@ -2567,6 +2705,9 @@
   ],
   "scikit-learn modeli engagement bashorat qiladi": [
     "templates/dashboard/help.html"
+  ],
+  "sentiment va engagement bog'liq emas. Engagement boshqa omillarga bog'liq (vaqt, format, mavzu).": [
+    "templates/dashboard/correlation.html"
   ],
   "ta layk": [
     "templates/dashboard/predict.html"
@@ -2613,6 +2754,18 @@
   ],
   "{label} eng yaxshi natija beryapti": [
     "apps/analytics/services/recommendations.py"
+  ],
+  "{label} o'chirildi.": [
+    "apps/social/views.py"
+  ],
+  "{n} ta negativ komment aniqlandi": [
+    "apps/dashboard/views.py"
+  ],
+  "{n} ta pozitiv komment aniqlandi": [
+    "apps/dashboard/views.py"
+  ],
+  "{platform} uchun avtomatik yangilash hali mavjud emas.": [
+    "apps/social/views.py"
   ],
   "{{ day }} kuni soat {{ hr }}:00 da post chiqaring": [
     "templates/dashboard/app.html"

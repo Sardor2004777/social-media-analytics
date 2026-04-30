@@ -161,10 +161,10 @@
       data: {
         labels: data.labels,
         datasets: [
-          { label: 'Postlar',   data: data.posts,    borderColor: '#4f46e5', backgroundColor: gradient(ctx, 'rgba(79,70,229,1)', '0.25'),  fill: true,  tension: 0.35, borderWidth: 2.5, pointRadius: 0 },
-          { label: 'Likes',     data: data.likes,    borderColor: '#f43f5e', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2,   pointRadius: 0, yAxisID: 'y1' },
-          { label: 'Kommentlar',data: data.comments, borderColor: '#f59e0b', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2,   pointRadius: 0, yAxisID: 'y1' },
-          { label: "Ko'rishlar",data: data.views,    borderColor: '#0ea5e9', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2,   pointRadius: 0, yAxisID: 'y1', borderDash: [4,3] },
+          { label: '{% trans "Postlar" %}',   data: data.posts,    borderColor: '#4f46e5', backgroundColor: gradient(ctx, 'rgba(79,70,229,1)', '0.25'),  fill: true,  tension: 0.35, borderWidth: 2.5, pointRadius: 0 },
+          { label: '{% trans "Likes" %}',     data: data.likes,    borderColor: '#f43f5e', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2,   pointRadius: 0, yAxisID: 'y1' },
+          { label: '{% trans "Kommentlar" %}',data: data.comments, borderColor: '#f59e0b', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2,   pointRadius: 0, yAxisID: 'y1' },
+          { label: '{% trans "Korishlar" %}',data: data.views,    borderColor: '#0ea5e9', backgroundColor: 'transparent', fill: false, tension: 0.35, borderWidth: 2,   pointRadius: 0, yAxisID: 'y1', borderDash: [4,3] },
         ],
       },
       options: {
@@ -187,7 +187,7 @@
     const ctx = document.getElementById('growthChart').getContext('2d');
     new Chart(ctx, {
       type: 'line',
-      data: { labels: data.labels, datasets: [{ label: 'Obunachilar', data: data.growth, borderColor: '#10b981', backgroundColor: gradient(ctx, 'rgba(16,185,129,1)', '0.25'), fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0 }] },
+      data: { labels: data.labels, datasets: [{ label: '{% trans "Obunachilar" %}', data: data.growth, borderColor: '#10b981', backgroundColor: gradient(ctx, 'rgba(16,185,129,1)', '0.25'), fill: true, tension: 0.35, borderWidth: 2.5, pointRadius: 0 }] },
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false }, tooltip: { backgroundColor: isDark?'#0f172a':'#fff', titleColor: isDark?'#e2e8f0':'#0f172a', bodyColor: isDark?'#e2e8f0':'#0f172a', borderColor: isDark?'#1e293b':'#e2e8f0', borderWidth: 1 } },

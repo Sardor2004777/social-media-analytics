@@ -159,9 +159,9 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
         for hr in range(24):
             if heatmap[wd][hr] > best_val:
                 best_wd, best_hr, best_val = wd, hr, heatmap[wd][hr]
-    weekday_names = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"]
-    weekday_full = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba",
-                    "Juma", "Shanba", "Yakshanba"]
+    weekday_names = [_("Du"), _("Se"), _("Ch"), _("Pa"), _("Ju"), _("Sh"), _("Ya")]
+    weekday_full = [_("Dushanba"), _("Seshanba"), _("Chorshanba"), _("Payshanba"),
+                    _("Juma"), _("Shanba"), _("Yakshanba")]
 
     # ---------------- Top topics + hashtags from post captions ----------------
     import re as _re
@@ -241,10 +241,10 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
     def _pct(num, denom):
         return round(num * 100 / denom, 2) if denom else 0
     funnel_steps = [
-        {"label": "Ko'rishlar", "value": funnel_v, "pct": 100,                       "color": "from-sky-500 to-blue-600"},
-        {"label": "Likes",      "value": funnel_l, "pct": _pct(funnel_l, funnel_v),  "color": "from-emerald-500 to-teal-500"},
-        {"label": "Kommentlar", "value": funnel_c, "pct": _pct(funnel_c, funnel_v),  "color": "from-amber-500 to-orange-500"},
-        {"label": "Repostlar",  "value": funnel_s, "pct": _pct(funnel_s, funnel_v),  "color": "from-rose-500 to-pink-500"},
+        {"label": _("Ko'rishlar"), "value": funnel_v, "pct": 100,                       "color": "from-sky-500 to-blue-600"},
+        {"label": _("Likes"),      "value": funnel_l, "pct": _pct(funnel_l, funnel_v),  "color": "from-emerald-500 to-teal-500"},
+        {"label": _("Kommentlar"), "value": funnel_c, "pct": _pct(funnel_c, funnel_v),  "color": "from-amber-500 to-orange-500"},
+        {"label": _("Repostlar"),  "value": funnel_s, "pct": _pct(funnel_s, funnel_v),  "color": "from-rose-500 to-pink-500"},
     ]
 
     # Engagement comparison — current 30 days vs prior 30 days.
@@ -688,14 +688,33 @@ def analytics_compare(request: HttpRequest) -> HttpResponse:
     })
 
 
-TOP_POSTS_SORT_OPTIONS = {
-    "likes":      ("-likes",           "Eng ko'p like"),
-    "views":      ("-views",           "Eng ko'p ko'rilgan"),
-    "comments":   ("-comments_count",  "Eng ko'p izoh"),
-    "shares":     ("-shares",          "Eng ko'p ulashilgan"),
-    "engagement": ("-engagement_rate", "Eng yuqori engagement"),
-    "recent":     ("-published_at",    "Eng yangilari"),
+TOP_POSTS_SORT_FIELDS = {
+    "likes":      "-likes",
+    "views":      "-views",
+    "comments":   "-comments_count",
+    "shares":     "-shares",
+    "engagement": "-engagement_rate",
+    "recent":     "-published_at",
 }
+
+
+def _top_posts_sort_options() -> list[tuple[str, str]]:
+    """Localised label list for the Top Posts sort dropdown.
+
+    Built per-request so labels follow the active language (the labels
+    can't live in a module-level dict — they'd freeze to the language
+    that was active at import time).
+    """
+    return [
+        ("likes",      _("Eng ko'p like")),
+        ("views",      _("Eng ko'p ko'rilgan")),
+        ("comments",   _("Eng ko'p izoh")),
+        ("shares",     _("Eng ko'p ulashilgan")),
+        ("engagement", _("Eng yuqori engagement")),
+        ("recent",     _("Eng yangilari")),
+    ]
+
+
 TOP_POSTS_DAYS_OPTIONS = [7, 30, 90, 365, 0]  # 0 = all-time
 
 
@@ -705,9 +724,9 @@ def analytics_top_posts(request: HttpRequest) -> HttpResponse:
     user = request.user
 
     sort_key = request.GET.get("sort", "likes")
-    if sort_key not in TOP_POSTS_SORT_OPTIONS:
+    if sort_key not in TOP_POSTS_SORT_FIELDS:
         sort_key = "likes"
-    order_field = TOP_POSTS_SORT_OPTIONS[sort_key][0]
+    order_field = TOP_POSTS_SORT_FIELDS[sort_key]
 
     try:
         days = int(request.GET.get("days", 30))
@@ -766,7 +785,7 @@ def analytics_top_posts(request: HttpRequest) -> HttpResponse:
             "platform":  platform,
             "post_type": post_type,
         },
-        "sort_options":     [(k, v[1]) for k, v in TOP_POSTS_SORT_OPTIONS.items()],
+        "sort_options":     _top_posts_sort_options(),
         "days_options":     TOP_POSTS_DAYS_OPTIONS,
         "platform_options": Platform.choices,
         "type_options":     PostType.choices,
@@ -1128,7 +1147,7 @@ def ai_digest(request: HttpRequest) -> HttpResponse:
                 error = str(e)
             except Exception as e:
                 logger.exception("Digest generation failed for user %s", request.user.id)
-                error = f"Texnik xato: {e}"
+                error = _("Texnik xato: {e}").format(e=e)
 
     return render(request, "dashboard/ai_digest.html", {
         "active_nav":  "chat",
@@ -1172,11 +1191,11 @@ def engagement_predict(request: HttpRequest) -> HttpResponse:
             error = str(e)
         except Exception as e:
             logger.exception("Predict failed for user %s", request.user.id)
-            error = f"Texnik xato: {e}"
+            error = _("Texnik xato: {e}").format(e=e)
 
     weekday_options = [
-        (0, "Dushanba"), (1, "Seshanba"), (2, "Chorshanba"), (3, "Payshanba"),
-        (4, "Juma"),     (5, "Shanba"),   (6, "Yakshanba"),
+        (0, _("Dushanba")), (1, _("Seshanba")), (2, _("Chorshanba")), (3, _("Payshanba")),
+        (4, _("Juma")),     (5, _("Shanba")),   (6, _("Yakshanba")),
     ]
     return render(request, "dashboard/predict.html", {
         "active_nav":      "predict",

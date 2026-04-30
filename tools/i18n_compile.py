@@ -1473,6 +1473,92 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "«{snippet}» — shu post sizning eng samarali ishingiz. Mavzu va formatini takrorlashga harakat qiling.":
         {"en": "«{snippet}» — your most effective work. Try to repeat its topic and format.",
          "ru": "«{snippet}» — ваша самая эффективная работа. Попробуйте повторить её тему и формат."},
+
+    # ---- Top Posts sort options + KPIs (apps/analytics, apps/dashboard) ----
+    "Eng ko'p like":     {"en": "Most likes",         "ru": "Больше всего лайков"},
+    "Eng ko'p ko'rilgan":{"en": "Most viewed",        "ru": "Больше всего просмотров"},
+    "Eng ko'p izoh":     {"en": "Most commented",     "ru": "Больше всего комментариев"},
+    "Eng ko'p ulashilgan":{"en": "Most shared",       "ru": "Больше всего репостов"},
+    "Eng yuqori engagement":{"en": "Highest engagement", "ru": "Высшая вовлечённость"},
+    "Eng yangilari":     {"en": "Newest first",       "ru": "Сначала свежие"},
+    "Engagement rate":   {"en": "Engagement rate",    "ru": "Вовлечённость"},
+    "Repostlar":         {"en": "Reshares",           "ru": "Репосты"},
+
+    # ---- Heatmap weekday short names ----
+    "Du": {"en": "Mon", "ru": "Пн"},
+    "Se": {"en": "Tue", "ru": "Вт"},
+    "Ch": {"en": "Wed", "ru": "Ср"},
+    "Pa": {"en": "Thu", "ru": "Чт"},
+    "Ju": {"en": "Fri", "ru": "Пт"},
+    "Sh": {"en": "Sat", "ru": "Сб"},
+    "Ya": {"en": "Sun", "ru": "Вс"},
+
+    # ---- Social refresh / disconnect messages ----
+    "Demo akkauntni yangilab bo'lmaydi.":
+        {"en": "Demo accounts cannot be refreshed.",
+         "ru": "Демо-аккаунты обновлять нельзя."},
+    "@{handle} yangilandi — +{created} yangi post, {updated} yangilandi, {followers} obunachi.":
+        {"en": "@{handle} updated — +{created} new posts, {updated} updated, {followers} followers.",
+         "ru": "@{handle} обновлён — +{created} новых постов, {updated} обновлено, {followers} подписчиков."},
+    "@{handle} yangilandi — +{created} yangi post, {updated} yangilandi.":
+        {"en": "@{handle} updated — +{created} new posts, {updated} updated.",
+         "ru": "@{handle} обновлён — +{created} новых постов, {updated} обновлено."},
+    "@{handle} yangilandi — +{created} yangi video, {updated} yangilandi, {followers} obunachi.":
+        {"en": "@{handle} updated — +{created} new videos, {updated} updated, {followers} subscribers.",
+         "ru": "@{handle} обновлён — +{created} новых видео, {updated} обновлено, {followers} подписчиков."},
+    "{platform} uchun avtomatik yangilash hali mavjud emas.":
+        {"en": "Automatic refresh is not available for {platform} yet.",
+         "ru": "Автообновление для {platform} пока недоступно."},
+    "Yangilash muvaffaqiyatsiz: {e}":
+        {"en": "Refresh failed: {e}", "ru": "Обновление не удалось: {e}"},
+    "{label} o'chirildi.":
+        {"en": "{label} deleted.", "ru": "{label} удалён."},
+    "Akkaunt topilmadi.":
+        {"en": "Account not found.", "ru": "Аккаунт не найден."},
+
+    # ---- Dashboard timeline event strings ----
+    "Yangi post: «{caption}»":
+        {"en": "New post: «{caption}»", "ru": "Новый пост: «{caption}»"},
+    "{n} ta pozitiv komment aniqlandi":
+        {"en": "{n} positive comments detected", "ru": "Найдено {n} положительных комментариев"},
+    "{n} ta negativ komment aniqlandi":
+        {"en": "{n} negative comments detected", "ru": "Найдено {n} отрицательных комментариев"},
+    "@{handle} — {n} obunachi":
+        {"en": "@{handle} — {n} followers", "ru": "@{handle} — {n} подписчиков"},
+    "Korishlar":          {"en": "Views",              "ru": "Просмотры"},
+    "Layklar":            {"en": "Likes",              "ru": "Лайки"},
+    "Postlar":            {"en": "Posts",              "ru": "Посты"},
+    "Likes":              {"en": "Likes",              "ru": "Лайки"},
+    "Kommentlar":         {"en": "Comments",           "ru": "Комментарии"},
+
+    # ---- Help / correlation extras ----
+    "Public Share":         {"en": "Public Share",      "ru": "Public Share"},
+    "X — pozitiv komment foizi, Y — engagement foizi":
+        {"en": "X — positive comment %, Y — engagement %",
+         "ru": "X — % положительных комментариев, Y — % вовлечённости"},
+    "pozitiv kommentlar engagement bilan birga oshadi. Pozitiv reaktsiya keltiradigan kontentni ko'paytiring.":
+        {"en": "positive comments rise alongside engagement. Produce more content that gets a positive reaction.",
+         "ru": "положительные комментарии растут вместе с вовлечённостью. Делайте больше контента, вызывающего позитивную реакцию."},
+    "bog'liqlik bor, lekin to'liq emas. Boshqa omillar ham ta'sir qiladi.":
+        {"en": "there is a link but it isn't full. Other factors also matter.",
+         "ru": "связь есть, но не полная. Другие факторы тоже влияют."},
+    "sentiment va engagement bog'liq emas. Engagement boshqa omillarga bog'liq (vaqt, format, mavzu).":
+        {"en": "sentiment and engagement aren't linked. Engagement depends on other factors (timing, format, topic).",
+         "ru": "настроение и вовлечённость не связаны. Вовлечённость зависит от других факторов (время, формат, тема)."},
+    "pozitiv komment ko'p bo'lsa engagement past. Bahsli mavzular ko'proq engagement keltirayotgan bo'lishi mumkin.":
+        {"en": "more positive comments correlate with lower engagement. Controversial topics may be driving more engagement.",
+         "ru": "больше положительных — ниже вовлечённость. Возможно, спорные темы дают больше отклика."},
+    "auditoriya qarama-qarshi reaksiya beradigan postlarga ko'proq munosabat bildiradi.":
+        {"en": "the audience reacts more to posts that provoke an opposite reaction.",
+         "ru": "аудитория сильнее реагирует на посты, вызывающие противоположную реакцию."},
+
+    # ---- Excel/PDF chip labels (English-source technical terms) ----
+    "Summary":  {"en": "Summary",   "ru": "Сводка"},
+    "Posts":    {"en": "Posts",     "ru": "Посты"},
+    "Comments": {"en": "Comments",  "ru": "Комментарии"},
+    "Platforms":{"en": "Platforms", "ru": "Платформы"},
+    "Cover":    {"en": "Cover",     "ru": "Обложка"},
+    "Top posts":{"en": "Top posts", "ru": "Топ-посты"},
 }
 
 

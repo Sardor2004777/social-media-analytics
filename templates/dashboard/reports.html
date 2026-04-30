@@ -48,11 +48,11 @@
       {% trans "Summary, Posts, Comments, Sentiment, Platforms — openpyxl bilan formatlangan, filter va donut chart bilan." %}
     </p>
     <div class="mt-5 flex flex-wrap gap-1.5">
-      <span class="chip text-[11px]">Summary</span>
-      <span class="chip text-[11px]">Posts</span>
-      <span class="chip text-[11px]">Comments</span>
-      <span class="chip text-[11px]">Sentiment</span>
-      <span class="chip text-[11px]">Platforms</span>
+      <span class="chip text-[11px]">{% trans "Summary" %}</span>
+      <span class="chip text-[11px]">{% trans "Posts" %}</span>
+      <span class="chip text-[11px]">{% trans "Comments" %}</span>
+      <span class="chip text-[11px]">{% trans "Sentiment" %}</span>
+      <span class="chip text-[11px]">{% trans "Platforms" %}</span>
     </div>
     <a href="{% url 'reports:export_xlsx' %}" class="btn-primary btn-full mt-6">
       <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -74,11 +74,11 @@
       {% trans "Gradient cover sahifasi, KPI xulosasi, platforma jadvali, sentiment namunalari, top postlar — ReportLab orqali." %}
     </p>
     <div class="mt-5 flex flex-wrap gap-1.5">
-      <span class="chip text-[11px]">Cover</span>
-      <span class="chip text-[11px]">Summary</span>
-      <span class="chip text-[11px]">Platforms</span>
-      <span class="chip text-[11px]">Sentiment</span>
-      <span class="chip text-[11px]">Top posts</span>
+      <span class="chip text-[11px]">{% trans "Cover" %}</span>
+      <span class="chip text-[11px]">{% trans "Summary" %}</span>
+      <span class="chip text-[11px]">{% trans "Platforms" %}</span>
+      <span class="chip text-[11px]">{% trans "Sentiment" %}</span>
+      <span class="chip text-[11px]">{% trans "Top posts" %}</span>
     </div>
     <a href="{% url 'reports:export_pdf' %}" class="btn-primary btn-full mt-6 bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600">
       <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>

@@ -24,7 +24,7 @@
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" data-reveal>
     <div class="lg:col-span-2 card p-6">
       <h3 class="text-base font-semibold text-slate-900 dark:text-white">{% trans "Scatter plot" %}</h3>
-      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "X = pozitiv komment %, Y = engagement %" %}</p>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{% trans "X — pozitiv komment foizi, Y — engagement foizi" %}</p>
       <div class="mt-5 h-96">
         <canvas id="correlationChart"></canvas>
       </div>
@@ -37,15 +37,15 @@
       </div>
       <div class="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
         {% if correlation > 0.5 %}
-          ✅ <strong>{% trans "Kuchli pozitiv korrelyatsiya" %}</strong> — pozitiv kommentlar engagement bilan birga oshadi. Pozitiv reaktsiya keltiradigan kontentni ko'paytiring.
+          ✅ <strong>{% trans "Kuchli pozitiv korrelyatsiya" %}</strong> — {% trans "pozitiv kommentlar engagement bilan birga oshadi. Pozitiv reaktsiya keltiradigan kontentni ko'paytiring." %}
         {% elif correlation > 0.3 %}
-          🟢 <strong>{% trans "O'rtacha pozitiv korrelyatsiya" %}</strong> — bog'liqlik bor, lekin to'liq emas. Boshqa omillar ham ta'sir qiladi.
+          🟢 <strong>{% trans "O'rtacha pozitiv korrelyatsiya" %}</strong> — {% trans "bog'liqlik bor, lekin to'liq emas. Boshqa omillar ham ta'sir qiladi." %}
         {% elif correlation > -0.3 %}
-          ⚪ <strong>{% trans "Aloqa kuchsiz" %}</strong> — sentiment va engagement bog'liq emas. Engagement boshqa omillarga bog'liq (vaqt, format, mavzu).
+          ⚪ <strong>{% trans "Aloqa kuchsiz" %}</strong> — {% trans "sentiment va engagement bog'liq emas. Engagement boshqa omillarga bog'liq (vaqt, format, mavzu)." %}
         {% elif correlation > -0.5 %}
-          🟠 <strong>{% trans "Salbiy korrelyatsiya" %}</strong> — pozitiv komment ko'p bo'lsa engagement past. Bahsli mavzular ko'proq engagement keltirayotgan bo'lishi mumkin.
+          🟠 <strong>{% trans "Salbiy korrelyatsiya" %}</strong> — {% trans "pozitiv komment ko'p bo'lsa engagement past. Bahsli mavzular ko'proq engagement keltirayotgan bo'lishi mumkin." %}
         {% else %}
-          🔴 <strong>{% trans "Kuchli salbiy korrelyatsiya" %}</strong> — auditoriya qarama-qarshi reaksiya beradigan postlarga ko'proq munosabat bildiradi.
+          🔴 <strong>{% trans "Kuchli salbiy korrelyatsiya" %}</strong> — {% trans "auditoriya qarama-qarshi reaksiya beradigan postlarga ko'proq munosabat bildiradi." %}
         {% endif %}
       </div>
       <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
@@ -67,7 +67,7 @@
   new Chart(ctx, {
     type: 'scatter',
     data: { datasets: [{
-      label: 'Postlar', data: points,
+      label: '{% trans "Postlar" %}', data: points,
       backgroundColor: 'rgba(99,102,241,0.6)', borderColor: '#4f46e5',
       pointRadius: 5, pointHoverRadius: 8,
     }]},

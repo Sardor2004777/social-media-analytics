@@ -190,10 +190,11 @@ def best_post_recipe(user) -> dict | None:
                         "hashtag_count": hc,
                         "has_media":     bool(hm),
                     }
-    weekday_names_uz = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba",
-                        "Juma", "Shanba", "Yakshanba"]
+    from django.utils.translation import gettext as _
+    weekday_names = [_("Dushanba"), _("Seshanba"), _("Chorshanba"), _("Payshanba"),
+                     _("Juma"), _("Shanba"), _("Yakshanba")]
     return {
-        "weekday":       weekday_names_uz[best["weekday"]],
+        "weekday":       weekday_names[best["weekday"]],
         "weekday_idx":   best["weekday"],
         "hour":          best["hour"],
         "caption_len":   best["caption_len"],

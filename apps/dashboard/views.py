@@ -349,10 +349,10 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         return {}
 
     kpis = [
-        _kpi("Jami postlar",     total_posts,                      "layers",   "brand",   spark=per_day_posts),
-        _kpi("Obunachilar",      total_followers,                  "users",    "emerald", spark=_growth_spark(total_followers)),
-        _kpi("Engagement rate",  round(engagement * 100, 1),       "activity", "amber",   suffix="%", spark=per_day_posts),
-        _kpi("Sentiment",        round(positive_share, 0),         "smile",    "sky",     suffix="%", spark=per_day_comments),
+        _kpi(_("Jami postlar"),     total_posts,                      "layers",   "brand",   spark=per_day_posts),
+        _kpi(_("Obunachilar"),      total_followers,                  "users",    "emerald", spark=_growth_spark(total_followers)),
+        _kpi(_("Engagement rate"),  round(engagement * 100, 1),       "activity", "amber",   suffix="%", spark=per_day_posts),
+        _kpi(_("Sentiment"),        round(positive_share, 0),         "smile",    "sky",     suffix="%", spark=per_day_comments),
     ]
 
     first_name = (user.get_short_name() if hasattr(user, "get_short_name") else "") or (user.email.split("@")[0] if user.email else "do'st")
@@ -489,7 +489,7 @@ def _build_timeline(user, now) -> list[dict]:
         events.append((latest_post.published_at, {
             "icon": "share-2",
             "accent": "sky",
-            "text": f"Yangi post: «{(latest_post.caption or '...')[:40]}»",
+            "text": _("Yangi post: «{caption}»").format(caption=(latest_post.caption or '...')[:40]),
         }))
 
     recent_comments = (
@@ -502,12 +502,12 @@ def _build_timeline(user, now) -> list[dict]:
     if pos:
         events.append((pos[0].published_at, {
             "icon": "message-square", "accent": "emerald",
-            "text": f"{len(pos)} ta pozitiv komment aniqlandi",
+            "text": _("{n} ta pozitiv komment aniqlandi").format(n=len(pos)),
         }))
     if neg:
         events.append((neg[0].published_at, {
             "icon": "alert-circle", "accent": "rose",
-            "text": f"{len(neg)} ta negativ komment aniqlandi",
+            "text": _("{n} ta negativ komment aniqlandi").format(n=len(neg)),
         }))
 
     top_account = (
@@ -516,7 +516,7 @@ def _build_timeline(user, now) -> list[dict]:
     if top_account:
         events.append((top_account.updated_at, {
             "icon": "user-plus", "accent": "emerald",
-            "text": f"@{top_account.handle} \u2014 {top_account.follower_count:,} obunachi",
+            "text": _("@{handle} — {n} obunachi").format(handle=top_account.handle, n=f"{top_account.follower_count:,}"),
         }))
 
     top_engaged = (
@@ -525,7 +525,7 @@ def _build_timeline(user, now) -> list[dict]:
     if top_engaged:
         events.append((top_engaged.published_at, {
             "icon": "trending-up", "accent": "emerald",
-            "text": f"Engagement {top_engaged.engagement_rate*100:.1f}% \u2014 top post",
+            "text": _("Engagement {pct}% — top post").format(pct=f"{top_engaged.engagement_rate*100:.1f}"),
         }))
 
     latest_sentiment = (

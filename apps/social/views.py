@@ -184,49 +184,36 @@ def account_refresh(request: HttpRequest, pk: int) -> HttpResponse:
     """
     account = get_object_or_404(ConnectedAccount, pk=pk, user=request.user)
     if account.is_demo:
-        messages.info(request, "Demo akkauntni yangilab bo'lmaydi.")
+        messages.info(request, _("Demo akkauntni yangilab bo'lmaydi."))
         return redirect("social:accounts")
 
     try:
+        handle = account.handle
         if account.platform == Platform.YOUTUBE:
             result = sync_youtube_account.apply(args=[account.id]).get()
-            messages.success(
-                request,
-                f"@{account.handle} yangilandi — +{result.get('created', 0)} yangi video, "
-                f"{result.get('updated', 0)} yangilandi, "
-                f"{result.get('follower_count', 0):,} obunachi.",
-            )
+            messages.success(request, _("@{handle} yangilandi — +{created} yangi video, {updated} yangilandi, {followers} obunachi.").format(
+                handle=handle, created=result.get('created', 0), updated=result.get('updated', 0),
+                followers=f"{result.get('follower_count', 0):,}"))
         elif account.platform == Platform.INSTAGRAM:
             result = sync_instagram_account.apply(args=[account.id]).get()
-            messages.success(
-                request,
-                f"@{account.handle} yangilandi — +{result.get('created', 0)} yangi post, "
-                f"{result.get('updated', 0)} yangilandi, "
-                f"{result.get('follower_count', 0):,} obunachi.",
-            )
+            messages.success(request, _("@{handle} yangilandi — +{created} yangi post, {updated} yangilandi, {followers} obunachi.").format(
+                handle=handle, created=result.get('created', 0), updated=result.get('updated', 0),
+                followers=f"{result.get('follower_count', 0):,}"))
         elif account.platform == Platform.TELEGRAM:
             result = sync_telegram_account.apply(args=[account.id]).get()
-            messages.success(
-                request,
-                f"@{account.handle} yangilandi — +{result.get('created', 0)} yangi post, "
-                f"{result.get('updated', 0)} yangilandi.",
-            )
+            messages.success(request, _("@{handle} yangilandi — +{created} yangi post, {updated} yangilandi.").format(
+                handle=handle, created=result.get('created', 0), updated=result.get('updated', 0)))
         elif account.platform == Platform.VK:
             result = sync_vk_account.apply(args=[account.id]).get()
-            messages.success(
-                request,
-                f"@{account.handle} yangilandi — +{result.get('created', 0)} yangi post, "
-                f"{result.get('updated', 0)} yangilandi, "
-                f"{result.get('follower_count', 0):,} obunachi.",
-            )
+            messages.success(request, _("@{handle} yangilandi — +{created} yangi post, {updated} yangilandi, {followers} obunachi.").format(
+                handle=handle, created=result.get('created', 0), updated=result.get('updated', 0),
+                followers=f"{result.get('follower_count', 0):,}"))
         else:
-            messages.info(
-                request,
-                f"{account.get_platform_display()} uchun avtomatik yangilash hali mavjud emas.",
-            )
+            messages.info(request, _("{platform} uchun avtomatik yangilash hali mavjud emas.").format(
+                platform=account.get_platform_display()))
     except Exception as e:
         logger.warning("Refresh failed for account %s: %s", account.id, e)
-        messages.error(request, f"Yangilash muvaffaqiyatsiz: {e}")
+        messages.error(request, _("Yangilash muvaffaqiyatsiz: {e}").format(e=e))
     return redirect("social:accounts")
 
 
@@ -239,9 +226,9 @@ def account_disconnect(request: HttpRequest, pk: int) -> HttpResponse:
     if acct:
         label = f"@{acct.handle} ({acct.get_platform_display()})"
         acct.delete()
-        messages.success(request, f"{label} o'chirildi.")
+        messages.success(request, _("{label} o'chirildi.").format(label=label))
     else:
-        messages.error(request, "Akkaunt topilmadi.")
+        messages.error(request, _("Akkaunt topilmadi."))
     return redirect("social:accounts")
 
 
