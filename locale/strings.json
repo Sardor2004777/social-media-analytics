@@ -5,6 +5,9 @@
   "1 / 3 — telefon raqamingiz": [
     "templates/dashboard/telegram_phone.html"
   ],
+  "1-qadam: Akkaunt ulang": [
+    "templates/dashboard/app.html"
+  ],
   "1-qadam: QR kodni scan qiling": [
     "templates/dashboard/two_factor.html"
   ],
@@ -105,6 +108,9 @@
   ],
   "7. Aloqa": [
     "templates/dashboard/terms.html"
+  ],
+  "7×24 heatmap qaysi kun va soatda postingiz eng ko'p engagement olganini ko'rsatadi.": [
+    "templates/dashboard/app.html"
   ],
   "8. Mualliflik huquqi": [
     "templates/dashboard/terms.html"
@@ -279,6 +285,12 @@
     "templates/partials/_command_palette.html",
     "templates/partials/_navbar.html"
   ],
+  "Analytics + AI Insight": [
+    "templates/dashboard/app.html"
+  ],
+  "Analytics sahifada KPI'lar tepasida AI maslahat tugmasi — 30 kunlik xulosa va keyingi qadam.": [
+    "templates/dashboard/app.html"
+  ],
   "Anomaliya aniqlash tizimi tomonidan avtomatik yaratilgan ogohlantirishlar.": [
     "templates/dashboard/alerts.html"
   ],
@@ -450,6 +462,9 @@
   ],
   "Bu platforma bepulmi?": [
     "templates/dashboard/landing.html"
+  ],
+  "Bu sizning analitika dashboardingiz. Bir necha qadamda asosiy imkoniyatlarni ko'rsatib beraman.": [
+    "templates/dashboard/app.html"
   ],
   "Bu xat avtomatik yuborildi. Javob bermang.": [
     "templates/account/email/_base.html"
@@ -633,12 +648,16 @@
   "Eng yaxshi postlar (top 20)": [
     "templates/dashboard/analytics.html"
   ],
+  "Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi — copy-paste qilib darhol joylashtirishingiz mumkin.": [
+    "templates/dashboard/app.html"
+  ],
   "Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi.": [
     "templates/dashboard/post_generator.html"
   ],
   "Eng yaxshi vaqt": [
     "templates/dashboard/_shell.html",
     "templates/dashboard/analytics.html",
+    "templates/dashboard/app.html",
     "templates/dashboard/best_time.html"
   ],
   "Eng yaxshisi:": [
@@ -848,6 +867,7 @@
   ],
   "Hashtag tahlili": [
     "templates/dashboard/_shell.html",
+    "templates/dashboard/app.html",
     "templates/dashboard/hashtags.html"
   ],
   "Hashtag tahlili uchun yetarli post yo'q.": [
@@ -1056,6 +1076,9 @@
   ],
   "Klaviatura yorliqlari": [
     "templates/dashboard/help.html"
+  ],
+  "Klaviaturada ? bosing yoki Ctrl+K orqali har joyga tezda boring. Sidebar'da Yordam to'liq qo'llanma.": [
+    "templates/dashboard/app.html"
   ],
   "Ko'p": [
     "templates/dashboard/best_time.html"
@@ -1661,6 +1684,9 @@
   "Qaysi hashtaglaringiz eng yuqori engagement keltirayapti — 90 kunlik ma'lumot.": [
     "templates/dashboard/hashtags.html"
   ],
+  "Qaysi hashtaglaringiz haqiqatan ishlayapti — top 20 ro'yxati va engagement bo'yicha.": [
+    "templates/dashboard/app.html"
+  ],
   "Qaysi kanalni tahlil qilamiz?": [
     "templates/dashboard/telegram_channels.html"
   ],
@@ -1874,6 +1900,9 @@
   "Shaxsiy ma'lumot": [
     "templates/dashboard/settings.html"
   ],
+  "Sidebar → Akkauntlarim. Telegram, YouTube yoki VK ni OAuth orqali ulab, real ma'lumotni torting.": [
+    "templates/dashboard/app.html"
+  ],
   "Siz Social Analytics akkauntingiz uchun parolni tiklash so'rovini\n  yubordingiz. Yangi parol o'rnatish uchun quyidagi tugmani bosing:": [
     "templates/account/email/password_reset_key_message.html"
   ],
@@ -1974,6 +2003,9 @@
   ],
   "Tabiiy tilda savol bering, AI sizning ma'lumotingiz haqida javob beradi": [
     "templates/dashboard/help.html"
+  ],
+  "Tabiiy tilda savol bering: AI sizning real ma'lumotingiz asosida javob beradi.": [
+    "templates/dashboard/app.html"
   ],
   "Tabiiy tilda yozing — AI siz'ning real ma'lumotingiz asosida javob beradi. OpenAI (gpt-4o-mini) orqali.": [
     "templates/dashboard/chat.html"
@@ -2245,6 +2277,9 @@
   "Xush kelibsiz": [
     "templates/account/login.html"
   ],
+  "Xush kelibsiz!": [
+    "templates/dashboard/app.html"
+  ],
   "Xususiyatlar": [
     "templates/partials/_footer.html",
     "templates/partials/_navbar.html"
@@ -2329,6 +2364,7 @@
   ],
   "Yordam": [
     "templates/dashboard/_shell.html",
+    "templates/dashboard/app.html",
     "templates/dashboard/help.html"
   ],
   "Yordam markazi": [

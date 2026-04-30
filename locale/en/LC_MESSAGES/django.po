@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: social-analytics 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-30 09:03+0000\n"
-"PO-Revision-Date: 2026-04-30 09:03+0000\n"
+"POT-Creation-Date: 2026-04-30 09:33+0000\n"
+"PO-Revision-Date: 2026-04-30 09:33+0000\n"
 "Last-Translator: social-analytics i18n_compile.py\n"
 "Language-Team: en\n"
 "Language: en\n"
@@ -20,6 +20,10 @@ msgstr "(likes + comments + shares) / views"
 #: templates/dashboard/telegram_phone.html
 msgid "1 / 3 — telefon raqamingiz"
 msgstr "1 / 3 — your phone number"
+
+#: templates/dashboard/app.html
+msgid "1-qadam: Akkaunt ulang"
+msgstr "Step 1: Connect an account"
 
 #: templates/dashboard/two_factor.html
 msgid "1-qadam: QR kodni scan qiling"
@@ -170,6 +174,14 @@ msgstr "6. Changes to the terms"
 #: templates/dashboard/terms.html
 msgid "7. Aloqa"
 msgstr "7. Contact"
+
+#: templates/dashboard/app.html
+msgid ""
+"7×24 heatmap qaysi kun va soatda postingiz eng ko'p engagement olganini "
+"ko'rsatadi."
+msgstr ""
+"A 7×24 heatmap shows on which day and hour your posts got the most "
+"engagement."
 
 #: templates/dashboard/terms.html
 msgid "8. Mualliflik huquqi"
@@ -413,6 +425,18 @@ msgstr "On the analytics pages — heatmap, post type, sentiment, ML forecasts."
 #: templates/partials/_command_palette.html templates/partials/_navbar.html
 msgid "Analytics"
 msgstr "Analytics"
+
+#: templates/dashboard/app.html
+msgid "Analytics + AI Insight"
+msgstr "Analytics + AI Insight"
+
+#: templates/dashboard/app.html
+msgid ""
+"Analytics sahifada KPI'lar tepasida AI maslahat tugmasi — 30 kunlik xulosa "
+"va keyingi qadam."
+msgstr ""
+"On the Analytics page, above the KPIs there is an AI advice button — a "
+"30-day summary and the next step."
 
 #: templates/dashboard/alerts.html
 msgid ""
@@ -673,6 +697,14 @@ msgstr "This link is invalid or has expired."
 msgid "Bu platforma bepulmi?"
 msgstr "Is this platform free?"
 
+#: templates/dashboard/app.html
+msgid ""
+"Bu sizning analitika dashboardingiz. Bir necha qadamda asosiy imkoniyatlarni"
+" ko'rsatib beraman."
+msgstr ""
+"This is your analytics dashboard. Let me walk you through the main features "
+"in a few steps."
+
 #: templates/dashboard/telegram_password.html
 msgid ""
 "Bu Telegram'ning Settings → Privacy → Two-Step Verification bo'limida "
@@ -922,12 +954,20 @@ msgstr "Best platform?"
 msgid "Eng yaxshi postlar (top 20)"
 msgstr "Top posts (top 20)"
 
+#: templates/dashboard/app.html
+msgid ""
+"Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi — copy-paste "
+"qilib darhol joylashtirishingiz mumkin."
+msgstr ""
+"Three new caption suggestions in the style of your top posts — copy-paste "
+"and publish straight away."
+
 #: templates/dashboard/post_generator.html
 msgid "Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi."
 msgstr "Three new caption drafts in the style of your top posts."
 
 #: templates/dashboard/_shell.html templates/dashboard/analytics.html
-#: templates/dashboard/best_time.html
+#: templates/dashboard/app.html templates/dashboard/best_time.html
 msgid "Eng yaxshi vaqt"
 msgstr "Best time"
 
@@ -1241,7 +1281,8 @@ msgstr "Hashtag"
 msgid "Hashtag soni"
 msgstr "Hashtag count"
 
-#: templates/dashboard/_shell.html templates/dashboard/hashtags.html
+#: templates/dashboard/_shell.html templates/dashboard/app.html
+#: templates/dashboard/hashtags.html
 msgid "Hashtag tahlili"
 msgstr "Hashtag analysis"
 
@@ -1529,6 +1570,14 @@ msgstr "Clusters"
 #: templates/dashboard/help.html
 msgid "Klaviatura yorliqlari"
 msgstr "Keyboard shortcuts"
+
+#: templates/dashboard/app.html
+msgid ""
+"Klaviaturada ? bosing yoki Ctrl+K orqali har joyga tezda boring. Sidebar'da "
+"Yordam to'liq qo'llanma."
+msgstr ""
+"Press ? on the keyboard or Ctrl+K to jump anywhere fast. Help in the sidebar"
+" has the full guide."
 
 #: templates/dashboard/best_time.html
 msgid "Ko'p"
@@ -2443,6 +2492,13 @@ msgid ""
 "ma'lumot."
 msgstr "Which hashtags drive your highest engagement — last 90 days."
 
+#: templates/dashboard/app.html
+msgid ""
+"Qaysi hashtaglaringiz haqiqatan ishlayapti — top 20 ro'yxati va engagement "
+"bo'yicha."
+msgstr ""
+"Which of your hashtags actually work — a top 20 list ranked by engagement."
+
 #: templates/dashboard/telegram_channels.html
 msgid "Qaysi kanalni tahlil qilamiz?"
 msgstr "Which channel should we analyse?"
@@ -2762,6 +2818,14 @@ msgstr "Shares / Views"
 msgid "Shaxsiy ma'lumot"
 msgstr "Personal data"
 
+#: templates/dashboard/app.html
+msgid ""
+"Sidebar → Akkauntlarim. Telegram, YouTube yoki VK ni OAuth orqali ulab, real"
+" ma'lumotni torting."
+msgstr ""
+"Sidebar → My accounts. Connect Telegram, YouTube or VK via OAuth and pull "
+"real data."
+
 #: templates/404.html
 msgid ""
 "Siz qidirgan sahifa mavjud emas yoki ko'chirilgan. URL'ni tekshirib ko'ring "
@@ -2947,6 +3011,12 @@ msgstr "posts contributed."
 msgid ""
 "Tabiiy tilda savol bering, AI sizning ma'lumotingiz haqida javob beradi"
 msgstr "Ask in natural language, AI replies based on your data"
+
+#: templates/dashboard/app.html
+msgid ""
+"Tabiiy tilda savol bering: AI sizning real ma'lumotingiz asosida javob "
+"beradi."
+msgstr "Ask in natural language: AI answers based on your real data."
 
 #: templates/dashboard/chat.html
 msgid ""
@@ -3415,6 +3485,10 @@ msgstr "XLM-RoBERTa model — in Uzbek, Russian, and English."
 msgid "Xush kelibsiz"
 msgstr "Welcome"
 
+#: templates/dashboard/app.html
+msgid "Xush kelibsiz!"
+msgstr "Welcome!"
+
 #: templates/partials/_footer.html templates/partials/_navbar.html
 msgid "Xususiyatlar"
 msgstr "Features"
@@ -3526,7 +3600,8 @@ msgstr "Enabled"
 msgid "Yoqish"
 msgstr "Enable"
 
-#: templates/dashboard/_shell.html templates/dashboard/help.html
+#: templates/dashboard/_shell.html templates/dashboard/app.html
+#: templates/dashboard/help.html
 msgid "Yordam"
 msgstr "Help"
 

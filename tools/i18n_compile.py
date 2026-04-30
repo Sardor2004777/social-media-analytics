@@ -1365,6 +1365,39 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     # ---- Avatar dropdown / a11y ----
     "Asosiy mazmunga o'tish": {"en": "Skip to main content", "ru": "Перейти к основному содержимому"},
     "Ma'lumotlarni eksport":  {"en": "Export data",         "ru": "Экспорт данных"},
+
+    # ---- Onboarding tour (rendered via json_script in app.html) ----
+    "Xush kelibsiz!":         {"en": "Welcome!",            "ru": "Добро пожаловать!"},
+    "Bu sizning analitika dashboardingiz. Bir necha qadamda asosiy imkoniyatlarni ko'rsatib beraman.":
+        {"en": "This is your analytics dashboard. Let me walk you through the main features in a few steps.",
+         "ru": "Это ваша аналитическая панель. Пройдусь по главным функциям за несколько шагов."},
+    "1-qadam: Akkaunt ulang":
+        {"en": "Step 1: Connect an account",
+         "ru": "Шаг 1: Подключите аккаунт"},
+    "Sidebar → Akkauntlarim. Telegram, YouTube yoki VK ni OAuth orqali ulab, real ma'lumotni torting.":
+        {"en": "Sidebar → My accounts. Connect Telegram, YouTube or VK via OAuth and pull real data.",
+         "ru": "Боковая панель → Мои аккаунты. Подключите Telegram, YouTube или VK через OAuth — данные подтянутся."},
+    "Analytics + AI Insight":
+        {"en": "Analytics + AI Insight", "ru": "Аналитика + AI Insight"},
+    "Analytics sahifada KPI'lar tepasida AI maslahat tugmasi — 30 kunlik xulosa va keyingi qadam.":
+        {"en": "On the Analytics page, above the KPIs there is an AI advice button — a 30-day summary and the next step.",
+         "ru": "На странице Analytics над KPI есть кнопка AI совет — итоги за 30 дней и следующий шаг."},
+    "Tabiiy tilda savol bering: AI sizning real ma'lumotingiz asosida javob beradi.":
+        {"en": "Ask in natural language: AI answers based on your real data.",
+         "ru": "Задавайте вопросы естественным языком: AI отвечает на основе ваших реальных данных."},
+    "Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi — copy-paste qilib darhol joylashtirishingiz mumkin.":
+        {"en": "Three new caption suggestions in the style of your top posts — copy-paste and publish straight away.",
+         "ru": "Три новых варианта подписей в стиле ваших лучших постов — скопируйте и публикуйте сразу."},
+    "7×24 heatmap qaysi kun va soatda postingiz eng ko'p engagement olganini ko'rsatadi.":
+        {"en": "A 7×24 heatmap shows on which day and hour your posts got the most engagement.",
+         "ru": "Тепловая карта 7×24 показывает, в какие день и час ваши посты собирали больше всего вовлечённости."},
+    "Qaysi hashtaglaringiz haqiqatan ishlayapti — top 20 ro'yxati va engagement bo'yicha.":
+        {"en": "Which of your hashtags actually work — a top 20 list ranked by engagement.",
+         "ru": "Какие хештеги действительно работают — топ-20 по вовлечённости."},
+    "Klaviaturada ? bosing yoki Ctrl+K orqali har joyga tezda boring. Sidebar'da Yordam to'liq qo'llanma.":
+        {"en": "Press ? on the keyboard or Ctrl+K to jump anywhere fast. Help in the sidebar has the full guide.",
+         "ru": "Нажмите ? на клавиатуре или Ctrl+K для быстрого перехода. Полный гид — в разделе Помощь в боковой панели."},
+    "Yordam":               {"en": "Help",                "ru": "Помощь"},
 }
 
 
