@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: social-analytics 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-30 08:33+0000\n"
-"PO-Revision-Date: 2026-04-30 08:33+0000\n"
+"POT-Creation-Date: 2026-04-30 08:43+0000\n"
+"PO-Revision-Date: 2026-04-30 08:43+0000\n"
 "Last-Translator: social-analytics i18n_compile.py\n"
 "Language-Team: en\n"
 "Language: en\n"
@@ -19,7 +19,7 @@ msgstr "(likes + comments + shares) / views"
 
 #: templates/dashboard/telegram_phone.html
 msgid "1 / 3 — telefon raqamingiz"
-msgstr ""
+msgstr "1 / 3 — your phone number"
 
 #: templates/dashboard/two_factor.html
 msgid "1-qadam: QR kodni scan qiling"
@@ -42,6 +42,8 @@ msgid ""
 "10 dan 5000 gacha. Kanaldan so'nggi shuncha postni — views, reaksiyalar, "
 "forwardlar bilan — tortib olamiz."
 msgstr ""
+"From 10 to 5000. Pulls that many recent posts — with views, reactions, "
+"forwards."
 
 #: templates/dashboard/terms.html
 msgid "10. Nizolarni hal etish"
@@ -53,7 +55,7 @@ msgstr "Pick 2 to 3 accounts:"
 
 #: templates/dashboard/help.html
 msgid "2-3 akkauntni yonma-yon solishtirish"
-msgstr ""
+msgstr "Compare 2-3 accounts side by side"
 
 #: templates/dashboard/two_factor.html
 msgid "2-qadam: 6 raqamli kodni tasdiqlang"
@@ -78,7 +80,7 @@ msgstr "Pick 2–3 accounts and view their KPIs and 30-day trend side by side."
 
 #: templates/dashboard/telegram_password.html
 msgid "3 / 3 — 2-bosqichli tasdiqlash paroli"
-msgstr ""
+msgstr "3 / 3 — two-step verification password"
 
 #: templates/dashboard/landing.html
 msgid "3 qadamda boshlang"
@@ -118,7 +120,7 @@ msgstr "30-day trend"
 
 #: templates/dashboard/help.html
 msgid "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari, hashtag"
-msgstr ""
+msgstr "30-day trend, best-time heatmap, post types, hashtags"
 
 #: templates/dashboard/landing.html
 msgid "4 ta platforma"
@@ -228,7 +230,7 @@ msgstr "AI is not configured"
 
 #: templates/dashboard/help.html
 msgid "AI hisobotlar nima uchun pulli?"
-msgstr ""
+msgstr "Why are AI reports paid?"
 
 #: templates/dashboard/accounts.html templates/dashboard/analytics.html
 msgid "AI maslahat"
@@ -252,7 +254,7 @@ msgstr ""
 
 #: templates/dashboard/ai_digest.html
 msgid "AI sozlanmagan"
-msgstr ""
+msgstr "AI not configured"
 
 #: templates/dashboard/_shell.html
 msgid "AI Xulosa"
@@ -368,11 +370,11 @@ msgstr "Delete account (all data is destroyed)."
 
 #: templates/dashboard/help.html
 msgid "Akkauntni public link orqali ulashish"
-msgstr ""
+msgstr "Share an account via public link"
 
 #: templates/dashboard/correlation.html
 msgid "Aloqa kuchsiz"
-msgstr ""
+msgstr "Weak correlation"
 
 #: templates/dashboard/help.html
 msgid ""
@@ -441,6 +443,9 @@ msgid ""
 "VKontakte (API v5). Demo rejimda: Instagram (Business akkaunt + Meta App "
 "Review talab qiladi), X (Basic tariff $100/oy)."
 msgstr ""
+"Currently real: Telegram (MTProto), YouTube (Data API v3), VKontakte (API "
+"v5). Demo: Instagram (requires Business account + Meta App Review), X (Basic"
+" plan $100/mo)."
 
 #: templates/dashboard/top_posts.html
 msgid "Barcha davr"
@@ -520,10 +525,12 @@ msgid ""
 "engagement'ingizni o'qib, qisqa va aniq haftalik tahlil yozadi (Markdown "
 "formatda)."
 msgstr ""
+"One click and AI reads your posts, comments and engagement to write a short,"
+" sharp weekly review (in Markdown)."
 
 #: templates/dashboard/help.html
 msgid "Bir bosish bilan haftalik AI hisobot"
-msgstr ""
+msgstr "Weekly AI report at one click"
 
 #: templates/account/verification_sent.html
 msgid "Bir necha daqiqa kuting"
@@ -585,7 +592,7 @@ msgstr "Get started"
 
 #: templates/dashboard/telegram_channels.html
 msgid "Boshqa akkaunt"
-msgstr ""
+msgstr "Different account"
 
 #: templates/dashboard/compare.html
 msgid "Boshqa akkauntni tanlash"
@@ -597,7 +604,7 @@ msgstr "Unauthorized access to other users' accounts."
 
 #: templates/dashboard/telegram_password.html
 msgid "Boshqa raqam"
-msgstr ""
+msgstr "Different number"
 
 #: templates/dashboard/settings.html
 msgid "Boshqarish"
@@ -629,6 +636,8 @@ msgid ""
 "o'zingiz o'rnatgan parol. Saytda saqlanmaydi — faqat sessiya yaratish uchun "
 "ishlatiladi."
 msgstr ""
+"This is the password you set in Telegram → Settings → Privacy → Two-Step "
+"Verification. It is never stored — used only to create the session."
 
 #: templates/account/email/_base.html
 msgid "Bu xat avtomatik yuborildi. Javob bermang."
@@ -652,7 +661,7 @@ msgstr "Command palette"
 
 #: templates/dashboard/predict.html
 msgid "Caption uzunligi"
-msgstr ""
+msgstr "Caption length"
 
 #: templates/dashboard/analytics.html
 msgid "Caption uzunligi vs engagement (so'nggi 30 kun)"
@@ -660,7 +669,7 @@ msgstr "Caption length vs engagement (last 30 days)"
 
 #: templates/dashboard/predict.html
 msgid "Chap tomondagi formani to'ldirib 'Bashorat qilish' tugmasini bosing."
-msgstr ""
+msgstr "Fill out the form on the left and press 'Predict'."
 
 #: templates/account/logout.html templates/dashboard/_shell.html
 #: templates/dashboard/settings.html templates/partials/_command_palette.html
@@ -674,7 +683,7 @@ msgstr "Confirm sign out?"
 
 #: templates/dashboard/telegram_password.html
 msgid "Cloud parolingiz"
-msgstr ""
+msgstr "Your cloud password"
 
 #: templates/dashboard/privacy.html
 msgid "Cookie'lar"
@@ -852,7 +861,7 @@ msgstr "Top cluster:"
 
 #: templates/dashboard/best_time.html templates/dashboard/clusters.html
 msgid "Eng yaxshi"
-msgstr ""
+msgstr "Best"
 
 #: templates/dashboard/app.html
 msgid "Eng yaxshi 25% post o'rtasidagi qiymatlar (qolganlariga nisbatan)"
@@ -893,7 +902,7 @@ msgstr "Engagement (current)"
 
 #: templates/dashboard/predict.html
 msgid "Engagement Bashorati"
-msgstr ""
+msgstr "Engagement Forecast"
 
 #: templates/dashboard/predict.html
 msgid "Engagement bashorati"
@@ -917,7 +926,7 @@ msgstr "Engagement drop?"
 
 #: templates/dashboard/predict.html
 msgid "Engagementga eng ko'p ta'sir qiluvchi xususiyatlar"
-msgstr ""
+msgstr "Features with the biggest impact on engagement"
 
 #: templates/dashboard/chat.html
 msgid "env var'ni sozlashi kerak. Kalitni"
@@ -937,7 +946,7 @@ msgstr "Note / yours"
 
 #: apps/social/models.py
 msgid "Eslatma — nima uchun kuzatasiz"
-msgstr ""
+msgstr "Note — why are you tracking"
 
 #: templates/account/email/password_reset_key_message.html
 msgid "Eslatma:"
@@ -953,7 +962,7 @@ msgstr ""
 
 #: templates/dashboard/help.html
 msgid "Excel + PDF eksport"
-msgstr ""
+msgstr "Excel + PDF export"
 
 #: templates/partials/_command_palette.html
 msgid "Excel eksport (.xlsx)"
@@ -985,7 +994,7 @@ msgstr "Activity share"
 
 #: templates/dashboard/app.html
 msgid "faqat matn"
-msgstr ""
+msgstr "text only"
 
 #: templates/dashboard/top_posts.html
 msgid "Filterga nom bering:"
@@ -1041,7 +1050,7 @@ msgstr "Groups"
 
 #: templates/dashboard/predict.html
 msgid "Ha"
-msgstr ""
+msgstr "Yes"
 
 #: templates/dashboard/help.html
 msgid ""
@@ -1073,7 +1082,7 @@ msgstr ""
 
 #: templates/dashboard/predict.html
 msgid "Hafta kuni"
-msgstr ""
+msgstr "Day of week"
 
 #: templates/dashboard/analytics.html
 msgid "Hafta kuni × soat — engagement bo'yicha (so'nggi 30 kun)"
@@ -1113,7 +1122,7 @@ msgstr "No posts yet. Connect an account or seed the demo data."
 
 #: templates/dashboard/competitors.html
 msgid "Hali raqobatchi qo'shilmagan."
-msgstr ""
+msgstr "No competitors added yet."
 
 #: templates/dashboard/sentiment.html
 msgid "Hali sentiment natijalari yo'q."
@@ -1125,7 +1134,7 @@ msgstr "No events yet."
 
 #: templates/dashboard/account_connect.html
 msgid "Hamma postlarni olish"
-msgstr ""
+msgstr "Fetch all posts"
 
 #: templates/dashboard/telegram_channels.html
 msgid "Hamma postlarni olish (sekinroq, lekin to'liq tarix)"
@@ -1150,7 +1159,7 @@ msgstr "Does real Instagram/YouTube OAuth work?"
 
 #: templates/dashboard/accounts.html
 msgid "Haqiqiy ma'lumot"
-msgstr ""
+msgstr "Real data"
 
 #: templates/dashboard/account_connect.html
 msgid ""
@@ -1186,7 +1195,7 @@ msgstr "Hashtag"
 
 #: templates/dashboard/predict.html
 msgid "Hashtag soni"
-msgstr ""
+msgstr "Hashtag count"
 
 #: templates/dashboard/_shell.html templates/dashboard/hashtags.html
 msgid "Hashtag tahlili"
@@ -1402,7 +1411,7 @@ msgstr "At least 8 characters"
 
 #: templates/dashboard/telegram_channels.html
 msgid "Kanal tanlash"
-msgstr ""
+msgstr "Pick a channel"
 
 #: templates/dashboard/telegram_channels.html
 msgid "Kanallar"
@@ -1483,17 +1492,19 @@ msgstr "Conversion from views down to reshares"
 
 #: templates/dashboard/telegram_code.html
 msgid "Kod"
-msgstr ""
+msgstr "Code"
 
 #: templates/dashboard/telegram_code.html
 msgid ""
 "Kod Telegram ilovangizga (boshqa qurilmadagi sessiyaga) keladi — ba'zida SMS"
 " sifatida ham yuboriladi."
 msgstr ""
+"The code arrives in your Telegram app (another device's session) — sometimes"
+" also via SMS."
 
 #: templates/dashboard/telegram_phone.html
 msgid "Kod yuborish"
-msgstr ""
+msgstr "Send code"
 
 #: templates/dashboard/landing.html
 msgid "Kodi ochiqmi?"
@@ -1526,7 +1537,7 @@ msgstr "Correlation"
 
 #: templates/dashboard/correlation.html
 msgid "Korrelyatsiya hisoblash uchun kommentli postlardan kamida 5 ta kerak."
-msgstr ""
+msgstr "Need at least 5 posts with comments to compute correlation."
 
 #: templates/dashboard/settings.html
 msgid "Korsatish"
@@ -1534,7 +1545,7 @@ msgstr "Show"
 
 #: templates/dashboard/help.html
 msgid "KPI'lar, faollik dinamikasi, top postlar, tavsiyalar"
-msgstr ""
+msgstr "KPIs, activity dynamics, top posts, recommendations"
 
 #: templates/dashboard/landing.html
 msgid "Kredit karta kerak emas — hoziroq boshlang."
@@ -1550,11 +1561,11 @@ msgstr "Strong"
 
 #: templates/dashboard/correlation.html
 msgid "Kuchli pozitiv korrelyatsiya"
-msgstr ""
+msgstr "Strong positive correlation"
 
 #: templates/dashboard/correlation.html
 msgid "Kuchli salbiy korrelyatsiya"
-msgstr ""
+msgstr "Strong negative correlation"
 
 #: templates/dashboard/app.html templates/dashboard/top_posts.html
 msgid "kun"
@@ -1562,7 +1573,7 @@ msgstr "days"
 
 #: templates/dashboard/predict.html
 msgid "Kutilgan natija"
-msgstr ""
+msgstr "Expected result"
 
 #: templates/dashboard/analytics.html
 msgid "Layklar"
@@ -1586,13 +1597,15 @@ msgstr "Likes / Views"
 
 #: templates/dashboard/ai_digest.html
 msgid "Limit: 6 ta so'rov / soatda · ~3-5 soniya kutish"
-msgstr ""
+msgstr "Limit: 6 requests / hour · ~3-5 second wait"
 
 #: templates/dashboard/predict.html
 msgid ""
 "Linear Regression sizning postlaringiz tarixini o'rganib, kelgusi post "
 "engagement'ini bashorat qiladi."
 msgstr ""
+"Linear Regression learns your post history and forecasts the engagement of "
+"the next post."
 
 #: templates/dashboard/landing.html
 msgid "Loyiha holati"
@@ -1617,7 +1630,7 @@ msgstr "From data to decisions"
 
 #: templates/dashboard/help.html
 msgid "Ma'lumotim eksport qila olamanmi?"
-msgstr ""
+msgstr "Can I export my data?"
 
 #: templates/dashboard/settings.html
 msgid "Ma'lumotimni yuklab olish (JSON)"
@@ -1648,7 +1661,7 @@ msgstr ""
 
 #: templates/dashboard/help.html
 msgid "Ma'lumotlarim qayerda saqlanadi?"
-msgstr ""
+msgstr "Where is my data stored?"
 
 #: templates/partials/_footer.html
 msgid "Made with"
@@ -1672,7 +1685,7 @@ msgstr "Get advice"
 
 #: templates/dashboard/predict.html
 msgid "Maslahat:"
-msgstr ""
+msgstr "Tip:"
 
 #: templates/dashboard/settings.html templates/partials/_command_palette.html
 msgid "Mavzu"
@@ -1700,11 +1713,11 @@ msgstr "Special character (!@#$ ...)"
 
 #: templates/dashboard/app.html
 msgid "media (rasm/video) bilan"
-msgstr ""
+msgstr "with media (image/video)"
 
 #: templates/dashboard/predict.html
 msgid "Media bormi?"
-msgstr ""
+msgstr "Has media?"
 
 #: templates/account/signup.html
 msgid "Men"
@@ -1740,7 +1753,7 @@ msgstr "Play with ML model"
 
 #: templates/dashboard/help.html
 msgid "ML model qancha aniq?"
-msgstr ""
+msgstr "How accurate is the ML model?"
 
 #: templates/partials/_navbar.html
 msgid "Mobil menyu"
@@ -1748,7 +1761,7 @@ msgstr "Mobile menu"
 
 #: templates/dashboard/predict.html
 msgid "Model sifati (R²)"
-msgstr ""
+msgstr "Model quality (R²)"
 
 #: templates/dashboard/predict.html
 msgid ""
@@ -1756,10 +1769,13 @@ msgid ""
 "Inputlar: hafta kuni, soat, caption uzunligi, hashtag soni, media "
 "mavjudligi. Real-time, har so'rovda qayta o'qitadi (~50ms)."
 msgstr ""
+"Model — sklearn.linear_model.LinearRegression. Target — log1p(likes). "
+"Inputs: weekday, hour, caption length, hashtag count, has-media. Real-time, "
+"refits per request (~50ms)."
 
 #: templates/dashboard/ai_digest.html
 msgid "Model:"
-msgstr ""
+msgstr "Model:"
 
 #: templates/dashboard/terms.html
 msgid ""
@@ -1816,15 +1832,15 @@ msgstr "Delete"
 
 #: templates/dashboard/predict.html
 msgid "O'rganilgan postlar:"
-msgstr ""
+msgstr "Trained on posts:"
 
 #: templates/dashboard/clusters.html
 msgid "O'rt. engagement"
-msgstr ""
+msgstr "Avg. engagement"
 
 #: templates/dashboard/clusters.html
 msgid "O'rt. likes"
-msgstr ""
+msgstr "Avg. likes"
 
 #: templates/dashboard/best_time.html templates/dashboard/hashtags.html
 msgid "O'rtacha engagement"
@@ -1832,11 +1848,12 @@ msgstr "Avg. engagement"
 
 #: templates/dashboard/correlation.html
 msgid "O'rtacha pozitiv korrelyatsiya"
-msgstr ""
+msgstr "Moderate positive correlation"
 
 #: templates/dashboard/predict.html
 msgid "O'rtacha — bashorat taxminiy. Ko'proq post yiglinsa aniqlik oshadi."
 msgstr ""
+"Moderate — predictions are approximate. Accuracy improves with more posts."
 
 #: templates/dashboard/analytics.html
 msgid "o'sdi"
@@ -1903,16 +1920,20 @@ msgid ""
 "OpenAI API har so'rovga to'lov oladi (~$0.001 har so'rovga). Bizdа rate "
 "limit (6/soat, 20/soat) — token sarflashni cheklash uchun."
 msgstr ""
+"The OpenAI API charges per request (~$0.001 each). We rate-limit (6/h, 20/h)"
+" to keep token spend bounded."
 
 #: templates/dashboard/ai_digest.html
 msgid ""
 "OpenAI sizning real ma'lumotingiz asosida haftalik tahlil yozadi: nima "
 "yaxshi ishladi, nima yomon, keyingi hafta nima qilish kerak."
 msgstr ""
+"OpenAI writes a weekly review from your real data: what worked, what didn't,"
+" what to do next week."
 
 #: templates/dashboard/ai_digest.html
 msgid "OPENAI_API_KEY env var sozlanishi kerak."
-msgstr ""
+msgstr "OPENAI_API_KEY env var must be configured."
 
 #: templates/dashboard/app.html
 msgid "Optimal Posting AI"
@@ -2145,7 +2166,7 @@ msgstr "Post-length analysis"
 
 #: templates/dashboard/predict.html
 msgid "Post xususiyatlari"
-msgstr ""
+msgstr "Post features"
 
 #: templates/dashboard/landing.html
 msgid ""
@@ -2160,6 +2181,8 @@ msgid ""
 "PostgreSQL bazada (Render). Sizning OAuth tokenlaringiz Fernet shifrlash "
 "bilan saqlanadi. Akkauntni o'chirsangiz hammasi cascade bilan o'chadi."
 msgstr ""
+"In a PostgreSQL database (Render). Your OAuth tokens are stored Fernet-"
+"encrypted. Deleting your account cascades and removes everything."
 
 #: templates/dashboard/accounts.html templates/dashboard/analytics.html
 #: templates/dashboard/clusters.html templates/dashboard/compare.html
@@ -2178,7 +2201,7 @@ msgstr "Posts (30 days)"
 
 #: templates/dashboard/help.html
 msgid "Postlar avtomatik fonda yig'iladi (10-30 soniya)."
-msgstr ""
+msgstr "Posts are collected automatically in the background (10-30s)."
 
 #: templates/dashboard/analytics.html
 msgid "Postlar · layklar · ko'rishlar"
@@ -2240,7 +2263,7 @@ msgstr "Positive · neutral · negative"
 
 #: templates/dashboard/help.html
 msgid "Pozitiv/negativ kommentlar, mavzu × sentiment matritsa"
-msgstr ""
+msgstr "Positive/negative comments, topic × sentiment matrix"
 
 #: templates/dashboard/help.html
 msgid ""
@@ -2252,7 +2275,7 @@ msgstr ""
 
 #: templates/dashboard/help.html
 msgid "Production: X API Basic tariffi ($100/oy). Hozir demo."
-msgstr ""
+msgstr "Production: X API Basic plan ($100/mo). Demo for now."
 
 #: templates/dashboard/landing.html
 msgid "professional tushuning"
@@ -2277,7 +2300,7 @@ msgstr "Public @username or channel id"
 
 #: apps/social/models.py
 msgid "Public @username yoki kanal id"
-msgstr ""
+msgstr "Public @username or channel id"
 
 #: templates/dashboard/public_share.html
 msgid "Public dashboard"
@@ -2319,7 +2342,7 @@ msgstr "What data we collect"
 
 #: templates/dashboard/predict.html
 msgid "Qanday post yozmoqchisiz?"
-msgstr ""
+msgstr "What kind of post will you write?"
 
 #: templates/dashboard/landing.html
 msgid "Qanday qilib sentiment aniqligini baholaysiz?"
@@ -2333,7 +2356,7 @@ msgstr "Which hashtags drive your highest engagement — last 90 days."
 
 #: templates/dashboard/telegram_channels.html
 msgid "Qaysi kanalni tahlil qilamiz?"
-msgstr ""
+msgstr "Which channel should we analyse?"
 
 #: templates/dashboard/sentiment.html
 msgid "Qaysi mavzudagi postlaringizga qanday reaktsiya keladi"
@@ -2377,7 +2400,7 @@ msgstr "Apply"
 
 #: templates/dashboard/competitors.html
 msgid "Qo'shish"
-msgstr ""
+msgstr "Add"
 
 #: templates/dashboard/settings.html
 msgid "Qorong'u"
@@ -2401,6 +2424,7 @@ msgstr ""
 #: templates/dashboard/correlation.html
 msgid "r = 1.0 mukammal pozitiv · r = 0 aloqa yo'q · r = -1.0 mukammal salbiy"
 msgstr ""
+"r = 1.0 perfect positive · r = 0 no correlation · r = -1.0 perfect negative"
 
 #: templates/account/signup.html
 msgid "Raqam (0-9)"
@@ -2416,7 +2440,7 @@ msgstr "By the numbers"
 
 #: templates/dashboard/telegram_code.html
 msgid "Raqamni o'zgartirish"
-msgstr ""
+msgstr "Change number"
 
 #: templates/dashboard/_shell.html templates/dashboard/competitors.html
 msgid "Raqobatchilar"
@@ -2444,15 +2468,15 @@ msgstr "Real OAuth"
 
 #: templates/dashboard/help.html
 msgid "Real OAuth · API v5.131"
-msgstr ""
+msgstr "Real OAuth · API v5.131"
 
 #: templates/dashboard/help.html
 msgid "Real OAuth · Data API v3"
-msgstr ""
+msgstr "Real OAuth · Data API v3"
 
 #: templates/dashboard/help.html
 msgid "Real OAuth · MTProto"
-msgstr ""
+msgstr "Real OAuth · MTProto"
 
 #: templates/dashboard/account_connect.html
 msgid "Real rejim — Telegram MTProto"
@@ -2492,6 +2516,8 @@ msgid ""
 "R² (model sifati) sizning ma'lumotingizga bog'liq. 100+ post bo'lsa odatda "
 "0.4-0.7 oralig'ida — bashorat taxminiy, lekin trend to'g'ri."
 msgstr ""
+"R² (model quality) depends on your data. With 100+ posts it usually lands in"
+" 0.4-0.7 — the prediction is approximate but the trend is right."
 
 #: templates/dashboard/top_posts.html
 msgid "Sahifa"
@@ -2512,7 +2538,7 @@ msgstr "Print page"
 
 #: templates/dashboard/correlation.html
 msgid "Salbiy korrelyatsiya"
-msgstr ""
+msgstr "Negative correlation"
 
 #: templates/account/email/email_confirmation_message.html
 msgid "Salom, <strong>{{ user_display }}</strong>!"
@@ -2583,7 +2609,7 @@ msgstr ""
 
 #: templates/dashboard/help.html
 msgid "scikit-learn modeli engagement bashorat qiladi"
-msgstr ""
+msgstr "scikit-learn model forecasts engagement"
 
 #: templates/dashboard/_shell.html templates/partials/_command_palette.html
 msgid "Sentiment"
@@ -2693,7 +2719,7 @@ msgstr "Posts and comments from your account, for analysis."
 
 #: templates/dashboard/competitors.html
 msgid "Sizning akkauntlaringiz va kuzatuvdagi raqobatchilar yonma-yon"
-msgstr ""
+msgstr "Your accounts and tracked competitors side by side"
 
 #: templates/dashboard/privacy.html
 msgid "Sizning huquqlaringiz"
@@ -2705,7 +2731,7 @@ msgstr "Your JWT token:"
 
 #: templates/dashboard/telegram_channels.html
 msgid "Sizning Telegram akkauntingizda kanal yoki guruh topilmadi."
-msgstr ""
+msgstr "No channels or groups found in your Telegram account."
 
 #: templates/dashboard/telegram_phone.html
 msgid ""
@@ -2713,6 +2739,8 @@ msgid ""
 "kanal/guruh ma'lumotlaringizni o'qish uchun ishlatiladi. Saytdan istalgan "
 "vaqt o'chirib tashlashingiz mumkin."
 msgstr ""
+"Your Telegram session is stored encrypted and used only to read data from "
+"your channels/groups. You can disconnect anytime."
 
 #: templates/dashboard/app.html
 msgid "Sizning ulangan tarmoqlaringiz qaysisida ish yaxshiroq"
@@ -2723,6 +2751,8 @@ msgid ""
 "Skriptingiz yoki ilovangizdan REST API'ga kirish uchun JWT token. Barcha "
 "so'rovlarda Authorization sarlavhasiga qo'shing."
 msgstr ""
+"JWT token to access the REST API from your script or app. Add to the "
+"Authorization header on every request."
 
 #: templates/dashboard/sentiment.html
 msgid "So'nggi 30 kun — kommentlardagi pozitiv / neytral / negativ sonlari"
@@ -2730,7 +2760,7 @@ msgstr "Last 30 days — positive / neutral / negative comment counts"
 
 #: templates/dashboard/predict.html
 msgid "Soat"
-msgstr ""
+msgstr "Hour"
 
 #: templates/account/email/email_confirmation_message.html
 msgid ""
@@ -2806,11 +2836,11 @@ msgstr "AI summarises your last 30 days and recommends a next step."
 
 #: templates/dashboard/predict.html
 msgid "ta layk"
-msgstr ""
+msgstr "likes"
 
 #: templates/dashboard/correlation.html
 msgid "ta post ishtirok etdi."
-msgstr ""
+msgstr "posts contributed."
 
 #: templates/dashboard/help.html
 msgid ""
@@ -2839,7 +2869,7 @@ msgstr "Analyze"
 
 #: templates/dashboard/correlation.html
 msgid "Tahlilda"
-msgstr ""
+msgstr "Analyzing"
 
 #: templates/dashboard/landing.html
 msgid "Tahlilni ko'ring"
@@ -2873,7 +2903,7 @@ msgstr "Confirm"
 
 #: templates/dashboard/telegram_code.html
 msgid "Tasdiqlash kodi"
-msgstr ""
+msgstr "Confirmation code"
 
 #: templates/dashboard/two_factor.html
 msgid "Tavsiya etilgan ilovalar"
@@ -2906,23 +2936,23 @@ msgstr ""
 
 #: templates/dashboard/telegram_phone.html
 msgid "Telefon raqami"
-msgstr ""
+msgstr "Phone number"
 
 #: templates/dashboard/telegram_password.html
 msgid "Telegram 2FA paroli"
-msgstr ""
+msgstr "Telegram 2FA password"
 
 #: templates/dashboard/telegram_password.html
 msgid "Telegram cloud paroli"
-msgstr ""
+msgstr "Telegram cloud password"
 
 #: templates/dashboard/telegram_channels.html
 msgid "Telegram kanali tanlash"
-msgstr ""
+msgstr "Pick a Telegram channel"
 
 #: templates/dashboard/telegram_code.html
 msgid "Telegram kodi"
-msgstr ""
+msgstr "Telegram code"
 
 #: templates/dashboard/competitors.html
 msgid ""
@@ -2930,14 +2960,17 @@ msgid ""
 "session'ingiz orqali). YouTube uchun handle saqlanadi, statistika keyinroq "
 "qo'lda yangilanadi."
 msgstr ""
+"Public Telegram channels are pulled automatically (via your Telegram "
+"session). For YouTube the handle is saved; stats are refreshed manually "
+"later."
 
 #: templates/dashboard/telegram_code.html
 msgid "Telegram'dan kelgan kod"
-msgstr ""
+msgstr "Code from Telegram"
 
 #: templates/dashboard/telegram_phone.html
 msgid "Telegram'ga kirish"
-msgstr ""
+msgstr "Sign in to Telegram"
 
 #: templates/dashboard/telegram_phone.html
 msgid ""
@@ -2949,13 +2982,15 @@ msgstr ""
 
 #: templates/dashboard/telegram_phone.html
 msgid "Telegram'ga ulanish"
-msgstr ""
+msgstr "Connect Telegram"
 
 #: templates/dashboard/telegram_channels.html
 msgid ""
 "Telegram'ingizda jami {{ total }} ta kanal/guruh.{% plural "
 "%}Telegram'ingizda jami {{ total }} ta kanal/guruh."
 msgstr ""
+"{{ total }} channels/groups in your Telegram.{% plural %}{{ total }} "
+"channels/groups in your Telegram."
 
 #: templates/account/base.html
 msgid ""
@@ -2971,6 +3006,9 @@ msgid ""
 "rejimda ko'ring. AI sentiment tahlil, real-time grafiklar, avtomatik "
 "tavsiyalar — bir necha bosishda."
 msgstr ""
+"Connect real data from Telegram, YouTube and VK; see Instagram and X in demo"
+" mode. AI sentiment analysis, real-time charts, automatic recommendations — "
+"in just a few clicks."
 
 #: templates/dashboard/app.html
 msgid ""
@@ -2986,7 +3024,7 @@ msgstr "Tech stack"
 
 #: templates/dashboard/clusters.html templates/dashboard/predict.html
 msgid "Texnik tafsilot:"
-msgstr ""
+msgstr "Technical detail:"
 
 #: templates/dashboard/help.html
 msgid "Tez-tez beriladigan savollar"
@@ -2998,7 +3036,7 @@ msgstr "Frequently asked questions"
 
 #: templates/dashboard/ai_digest.html
 msgid "tezkor hisobot"
-msgstr ""
+msgstr "instant report"
 
 #: templates/dashboard/clusters.html
 msgid ""
@@ -3006,6 +3044,9 @@ msgid ""
 "vektorlashtiriladi, KMeans (n_init='auto', random_state=42) klasterlaydi. "
 "Klaster nomi — markaz vektorining top-3 tokenidan olingan."
 msgstr ""
+"Posts are vectorised with TfidfVectorizer (max_features=300, min_df=2, "
+"max_df=0.85) and clustered by KMeans (n_init='auto', random_state=42). "
+"Cluster names come from the centroid's top-3 tokens."
 
 #: templates/account/password_reset.html
 msgid "Tiklash havolasini yuborish"
@@ -3198,7 +3239,7 @@ msgstr ""
 
 #: templates/dashboard/correlation.html
 msgid "X = pozitiv komment %, Y = engagement %"
-msgstr ""
+msgstr "X = positive comment %, Y = engagement %"
 
 #: templates/account/password_reset_done.html
 #: templates/account/verification_sent.html
@@ -3207,7 +3248,7 @@ msgstr "Didn't get the email?"
 
 #: templates/dashboard/ai_digest.html
 msgid "Xato:"
-msgstr ""
+msgstr "Error:"
 
 #: templates/dashboard/settings.html
 msgid "Xavfli zona"
@@ -3223,7 +3264,7 @@ msgstr "Update your password regularly for security."
 
 #: templates/dashboard/telegram_phone.html
 msgid "Xavfsizlik:"
-msgstr ""
+msgstr "Security:"
 
 #: templates/dashboard/privacy.html
 msgid "Xizmat sifati va xatolarni aniqlash uchun (anonim)."
@@ -3346,7 +3387,7 @@ msgstr "Dismiss"
 
 #: templates/dashboard/predict.html
 msgid "Yoq"
-msgstr ""
+msgstr "No"
 
 #: templates/dashboard/settings.html templates/dashboard/two_factor.html
 msgid "Yoqilgan"
@@ -3378,17 +3419,19 @@ msgstr "Submit"
 
 #: templates/dashboard/predict.html
 msgid "Yuqori — model ma'lumotlaringizni yaxshi tushunadi."
-msgstr ""
+msgstr "High — the model understands your data well."
 
 #: templates/dashboard/settings.html
 msgid "Yuqoridagi 'Korsatish' tugmasini bosing — token serverdan olinadi."
-msgstr ""
+msgstr "Click the 'Show' button above — the token is fetched from the server."
 
 #: templates/dashboard/account_connect.html
 msgid ""
 "Yuqoridagi limitni e'tiborsiz qoldirib, kanaldagi barcha mavjud postlarni "
 "yig'adi. Katta kanallarda bir necha daqiqa vaqt olishi mumkin."
 msgstr ""
+"Ignores the limit above and pulls every available post from the channel. May"
+" take a few minutes for large channels."
 
 #: templates/dashboard/accounts.html
 msgid ""
@@ -3404,13 +3447,15 @@ msgstr "Weak"
 
 #: templates/dashboard/app.html
 msgid "{{ day }} kuni soat {{ hr }}:00 da post chiqaring"
-msgstr ""
+msgstr "Post on {{ day }} at {{ hr }}:00"
 
 #: templates/dashboard/analytics.html
 msgid ""
 "{{ len }} belgi atrofida yozilgan postlaringiz o'rtacha {{ avg }}% "
 "engagement berdi — ushbu uzunlikda yozishga harakat qiling."
 msgstr ""
+"Posts around {{ len }} characters got an average {{ avg }}% engagement — try"
+" this length."
 
 #: templates/dashboard/sentiment.html
 msgid "{{ n }} ta komment tahlil qilindi · model: {{ m }}"
@@ -3431,14 +3476,16 @@ msgid ""
 "{{ sz }} ta post o'rtacha engagement {{ eng }}%. Shu mavzudagi postlarni "
 "ko'paytirish maqsadga muvofiq."
 msgstr ""
+"{{ sz }} posts averaged {{ eng }}% engagement. Producing more on this topic "
+"is a good move."
 
 #: templates/dashboard/app.html
 msgid "~{{ cl }} belgili caption · {{ hc }} ta hashtag"
-msgstr ""
+msgstr "~{{ cl }}-character caption · {{ hc }} hashtags"
 
 #: templates/dashboard/app.html
 msgid "~{{ n }} layk kutiladi"
-msgstr ""
+msgstr "~{{ n }} likes expected"
 
 #: templates/dashboard/delete_account.html
 msgid "— keyin o'chirish xavfsiz bo'ladi."

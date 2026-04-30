@@ -1057,6 +1057,233 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "Ko'rishlardan repostgacha bo'lgan zanjirning konversiyasi":
         {"en": "Conversion from views down to reshares",
          "ru": "Конверсия от просмотров до репостов"},
+
+    # ---- Telegram connect flow ----
+    "1 / 3 — telefon raqamingiz":
+        {"en": "1 / 3 — your phone number", "ru": "1 / 3 — ваш номер телефона"},
+    "3 / 3 — 2-bosqichli tasdiqlash paroli":
+        {"en": "3 / 3 — two-step verification password", "ru": "3 / 3 — пароль двухэтапной проверки"},
+    "Telefon raqami":      {"en": "Phone number",        "ru": "Номер телефона"},
+    "Telegram 2FA paroli": {"en": "Telegram 2FA password","ru": "Пароль 2FA Telegram"},
+    "Telegram cloud paroli":{"en":"Telegram cloud password","ru":"Облачный пароль Telegram"},
+    "Telegram kanali tanlash":{"en":"Pick a Telegram channel","ru":"Выберите Telegram-канал"},
+    "Telegram kodi":       {"en": "Telegram code",       "ru": "Код Telegram"},
+    "Telegram'dan kelgan kod":{"en":"Code from Telegram","ru":"Код из Telegram"},
+    "Telegram'ga kirish":  {"en": "Sign in to Telegram", "ru": "Войти в Telegram"},
+    "Telegram'ga ulanish": {"en": "Connect Telegram",    "ru": "Подключить Telegram"},
+    "Tasdiqlash kodi":     {"en": "Confirmation code",   "ru": "Код подтверждения"},
+    "Cloud parolingiz":    {"en": "Your cloud password", "ru": "Ваш облачный пароль"},
+    "Kod":                 {"en": "Code",                "ru": "Код"},
+    "Kod yuborish":        {"en": "Send code",           "ru": "Отправить код"},
+    "Kanal tanlash":       {"en": "Pick a channel",      "ru": "Выбрать канал"},
+    "Boshqa raqam":        {"en": "Different number",    "ru": "Другой номер"},
+    "Boshqa akkaunt":      {"en": "Different account",   "ru": "Другой аккаунт"},
+    "Raqamni o'zgartirish":{"en": "Change number",       "ru": "Сменить номер"},
+    "Hamma postlarni olish":{"en": "Fetch all posts",    "ru": "Получить все посты"},
+    "Yuqoridagi limitni e'tiborsiz qoldirib, kanaldagi barcha mavjud postlarni yig'adi. Katta kanallarda bir necha daqiqa vaqt olishi mumkin.":
+        {"en": "Ignores the limit above and pulls every available post from the channel. May take a few minutes for large channels.",
+         "ru": "Игнорирует лимит выше и собирает все доступные посты канала. На крупных каналах может занять несколько минут."},
+    "10 dan 5000 gacha. Kanaldan so'nggi shuncha postni — views, reaksiyalar, forwardlar bilan — tortib olamiz.":
+        {"en": "From 10 to 5000. Pulls that many recent posts — with views, reactions, forwards.",
+         "ru": "От 10 до 5000. Подтянем столько свежих постов — с просмотрами, реакциями, репостами."},
+    "Bu Telegram'ning Settings → Privacy → Two-Step Verification bo'limida o'zingiz o'rnatgan parol. Saytda saqlanmaydi — faqat sessiya yaratish uchun ishlatiladi.":
+        {"en": "This is the password you set in Telegram → Settings → Privacy → Two-Step Verification. It is never stored — used only to create the session.",
+         "ru": "Это пароль, установленный вами в Telegram → Настройки → Конфиденциальность → Двухэтапная проверка. Не сохраняется — используется только для создания сессии."},
+    "Kod Telegram ilovangizga (boshqa qurilmadagi sessiyaga) keladi — ba'zida SMS sifatida ham yuboriladi.":
+        {"en": "The code arrives in your Telegram app (another device's session) — sometimes also via SMS.",
+         "ru": "Код приходит в приложение Telegram (на другом устройстве) — иногда и SMS-ом."},
+    "Sizning Telegram akkauntingizda kanal yoki guruh topilmadi.":
+        {"en": "No channels or groups found in your Telegram account.",
+         "ru": "В вашем аккаунте Telegram не найдено каналов или групп."},
+    "Sizning Telegram sessiyangiz shifrlangan holda saqlanadi va faqat sizning kanal/guruh ma'lumotlaringizni o'qish uchun ishlatiladi. Saytdan istalgan vaqt o'chirib tashlashingiz mumkin.":
+        {"en": "Your Telegram session is stored encrypted and used only to read data from your channels/groups. You can disconnect anytime.",
+         "ru": "Ваша сессия Telegram хранится в зашифрованном виде и используется только для чтения данных ваших каналов/групп. Отключить можно в любой момент."},
+    "Telegram public kanallar avtomatik tortib olinadi (sizning Telegram session'ingiz orqali). YouTube uchun handle saqlanadi, statistika keyinroq qo'lda yangilanadi.":
+        {"en": "Public Telegram channels are pulled automatically (via your Telegram session). For YouTube the handle is saved; stats are refreshed manually later.",
+         "ru": "Публичные Telegram-каналы тянутся автоматически (через вашу сессию Telegram). Для YouTube сохраняется handle; статистика обновляется вручную позже."},
+    "Postlar avtomatik fonda yig'iladi (10-30 soniya).":
+        {"en": "Posts are collected automatically in the background (10-30s).",
+         "ru": "Посты собираются автоматически в фоне (10-30 сек)."},
+
+    # ---- Engagement Predict ----
+    "Engagement Bashorati": {"en": "Engagement Forecast", "ru": "Прогноз вовлечённости"},
+    "Engagementga eng ko'p ta'sir qiluvchi xususiyatlar":
+        {"en": "Features with the biggest impact on engagement",
+         "ru": "Признаки с наибольшим влиянием на вовлечённость"},
+    "Linear Regression sizning postlaringiz tarixini o'rganib, kelgusi post engagement'ini bashorat qiladi.":
+        {"en": "Linear Regression learns your post history and forecasts the engagement of the next post.",
+         "ru": "Линейная регрессия обучается на ваших постах и прогнозирует вовлечённость следующего."},
+    "Caption uzunligi":    {"en": "Caption length",      "ru": "Длина подписи"},
+    "Hashtag soni":        {"en": "Hashtag count",       "ru": "Кол-во хештегов"},
+    "Hafta kuni":          {"en": "Day of week",         "ru": "День недели"},
+    "Soat":                {"en": "Hour",                "ru": "Час"},
+    "Media bormi?":        {"en": "Has media?",          "ru": "Есть медиа?"},
+    "Post xususiyatlari":  {"en": "Post features",       "ru": "Признаки поста"},
+    "Qanday post yozmoqchisiz?":
+        {"en": "What kind of post will you write?",
+         "ru": "Какой пост вы напишете?"},
+    "Kutilgan natija":     {"en": "Expected result",     "ru": "Ожидаемый результат"},
+    "ML model qancha aniq?":{"en": "How accurate is the ML model?", "ru": "Насколько точна ML-модель?"},
+    "R² (model sifati) sizning ma'lumotingizga bog'liq. 100+ post bo'lsa odatda 0.4-0.7 oralig'ida — bashorat taxminiy, lekin trend to'g'ri.":
+        {"en": "R² (model quality) depends on your data. With 100+ posts it usually lands in 0.4-0.7 — the prediction is approximate but the trend is right.",
+         "ru": "R² (качество модели) зависит от данных. На 100+ постах обычно 0.4-0.7 — прогноз приблизительный, но тренд верный."},
+    "Texnik tafsilot:":    {"en": "Technical detail:",   "ru": "Технические детали:"},
+    "Model — sklearn.linear_model.LinearRegression. Target — log1p(likes). Inputlar: hafta kuni, soat, caption uzunligi, hashtag soni, media mavjudligi. Real-time, har so'rovda qayta o'qitadi (~50ms).":
+        {"en": "Model — sklearn.linear_model.LinearRegression. Target — log1p(likes). Inputs: weekday, hour, caption length, hashtag count, has-media. Real-time, refits per request (~50ms).",
+         "ru": "Модель — sklearn.linear_model.LinearRegression. Таргет — log1p(likes). Входы: день недели, час, длина подписи, количество хештегов, наличие медиа. Real-time, переобучается на каждый запрос (~50мс)."},
+    "Chap tomondagi formani to'ldirib 'Bashorat qilish' tugmasini bosing.":
+        {"en": "Fill out the form on the left and press 'Predict'.",
+         "ru": "Заполните форму слева и нажмите 'Прогноз'."},
+    "Maslahat:":           {"en": "Tip:",                "ru": "Совет:"},
+    "Xato:":               {"en": "Error:",              "ru": "Ошибка:"},
+    "Xavfsizlik:":         {"en": "Security:",           "ru": "Безопасность:"},
+    "Tahlilda":            {"en": "Analyzing",           "ru": "Анализ"},
+    "Eng yaxshi":          {"en": "Best",                "ru": "Лучший"},
+    "Model:":              {"en": "Model:",              "ru": "Модель:"},
+    "O'rganilgan postlar:":{"en": "Trained on posts:",   "ru": "Обучено на постах:"},
+    "Model sifati (R²)":   {"en": "Model quality (R²)",  "ru": "Качество модели (R²)"},
+    "O'rt. engagement":    {"en": "Avg. engagement",     "ru": "Сред. вовлечённость"},
+    "O'rt. likes":         {"en": "Avg. likes",          "ru": "Сред. лайки"},
+    "O'rtacha — bashorat taxminiy. Ko'proq post yiglinsa aniqlik oshadi.":
+        {"en": "Moderate — predictions are approximate. Accuracy improves with more posts.",
+         "ru": "Средний — прогноз приблизительный. С большим числом постов точность выше."},
+    "Yuqori — model ma'lumotlaringizni yaxshi tushunadi.":
+        {"en": "High — the model understands your data well.",
+         "ru": "Высокий — модель хорошо понимает ваши данные."},
+    "ta layk":             {"en": "likes",               "ru": "лайков"},
+    "~{{ n }} layk kutiladi":{"en": "~{{ n }} likes expected", "ru": "~{{ n }} лайков ожидается"},
+    "{{ day }} kuni soat {{ hr }}:00 da post chiqaring":
+        {"en": "Post on {{ day }} at {{ hr }}:00",
+         "ru": "Публикуйте в {{ day }} в {{ hr }}:00"},
+    "{{ len }} belgi atrofida yozilgan postlaringiz o'rtacha {{ avg }}% engagement berdi — ushbu uzunlikda yozishga harakat qiling.":
+        {"en": "Posts around {{ len }} characters got an average {{ avg }}% engagement — try this length.",
+         "ru": "Посты около {{ len }} символов давали в среднем {{ avg }}% вовлечённости — старайтесь этой длины."},
+    "{{ sz }} ta post o'rtacha engagement {{ eng }}%. Shu mavzudagi postlarni ko'paytirish maqsadga muvofiq.":
+        {"en": "{{ sz }} posts averaged {{ eng }}% engagement. Producing more on this topic is a good move.",
+         "ru": "{{ sz }} постов в среднем дали {{ eng }}% вовлечённости. Публикуйте больше на эту тему."},
+    "~{{ cl }} belgili caption · {{ hc }} ta hashtag":
+        {"en": "~{{ cl }}-character caption · {{ hc }} hashtags",
+         "ru": "~{{ cl }} символов · {{ hc }} хештегов"},
+    "faqat matn":          {"en": "text only",           "ru": "только текст"},
+    "media (rasm/video) bilan":{"en": "with media (image/video)", "ru": "с медиа (фото/видео)"},
+    "scikit-learn modeli engagement bashorat qiladi":
+        {"en": "scikit-learn model forecasts engagement",
+         "ru": "scikit-learn модель прогнозирует вовлечённость"},
+
+    # ---- Correlation / clustering ----
+    "Korrelyatsiya hisoblash uchun kommentli postlardan kamida 5 ta kerak.":
+        {"en": "Need at least 5 posts with comments to compute correlation.",
+         "ru": "Для расчёта корреляции нужно минимум 5 постов с комментариями."},
+    "Kuchli pozitiv korrelyatsiya":{"en": "Strong positive correlation", "ru": "Сильная положительная корреляция"},
+    "Kuchli salbiy korrelyatsiya": {"en": "Strong negative correlation", "ru": "Сильная отрицательная корреляция"},
+    "O'rtacha pozitiv korrelyatsiya":{"en": "Moderate positive correlation","ru": "Умеренная положительная корреляция"},
+    "Salbiy korrelyatsiya":  {"en": "Negative correlation",  "ru": "Отрицательная корреляция"},
+    "X = pozitiv komment %, Y = engagement %":
+        {"en": "X = positive comment %, Y = engagement %",
+         "ru": "X = % положительных комментариев, Y = % вовлечённости"},
+    "r = 1.0 mukammal pozitiv · r = 0 aloqa yo'q · r = -1.0 mukammal salbiy":
+        {"en": "r = 1.0 perfect positive · r = 0 no correlation · r = -1.0 perfect negative",
+         "ru": "r = 1.0 идеальная положительная · r = 0 нет связи · r = -1.0 идеальная отрицательная"},
+    "ta post ishtirok etdi.":{"en": "posts contributed.",  "ru": "постов учтено."},
+    "TfidfVectorizer (max_features=300, min_df=2, max_df=0.85) bilan postlar vektorlashtiriladi, KMeans (n_init='auto', random_state=42) klasterlaydi. Klaster nomi — markaz vektorining top-3 tokenidan olingan.":
+        {"en": "Posts are vectorised with TfidfVectorizer (max_features=300, min_df=2, max_df=0.85) and clustered by KMeans (n_init='auto', random_state=42). Cluster names come from the centroid's top-3 tokens.",
+         "ru": "Посты векторизуются TfidfVectorizer (max_features=300, min_df=2, max_df=0.85) и кластеризуются KMeans (n_init='auto', random_state=42). Название кластера — топ-3 токена центроида."},
+
+    # ---- Compare / Competitors ----
+    "2-3 akkauntni yonma-yon solishtirish":
+        {"en": "Compare 2-3 accounts side by side",
+         "ru": "Сравнить 2-3 аккаунта рядом"},
+    "Sizning akkauntlaringiz va kuzatuvdagi raqobatchilar yonma-yon":
+        {"en": "Your accounts and tracked competitors side by side",
+         "ru": "Ваши аккаунты и отслеживаемые конкуренты рядом"},
+    "Hali raqobatchi qo'shilmagan.":
+        {"en": "No competitors added yet.",
+         "ru": "Конкуренты ещё не добавлены."},
+    "Eslatma — nima uchun kuzatasiz":
+        {"en": "Note — why are you tracking",
+         "ru": "Заметка — зачем отслеживаете"},
+    "Public @username yoki kanal id":
+        {"en": "Public @username or channel id",
+         "ru": "Публичный @username или id канала"},
+    "Qo'shish":            {"en": "Add",                 "ru": "Добавить"},
+
+    # ---- Reports / Digest ----
+    "Bir bosish bilan haftalik AI hisobot":
+        {"en": "Weekly AI report at one click",
+         "ru": "Еженедельный AI-отчёт в один клик"},
+    "Bir bosish bilan AI sizning postlaringiz, kommentlaringiz va engagement'ingizni o'qib, qisqa va aniq haftalik tahlil yozadi (Markdown formatda).":
+        {"en": "One click and AI reads your posts, comments and engagement to write a short, sharp weekly review (in Markdown).",
+         "ru": "Один клик — и AI прочитает ваши посты, комментарии и вовлечённость и напишет короткий, чёткий еженедельный обзор (в Markdown)."},
+    "OpenAI sizning real ma'lumotingiz asosida haftalik tahlil yozadi: nima yaxshi ishladi, nima yomon, keyingi hafta nima qilish kerak.":
+        {"en": "OpenAI writes a weekly review from your real data: what worked, what didn't, what to do next week.",
+         "ru": "OpenAI на основе ваших реальных данных пишет еженедельный обзор: что сработало, что нет, что делать на следующей неделе."},
+    "AI hisobotlar nima uchun pulli?":
+        {"en": "Why are AI reports paid?",
+         "ru": "Почему AI-отчёты платные?"},
+    "OpenAI API har so'rovga to'lov oladi (~$0.001 har so'rovga). Bizdа rate limit (6/soat, 20/soat) — token sarflashni cheklash uchun.":
+        {"en": "The OpenAI API charges per request (~$0.001 each). We rate-limit (6/h, 20/h) to keep token spend bounded.",
+         "ru": "OpenAI API берёт плату за запрос (~$0.001 каждый). У нас rate-limit (6/ч, 20/ч), чтобы ограничить расход токенов."},
+    "Limit: 6 ta so'rov / soatda · ~3-5 soniya kutish":
+        {"en": "Limit: 6 requests / hour · ~3-5 second wait",
+         "ru": "Лимит: 6 запросов / час · ~3-5 сек ожидания"},
+    "tezkor hisobot":      {"en": "instant report",      "ru": "мгновенный отчёт"},
+    "AI sozlanmagan":      {"en": "AI not configured",   "ru": "AI не настроен"},
+    "OPENAI_API_KEY env var sozlanishi kerak.":
+        {"en": "OPENAI_API_KEY env var must be configured.",
+         "ru": "Должна быть настроена переменная OPENAI_API_KEY."},
+
+    # ---- Connect feature lists ----
+    "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari, hashtag":
+        {"en": "30-day trend, best-time heatmap, post types, hashtags",
+         "ru": "Тренд за 30 дней, тепловая карта времени, типы постов, хештеги"},
+    "KPI'lar, faollik dinamikasi, top postlar, tavsiyalar":
+        {"en": "KPIs, activity dynamics, top posts, recommendations",
+         "ru": "KPI, динамика активности, топ-посты, рекомендации"},
+    "Pozitiv/negativ kommentlar, mavzu × sentiment matritsa":
+        {"en": "Positive/negative comments, topic × sentiment matrix",
+         "ru": "Положительные/отрицательные комментарии, матрица темы × настроение"},
+    "Akkauntni public link orqali ulashish":
+        {"en": "Share an account via public link",
+         "ru": "Поделиться аккаунтом через публичную ссылку"},
+    "Real OAuth · API v5.131":{"en": "Real OAuth · API v5.131", "ru": "Real OAuth · API v5.131"},
+    "Real OAuth · Data API v3":{"en":"Real OAuth · Data API v3","ru": "Real OAuth · Data API v3"},
+    "Real OAuth · MTProto":  {"en": "Real OAuth · MTProto",  "ru": "Real OAuth · MTProto"},
+    "Excel + PDF eksport":  {"en": "Excel + PDF export",   "ru": "Excel + PDF экспорт"},
+    "Production: X API Basic tariffi ($100/oy). Hozir demo.":
+        {"en": "Production: X API Basic plan ($100/mo). Demo for now.",
+         "ru": "Прод: тариф X API Basic ($100/мес). Сейчас демо."},
+    "Haqiqiy ma'lumot":     {"en": "Real data",            "ru": "Реальные данные"},
+    "Aloqa kuchsiz":        {"en": "Weak correlation",     "ru": "Слабая корреляция"},
+
+    # ---- Settings + misc ----
+    "Telegram, YouTube va VK ma'lumotlaringizni real ulang; Instagram va X demo rejimda ko'ring. AI sentiment tahlil, real-time grafiklar, avtomatik tavsiyalar — bir necha bosishda.":
+        {"en": "Connect real data from Telegram, YouTube and VK; see Instagram and X in demo mode. AI sentiment analysis, real-time charts, automatic recommendations — in just a few clicks.",
+         "ru": "Подключите реальные данные Telegram, YouTube и VK; Instagram и X — в демо-режиме. AI-анализ настроений, графики в реальном времени, автоматические рекомендации — в пару кликов."},
+    "Ayni paytda real ulashda: Telegram (MTProto), YouTube (Data API v3), VKontakte (API v5). Demo rejimda: Instagram (Business akkaunt + Meta App Review talab qiladi), X (Basic tariff $100/oy).":
+        {"en": "Currently real: Telegram (MTProto), YouTube (Data API v3), VKontakte (API v5). Demo: Instagram (requires Business account + Meta App Review), X (Basic plan $100/mo).",
+         "ru": "Сейчас по-настоящему подключены: Telegram (MTProto), YouTube (Data API v3), VKontakte (API v5). Демо: Instagram (нужен Business + Meta App Review), X (Basic $100/мес)."},
+    "Ma'lumotim eksport qila olamanmi?":
+        {"en": "Can I export my data?", "ru": "Могу ли я экспортировать свои данные?"},
+    "Ma'lumotlarim qayerda saqlanadi?":
+        {"en": "Where is my data stored?", "ru": "Где хранятся мои данные?"},
+    "PostgreSQL bazada (Render). Sizning OAuth tokenlaringiz Fernet shifrlash bilan saqlanadi. Akkauntni o'chirsangiz hammasi cascade bilan o'chadi.":
+        {"en": "In a PostgreSQL database (Render). Your OAuth tokens are stored Fernet-encrypted. Deleting your account cascades and removes everything.",
+         "ru": "В базе PostgreSQL (Render). OAuth-токены хранятся с Fernet-шифрованием. При удалении аккаунта всё удаляется каскадно."},
+    "Skriptingiz yoki ilovangizdan REST API'ga kirish uchun JWT token. Barcha so'rovlarda Authorization sarlavhasiga qo'shing.":
+        {"en": "JWT token to access the REST API from your script or app. Add to the Authorization header on every request.",
+         "ru": "JWT-токен для доступа к REST API из скрипта или приложения. Добавляйте в заголовок Authorization в каждом запросе."},
+    "Yuqoridagi 'Korsatish' tugmasini bosing — token serverdan olinadi.":
+        {"en": "Click the 'Show' button above — the token is fetched from the server.",
+         "ru": "Нажмите кнопку 'Показать' выше — токен получится с сервера."},
+    "Qaysi kanalni tahlil qilamiz?":
+        {"en": "Which channel should we analyse?", "ru": "Какой канал анализируем?"},
+    "Telegram'ingizda jami {{ total }} ta kanal/guruh.{% plural %}Telegram'ingizda jami {{ total }} ta kanal/guruh.":
+        {"en": "{{ total }} channels/groups in your Telegram.{% plural %}{{ total }} channels/groups in your Telegram.",
+         "ru": "Всего {{ total }} каналов/групп в Telegram.{% plural %}Всего {{ total }} каналов/групп в Telegram."},
+
+    # ---- Misc tiny words ----
+    "Ha":                 {"en": "Yes",                 "ru": "Да"},
+    "Yoq":                {"en": "No",                  "ru": "Нет"},
 }
 
 
