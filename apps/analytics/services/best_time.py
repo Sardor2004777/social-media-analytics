@@ -20,6 +20,8 @@ from django.utils import timezone
 from apps.social.models import Post
 
 
+from django.utils.translation import gettext as _
+
 WEEKDAYS_UZ = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"]
 WEEKDAYS_EN = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
@@ -88,7 +90,12 @@ def compute_heatmap(user, *, days: int = 90) -> tuple[list[HeatmapCell], list[To
 
 
 def weekday_label(wd: int, lang: str = "uz") -> str:
-    """Map ISO weekday (1=Mon..7=Sun) to a 2-3 char label."""
+    """Map ISO weekday (1=Mon..7=Sun) to a 2-3 char label.
+
+    Always returns the localised label for the *active* request language —
+    the ``lang`` argument is kept for backward-compat but ignored: the .po
+    files supply the canonical translations for "Du" / "Se" / etc.
+    """
     if 1 <= wd <= 7:
-        return (WEEKDAYS_UZ if lang == "uz" else WEEKDAYS_EN)[wd - 1]
+        return _(WEEKDAYS_UZ[wd - 1])
     return str(wd)

@@ -92,7 +92,7 @@
                 <td class="rounded
                            {% if c.posts == 0 %}bg-slate-50 dark:bg-slate-900{% endif %}"
                     style="{% if c.posts > 0 %}background: rgba(16, 185, 129, {{ c.intensity|floatformat:2 }});{% endif %} height: 26px;"
-                    title="{{ row.label }} {{ c.hour|stringformat:'02d' }}:00 · {{ c.posts }} post · {{ c.eng_pct|floatformat:2 }}%">
+                    title="{{ row.label }} {{ c.hour|stringformat:'02d' }}:00 · {{ c.posts }} {% trans "post" %} · {{ c.eng_pct|floatformat:2 }}%">
                 </td>
               {% endfor %}
             </tr>
