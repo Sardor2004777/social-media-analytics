@@ -9,7 +9,8 @@
   <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
     {% trans "Hashtag tahlili" %}
   </h1>
-  <p class="mt-1 text-slate-600 dark:text-slate-400">
+  <div class="accent-bar"></div>
+  <p class="mt-3 text-slate-600 dark:text-slate-400">
     {% trans "Qaysi hashtaglaringiz eng yuqori engagement keltirayapti — 90 kunlik ma'lumot." %}
   </p>
 </div>
@@ -149,12 +150,15 @@
     {% trans "Eslatma: kamida 2 ta postda uchragan hashtaglar ko'rsatiladi (bitta post statistikasi shovqin bo'ladi)." %}
   </p>
 {% else %}
-  <div class="card p-10 text-center" data-reveal>
-    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">{% trans "Hozircha hashtag yo'q" %}</h3>
-    <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+  <div class="card p-12 text-center" data-reveal>
+    <div class="mx-auto inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-fuchsia-100 via-pink-100 to-rose-100 dark:from-fuchsia-900/30 dark:via-pink-900/30 dark:to-rose-900/30 text-fuchsia-600 dark:text-fuchsia-400 shadow-soft">
+      <svg class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+    </div>
+    <h3 class="mt-5 text-xl font-bold text-slate-900 dark:text-white">{% trans "Hozircha hashtag yo'q" %}</h3>
+    <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
       {% trans "Postlaringiz captionida hashtag bo'lmagan yoki hech bir tag 2+ marta ishlatilmagan. Hashtag qo'shib post yozgach, bu sahifa tahlilni ko'rsatadi." %}
     </p>
-    <a href="{% url 'social:accounts' %}" class="btn-primary mt-5 !text-xs">{% trans "Akkauntlarim" %}</a>
+    <a href="{% url 'social:accounts' %}" class="btn-primary mt-6 !text-sm">{% trans "Akkauntlarim" %}</a>
   </div>
 {% endif %}
 {% endblock %}

@@ -6,13 +6,17 @@
 
 {% block dash_content %}
 <div data-reveal>
-  <div class="flex items-center gap-3">
+  <div class="flex items-center gap-3 flex-wrap">
     <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
       {% trans "AI Post Generator" %}
     </h1>
-    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white">AI</span>
+    <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 text-white shadow-sm">
+      <svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6z"/></svg>
+      AI
+    </span>
   </div>
-  <p class="mt-1 text-slate-600 dark:text-slate-400">
+  <div class="accent-bar"></div>
+  <p class="mt-3 text-slate-600 dark:text-slate-400">
     {% trans "Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi." %}
   </p>
 </div>

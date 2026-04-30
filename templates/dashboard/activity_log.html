@@ -7,7 +7,8 @@
 {% block dash_content %}
 <div data-reveal>
   <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{% trans "Faollik tarixi" %}</h1>
-  <p class="mt-1 text-slate-600 dark:text-slate-400">
+  <div class="accent-bar"></div>
+  <p class="mt-3 text-slate-600 dark:text-slate-400">
     {% trans "Akkauntingizdagi oxirgi 100 ta harakat — kirish, akkaunt ulash, AI so'rovlari, eksportlar va boshqalar." %}
   </p>
 </div>
@@ -52,9 +53,12 @@
     </ul>
   </div>
 {% else %}
-  <div class="card p-10 text-center" data-reveal>
-    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">{% trans "Hali faollik yo'q" %}</h3>
-    <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+  <div class="card p-12 text-center" data-reveal>
+    <div class="mx-auto inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-100 via-indigo-100 to-violet-100 dark:from-blue-900/30 dark:via-indigo-900/30 dark:to-violet-900/30 text-blue-600 dark:text-blue-400 shadow-soft">
+      <svg class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <h3 class="mt-5 text-xl font-bold text-slate-900 dark:text-white">{% trans "Hali faollik yo'q" %}</h3>
+    <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
       {% trans "Saytda harakat qila boshlaganingizda — kirish, akkaunt ulash, AI ishlatish — bu yerda yoziladi." %}
     </p>
   </div>

@@ -66,6 +66,62 @@
       .dark * { background-color: #fff !important; color: #000 !important; border-color: #ccc !important; }
     }
 
+    /* Page enter animation — applied via [data-reveal]; staggers by index. */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(8px);
+      animation: revealUp 520ms cubic-bezier(.22,.61,.36,1) forwards;
+    }
+    [data-reveal]:nth-of-type(1)  { animation-delay: 0ms; }
+    [data-reveal]:nth-of-type(2)  { animation-delay: 60ms; }
+    [data-reveal]:nth-of-type(3)  { animation-delay: 120ms; }
+    [data-reveal]:nth-of-type(4)  { animation-delay: 180ms; }
+    [data-reveal]:nth-of-type(5)  { animation-delay: 240ms; }
+    [data-reveal]:nth-of-type(n+6){ animation-delay: 300ms; }
+    @keyframes revealUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      [data-reveal] { opacity: 1; transform: none; animation: none; }
+    }
+
+    /* Soft ambient grid background for the dashboard main area */
+    .ambient-grid::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 0%, rgba(124, 58, 237, 0.06), transparent 40%),
+        radial-gradient(circle at 100% 60%, rgba(236, 72, 153, 0.05), transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Gradient accent bar — sits under page titles for visual hierarchy */
+    .accent-bar {
+      width: 56px; height: 3px;
+      background: linear-gradient(90deg, #7c3aed, #ec4899, #f97316);
+      border-radius: 9999px;
+      margin-top: 10px;
+    }
+
+    /* AI feature blocks — unified gradient outline */
+    .ai-card {
+      position: relative;
+      background: linear-gradient(135deg,
+        rgba(245, 243, 255, 0.7),
+        rgba(253, 242, 248, 0.7),
+        rgba(255, 247, 237, 0.7));
+      border: 1px solid rgba(167, 139, 250, 0.25);
+    }
+    .dark .ai-card {
+      background: linear-gradient(135deg,
+        rgba(76, 29, 149, 0.18),
+        rgba(157, 23, 77, 0.14),
+        rgba(124, 45, 18, 0.12));
+      border-color: rgba(167, 139, 250, 0.18);
+    }
+
     /* Loading shimmer skeleton — apply to placeholder elements; gets removed
        once content is ready by toggling the .skeleton-done class on the parent. */
     .skeleton {
