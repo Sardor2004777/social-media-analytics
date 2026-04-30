@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: social-analytics 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-30 10:36+0000\n"
-"PO-Revision-Date: 2026-04-30 10:36+0000\n"
+"POT-Creation-Date: 2026-04-30 10:57+0000\n"
+"PO-Revision-Date: 2026-04-30 10:57+0000\n"
 "Last-Translator: social-analytics i18n_compile.py\n"
 "Language-Team: en\n"
 "Language: en\n"
@@ -12,6 +12,40 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/dashboard/app.html
+msgid "%(day)s kuni soat %(hr)s:00 da post chiqaring"
+msgstr "Post on %(day)s at %(hr)s:00"
+
+#: templates/dashboard/analytics.html
+msgid ""
+"%(len)s belgi atrofida yozilgan postlaringiz o'rtacha %(avg)s% engagement "
+"berdi — ushbu uzunlikda yozishga harakat qiling."
+msgstr ""
+"Posts around %(len)s characters got an average %(avg)s%% engagement — try "
+"this length."
+
+#: templates/dashboard/sentiment.html
+msgid "%(n)s ta komment tahlil qilindi · model: %(m)s"
+msgstr "%(n)s comments analysed · model: %(m)s"
+
+#: templates/dashboard/top_posts.html
+msgid ""
+"%(n)s ta post topildi — filter va saralashni o'zgartirib ko'ring.\n"
+"        {% plural %}\n"
+"          %(n)s ta post topildi — filter va saralashni o'zgartirib ko'ring."
+msgstr ""
+"%(n)s posts found — adjust the filter or sort.\n"
+"        {% plural %}\n"
+"          %(n)s posts found — adjust the filter or sort."
+
+#: templates/dashboard/clusters.html
+msgid ""
+"%(sz)s ta post o'rtacha engagement %(eng)s%. Shu mavzudagi postlarni "
+"ko'paytirish maqsadga muvofiq."
+msgstr ""
+"%(sz)s posts averaged %(eng)s%% engagement. Producing more on this topic is "
+"a good move."
 
 #: apps/social/models.py
 msgid "(likes + comments + shares) / views"
@@ -201,11 +235,11 @@ msgstr ""
 
 #: templates/account/email_confirm.html
 msgid ""
-"<strong class=\"text-slate-900 dark:text-white\">{{ email }}</strong> manzili\n"
-"          <strong class=\"text-slate-900 dark:text-white\">{{ user_display }}</strong> foydalanuvchiga tegishli ekanligini tasdiqlang."
+"<strong class=\"text-slate-900 dark:text-white\">%(email)s</strong> manzili\n"
+"          <strong class=\"text-slate-900 dark:text-white\">%(user_display)s</strong> foydalanuvchiga tegishli ekanligini tasdiqlang."
 msgstr ""
-"Confirm that <strong class=\"text-slate-900 dark:text-white\">{{ email }}</strong>\n"
-"          belongs to user <strong class=\"text-slate-900 dark:text-white\">{{ user_display }}</strong>."
+"Confirm that <strong class=\"text-slate-900 dark:text-white\">%(email)s</strong>\n"
+"          belongs to user <strong class=\"text-slate-900 dark:text-white\">%(user_display)s</strong>."
 
 #: apps/social/views.py
 msgid ""
@@ -876,9 +910,8 @@ msgstr "Dashboard, sentiment, and top posts. Download the report."
 
 #: templates/dashboard/delete_account.html
 msgid ""
-"Davom etish uchun <strong>{{ email }}</strong> email manzilini aniq "
-"kiriting:"
-msgstr "To continue, type the exact email <strong>{{ email }}</strong>:"
+"Davom etish uchun <strong>%(email)s</strong> email manzilini aniq kiriting:"
+msgstr "To continue, type <strong>%(email)s</strong> exactly:"
 
 #: templates/dashboard/top_posts.html
 msgid "Davr"
@@ -1087,6 +1120,7 @@ msgstr "Best:"
 msgid "Eng yuqori engagement"
 msgstr "Highest engagement"
 
+#: templates/dashboard/accounts.html templates/dashboard/analytics.html
 #: templates/dashboard/compare.html
 msgid "Engagement"
 msgstr "Engagement"
@@ -1474,6 +1508,10 @@ msgstr "Generate report"
 msgid "Holati"
 msgstr "Status"
 
+#: apps/social/views.py
+msgid "hozir"
+msgstr "just now"
+
 #: templates/dashboard/app.html
 msgid "Hozir demo ma'lumot ko'rsatilyapti"
 msgstr "Showing demo data right now"
@@ -1509,6 +1547,14 @@ msgstr "Connect your social accounts and analyze real data."
 #: templates/dashboard/landing.html
 msgid "Ijtimoiy tarmoq analitikasi"
 msgstr "Social media analytics"
+
+#: templates/base.html
+msgid ""
+"ijtimoiy tarmoq analitikasi, Telegram analitika, YouTube analitika, VK "
+"analitika, sentiment tahlil, AI tavsiyalar, dashboard, postlar statistikasi"
+msgstr ""
+"social media analytics, Telegram analytics, YouTube analytics, VK analytics,"
+" sentiment analysis, AI recommendations, dashboard, post statistics"
 
 #: templates/partials/_footer.html
 msgid ""
@@ -2880,6 +2926,21 @@ msgstr "Real mode — Telegram MTProto"
 msgid "Real ulangan"
 msgstr "Really connected"
 
+#: apps/social/views.py
+msgid ""
+"Real ulash uchun Instagram Business akkaunt + Meta App Review kerak. Hozir "
+"demo rejimda ko'rsatiladi."
+msgstr ""
+"Real connection requires an Instagram Business account + Meta App Review. "
+"Demo mode for now."
+
+#: apps/social/views.py
+msgid ""
+"Real ulash uchun X API Basic tariffi ($100/oy) talab qilinadi. Hozir demo "
+"rejimda ko'rsatiladi."
+msgstr ""
+"Real connection requires the X API Basic plan ($100/mo). Demo mode for now."
+
 #: templates/dashboard/landing.html
 msgid "Real-time analitika"
 msgstr "Real-time analytics"
@@ -2943,12 +3004,12 @@ msgid "Salbiy korrelyatsiya"
 msgstr "Negative correlation"
 
 #: templates/account/email/email_confirmation_message.html
-msgid "Salom, <strong>{{ user_display }}</strong>!"
-msgstr "Hello, <strong>{{ user_display }}</strong>!"
+msgid "Salom, <strong>%(user_display)s</strong>!"
+msgstr "Hi, <strong>%(user_display)s</strong>!"
 
 #: templates/account/email/password_reset_key_message.html
-msgid "Salom, <strong>{{ username }}</strong>!"
-msgstr "Hello, <strong>{{ username }}</strong>!"
+msgid "Salom, <strong>%(username)s</strong>!"
+msgstr "Hi, <strong>%(username)s</strong>!"
 
 #: templates/dashboard/top_posts.html
 msgid "Sana"
@@ -3239,6 +3300,10 @@ msgstr ""
 "    you agree to the following terms and conditions. If you do not\n"
 "    agree with any part of these terms, do not use the Service."
 
+#: templates/base.html
+msgid "Social Analytics — Ijtimoiy tarmoq analitikasi"
+msgstr "Social Analytics — Social media analytics"
+
 #: templates/dashboard/terms.html
 msgid ""
 "Social Analytics — ijtimoiy tarmoqlarda (Instagram, Telegram,\n"
@@ -3304,6 +3369,10 @@ msgstr "likes"
 #: templates/dashboard/correlation.html
 msgid "ta post ishtirok etdi."
 msgstr "posts contributed."
+
+#: templates/dashboard/_shell.html
+msgid "ta yangi tahlil bildirishnomasi"
+msgstr "new analytics notifications"
 
 #: templates/dashboard/help.html
 msgid ""
@@ -3463,10 +3532,10 @@ msgstr "Connect Telegram"
 
 #: templates/dashboard/telegram_channels.html
 msgid ""
-"Telegram'ingizda jami {{ total }} ta kanal/guruh.{% plural "
-"%}Telegram'ingizda jami {{ total }} ta kanal/guruh."
+"Telegram'ingizda jami %(total)s ta kanal/guruh.{% plural %}Telegram'ingizda "
+"jami %(total)s ta kanal/guruh."
 msgstr ""
-"{{ total }} channels/groups in your Telegram.{% plural %}{{ total }} "
+"%(total)s channels/groups in your Telegram.{% plural %}%(total)s "
 "channels/groups in your Telegram."
 
 #: templates/account/base.html
@@ -3487,6 +3556,14 @@ msgstr ""
 " mode. AI sentiment analysis, real-time charts, automatic recommendations — "
 "in just a few clicks."
 
+#: templates/base.html
+msgid ""
+"Telegram, YouTube va VKontakte akkauntlaringizni bir joyda tahlil qiling — "
+"AI sentiment, vaqt heatmap, eng yaxshi mavzular va avtomatik tavsiyalar."
+msgstr ""
+"Analyse your Telegram, YouTube and VKontakte accounts in one place — AI "
+"sentiment, time heatmap, top topics, and automatic recommendations."
+
 #: templates/dashboard/app.html
 msgid ""
 "Telegram, YouTube yoki VK akkauntingizni ulab, real grafiklar va "
@@ -3494,6 +3571,19 @@ msgid ""
 msgstr ""
 "Connect your Telegram, YouTube or VK account to get real charts and "
 "recommendations."
+
+#: templates/base.html
+msgid ""
+"Telegram, YouTube, VKontakte akkauntlaringizni bir joyda. AI sentiment, vaqt"
+" heatmap, hashtag tahlili va avtomatik tavsiyalar."
+msgstr ""
+"Telegram, YouTube, VKontakte accounts in one place. AI sentiment, time "
+"heatmap, hashtag analysis, automatic recommendations."
+
+#: templates/base.html
+msgid ""
+"Telegram, YouTube, VKontakte analitikasi · AI sentiment · vaqt heatmap."
+msgstr "Telegram, YouTube, VKontakte analytics · AI sentiment · time heatmap."
 
 #: templates/dashboard/help.html
 msgid "Texnik stek"
@@ -3739,6 +3829,10 @@ msgstr "Videos, watch time, comments and subscriber growth."
 #: templates/dashboard/app.html
 msgid "Virality"
 msgstr "Virality"
+
+#: apps/social/views.py
+msgid "VK devor postlari — likes, kommentlar, repostlar va views."
+msgstr "VK wall posts — likes, comments, reshares and views."
 
 #: templates/dashboard/help.html
 msgid ""
@@ -3992,6 +4086,22 @@ msgstr "{label} is performing best"
 msgid "{label} o'chirildi."
 msgstr "{label} deleted."
 
+#: apps/dashboard/views.py apps/social/views.py
+msgid "{n} daqiqa oldin"
+msgstr "{n} minutes ago"
+
+#: apps/dashboard/views.py apps/social/views.py
+msgid "{n} kun oldin"
+msgstr "{n} days ago"
+
+#: apps/dashboard/views.py apps/social/views.py
+msgid "{n} soat oldin"
+msgstr "{n} hours ago"
+
+#: apps/dashboard/views.py
+msgid "{n} soniya oldin"
+msgstr "{n} seconds ago"
+
 #: apps/dashboard/views.py
 msgid "{n} ta negativ komment aniqlandi"
 msgstr "{n} negative comments detected"
@@ -4005,46 +4115,12 @@ msgid "{platform} uchun avtomatik yangilash hali mavjud emas."
 msgstr "Automatic refresh is not available for {platform} yet."
 
 #: templates/dashboard/app.html
-msgid "{{ day }} kuni soat {{ hr }}:00 da post chiqaring"
-msgstr "Post on {{ day }} at {{ hr }}:00"
-
-#: templates/dashboard/analytics.html
-msgid ""
-"{{ len }} belgi atrofida yozilgan postlaringiz o'rtacha {{ avg }}% "
-"engagement berdi — ushbu uzunlikda yozishga harakat qiling."
-msgstr ""
-"Posts around {{ len }} characters got an average {{ avg }}% engagement — try"
-" this length."
-
-#: templates/dashboard/sentiment.html
-msgid "{{ n }} ta komment tahlil qilindi · model: {{ m }}"
-msgstr "{{ n }} comments analyzed · model: {{ m }}"
-
-#: templates/dashboard/top_posts.html
-msgid ""
-"{{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring.\n"
-"        {% plural %}\n"
-"          {{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring."
-msgstr ""
-"{{ n }} post found — try changing the filters and sort order.\n"
-"        {% plural %}\n"
-"          {{ n }} posts found — try changing the filters and sort order."
-
-#: templates/dashboard/clusters.html
-msgid ""
-"{{ sz }} ta post o'rtacha engagement {{ eng }}%. Shu mavzudagi postlarni "
-"ko'paytirish maqsadga muvofiq."
-msgstr ""
-"{{ sz }} posts averaged {{ eng }}% engagement. Producing more on this topic "
-"is a good move."
+msgid "~%(cl)s belgili caption · %(hc)s ta hashtag"
+msgstr "~%(cl)s-character caption · %(hc)s hashtags"
 
 #: templates/dashboard/app.html
-msgid "~{{ cl }} belgili caption · {{ hc }} ta hashtag"
-msgstr "~{{ cl }}-character caption · {{ hc }} hashtags"
-
-#: templates/dashboard/app.html
-msgid "~{{ n }} layk kutiladi"
-msgstr "~{{ n }} likes expected"
+msgid "~%(n)s layk kutiladi"
+msgstr "~%(n)s likes expected"
 
 #: apps/analytics/services/recommendations.py
 msgid ""

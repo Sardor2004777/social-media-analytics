@@ -465,11 +465,10 @@ def _growth_spark(total: int) -> list[int]:
 
 def _humanize_delta(delta: timedelta) -> str:
     seconds = int(delta.total_seconds())
-    if seconds < 60:      return f"{seconds} soniya oldin"
-    if seconds < 3600:    return f"{seconds // 60} daqiqa oldin"
-    if seconds < 86400:   return f"{seconds // 3600} soat oldin"
-    days = seconds // 86400
-    return f"{days} kun oldin"
+    if seconds < 60:    return _("{n} soniya oldin").format(n=seconds)
+    if seconds < 3600:  return _("{n} daqiqa oldin").format(n=seconds // 60)
+    if seconds < 86400: return _("{n} soat oldin").format(n=seconds // 3600)
+    return _("{n} kun oldin").format(n=seconds // 86400)
 
 
 def _build_timeline(user, now) -> list[dict]:

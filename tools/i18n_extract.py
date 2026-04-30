@@ -32,9 +32,9 @@ BLOCKTRANS_RE = re.compile(
     re.DOTALL,
 )
 
-# _("..."), _('...'), gettext("..."), gettext_lazy("...")
+# _("..."), _('...'), gettext("..."), gettext_lazy("..."), _lazy("...")
 PY_RE = re.compile(
-    r"""(?<![\w.])(?:_|gettext|gettext_lazy|ugettext|ugettext_lazy)\(\s*(['"])(?P<msg>(?:\\.|(?!\1).)*)\1\s*[,)]""",
+    r"""(?<![\w.])(?:_|_lazy|gettext|gettext_lazy|ugettext|ugettext_lazy|pgettext|pgettext_lazy)\(\s*(['"])(?P<msg>(?:\\.|(?!\1).)*)\1\s*[,)]""",
 )
 
 
@@ -56,14 +56,26 @@ def extract() -> dict[str, list[str]]:
     """Return {msgid: [relative_file_paths_where_seen...]} sorted by key."""
     hits: dict[str, set[str]] = {}
 
+    # Convert {{ name }} to %(name)s — that's the syntax Django's blocktrans
+    # tag uses internally when looking up the msgid at render time. Without
+    # this conversion, the msgid stored in .po never matches what gettext
+    # asks for and the translation silently falls back to source.
+    var_to_pct = re.compile(r"\{\{\s*([\w.]+)\s*\}\}")
+
     for tpl in _iter_files(TEMPLATE_ROOTS, (".html",)):
         text = tpl.read_text(encoding="utf-8", errors="replace")
         rel = str(tpl.relative_to(BASE)).replace("\\", "/")
-        for rx in (TRANS_RE, BLOCKTRANS_RE):
-            for m in rx.finditer(text):
-                msg = m.group("msg").strip()
-                if msg:
-                    hits.setdefault(msg, set()).add(rel)
+        # Inline {% trans %} — verbatim
+        for m in TRANS_RE.finditer(text):
+            msg = m.group("msg").strip()
+            if msg:
+                hits.setdefault(msg, set()).add(rel)
+        # {% blocktrans %}…{% endblocktrans %} — placeholder syntax conversion
+        for m in BLOCKTRANS_RE.finditer(text):
+            msg = m.group("msg").strip()
+            if msg:
+                msg = var_to_pct.sub(lambda mm: f"%({mm.group(1)})s", msg)
+                hits.setdefault(msg, set()).add(rel)
 
     for py in _iter_files(PY_ROOTS, (".py",)):
         text = py.read_text(encoding="utf-8", errors="replace")

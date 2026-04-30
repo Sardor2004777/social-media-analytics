@@ -400,7 +400,7 @@
         var prev = parseInt(sessionStorage.getItem('alerts_count') || '0', 10);
         if (Notification.permission === 'granted' && d.count > prev) {
           new Notification('Social Analytics', {
-            body: d.count + ' ta yangi tahlil bildirishnomasi',
+            body: d.count + ' {% trans "ta yangi tahlil bildirishnomasi" %}',
             icon: '{% static "favicon.svg" %}',
             tag:  'analytics-alerts',
           }).onclick = function() {

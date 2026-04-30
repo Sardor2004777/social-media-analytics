@@ -1559,6 +1559,85 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "Platforms":{"en": "Platforms", "ru": "Платформы"},
     "Cover":    {"en": "Cover",     "ru": "Обложка"},
     "Top posts":{"en": "Top posts", "ru": "Топ-посты"},
+
+    # ---- blocktrans format strings (use %(name)s, not {{ name }}) ----
+    "%(day)s kuni soat %(hr)s:00 da post chiqaring":
+        {"en": "Post on %(day)s at %(hr)s:00",
+         "ru": "Публикуйте в %(day)s в %(hr)s:00"},
+    "%(len)s belgi atrofida yozilgan postlaringiz o'rtacha %(avg)s% engagement berdi — ushbu uzunlikda yozishga harakat qiling.":
+        {"en": "Posts around %(len)s characters got an average %(avg)s%% engagement — try this length.",
+         "ru": "Посты около %(len)s символов давали в среднем %(avg)s%% вовлечённости — старайтесь этой длины."},
+    "%(sz)s ta post o'rtacha engagement %(eng)s%. Shu mavzudagi postlarni ko'paytirish maqsadga muvofiq.":
+        {"en": "%(sz)s posts averaged %(eng)s%% engagement. Producing more on this topic is a good move.",
+         "ru": "%(sz)s постов в среднем %(eng)s%% вовлечённости. Публикуйте больше на эту тему."},
+    "%(n)s ta komment tahlil qilindi · model: %(m)s":
+        {"en": "%(n)s comments analysed · model: %(m)s",
+         "ru": "%(n)s комментариев проанализировано · модель: %(m)s"},
+    "~%(cl)s belgili caption · %(hc)s ta hashtag":
+        {"en": "~%(cl)s-character caption · %(hc)s hashtags",
+         "ru": "~%(cl)s символов · %(hc)s хештегов"},
+    "~%(n)s layk kutiladi":
+        {"en": "~%(n)s likes expected",
+         "ru": "~%(n)s лайков ожидается"},
+
+    # ---- JS push notification body ----
+    "ta yangi tahlil bildirishnomasi":
+        {"en": "new analytics notifications",
+         "ru": "новых уведомлений аналитики"},
+
+    # ---- blocktrans pluralised + HTML-bearing entries ----
+    "%(n)s ta post topildi — filter va saralashni o'zgartirib ko'ring.\n        {% plural %}\n          %(n)s ta post topildi — filter va saralashni o'zgartirib ko'ring.":
+        {"en": "%(n)s posts found — adjust the filter or sort.\n        {% plural %}\n          %(n)s posts found — adjust the filter or sort.",
+         "ru": "%(n)s постов найдено — измените фильтр или сортировку.\n        {% plural %}\n          %(n)s постов найдено — измените фильтр или сортировку."},
+    "<strong class=\"text-slate-900 dark:text-white\">%(email)s</strong> manzili\n          <strong class=\"text-slate-900 dark:text-white\">%(user_display)s</strong> foydalanuvchiga tegishli ekanligini tasdiqlang.":
+        {"en": "Confirm that <strong class=\"text-slate-900 dark:text-white\">%(email)s</strong>\n          belongs to user <strong class=\"text-slate-900 dark:text-white\">%(user_display)s</strong>.",
+         "ru": "Подтвердите, что адрес <strong class=\"text-slate-900 dark:text-white\">%(email)s</strong>\n          принадлежит пользователю <strong class=\"text-slate-900 dark:text-white\">%(user_display)s</strong>."},
+    "Davom etish uchun <strong>%(email)s</strong> email manzilini aniq kiriting:":
+        {"en": "To continue, type <strong>%(email)s</strong> exactly:",
+         "ru": "Чтобы продолжить, введите ровно <strong>%(email)s</strong>:"},
+    "Salom, <strong>%(user_display)s</strong>!":
+        {"en": "Hi, <strong>%(user_display)s</strong>!",
+         "ru": "Привет, <strong>%(user_display)s</strong>!"},
+    "Salom, <strong>%(username)s</strong>!":
+        {"en": "Hi, <strong>%(username)s</strong>!",
+         "ru": "Привет, <strong>%(username)s</strong>!"},
+    "Telegram'ingizda jami %(total)s ta kanal/guruh.{% plural %}Telegram'ingizda jami %(total)s ta kanal/guruh.":
+        {"en": "%(total)s channels/groups in your Telegram.{% plural %}%(total)s channels/groups in your Telegram.",
+         "ru": "%(total)s каналов/групп в Telegram.{% plural %}%(total)s каналов/групп в Telegram."},
+
+    # ---- Platform descriptions (apps/social/views.py PLATFORM_META, _lazy) ----
+    "Real ulash uchun Instagram Business akkaunt + Meta App Review kerak. Hozir demo rejimda ko'rsatiladi.":
+        {"en": "Real connection requires an Instagram Business account + Meta App Review. Demo mode for now.",
+         "ru": "Для реального подключения нужен Instagram Business + Meta App Review. Сейчас демо."},
+    "Real ulash uchun X API Basic tariffi ($100/oy) talab qilinadi. Hozir demo rejimda ko'rsatiladi.":
+        {"en": "Real connection requires the X API Basic plan ($100/mo). Demo mode for now.",
+         "ru": "Для реального подключения нужен тариф X API Basic ($100/мес). Сейчас демо."},
+    "VK devor postlari — likes, kommentlar, repostlar va views.":
+        {"en": "VK wall posts — likes, comments, reshares and views.",
+         "ru": "Посты VK на стене — лайки, комментарии, репосты и просмотры."},
+
+    # ---- Humanize delta + meta tags ----
+    "{n} soniya oldin":  {"en": "{n} seconds ago", "ru": "{n} секунд назад"},
+    "{n} daqiqa oldin":  {"en": "{n} minutes ago", "ru": "{n} минут назад"},
+    "{n} soat oldin":    {"en": "{n} hours ago",   "ru": "{n} часов назад"},
+    "{n} kun oldin":     {"en": "{n} days ago",    "ru": "{n} дней назад"},
+    "hozir":             {"en": "just now",        "ru": "сейчас"},
+
+    "Social Analytics — Ijtimoiy tarmoq analitikasi":
+        {"en": "Social Analytics — Social media analytics",
+         "ru": "Social Analytics — Аналитика соцсетей"},
+    "Telegram, YouTube va VKontakte akkauntlaringizni bir joyda tahlil qiling — AI sentiment, vaqt heatmap, eng yaxshi mavzular va avtomatik tavsiyalar.":
+        {"en": "Analyse your Telegram, YouTube and VKontakte accounts in one place — AI sentiment, time heatmap, top topics, and automatic recommendations.",
+         "ru": "Анализируйте Telegram, YouTube и VKontakte в одном месте — AI-настроение, тепловая карта времени, топ-темы и рекомендации."},
+    "Telegram, YouTube, VKontakte akkauntlaringizni bir joyda. AI sentiment, vaqt heatmap, hashtag tahlili va avtomatik tavsiyalar.":
+        {"en": "Telegram, YouTube, VKontakte accounts in one place. AI sentiment, time heatmap, hashtag analysis, automatic recommendations.",
+         "ru": "Telegram, YouTube, VKontakte — в одном месте. AI-настроение, тепловая карта времени, анализ хештегов и рекомендации."},
+    "Telegram, YouTube, VKontakte analitikasi · AI sentiment · vaqt heatmap.":
+        {"en": "Telegram, YouTube, VKontakte analytics · AI sentiment · time heatmap.",
+         "ru": "Аналитика Telegram, YouTube, VKontakte · AI-настроение · тепловая карта."},
+    "ijtimoiy tarmoq analitikasi, Telegram analitika, YouTube analitika, VK analitika, sentiment tahlil, AI tavsiyalar, dashboard, postlar statistikasi":
+        {"en": "social media analytics, Telegram analytics, YouTube analytics, VK analytics, sentiment analysis, AI recommendations, dashboard, post statistics",
+         "ru": "аналитика соцсетей, Telegram аналитика, YouTube аналитика, VK аналитика, анализ настроений, AI рекомендации, дашборд, статистика постов"},
 }
 
 

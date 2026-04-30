@@ -16,6 +16,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _lazy
 
 from apps.collectors.services.mock_generator import DemoDataGenerator
 from apps.collectors.services.telegram import (
@@ -56,35 +57,35 @@ PLATFORM_META = {
         "label": "Instagram",
         "tint":  "from-fuchsia-500 to-orange-400",
         "icon":  "IG",
-        "desc":  _("Instagram Business API orqali postlar, reels va kommentlarni tahlil qiling."),
-        "prod_note": "Real ulash uchun Instagram Business akkaunt + Meta App Review kerak. Hozir demo rejimda ko'rsatiladi.",
+        "desc":  _lazy("Instagram Business API orqali postlar, reels va kommentlarni tahlil qiling."),
+        "prod_note": _lazy("Real ulash uchun Instagram Business akkaunt + Meta App Review kerak. Hozir demo rejimda ko'rsatiladi."),
     },
     Platform.TELEGRAM: {
         "label": "Telegram",
         "tint":  "from-sky-500 to-blue-600",
         "icon":  "TG",
-        "desc":  _("Kanal yoki guruh statistikasi — views, forwards va reaksiyalar."),
+        "desc":  _lazy("Kanal yoki guruh statistikasi — views, forwards va reaksiyalar."),
         "prod_note": "",
     },
     Platform.YOUTUBE: {
         "label": "YouTube",
         "tint":  "from-red-500 to-rose-600",
         "icon":  "YT",
-        "desc":  _("Videolar, watch time, kommentlar va obunachilarning o'sishi."),
+        "desc":  _lazy("Videolar, watch time, kommentlar va obunachilarning o'sishi."),
         "prod_note": "",
     },
     Platform.X: {
         "label": "X (Twitter)",
         "tint":  "from-slate-800 to-slate-900",
         "icon":  "X",
-        "desc":  _("Tweet impressions, retweetlar va followers dinamikasi."),
-        "prod_note": "Real ulash uchun X API Basic tariffi ($100/oy) talab qilinadi. Hozir demo rejimda ko'rsatiladi.",
+        "desc":  _lazy("Tweet impressions, retweetlar va followers dinamikasi."),
+        "prod_note": _lazy("Real ulash uchun X API Basic tariffi ($100/oy) talab qilinadi. Hozir demo rejimda ko'rsatiladi."),
     },
     Platform.VK: {
         "label": "VKontakte",
         "tint":  "from-blue-500 to-indigo-600",
         "icon":  "VK",
-        "desc":  "VK devor postlari — likes, kommentlar, repostlar va views.",
+        "desc":  _lazy("VK devor postlari — likes, kommentlar, repostlar va views."),
         "prod_note": "",
     },
 }
@@ -121,13 +122,13 @@ def accounts_list(request: HttpRequest) -> HttpResponse:
         delta = now - a.updated_at
         secs = int(delta.total_seconds())
         if secs < 60:
-            a.last_sync_human = "hozir"
+            a.last_sync_human = _("hozir")
         elif secs < 3600:
-            a.last_sync_human = f"{secs // 60} daqiqa oldin"
+            a.last_sync_human = _("{n} daqiqa oldin").format(n=secs // 60)
         elif secs < 86400:
-            a.last_sync_human = f"{secs // 3600} soat oldin"
+            a.last_sync_human = _("{n} soat oldin").format(n=secs // 3600)
         else:
-            a.last_sync_human = f"{secs // 86400} kun oldin"
+            a.last_sync_human = _("{n} kun oldin").format(n=secs // 86400)
 
     # Quick-stats strip at the top of the accounts page.
     stats = {

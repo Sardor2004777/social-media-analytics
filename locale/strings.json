@@ -1,4 +1,19 @@
 {
+  "%(day)s kuni soat %(hr)s:00 da post chiqaring": [
+    "templates/dashboard/app.html"
+  ],
+  "%(len)s belgi atrofida yozilgan postlaringiz o'rtacha %(avg)s% engagement berdi — ushbu uzunlikda yozishga harakat qiling.": [
+    "templates/dashboard/analytics.html"
+  ],
+  "%(n)s ta komment tahlil qilindi · model: %(m)s": [
+    "templates/dashboard/sentiment.html"
+  ],
+  "%(n)s ta post topildi — filter va saralashni o'zgartirib ko'ring.\n        {% plural %}\n          %(n)s ta post topildi — filter va saralashni o'zgartirib ko'ring.": [
+    "templates/dashboard/top_posts.html"
+  ],
+  "%(sz)s ta post o'rtacha engagement %(eng)s%. Shu mavzudagi postlarni ko'paytirish maqsadga muvofiq.": [
+    "templates/dashboard/clusters.html"
+  ],
   "(likes + comments + shares) / views": [
     "apps/social/models.py"
   ],
@@ -121,7 +136,7 @@
   "90 kunlik post tarixingizdan o'rganilgan: kun × soat heatmap'i — engagement intensivligi bo'yicha.": [
     "templates/dashboard/best_time.html"
   ],
-  "<strong class=\"text-slate-900 dark:text-white\">{{ email }}</strong> manzili\n          <strong class=\"text-slate-900 dark:text-white\">{{ user_display }}</strong> foydalanuvchiga tegishli ekanligini tasdiqlang.": [
+  "<strong class=\"text-slate-900 dark:text-white\">%(email)s</strong> manzili\n          <strong class=\"text-slate-900 dark:text-white\">%(user_display)s</strong> foydalanuvchiga tegishli ekanligini tasdiqlang.": [
     "templates/account/email_confirm.html"
   ],
   "@{handle} yangilandi — +{created} yangi post, {updated} yangilandi, {followers} obunachi.": [
@@ -572,7 +587,7 @@
   "Dashboard, sentiment va top postlar. Hisobotni yuklab oling.": [
     "templates/dashboard/landing.html"
   ],
-  "Davom etish uchun <strong>{{ email }}</strong> email manzilini aniq kiriting:": [
+  "Davom etish uchun <strong>%(email)s</strong> email manzilini aniq kiriting:": [
     "templates/dashboard/delete_account.html"
   ],
   "Davr": [
@@ -736,6 +751,8 @@
     "apps/analytics/views.py"
   ],
   "Engagement": [
+    "templates/dashboard/accounts.html",
+    "templates/dashboard/analytics.html",
     "templates/dashboard/compare.html"
   ],
   "Engagement (hozirgi)": [
@@ -1927,6 +1944,12 @@
   "Real ulangan": [
     "templates/dashboard/accounts.html"
   ],
+  "Real ulash uchun Instagram Business akkaunt + Meta App Review kerak. Hozir demo rejimda ko'rsatiladi.": [
+    "apps/social/views.py"
+  ],
+  "Real ulash uchun X API Basic tariffi ($100/oy) talab qilinadi. Hozir demo rejimda ko'rsatiladi.": [
+    "apps/social/views.py"
+  ],
   "Real-time analitika": [
     "templates/dashboard/landing.html"
   ],
@@ -1969,10 +1992,10 @@
   "Salbiy korrelyatsiya": [
     "templates/dashboard/correlation.html"
   ],
-  "Salom, <strong>{{ user_display }}</strong>!": [
+  "Salom, <strong>%(user_display)s</strong>!": [
     "templates/account/email/email_confirmation_message.html"
   ],
-  "Salom, <strong>{{ username }}</strong>!": [
+  "Salom, <strong>%(username)s</strong>!": [
     "templates/account/email/password_reset_key_message.html"
   ],
   "Sana": [
@@ -2137,6 +2160,9 @@
   "Social Analytics saytidan (keyinchalik \"Xizmat\") foydalanib,\n    siz quyidagi shartlar va qoidalarga rozilik bildirasiz. Agar siz\n    ushbu shartlarning biror qismiga rozi bo'lmasangiz, Xizmatdan\n    foydalanmang.": [
     "templates/dashboard/terms.html"
   ],
+  "Social Analytics — Ijtimoiy tarmoq analitikasi": [
+    "templates/base.html"
+  ],
   "Social Analytics — ijtimoiy tarmoqlarda (Instagram, Telegram,\n    YouTube, X) postlar va kommentlarni tahlil qilish platformasi. Xizmat\n    ta'lim va tadqiqot maqsadlarida yaratilgan diplom loyihasi.": [
     "templates/dashboard/terms.html"
   ],
@@ -2279,7 +2305,7 @@
   "Telegram'ga ulanish": [
     "templates/dashboard/telegram_phone.html"
   ],
-  "Telegram'ingizda jami {{ total }} ta kanal/guruh.{% plural %}Telegram'ingizda jami {{ total }} ta kanal/guruh.": [
+  "Telegram'ingizda jami %(total)s ta kanal/guruh.{% plural %}Telegram'ingizda jami %(total)s ta kanal/guruh.": [
     "templates/dashboard/telegram_channels.html"
   ],
   "Telegram, YouTube va Instagram ma'lumotlarini yig'ib, sentiment tahlil va interaktiv dashboardlar bilan qarorlar qabul qiling.": [
@@ -2288,8 +2314,17 @@
   "Telegram, YouTube va VK ma'lumotlaringizni real ulang; Instagram va X demo rejimda ko'ring. AI sentiment tahlil, real-time grafiklar, avtomatik tavsiyalar — bir necha bosishda.": [
     "templates/dashboard/landing.html"
   ],
+  "Telegram, YouTube va VKontakte akkauntlaringizni bir joyda tahlil qiling — AI sentiment, vaqt heatmap, eng yaxshi mavzular va avtomatik tavsiyalar.": [
+    "templates/base.html"
+  ],
   "Telegram, YouTube yoki VK akkauntingizni ulab, real grafiklar va tavsiyalarni oling.": [
     "templates/dashboard/app.html"
+  ],
+  "Telegram, YouTube, VKontakte akkauntlaringizni bir joyda. AI sentiment, vaqt heatmap, hashtag tahlili va avtomatik tavsiyalar.": [
+    "templates/base.html"
+  ],
+  "Telegram, YouTube, VKontakte analitikasi · AI sentiment · vaqt heatmap.": [
+    "templates/base.html"
   ],
   "Texnik stek": [
     "templates/dashboard/help.html"
@@ -2414,6 +2449,9 @@
   ],
   "VK OAuth bilan kirib, devor postlari (likes, kommentlar, repostlar) yig'ish.": [
     "templates/dashboard/help.html"
+  ],
+  "VK devor postlari — likes, kommentlar, repostlar va views.": [
+    "apps/social/views.py"
   ],
   "Vaqt foydalanuvchining mahalliy zonasida. Kursorni katakka olib boring — aniq raqamlarni ko'rasiz.": [
     "templates/dashboard/best_time.html"
@@ -2619,6 +2657,12 @@
   "faqat matn": [
     "templates/dashboard/app.html"
   ],
+  "hozir": [
+    "apps/social/views.py"
+  ],
+  "ijtimoiy tarmoq analitikasi, Telegram analitika, YouTube analitika, VK analitika, sentiment tahlil, AI tavsiyalar, dashboard, postlar statistikasi": [
+    "templates/base.html"
+  ],
   "in Tashkent": [
     "templates/partials/_footer.html"
   ],
@@ -2715,6 +2759,9 @@
   "ta post ishtirok etdi.": [
     "templates/dashboard/correlation.html"
   ],
+  "ta yangi tahlil bildirishnomasi": [
+    "templates/dashboard/_shell.html"
+  ],
   "tanlash": [
     "templates/partials/_command_palette.html"
   ],
@@ -2758,6 +2805,21 @@
   "{label} o'chirildi.": [
     "apps/social/views.py"
   ],
+  "{n} daqiqa oldin": [
+    "apps/dashboard/views.py",
+    "apps/social/views.py"
+  ],
+  "{n} kun oldin": [
+    "apps/dashboard/views.py",
+    "apps/social/views.py"
+  ],
+  "{n} soat oldin": [
+    "apps/dashboard/views.py",
+    "apps/social/views.py"
+  ],
+  "{n} soniya oldin": [
+    "apps/dashboard/views.py"
+  ],
   "{n} ta negativ komment aniqlandi": [
     "apps/dashboard/views.py"
   ],
@@ -2767,25 +2829,10 @@
   "{platform} uchun avtomatik yangilash hali mavjud emas.": [
     "apps/social/views.py"
   ],
-  "{{ day }} kuni soat {{ hr }}:00 da post chiqaring": [
+  "~%(cl)s belgili caption · %(hc)s ta hashtag": [
     "templates/dashboard/app.html"
   ],
-  "{{ len }} belgi atrofida yozilgan postlaringiz o'rtacha {{ avg }}% engagement berdi — ushbu uzunlikda yozishga harakat qiling.": [
-    "templates/dashboard/analytics.html"
-  ],
-  "{{ n }} ta komment tahlil qilindi · model: {{ m }}": [
-    "templates/dashboard/sentiment.html"
-  ],
-  "{{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring.\n        {% plural %}\n          {{ n }} ta post topildi — filter va saralashni o'zgartirib ko'ring.": [
-    "templates/dashboard/top_posts.html"
-  ],
-  "{{ sz }} ta post o'rtacha engagement {{ eng }}%. Shu mavzudagi postlarni ko'paytirish maqsadga muvofiq.": [
-    "templates/dashboard/clusters.html"
-  ],
-  "~{{ cl }} belgili caption · {{ hc }} ta hashtag": [
-    "templates/dashboard/app.html"
-  ],
-  "~{{ n }} layk kutiladi": [
+  "~%(n)s layk kutiladi": [
     "templates/dashboard/app.html"
   ],
   "«{snippet}» — shu post sizning eng samarali ishingiz. Mavzu va formatini takrorlashga harakat qiling.": [
