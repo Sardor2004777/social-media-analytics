@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: social-analytics 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-30 08:43+0000\n"
-"PO-Revision-Date: 2026-04-30 08:43+0000\n"
+"POT-Creation-Date: 2026-04-30 09:03+0000\n"
+"PO-Revision-Date: 2026-04-30 09:03+0000\n"
 "Last-Translator: social-analytics i18n_compile.py\n"
 "Language-Team: en\n"
 "Language: en\n"
@@ -65,13 +65,21 @@ msgstr "Step 2: Confirm the 6-digit code"
 msgid "2. Xizmatning tavsifi"
 msgstr "2. Service description"
 
-#: templates/dashboard/two_factor.html
+#: templates/dashboard/_shell.html templates/dashboard/two_factor.html
 msgid "2FA"
 msgstr "2FA"
 
 #: templates/dashboard/two_factor.html
 msgid "2FA ni o'chirish"
 msgstr "Disable 2FA"
+
+#: apps/accounts/views.py
+msgid "2FA o'chirildi."
+msgstr "2FA disabled."
+
+#: apps/accounts/views.py
+msgid "2FA yoqildi! Endi har safar kirishda kod so'raladi."
+msgstr "2FA enabled! A code will be required at every sign-in."
 
 #: templates/dashboard/compare.html
 msgid ""
@@ -220,6 +228,13 @@ msgstr "AI Chat"
 msgid "AI Chat hali sozlanmagan"
 msgstr "AI Chat is not configured yet"
 
+#: apps/analytics/views.py
+msgid ""
+"AI Chat sozlanmagan — administrator OPENAI_API_KEY ni .env'ga qo'shishi "
+"kerak."
+msgstr ""
+"AI Chat is not configured — administrator must add OPENAI_API_KEY to .env."
+
 #: templates/dashboard/ai_digest.html
 msgid "AI Haftalik Xulosa"
 msgstr "AI Weekly Summary"
@@ -227,6 +242,10 @@ msgstr "AI Weekly Summary"
 #: templates/dashboard/post_generator.html
 msgid "AI hali sozlanmagan"
 msgstr "AI is not configured"
+
+#: apps/analytics/views.py
+msgid "AI hali sozlanmagan."
+msgstr "AI is not configured yet."
 
 #: templates/dashboard/help.html
 msgid "AI hisobotlar nima uchun pulli?"
@@ -265,6 +284,10 @@ msgstr "AI Summary"
 msgid "Akkaunt"
 msgstr "Account"
 
+#: apps/analytics/views.py
+msgid "Akkaunt topilmadi"
+msgstr "Account not found"
+
 #: templates/dashboard/account_connect.html templates/dashboard/app.html
 #: templates/dashboard/best_time.html templates/dashboard/compare.html
 msgid "Akkaunt ulash"
@@ -273,6 +296,10 @@ msgstr "Connect account"
 #: templates/account/signup.html
 msgid "Akkaunt yaratish"
 msgstr "Create account"
+
+#: apps/accounts/views.py
+msgid "Akkaunt {email} o'chirildi. Xayr!"
+msgstr "Account {email} deleted. Bye!"
 
 #: templates/dashboard/delete_account.html
 msgid "Akkauntimni butunlay o'chirish"
@@ -408,6 +435,10 @@ msgstr "Original post"
 msgid "Asosiy"
 msgstr "Main"
 
+#: templates/base.html
+msgid "Asosiy mazmunga o'tish"
+msgstr "Skip to main content"
+
 #: templates/dashboard/chat.html
 msgid ""
 "Assalomu alaykum! Dashboard ma'lumotingiz haqida savol bering — masalan, eng"
@@ -436,6 +467,18 @@ msgstr "Authentication"
 #: templates/dashboard/settings.html
 msgid "Avtomatik"
 msgstr "Automatic"
+
+#: apps/analytics/views.py
+msgid "Avval kamida bitta ijtimoiy tarmoq akkauntini ulang."
+msgstr "Connect at least one social network account first."
+
+#: apps/analytics/views.py
+msgid "Avval kamida bitta postingiz bo'lishi kerak."
+msgstr "You need at least one post first."
+
+#: apps/accounts/views.py
+msgid "Avval QR kodni Authenticatorga qo'shing, keyin tasdiqlang."
+msgstr "Add the QR to your Authenticator first, then confirm."
 
 #: templates/dashboard/landing.html
 msgid ""
@@ -508,7 +551,7 @@ msgstr "Start for free"
 msgid "bilan tanishdim va roziman."
 msgstr "I have read and agree."
 
-#: templates/dashboard/alerts.html
+#: templates/dashboard/_shell.html templates/dashboard/alerts.html
 msgid "Bildirishnomalar"
 msgstr "Notifications"
 
@@ -984,7 +1027,8 @@ msgstr "Active accounts"
 msgid "Faollik dinamikasi"
 msgstr "Activity dynamics"
 
-#: templates/dashboard/activity_log.html templates/dashboard/settings.html
+#: templates/dashboard/_shell.html templates/dashboard/activity_log.html
+#: templates/dashboard/settings.html
 msgid "Faollik tarixi"
 msgstr "Activity log"
 
@@ -1201,6 +1245,10 @@ msgstr "Hashtag count"
 msgid "Hashtag tahlili"
 msgstr "Hashtag analysis"
 
+#: apps/analytics/views.py
+msgid "Hashtag tahlili uchun yetarli post yo'q."
+msgstr "Not enough posts for a hashtag analysis."
+
 #: templates/dashboard/hashtags.html
 msgid "Hashtag tavsiya olish"
 msgstr "Get hashtag suggestions"
@@ -1320,6 +1368,11 @@ msgstr "Features"
 msgid "in Tashkent"
 msgstr "in Tashkent"
 
+#: apps/social/views.py
+msgid ""
+"Instagram Business API orqali postlar, reels va kommentlarni tahlil qiling."
+msgstr "Analyze posts, reels and comments via the Instagram Business API."
+
 #: templates/dashboard/landing.html
 msgid "Instagram, Telegram, YouTube yoki X — xavfsiz OAuth orqali."
 msgstr "Instagram, Telegram, YouTube, or X — via secure OAuth."
@@ -1384,6 +1437,10 @@ msgstr "Save current filter"
 msgid "JSON sifatida yuklab oling"
 msgstr "Download as JSON"
 
+#: apps/core/ratelimit.py
+msgid "Juda ko'p so'rov. Biroz kuting va qayta urinib ko'ring."
+msgstr "Too many requests. Please wait a bit and try again."
+
 #: templates/account/signup.html
 msgid "Juda kuchli"
 msgstr "Very strong"
@@ -1412,6 +1469,10 @@ msgstr "At least 8 characters"
 #: templates/dashboard/telegram_channels.html
 msgid "Kanal tanlash"
 msgstr "Pick a channel"
+
+#: apps/social/views.py
+msgid "Kanal yoki guruh statistikasi — views, forwards va reaksiyalar."
+msgstr "Channel or group stats — views, forwards and reactions."
 
 #: templates/dashboard/telegram_channels.html
 msgid "Kanallar"
@@ -1493,6 +1554,10 @@ msgstr "Conversion from views down to reshares"
 #: templates/dashboard/telegram_code.html
 msgid "Kod"
 msgstr "Code"
+
+#: apps/accounts/views.py
+msgid "Kod noto'g'ri yoki muddati o'tgan. Qayta urinib ko'ring."
+msgstr "Wrong or expired code. Please try again."
 
 #: templates/dashboard/telegram_code.html
 msgid ""
@@ -1620,6 +1685,10 @@ msgstr "All project features, how to use them, and the technical details."
 msgid "Ma'lumot saqlash"
 msgstr "Data retention"
 
+#: apps/dashboard/views.py
+msgid "Ma'lumot yo'q"
+msgstr "No data"
+
 #: templates/dashboard/privacy.html
 msgid "Ma'lumotdan qanday foydalanamiz"
 msgstr "How we use your data"
@@ -1663,6 +1732,10 @@ msgstr ""
 msgid "Ma'lumotlarim qayerda saqlanadi?"
 msgstr "Where is my data stored?"
 
+#: templates/dashboard/_shell.html
+msgid "Ma'lumotlarni eksport"
+msgstr "Export data"
+
 #: templates/partials/_footer.html
 msgid "Made with"
 msgstr "Made with"
@@ -1686,6 +1759,10 @@ msgstr "Get advice"
 #: templates/dashboard/predict.html
 msgid "Maslahat:"
 msgstr "Tip:"
+
+#: apps/analytics/views.py
+msgid "Matn bo'sh."
+msgstr "Text is empty."
 
 #: templates/dashboard/settings.html templates/partials/_command_palette.html
 msgid "Mavzu"
@@ -1805,6 +1882,10 @@ msgstr "Neutral"
 #: templates/partials/_command_palette.html
 msgid "Nimani qidiryapsiz?"
 msgstr "What are you looking for?"
+
+#: apps/accounts/views.py
+msgid "Noma'lum amal."
+msgstr "Unknown action."
 
 #: templates/dashboard/post_generator.html
 msgid "Nusxa"
@@ -1974,6 +2055,10 @@ msgstr "Last update:"
 #: templates/dashboard/app.html
 msgid "oy/oy"
 msgstr "month/month"
+
+#: apps/analytics/views.py
+msgid "page va name talab qilinadi"
+msgstr "page and name are required"
 
 #: templates/account/login.html templates/account/signup.html
 #: templates/dashboard/settings.html
@@ -2294,6 +2379,10 @@ msgstr "Profile information"
 msgid "Profil sozlamalari"
 msgstr "Profile settings"
 
+#: apps/accounts/views.py
+msgid "Profil yangilandi."
+msgstr "Profile updated."
+
 #: apps/social/models.py
 msgid "Public @username or channel id"
 msgstr "Public @username or channel id"
@@ -2564,6 +2653,14 @@ msgstr "Save"
 msgid "Saralash"
 msgstr "Sort by"
 
+#: apps/analytics/views.py
+msgid "Savol 500 belgidan oshmasligi kerak."
+msgstr "Question must not exceed 500 characters."
+
+#: apps/analytics/views.py
+msgid "Savol bo'sh bo'lmasligi kerak."
+msgstr "Question must not be empty."
+
 #: templates/dashboard/chat.html
 msgid "Savolingiz..."
 msgstr "Your question..."
@@ -2638,6 +2735,10 @@ msgstr "Sentiment analysis (via AI model)."
 #: templates/dashboard/landing.html
 msgid "Sentiment tahlili qanday ishlaydi?"
 msgstr "How does sentiment analysis work?"
+
+#: apps/dashboard/views.py
+msgid "Sentiment tahlili yangilandi"
+msgstr "Sentiment analysis updated"
 
 #: templates/dashboard/correlation.html
 msgid "Sentiment × Engagement"
@@ -2905,6 +3006,10 @@ msgstr "Confirm"
 msgid "Tasdiqlash kodi"
 msgstr "Confirmation code"
 
+#: apps/accounts/views.py
+msgid "Tasdiqlash uchun email manzilingizni aniq kiriting."
+msgstr "Enter your email exactly to confirm."
+
 #: templates/dashboard/two_factor.html
 msgid "Tavsiya etilgan ilovalar"
 msgstr "Recommended apps"
@@ -3026,6 +3131,18 @@ msgstr "Tech stack"
 msgid "Texnik tafsilot:"
 msgstr "Technical detail:"
 
+#: apps/analytics/views.py
+msgid "Texnik xato yuz berdi. Keyinroq urinib ko'ring."
+msgstr "A technical error occurred. Please try again later."
+
+#: apps/analytics/views.py
+msgid "Texnik xato. Keyinroq urinib ko'ring."
+msgstr "Technical error. Please try again later."
+
+#: apps/analytics/views.py
+msgid "Texnik xato: {e}"
+msgstr "Technical error: {e}"
+
 #: templates/dashboard/help.html
 msgid "Tez-tez beriladigan savollar"
 msgstr "FAQ"
@@ -3124,6 +3241,10 @@ msgstr "True for accounts seeded by the demo generator."
 #: templates/dashboard/app.html
 msgid "Tushundim!"
 msgstr "Got it!"
+
+#: apps/social/views.py
+msgid "Tweet impressions, retweetlar va followers dinamikasi."
+msgstr "Tweet impressions, retweets and follower dynamics."
 
 #: templates/dashboard/landing.html
 msgid ""
@@ -3227,6 +3348,10 @@ msgid ""
 "aniq raqamlarni ko'rasiz."
 msgstr "Times are in your local timezone. Hover a cell for exact numbers."
 
+#: apps/social/views.py
+msgid "Videolar, watch time, kommentlar va obunachilarning o'sishi."
+msgstr "Videos, watch time, comments and subscriber growth."
+
 #: templates/dashboard/app.html
 msgid "Virality"
 msgstr "Virality"
@@ -3309,6 +3434,10 @@ msgstr "new"
 #: templates/account/password_reset_from_key.html
 msgid "Yangi havola so'rash"
 msgstr "Request new link"
+
+#: apps/accounts/views.py
+msgid "Yangi maxfiy kod yaratildi. Qayta scan qiling va kodni tasdiqlang."
+msgstr "New secret created. Re-scan the QR and confirm the code."
 
 #: templates/dashboard/two_factor.html
 msgid "Yangi maxfiy kod yaratish"

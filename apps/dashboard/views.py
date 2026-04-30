@@ -23,6 +23,7 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.views.decorators.vary import vary_on_cookie
+from django.utils.translation import gettext as _
 
 from apps.analytics.models import SentimentLabel, SentimentResult
 from apps.analytics.services.recommendations import build_recommendations
@@ -534,7 +535,7 @@ def _build_timeline(user, now) -> list[dict]:
     if latest_sentiment:
         events.append((latest_sentiment.created_at, {
             "icon": "bar-chart-3", "accent": "brand",
-            "text": "Sentiment tahlili yangilandi",
+            "text": _("Sentiment tahlili yangilandi"),
         }))
 
     events.sort(key=lambda t: t[0], reverse=True)
@@ -547,7 +548,7 @@ def _build_timeline(user, now) -> list[dict]:
 
 def _empty_platforms() -> list[dict]:
     """Placeholder so the donut chart renders a single 'no data' slice."""
-    return [{"name": "Ma'lumot yo'q", "value": 1, "color": "#94a3b8", "icon": "x", "pct": 100.0}]
+    return [{"name": _("Ma'lumot yo'q"), "value": 1, "color": "#94a3b8", "icon": "x", "pct": 100.0}]
 
 
 @login_required

@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext as _
 
 User = get_user_model()
 
@@ -33,7 +34,7 @@ def settings_page(request: HttpRequest) -> HttpResponse:
         form = ProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, "Profil yangilandi.")
+            messages.success(request, _("Profil yangilandi."))
             return redirect("accounts:settings")
     else:
         form = ProfileForm(instance=request.user)
@@ -132,7 +133,7 @@ def delete_account(request: HttpRequest) -> HttpResponse:
         if typed != (request.user.email or "").lower():
             messages.error(
                 request,
-                "Tasdiqlash uchun email manzilingizni aniq kiriting.",
+                _("Tasdiqlash uchun email manzilingizni aniq kiriting."),
             )
             return redirect("accounts:delete_account")
 
@@ -140,7 +141,7 @@ def delete_account(request: HttpRequest) -> HttpResponse:
         email = user.email
         logout(request)
         user.delete()
-        messages.success(request, f"Akkaunt {email} o'chirildi. Xayr!")
+        messages.success(request, _("Akkaunt {email} o'chirildi. Xayr!").format(email=email))
         return redirect("dashboard:home")
 
     return render(request, "dashboard/delete_account.html", {
@@ -197,26 +198,26 @@ def two_factor_setup(request: HttpRequest) -> HttpResponse:
             user.totp_secret  = ""
             user.save(update_fields=["totp_enabled", "totp_secret"])
             log_activity(user, "2fa", "2FA disabled", request=request)
-            notice = "2FA o'chirildi."
+            notice = _("2FA o'chirildi.")
         elif action == "regenerate":
             user.totp_enabled = False
             user.totp_secret  = new_secret()
             user.save(update_fields=["totp_enabled", "totp_secret"])
             log_activity(user, "2fa", "2FA secret regenerated", request=request)
-            notice = "Yangi maxfiy kod yaratildi. Qayta scan qiling va kodni tasdiqlang."
+            notice = _("Yangi maxfiy kod yaratildi. Qayta scan qiling va kodni tasdiqlang.")
         elif action == "enable":
             code = (request.POST.get("code") or "").strip()
             if not user.totp_secret:
-                error = "Avval QR kodni Authenticatorga qo'shing, keyin tasdiqlang."
+                error = _("Avval QR kodni Authenticatorga qo'shing, keyin tasdiqlang.")
             elif verify(user.totp_secret, code):
                 user.totp_enabled = True
                 user.save(update_fields=["totp_enabled"])
                 log_activity(user, "2fa", "2FA enabled", request=request)
-                notice = "2FA yoqildi! Endi har safar kirishda kod so'raladi."
+                notice = _("2FA yoqildi! Endi har safar kirishda kod so'raladi.")
             else:
-                error = "Kod noto'g'ri yoki muddati o'tgan. Qayta urinib ko'ring."
+                error = _("Kod noto'g'ri yoki muddati o'tgan. Qayta urinib ko'ring.")
         else:
-            error = "Noma'lum amal."
+            error = _("Noma'lum amal.")
 
     # Make sure a secret exists when 2FA is OFF, so the page can show a QR
     # ready for the user to scan without an extra round-trip.

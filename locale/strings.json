@@ -33,10 +33,17 @@
     "templates/dashboard/terms.html"
   ],
   "2FA": [
+    "templates/dashboard/_shell.html",
     "templates/dashboard/two_factor.html"
   ],
   "2FA ni o'chirish": [
     "templates/dashboard/two_factor.html"
+  ],
+  "2FA o'chirildi.": [
+    "apps/accounts/views.py"
+  ],
+  "2FA yoqildi! Endi har safar kirishda kod so'raladi.": [
+    "apps/accounts/views.py"
   ],
   "2–3 ta akkaunt tanlang va KPI'lar bilan 30-kunlik trendni yonma-yon ko'ring.": [
     "templates/dashboard/compare.html"
@@ -120,6 +127,9 @@
   "AI Chat hali sozlanmagan": [
     "templates/dashboard/chat.html"
   ],
+  "AI Chat sozlanmagan — administrator OPENAI_API_KEY ni .env'ga qo'shishi kerak.": [
+    "apps/analytics/views.py"
+  ],
   "AI Haftalik Xulosa": [
     "templates/dashboard/ai_digest.html"
   ],
@@ -131,6 +141,9 @@
   ],
   "AI hali sozlanmagan": [
     "templates/dashboard/post_generator.html"
+  ],
+  "AI hali sozlanmagan.": [
+    "apps/analytics/views.py"
   ],
   "AI hisobotlar nima uchun pulli?": [
     "templates/dashboard/help.html"
@@ -173,6 +186,9 @@
     "templates/dashboard/competitors.html",
     "templates/partials/_command_palette.html"
   ],
+  "Akkaunt topilmadi": [
+    "apps/analytics/views.py"
+  ],
   "Akkaunt ulash": [
     "templates/dashboard/account_connect.html",
     "templates/dashboard/app.html",
@@ -181,6 +197,9 @@
   ],
   "Akkaunt yaratish": [
     "templates/account/signup.html"
+  ],
+  "Akkaunt {email} o'chirildi. Xayr!": [
+    "apps/accounts/views.py"
   ],
   "Akkauntimni butunlay o'chirish": [
     "templates/dashboard/delete_account.html"
@@ -269,6 +288,9 @@
   "Asosiy": [
     "templates/dashboard/_shell.html"
   ],
+  "Asosiy mazmunga o'tish": [
+    "templates/base.html"
+  ],
   "Assalomu alaykum! Dashboard ma'lumotingiz haqida savol bering — masalan, eng yaxshi ishlayotgan platforma, postlaringiz haqida tahlil, yoki engagement trendlari.": [
     "templates/dashboard/chat.html"
   ],
@@ -287,6 +309,15 @@
   ],
   "Avtomatik": [
     "templates/dashboard/settings.html"
+  ],
+  "Avval QR kodni Authenticatorga qo'shing, keyin tasdiqlang.": [
+    "apps/accounts/views.py"
+  ],
+  "Avval kamida bitta ijtimoiy tarmoq akkauntini ulang.": [
+    "apps/analytics/views.py"
+  ],
+  "Avval kamida bitta postingiz bo'lishi kerak.": [
+    "apps/analytics/views.py"
   ],
   "Ayni paytda real ulashda: Telegram (MTProto), YouTube (Data API v3), VKontakte (API v5). Demo rejimda: Instagram (Business akkaunt + Meta App Review talab qiladi), X (Basic tariff $100/oy).": [
     "templates/dashboard/landing.html"
@@ -332,6 +363,7 @@
     "templates/dashboard/landing.html"
   ],
   "Bildirishnomalar": [
+    "templates/dashboard/_shell.html",
     "templates/dashboard/alerts.html"
   ],
   "Bildirishnomalar yo'q. Anomaliya tizimi ish boshlasa, bu yerda paydo bo'ladi.": [
@@ -678,6 +710,7 @@
     "templates/dashboard/app.html"
   ],
   "Faollik tarixi": [
+    "templates/dashboard/_shell.html",
     "templates/dashboard/activity_log.html",
     "templates/dashboard/settings.html"
   ],
@@ -817,6 +850,9 @@
     "templates/dashboard/_shell.html",
     "templates/dashboard/hashtags.html"
   ],
+  "Hashtag tahlili uchun yetarli post yo'q.": [
+    "apps/analytics/views.py"
+  ],
   "Hashtag tavsiya olish": [
     "templates/dashboard/hashtags.html"
   ],
@@ -898,6 +934,9 @@
     "templates/dashboard/help.html",
     "templates/dashboard/landing.html"
   ],
+  "Instagram Business API orqali postlar, reels va kommentlarni tahlil qiling.": [
+    "apps/social/views.py"
+  ],
   "Instagram, Telegram, YouTube yoki X — xavfsiz OAuth orqali.": [
     "templates/dashboard/landing.html"
   ],
@@ -944,6 +983,9 @@
   "Joriy filterni saqlash": [
     "templates/dashboard/top_posts.html"
   ],
+  "Juda ko'p so'rov. Biroz kuting va qayta urinib ko'ring.": [
+    "apps/core/ratelimit.py"
+  ],
   "Juda kuchli": [
     "templates/account/signup.html"
   ],
@@ -965,6 +1007,9 @@
   ],
   "Kanal tanlash": [
     "templates/dashboard/telegram_channels.html"
+  ],
+  "Kanal yoki guruh statistikasi — views, forwards va reaksiyalar.": [
+    "apps/social/views.py"
   ],
   "Kanallar": [
     "templates/dashboard/telegram_channels.html"
@@ -1034,6 +1079,9 @@
   ],
   "Kod Telegram ilovangizga (boshqa qurilmadagi sessiyaga) keladi — ba'zida SMS sifatida ham yuboriladi.": [
     "templates/dashboard/telegram_code.html"
+  ],
+  "Kod noto'g'ri yoki muddati o'tgan. Qayta urinib ko'ring.": [
+    "apps/accounts/views.py"
   ],
   "Kod yuborish": [
     "templates/dashboard/telegram_phone.html"
@@ -1123,6 +1171,9 @@
   "Ma'lumot saqlash": [
     "templates/dashboard/privacy.html"
   ],
+  "Ma'lumot yo'q": [
+    "apps/dashboard/views.py"
+  ],
   "Ma'lumotdan qanday foydalanamiz": [
     "templates/dashboard/privacy.html"
   ],
@@ -1150,6 +1201,9 @@
   "Ma'lumotlarim qayerda saqlanadi?": [
     "templates/dashboard/help.html"
   ],
+  "Ma'lumotlarni eksport": [
+    "templates/dashboard/_shell.html"
+  ],
   "Made with": [
     "templates/partials/_footer.html"
   ],
@@ -1167,6 +1221,9 @@
   ],
   "Maslahat:": [
     "templates/dashboard/predict.html"
+  ],
+  "Matn bo'sh.": [
+    "apps/analytics/views.py"
   ],
   "Mavzu": [
     "templates/dashboard/settings.html",
@@ -1243,6 +1300,9 @@
   ],
   "Nimani qidiryapsiz?": [
     "templates/partials/_command_palette.html"
+  ],
+  "Noma'lum amal.": [
+    "apps/accounts/views.py"
   ],
   "Nusxa": [
     "templates/dashboard/post_generator.html"
@@ -1557,6 +1617,9 @@
   "Profil sozlamalari": [
     "templates/dashboard/settings.html"
   ],
+  "Profil yangilandi.": [
+    "apps/accounts/views.py"
+  ],
   "Public @username or channel id": [
     "apps/social/models.py"
   ],
@@ -1747,6 +1810,12 @@
   "Saralash": [
     "templates/dashboard/top_posts.html"
   ],
+  "Savol 500 belgidan oshmasligi kerak.": [
+    "apps/analytics/views.py"
+  ],
+  "Savol bo'sh bo'lmasligi kerak.": [
+    "apps/analytics/views.py"
+  ],
   "Savolingiz...": [
     "templates/dashboard/chat.html"
   ],
@@ -1786,6 +1855,9 @@
   ],
   "Sentiment tahlili qanday ishlaydi?": [
     "templates/dashboard/landing.html"
+  ],
+  "Sentiment tahlili yangilandi": [
+    "apps/dashboard/views.py"
   ],
   "Sentiment × Engagement": [
     "templates/dashboard/correlation.html"
@@ -1941,6 +2013,9 @@
   "Tasdiqlash kodi": [
     "templates/dashboard/telegram_code.html"
   ],
+  "Tasdiqlash uchun email manzilingizni aniq kiriting.": [
+    "apps/accounts/views.py"
+  ],
   "Tavsiya etilgan ilovalar": [
     "templates/dashboard/two_factor.html"
   ],
@@ -2010,6 +2085,15 @@
     "templates/dashboard/clusters.html",
     "templates/dashboard/predict.html"
   ],
+  "Texnik xato yuz berdi. Keyinroq urinib ko'ring.": [
+    "apps/analytics/views.py"
+  ],
+  "Texnik xato. Keyinroq urinib ko'ring.": [
+    "apps/analytics/views.py"
+  ],
+  "Texnik xato: {e}": [
+    "apps/analytics/views.py"
+  ],
   "Tez-tez beriladigan savollar": [
     "templates/dashboard/help.html"
   ],
@@ -2070,6 +2154,9 @@
   "Tushundim!": [
     "templates/dashboard/app.html"
   ],
+  "Tweet impressions, retweetlar va followers dinamikasi.": [
+    "apps/social/views.py"
+  ],
   "Uch darajali tiered engine: (1) XLM-RoBERTa transformer (opt-in, cardiffnlp tomonidan Twitter korpusida o'qitilgan, ~82% F1), (2) VADER lexicon O'zbek/Rus keyword kengaytmasi bilan (~75% F1 ikki tilda), (3) fallback keyword engine. Har komment uchun model nomi DB'da saqlanadi, natijalarni modellar aro solishtirish mumkin.": [
     "templates/dashboard/landing.html"
   ],
@@ -2114,6 +2201,9 @@
   ],
   "Vaqt foydalanuvchining mahalliy zonasida. Kursorni katakka olib boring — aniq raqamlarni ko'rasiz.": [
     "templates/dashboard/best_time.html"
+  ],
+  "Videolar, watch time, kommentlar va obunachilarning o'sishi.": [
+    "apps/social/views.py"
   ],
   "Virality": [
     "templates/dashboard/app.html"
@@ -2167,6 +2257,9 @@
   ],
   "Yangi havola so'rash": [
     "templates/account/password_reset_from_key.html"
+  ],
+  "Yangi maxfiy kod yaratildi. Qayta scan qiling va kodni tasdiqlang.": [
+    "apps/accounts/views.py"
   ],
   "Yangi maxfiy kod yaratish": [
     "templates/dashboard/two_factor.html"
@@ -2324,6 +2417,9 @@
   ],
   "oy/oy": [
     "templates/dashboard/app.html"
+  ],
+  "page va name talab qilinadi": [
+    "apps/analytics/views.py"
   ],
   "pastga": [
     "templates/dashboard/landing.html"

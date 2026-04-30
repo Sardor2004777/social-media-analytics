@@ -26,6 +26,7 @@ from typing import Callable
 
 from django.core.cache import cache
 from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.utils.translation import gettext as _
 
 
 _PERIODS = {
@@ -89,7 +90,7 @@ def rate_limit(
                 retry_after = period - (int(time.time()) % period)
                 resp = JsonResponse(
                     {
-                        "error": "Juda ko'p so'rov. Biroz kuting va qayta urinib ko'ring.",
+                        "error": _("Juda ko'p so'rov. Biroz kuting va qayta urinib ko'ring."),
                         "retry_after_seconds": retry_after,
                     },
                     status=429,

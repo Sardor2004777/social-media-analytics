@@ -17,6 +17,7 @@ from django.db.models.functions import TruncDay
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 
 from apps.collectors.models import Comment
@@ -471,7 +472,7 @@ def ai_translate(request: HttpRequest) -> HttpResponse:
     text = (request.POST.get("text") or "").strip()
     lang = (request.POST.get("lang") or "uz").lower()
     if not text:
-        return JsonResponse({"error": "Matn bo'sh."}, status=400)
+        return JsonResponse({"error": _("Matn bo'sh.")}, status=400)
     if lang not in {"uz", "ru", "en"}:
         lang = "uz"
     try:
@@ -480,7 +481,7 @@ def ai_translate(request: HttpRequest) -> HttpResponse:
         return JsonResponse({"error": str(e)}, status=503)
     except Exception as e:
         logger.exception("Translate failed for user %s", request.user.id)
-        return JsonResponse({"error": f"Texnik xato: {e}"}, status=500)
+        return JsonResponse({"error": _("Texnik xato: {e}").format(e=e)}, status=500)
     return JsonResponse({"translation": resp.answer.strip(), "model": resp.model})
 
 
@@ -807,7 +808,7 @@ def saved_views_api(request: HttpRequest) -> JsonResponse:
     name  = (request.POST.get("name")  or "").strip()[:80]
     query = (request.POST.get("query") or "").strip()[:600]
     if not page or not name:
-        return JsonResponse({"error": "page va name talab qilinadi"}, status=400)
+        return JsonResponse({"error": _("page va name talab qilinadi")}, status=400)
     obj, created = SavedView.objects.update_or_create(
         user=request.user, page=page, name=name,
         defaults={"query": query},
@@ -830,11 +831,11 @@ def ai_hashtag_suggest(request: HttpRequest) -> JsonResponse:
     front-end can render a copy-friendly list.
     """
     if not chat_is_configured():
-        return JsonResponse({"error": "AI hali sozlanmagan."}, status=503)
+        return JsonResponse({"error": _("AI hali sozlanmagan.")}, status=503)
 
     stats = top_hashtags(request.user, days=90, limit=15)
     if not stats:
-        return JsonResponse({"error": "Hashtag tahlili uchun yetarli post yo'q."}, status=400)
+        return JsonResponse({"error": _("Hashtag tahlili uchun yetarli post yo'q.")}, status=400)
 
     lines = ["Top hashtaglar va o'rtacha engagement (foiz):"]
     for s in stats[:10]:
@@ -856,7 +857,7 @@ def ai_hashtag_suggest(request: HttpRequest) -> JsonResponse:
         return JsonResponse({"error": str(e)}, status=503)
     except Exception:
         logger.exception("AI hashtag suggestion failed for user %s", request.user.id)
-        return JsonResponse({"error": "Texnik xato. Keyinroq urinib ko'ring."}, status=500)
+        return JsonResponse({"error": _("Texnik xato. Keyinroq urinib ko'ring.")}, status=500)
 
     import re
     tags = re.findall(r"#([\wÀ-￿]{2,40})", resp.answer or "", flags=re.UNICODE)
@@ -966,9 +967,9 @@ def ai_post_generator(request: HttpRequest) -> HttpResponse:
 
     if request.method == "POST":
         if not chat_is_configured():
-            error = "AI hali sozlanmagan."
+            error = _("AI hali sozlanmagan.")
         elif not Post.objects.filter(account__user=request.user).exists():
-            error = "Avval kamida bitta postingiz bo'lishi kerak."
+            error = _("Avval kamida bitta postingiz bo'lishi kerak.")
         else:
             try:
                 resp = generate_post_drafts(request.user)
@@ -978,7 +979,7 @@ def ai_post_generator(request: HttpRequest) -> HttpResponse:
                 error = str(e)
             except Exception:
                 logger.exception("Post-draft generation failed for user %s", request.user.id)
-                error = "Texnik xato. Keyinroq urinib ko'ring."
+                error = _("Texnik xato. Keyinroq urinib ko'ring.")
 
     return render(request, "dashboard/post_generator.html", {
         "active_nav":   "post_generator",
@@ -1032,7 +1033,7 @@ def ai_insight(request: HttpRequest) -> JsonResponse:
             return JsonResponse({"error": "Invalid topic"}, status=400)
         acct = ConnectedAccount.objects.filter(user=request.user, pk=acct_id).first()
         if not acct:
-            return JsonResponse({"error": "Akkaunt topilmadi"}, status=404)
+            return JsonResponse({"error": _("Akkaunt topilmadi")}, status=404)
         question = (
             f"@{acct.handle} ({acct.get_platform_display()}) akkauntim uchun "
             "kontent strategiyasi bo'yicha 3 ta aniq, amaliy maslahat ber. "
@@ -1042,7 +1043,7 @@ def ai_insight(request: HttpRequest) -> JsonResponse:
         return JsonResponse({"error": "Unknown topic"}, status=400)
 
     if not chat_is_configured():
-        return JsonResponse({"error": "AI hali sozlanmagan."}, status=503)
+        return JsonResponse({"error": _("AI hali sozlanmagan.")}, status=503)
 
     try:
         resp = chat_ask(request.user, question)
@@ -1051,7 +1052,7 @@ def ai_insight(request: HttpRequest) -> JsonResponse:
     except Exception:
         logger.exception("AI insight failed for user %s topic=%s", request.user.id, topic)
         return JsonResponse(
-            {"error": "Texnik xato yuz berdi. Keyinroq urinib ko'ring."},
+            {"error": _("Texnik xato yuz berdi. Keyinroq urinib ko'ring.")},
             status=500,
         )
 
@@ -1073,9 +1074,9 @@ def analytics_chat(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         question = (request.POST.get("question") or "").strip()
         if not question:
-            return JsonResponse({"error": "Savol bo'sh bo'lmasligi kerak."}, status=400)
+            return JsonResponse({"error": _("Savol bo'sh bo'lmasligi kerak.")}, status=400)
         if len(question) > 500:
-            return JsonResponse({"error": "Savol 500 belgidan oshmasligi kerak."}, status=400)
+            return JsonResponse({"error": _("Savol 500 belgidan oshmasligi kerak.")}, status=400)
 
         try:
             resp = chat_ask(request.user, question)
@@ -1115,9 +1116,9 @@ def ai_digest(request: HttpRequest) -> HttpResponse:
 
     if request.method == "POST":
         if not chat_is_configured():
-            error = "AI Chat sozlanmagan — administrator OPENAI_API_KEY ni .env'ga qo'shishi kerak."
+            error = _("AI Chat sozlanmagan — administrator OPENAI_API_KEY ni .env'ga qo'shishi kerak.")
         elif not ConnectedAccount.objects.filter(user=request.user).exists():
-            error = "Avval kamida bitta ijtimoiy tarmoq akkauntini ulang."
+            error = _("Avval kamida bitta ijtimoiy tarmoq akkauntini ulang.")
         else:
             try:
                 resp = generate_weekly_digest(request.user)

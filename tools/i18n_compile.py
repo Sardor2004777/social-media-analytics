@@ -1284,6 +1284,87 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     # ---- Misc tiny words ----
     "Ha":                 {"en": "Yes",                 "ru": "Да"},
     "Yoq":                {"en": "No",                  "ru": "Нет"},
+
+    # ---- Server-side messages / errors (wrapped via _() in views) ----
+    "Profil yangilandi.": {"en": "Profile updated.",    "ru": "Профиль обновлён."},
+    "Tasdiqlash uchun email manzilingizni aniq kiriting.":
+        {"en": "Enter your email exactly to confirm.",
+         "ru": "Введите ваш email точно, чтобы подтвердить."},
+    "Akkaunt {email} o'chirildi. Xayr!":
+        {"en": "Account {email} deleted. Bye!",
+         "ru": "Аккаунт {email} удалён. Прощайте!"},
+    "2FA o'chirildi.":    {"en": "2FA disabled.",        "ru": "2FA выключен."},
+    "Yangi maxfiy kod yaratildi. Qayta scan qiling va kodni tasdiqlang.":
+        {"en": "New secret created. Re-scan the QR and confirm the code.",
+         "ru": "Создан новый секрет. Отсканируйте QR заново и подтвердите код."},
+    "Avval QR kodni Authenticatorga qo'shing, keyin tasdiqlang.":
+        {"en": "Add the QR to your Authenticator first, then confirm.",
+         "ru": "Сначала добавьте QR в Authenticator, потом подтвердите."},
+    "2FA yoqildi! Endi har safar kirishda kod so'raladi.":
+        {"en": "2FA enabled! A code will be required at every sign-in.",
+         "ru": "2FA включен! Код будет запрашиваться при каждом входе."},
+    "Kod noto'g'ri yoki muddati o'tgan. Qayta urinib ko'ring.":
+        {"en": "Wrong or expired code. Please try again.",
+         "ru": "Код неверный или истёк. Попробуйте снова."},
+    "Noma'lum amal.":     {"en": "Unknown action.",      "ru": "Неизвестное действие."},
+    "Matn bo'sh.":        {"en": "Text is empty.",       "ru": "Текст пуст."},
+    "AI hali sozlanmagan.":{"en": "AI is not configured yet.", "ru": "AI ещё не настроен."},
+    "AI Chat sozlanmagan — administrator OPENAI_API_KEY ni .env'ga qo'shishi kerak.":
+        {"en": "AI Chat is not configured — administrator must add OPENAI_API_KEY to .env.",
+         "ru": "AI Chat не настроен — администратор должен добавить OPENAI_API_KEY в .env."},
+    "Hashtag tahlili uchun yetarli post yo'q.":
+        {"en": "Not enough posts for a hashtag analysis.",
+         "ru": "Недостаточно постов для анализа хештегов."},
+    "Akkaunt topilmadi": {"en": "Account not found",     "ru": "Аккаунт не найден"},
+    "Avval kamida bitta postingiz bo'lishi kerak.":
+        {"en": "You need at least one post first.",
+         "ru": "Сначала нужен хотя бы один пост."},
+    "Avval kamida bitta ijtimoiy tarmoq akkauntini ulang.":
+        {"en": "Connect at least one social network account first.",
+         "ru": "Сначала подключите хотя бы один аккаунт соцсети."},
+    "Savol bo'sh bo'lmasligi kerak.":
+        {"en": "Question must not be empty.",  "ru": "Вопрос не должен быть пустым."},
+    "Savol 500 belgidan oshmasligi kerak.":
+        {"en": "Question must not exceed 500 characters.",
+         "ru": "Вопрос не должен превышать 500 символов."},
+    "Texnik xato. Keyinroq urinib ko'ring.":
+        {"en": "Technical error. Please try again later.",
+         "ru": "Техническая ошибка. Попробуйте позже."},
+    "Texnik xato yuz berdi. Keyinroq urinib ko'ring.":
+        {"en": "A technical error occurred. Please try again later.",
+         "ru": "Произошла техническая ошибка. Попробуйте позже."},
+    "Texnik xato: {e}":   {"en": "Technical error: {e}", "ru": "Техническая ошибка: {e}"},
+    "page va name talab qilinadi":
+        {"en": "page and name are required", "ru": "требуются page и name"},
+    "Juda ko'p so'rov. Biroz kuting va qayta urinib ko'ring.":
+        {"en": "Too many requests. Please wait a bit and try again.",
+         "ru": "Слишком много запросов. Подождите и попробуйте снова."},
+
+    # ---- Platform descriptions on Accounts page ----
+    "Instagram Business API orqali postlar, reels va kommentlarni tahlil qiling.":
+        {"en": "Analyze posts, reels and comments via the Instagram Business API.",
+         "ru": "Анализируйте посты, reels и комментарии через Instagram Business API."},
+    "Real ulash uchun Instagram Business akkaunt + Meta App Review kerak. Hozir demo rejimda ko'rsatilmoqda.":
+        {"en": "Real connection requires an Instagram Business account + Meta App Review. Demo mode for now.",
+         "ru": "Для реального подключения нужен Instagram Business + Meta App Review. Сейчас демо."},
+    "Kanal yoki guruh statistikasi — views, forwards va reaksiyalar.":
+        {"en": "Channel or group stats — views, forwards and reactions.",
+         "ru": "Статистика канала или группы — просмотры, репосты, реакции."},
+    "Videolar, watch time, kommentlar va obunachilarning o'sishi.":
+        {"en": "Videos, watch time, comments and subscriber growth.",
+         "ru": "Видео, время просмотра, комментарии и рост подписчиков."},
+    "Tweet impressions, retweetlar va followers dinamikasi.":
+        {"en": "Tweet impressions, retweets and follower dynamics.",
+         "ru": "Показы твитов, ретвиты и динамика подписчиков."},
+
+    # ---- Dashboard generated event text ----
+    "Sentiment tahlili yangilandi":
+        {"en": "Sentiment analysis updated", "ru": "Анализ настроений обновлён"},
+    "Ma'lumot yo'q":      {"en": "No data",             "ru": "Нет данных"},
+
+    # ---- Avatar dropdown / a11y ----
+    "Asosiy mazmunga o'tish": {"en": "Skip to main content", "ru": "Перейти к основному содержимому"},
+    "Ma'lumotlarni eksport":  {"en": "Export data",         "ru": "Экспорт данных"},
 }
 
 
