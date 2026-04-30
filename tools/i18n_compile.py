@@ -1398,6 +1398,81 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         {"en": "Press ? on the keyboard or Ctrl+K to jump anywhere fast. Help in the sidebar has the full guide.",
          "ru": "Нажмите ? на клавиатуре или Ctrl+K для быстрого перехода. Полный гид — в разделе Помощь в боковой панели."},
     "Yordam":               {"en": "Help",                "ru": "Помощь"},
+
+    # ---- Recommendations engine (apps/analytics/services/recommendations.py) ----
+    "Birinchi postlaringizni yuklang":
+        {"en": "Upload your first posts",
+         "ru": "Загрузите ваши первые посты"},
+    "Akkauntingizni ulagandan so'ng tahlil avtomatik boshlanadi.":
+        {"en": "Analysis starts automatically once you connect an account.",
+         "ru": "Анализ начнётся автоматически после подключения аккаунта."},
+    "Dushanba":              {"en": "Monday",            "ru": "Понедельник"},
+    "Seshanba":              {"en": "Tuesday",           "ru": "Вторник"},
+    "Chorshanba":            {"en": "Wednesday",         "ru": "Среда"},
+    "Payshanba":             {"en": "Thursday",          "ru": "Четверг"},
+    "Juma":                  {"en": "Friday",            "ru": "Пятница"},
+    "Shanba":                {"en": "Saturday",          "ru": "Суббота"},
+    "Yakshanba":             {"en": "Sunday",            "ru": "Воскресенье"},
+    "rasm postlar":          {"en": "photo posts",       "ru": "фото-посты"},
+    "video postlar":         {"en": "video posts",       "ru": "видео-посты"},
+    "reels":                 {"en": "reels",             "ru": "reels"},
+    "karusellar":            {"en": "carousels",         "ru": "карусели"},
+    "tweetlar":              {"en": "tweets",            "ru": "твиты"},
+    "matnli postlar":        {"en": "text posts",        "ru": "текстовые посты"},
+    "{day} kunlari eng samarali":
+        {"en": "{day} is the most effective day",
+         "ru": "{day} — самый эффективный день"},
+    "O'sha kunlardagi postlaringizning o'rtacha engagement'i — {pct}%. Asosiy postlaringizni shu kunda chiqaring.":
+        {"en": "Posts on those days averaged {pct}% engagement. Publish your key posts on that day.",
+         "ru": "Посты в эти дни давали в среднем {pct}% вовлечённости. Публикуйте ключевые посты в этот день."},
+    "{label} eng yaxshi natija beryapti":
+        {"en": "{label} is performing best",
+         "ru": "{label} показывают лучший результат"},
+    "So'nggi 30 kunda {n} ta {label} eng ko'p o'qildi va layk to'pladi. Ko'proq shu turdagi kontent yarating.":
+        {"en": "In the last 30 days, {n} {label} drew the most reads and likes. Create more content of this kind.",
+         "ru": "За последние 30 дней {n} {label} собрали больше всего просмотров и лайков. Создавайте больше такого контента."},
+    "Negativ kommentlar ko'paymoqda":
+        {"en": "Negative comments are increasing",
+         "ru": "Негативных комментариев становится больше"},
+    "O'tgan haftaga nisbatan negativ ulush {delta}% oshdi (hozir {now}%). Yaqin kunlardagi postlar va kommentlarni ko'rib chiqing.":
+        {"en": "Negative share is up {delta}% vs last week (now {now}%). Review recent posts and comments.",
+         "ru": "Доля негатива выросла на {delta}% по сравнению с прошлой неделей (сейчас {now}%). Просмотрите недавние посты и комментарии."},
+    "Auditoriya kayfiyati yaxshilandi":
+        {"en": "Audience sentiment has improved",
+         "ru": "Настроение аудитории улучшилось"},
+    "Negativ kommentlar ulushi {delta}% kamaydi — hozir atigi {now}%. Davom eting!":
+        {"en": "Negative share dropped {delta}% — now only {now}%. Keep it up!",
+         "ru": "Доля негатива упала на {delta}% — сейчас всего {now}%. Так держать!"},
+    "Postlar tartibi past ({score}/100)":
+        {"en": "Posting consistency is low ({score}/100)",
+         "ru": "Регулярность постов низкая ({score}/100)"},
+    "Auditoriya doimiy ritm bilan to'planadi. Postlarni teng intervalga tushiring — har 2-3 kunda yoki haftada bir xil kunlarda.":
+        {"en": "Audiences grow with steady cadence. Even out the intervals — every 2-3 days or the same weekday each week.",
+         "ru": "Аудитория растёт при постоянном ритме. Выровняйте интервалы — раз в 2-3 дня или один и тот же день недели."},
+    "Tartib mukammal ({score}/100)":
+        {"en": "Cadence is excellent ({score}/100)",
+         "ru": "Ритм отличный ({score}/100)"},
+    "Postlaringiz teng intervalda chiqyapti — auditoriya kutgan vaqtda kontent oladi. Davom eting.":
+        {"en": "Your posts go out at even intervals — your audience gets content when they expect it. Keep going.",
+         "ru": "Ваши посты выходят равномерно — аудитория получает контент в ожидаемое время. Продолжайте."},
+    "Oxirgi 2 haftada post yo'q":
+        {"en": "No posts in the last 2 weeks",
+         "ru": "Нет постов за последние 2 недели"},
+    "Faolligingizni qaytarish uchun haftada kamida 2 ta post chiqaring — auditoriya engagement'i tezda pasayadi.":
+        {"en": "Publish at least 2 posts a week to bring activity back — audience engagement drops fast.",
+         "ru": "Публикуйте не менее 2 постов в неделю, чтобы вернуть активность — вовлечённость быстро падает."},
+    "Post chastotasini oshiring":
+        {"en": "Increase post frequency",
+         "ru": "Увеличьте частоту постов"},
+    "Oxirgi 14 kunda {n} ta post bor. Haftada 3-4 ta post auditoriyani faol ushlab turadi.":
+        {"en": "Only {n} posts in the last 14 days. 3-4 posts a week keeps the audience engaged.",
+         "ru": "Только {n} постов за последние 14 дней. 3-4 поста в неделю удерживают аудиторию."},
+    "Engagement {pct}% — top post":
+        {"en": "Engagement {pct}% — top post",
+         "ru": "Вовлечённость {pct}% — топ-пост"},
+    "«{snippet}» — shu post sizning eng samarali ishingiz. Mavzu va formatini takrorlashga harakat qiling.":
+        {"en": "«{snippet}» — your most effective work. Try to repeat its topic and format.",
+         "ru": "«{snippet}» — ваша самая эффективная работа. Попробуйте повторить её тему и формат."},
 }
 
 

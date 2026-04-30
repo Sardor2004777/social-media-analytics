@@ -17,6 +17,8 @@ from datetime import timedelta
 
 from django.db.models import Avg, Count, Sum
 from django.utils import timezone
+from django.utils.translation import gettext as _
+from django.utils.translation import pgettext
 
 from apps.analytics.models import SentimentLabel, SentimentResult
 from apps.collectors.models import Comment
@@ -26,24 +28,31 @@ from apps.social.models import ConnectedAccount, Platform, Post, PostType
 @dataclass
 class Recommendation:
     """One insight card on the dashboard."""
-    headline: str        # 1-line title (Uzbek)
-    body: str            # 1-line explanation
+    headline: str        # 1-line title — already translated when stored
+    body: str            # 1-line explanation — already translated
     icon: str            # lucide-style icon name used by template SVG switch
     accent: str          # tailwind accent: brand | emerald | amber | rose | sky
 
 
-_DAY_NAMES = [
-    "Dushanba", "Seshanba", "Chorshanba", "Payshanba",
-    "Juma", "Shanba", "Yakshanba",
-]
-_POST_TYPE_LABELS = {
-    PostType.PHOTO:        "rasm postlar",
-    PostType.VIDEO:        "video postlar",
-    PostType.REEL:         "reels",
-    PostType.CAROUSEL:     "karusellar",
-    PostType.TWEET:        "tweetlar",
-    PostType.CHANNEL_POST: "matnli postlar",
-}
+def _day_name(idx: int) -> str:
+    """Return the localised day name for an ISO weekday (0=Mon..6=Sun)."""
+    names = [
+        _("Dushanba"), _("Seshanba"), _("Chorshanba"), _("Payshanba"),
+        _("Juma"),     _("Shanba"),   _("Yakshanba"),
+    ]
+    return names[idx]
+
+
+def _post_type_label(pt) -> str:
+    """Return the localised plural for a PostType enum value."""
+    return {
+        PostType.PHOTO:        _("rasm postlar"),
+        PostType.VIDEO:        _("video postlar"),
+        PostType.REEL:         _("reels"),
+        PostType.CAROUSEL:     _("karusellar"),
+        PostType.TWEET:        _("tweetlar"),
+        PostType.CHANNEL_POST: _("matnli postlar"),
+    }.get(pt, str(pt))
 
 
 def build_recommendations(user) -> list[Recommendation]:
@@ -60,8 +69,8 @@ def build_recommendations(user) -> list[Recommendation]:
     posts = Post.objects.filter(account__user=user, published_at__gte=window)
     if not posts.exists():
         out.append(Recommendation(
-            headline="Birinchi postlaringizni yuklang",
-            body="Akkauntingizni ulagandan so'ng tahlil avtomatik boshlanadi.",
+            headline=_("Birinchi postlaringizni yuklang"),
+            body=_("Akkauntingizni ulagandan so'ng tahlil avtomatik boshlanadi."),
             icon="upload-cloud",
             accent="brand",
         ))
@@ -76,9 +85,8 @@ def build_recommendations(user) -> list[Recommendation]:
         avg = sum(vals) / len(vals)
         if avg > 0:
             out.append(Recommendation(
-                headline=f"{_DAY_NAMES[best_day]} kunlari eng samarali",
-                body=f"O'sha kunlardagi postlaringizning o'rtacha engagement'i — {avg*100:.1f}%. "
-                     f"Asosiy postlaringizni shu kunda chiqaring.",
+                headline=_("{day} kunlari eng samarali").format(day=_day_name(best_day)),
+                body=_("O'sha kunlardagi postlaringizning o'rtacha engagement'i — {pct}%. Asosiy postlaringizni shu kunda chiqaring.").format(pct=f"{avg*100:.1f}"),
                 icon="trending-up",
                 accent="emerald",
             ))
@@ -92,12 +100,11 @@ def build_recommendations(user) -> list[Recommendation]:
         type_count[p["post_type"]] += 1
     if type_score:
         best_type = max(type_score, key=type_score.get)
-        label = _POST_TYPE_LABELS.get(best_type, str(best_type))
+        label = _post_type_label(best_type)
         if type_count[best_type] >= 3:
             out.append(Recommendation(
-                headline=f"{label.capitalize()} eng yaxshi natija beryapti",
-                body=f"So'nggi 30 kunda {type_count[best_type]} ta {label} eng "
-                     f"ko'p o'qildi va layk to'pladi. Ko'proq shu turdagi kontent yarating.",
+                headline=_("{label} eng yaxshi natija beryapti").format(label=str(label).capitalize()),
+                body=_("So'nggi 30 kunda {n} ta {label} eng ko'p o'qildi va layk to'pladi. Ko'proq shu turdagi kontent yarating.").format(n=type_count[best_type], label=label),
                 icon="layers",
                 accent="brand",
             ))
@@ -120,17 +127,16 @@ def build_recommendations(user) -> list[Recommendation]:
         a, b = neg_share(last_7), neg_share(prior_7)
         if a > b + 0.05 and a > 0.15:
             out.append(Recommendation(
-                headline="Negativ kommentlar ko'paymoqda",
-                body=f"O'tgan haftaga nisbatan negativ ulush {(a-b)*100:.0f}% oshdi "
-                     f"(hozir {a*100:.0f}%). Yaqin kunlardagi postlar va kommentlarni ko'rib chiqing.",
+                headline=_("Negativ kommentlar ko'paymoqda"),
+                body=_("O'tgan haftaga nisbatan negativ ulush {delta}% oshdi (hozir {now}%). Yaqin kunlardagi postlar va kommentlarni ko'rib chiqing.").format(delta=f"{(a-b)*100:.0f}", now=f"{a*100:.0f}"),
                 icon="alert-circle",
                 accent="rose",
             ))
         elif a < b - 0.05 and a < 0.15:
             out.append(Recommendation(
-                headline="Auditoriya kayfiyati yaxshilandi",
-                body=f"Negativ kommentlar ulushi {(b-a)*100:.0f}% kamaydi — "
-                     f"hozir atigi {a*100:.0f}%. Davom eting!",
+                headline=_("Auditoriya kayfiyati yaxshilandi"),
+                body=_("Negativ kommentlar ulushi {delta}% kamaydi — hozir atigi {now}%. Davom eting!").format(
+                    delta=f"{(b-a)*100:.0f}", now=f"{a*100:.0f}"),
                 icon="smile",
                 accent="emerald",
             ))
@@ -152,17 +158,15 @@ def build_recommendations(user) -> list[Recommendation]:
             consistency_score = max(0, min(100, int(100 * (1 - min(cv, 1)))))
             if consistency_score < 50:
                 out.append(Recommendation(
-                    headline=f"Postlar tartibi past ({consistency_score}/100)",
-                    body="Auditoriya doimiy ritm bilan to'planadi. Postlarni teng intervalga "
-                         "tushiring — har 2-3 kunda yoki haftada bir xil kunlarda.",
+                    headline=_("Postlar tartibi past ({score}/100)").format(score=consistency_score),
+                    body=_("Auditoriya doimiy ritm bilan to'planadi. Postlarni teng intervalga tushiring — har 2-3 kunda yoki haftada bir xil kunlarda."),
                     icon="calendar",
                     accent="amber",
                 ))
             elif consistency_score >= 80:
                 out.append(Recommendation(
-                    headline=f"Tartib mukammal ({consistency_score}/100)",
-                    body="Postlaringiz teng intervalda chiqyapti — auditoriya kutgan vaqtda "
-                         "kontent oladi. Davom eting.",
+                    headline=_("Tartib mukammal ({score}/100)").format(score=consistency_score),
+                    body=_("Postlaringiz teng intervalda chiqyapti — auditoriya kutgan vaqtda kontent oladi. Davom eting."),
                     icon="award",
                     accent="emerald",
                 ))
@@ -172,17 +176,15 @@ def build_recommendations(user) -> list[Recommendation]:
     last_14_count = last_14.count()
     if last_14_count == 0:
         out.append(Recommendation(
-            headline="Oxirgi 2 haftada post yo'q",
-            body="Faolligingizni qaytarish uchun haftada kamida 2 ta post chiqaring "
-                 "— auditoriya engagement'i tezda pasayadi.",
+            headline=_("Oxirgi 2 haftada post yo'q"),
+            body=_("Faolligingizni qaytarish uchun haftada kamida 2 ta post chiqaring — auditoriya engagement'i tezda pasayadi."),
             icon="calendar",
             accent="amber",
         ))
     elif last_14_count < 3:
         out.append(Recommendation(
-            headline="Post chastotasini oshiring",
-            body=f"Oxirgi 14 kunda {last_14_count} ta post bor. "
-                 f"Haftada 3-4 ta post auditoriyani faol ushlab turadi.",
+            headline=_("Post chastotasini oshiring"),
+            body=_("Oxirgi 14 kunda {n} ta post bor. Haftada 3-4 ta post auditoriyani faol ushlab turadi.").format(n=last_14_count),
             icon="calendar",
             accent="amber",
         ))
@@ -195,9 +197,8 @@ def build_recommendations(user) -> list[Recommendation]:
             snippet = top.url
         snippet = snippet[:80] + ("…" if len(snippet) > 80 else "")
         out.append(Recommendation(
-            headline=f"Engagement {top.engagement_rate*100:.1f}% — top post",
-            body=f"«{snippet}» — shu post sizning eng samarali ishingiz. "
-                 f"Mavzu va formatini takrorlashga harakat qiling.",
+            headline=_("Engagement {pct}% — top post").format(pct=f"{top.engagement_rate*100:.1f}"),
+            body=_("«{snippet}» — shu post sizning eng samarali ishingiz. Mavzu va formatini takrorlashga harakat qiling.").format(snippet=snippet),
             icon="award",
             accent="sky",
         ))

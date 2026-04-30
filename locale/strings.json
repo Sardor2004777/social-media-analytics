@@ -237,6 +237,9 @@
   "Akkauntingizni o'chirsangiz quyidagilar doimo yo'qoladi:": [
     "templates/dashboard/delete_account.html"
   ],
+  "Akkauntingizni ulagandan so'ng tahlil avtomatik boshlanadi.": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "Akkauntlar": [
     "templates/dashboard/accounts.html",
     "templates/dashboard/help.html",
@@ -305,6 +308,12 @@
   ],
   "Assalomu alaykum! Dashboard ma'lumotingiz haqida savol bering — masalan, eng yaxshi ishlayotgan platforma, postlaringiz haqida tahlil, yoki engagement trendlari.": [
     "templates/dashboard/chat.html"
+  ],
+  "Auditoriya doimiy ritm bilan to'planadi. Postlarni teng intervalga tushiring — har 2-3 kunda yoki haftada bir xil kunlarda.": [
+    "apps/analytics/services/recommendations.py"
+  ],
+  "Auditoriya kayfiyati yaxshilandi": [
+    "apps/analytics/services/recommendations.py"
   ],
   "Auditoriya o'sishi": [
     "templates/dashboard/app.html",
@@ -398,6 +407,9 @@
   ],
   "Birinchi akkauntingizni ulang": [
     "templates/dashboard/app.html"
+  ],
+  "Birinchi postlaringizni yuklang": [
+    "apps/analytics/services/recommendations.py"
   ],
   "Biz allaqachon ishlayapmiz": [
     "templates/500.html"
@@ -500,6 +512,9 @@
   "Chiqishni tasdiqlaysizmi?": [
     "templates/account/logout.html"
   ],
+  "Chorshanba": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "Cloud parolingiz": [
     "templates/dashboard/telegram_password.html"
   ],
@@ -563,6 +578,9 @@
   ],
   "Discussion rate": [
     "templates/dashboard/app.html"
+  ],
+  "Dushanba": [
+    "apps/analytics/services/recommendations.py"
   ],
   "E2E shifrlangan": [
     "templates/dashboard/landing.html"
@@ -688,6 +706,9 @@
   "Engagement pasayishi?": [
     "templates/dashboard/chat.html"
   ],
+  "Engagement {pct}% — top post": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "Engagementga eng ko'p ta'sir qiluvchi xususiyatlar": [
     "templates/dashboard/predict.html"
   ],
@@ -724,6 +745,9 @@
   ],
   "Faol akkauntlar": [
     "templates/dashboard/accounts.html"
+  ],
+  "Faolligingizni qaytarish uchun haftada kamida 2 ta post chiqaring — auditoriya engagement'i tezda pasayadi.": [
+    "apps/analytics/services/recommendations.py"
   ],
   "Faollik dinamikasi": [
     "templates/dashboard/app.html"
@@ -1011,6 +1035,9 @@
   ],
   "Juda zaif": [
     "templates/account/signup.html"
+  ],
+  "Juma": [
+    "apps/analytics/services/recommendations.py"
   ],
   "KPI'lar, faollik dinamikasi, top postlar, tavsiyalar": [
     "templates/dashboard/help.html"
@@ -1315,6 +1342,12 @@
   "Negativ komment yetarli emas.": [
     "templates/dashboard/sentiment.html"
   ],
+  "Negativ kommentlar ko'paymoqda": [
+    "apps/analytics/services/recommendations.py"
+  ],
+  "Negativ kommentlar ulushi {delta}% kamaydi — hozir atigi {now}%. Davom eting!": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "Negativ so'zlar": [
     "templates/dashboard/sentiment.html"
   ],
@@ -1365,6 +1398,12 @@
   ],
   "O'rtacha — bashorat taxminiy. Ko'proq post yiglinsa aniqlik oshadi.": [
     "templates/dashboard/predict.html"
+  ],
+  "O'sha kunlardagi postlaringizning o'rtacha engagement'i — {pct}%. Asosiy postlaringizni shu kunda chiqaring.": [
+    "apps/analytics/services/recommendations.py"
+  ],
+  "O'tgan haftaga nisbatan negativ ulush {delta}% oshdi (hozir {now}%). Yaqin kunlardagi postlar va kommentlarni ko'rib chiqing.": [
+    "apps/analytics/services/recommendations.py"
   ],
   "O'zbek, rus va ingliz tillarida kommentlarni avtomatik baholash.": [
     "templates/account/base.html"
@@ -1418,6 +1457,12 @@
   ],
   "Oxirgi 14 kun": [
     "templates/dashboard/app.html"
+  ],
+  "Oxirgi 14 kunda {n} ta post bor. Haftada 3-4 ta post auditoriyani faol ushlab turadi.": [
+    "apps/analytics/services/recommendations.py"
+  ],
+  "Oxirgi 2 haftada post yo'q": [
+    "apps/analytics/services/recommendations.py"
   ],
   "Oxirgi 30 kunlik dinamika va platforma bo'yicha chuqur tahlil.": [
     "templates/dashboard/analytics.html"
@@ -1508,6 +1553,9 @@
   "Past — engagement tasodifiy. Ko'proq post yoki o'xshash ma'lumot kerak.": [
     "templates/dashboard/predict.html"
   ],
+  "Payshanba": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "Pearson r": [
     "templates/dashboard/correlation.html"
   ],
@@ -1545,6 +1593,9 @@
   ],
   "Post chastotasi": [
     "templates/dashboard/analytics.html"
+  ],
+  "Post chastotasini oshiring": [
+    "apps/analytics/services/recommendations.py"
   ],
   "Post qo'yish uchun eng yaxshi vaqt": [
     "templates/dashboard/best_time.html"
@@ -1586,6 +1637,9 @@
   "Postlar avtomatik fonda yig'iladi (10-30 soniya).": [
     "templates/dashboard/help.html"
   ],
+  "Postlar tartibi past ({score}/100)": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "Postlar · Likes · Kommentlar · Ko'rishlar": [
     "templates/dashboard/public_share.html"
   ],
@@ -1597,6 +1651,9 @@
   ],
   "Postlaringiz mavzu bo'yicha avtomatik guruhlanadi va har klaster engagement'i taqqoslanadi.": [
     "templates/dashboard/clusters.html"
+  ],
+  "Postlaringiz teng intervalda chiqyapti — auditoriya kutgan vaqtda kontent oladi. Davom eting.": [
+    "apps/analytics/services/recommendations.py"
   ],
   "Postlaringizdagi eng faol so'zlar": [
     "templates/dashboard/analytics.html"
@@ -1894,6 +1951,12 @@
   "Serverda kutilmagan xato yuz berdi. Bir oz kuting va qayta urinib ko'ring.": [
     "templates/500.html"
   ],
+  "Seshanba": [
+    "apps/analytics/services/recommendations.py"
+  ],
+  "Shanba": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "Shares / Views": [
     "templates/dashboard/app.html"
   ],
@@ -1953,6 +2016,9 @@
   ],
   "So'nggi 30 kun — kommentlardagi pozitiv / neytral / negativ sonlari": [
     "templates/dashboard/sentiment.html"
+  ],
+  "So'nggi 30 kunda {n} ta {label} eng ko'p o'qildi va layk to'pladi. Ko'proq shu turdagi kontent yarating.": [
+    "apps/analytics/services/recommendations.py"
   ],
   "Soat": [
     "templates/dashboard/predict.html"
@@ -2036,6 +2102,9 @@
   ],
   "Tarixni ko'rish": [
     "templates/dashboard/settings.html"
+  ],
+  "Tartib mukammal ({score}/100)": [
+    "apps/analytics/services/recommendations.py"
   ],
   "Tasdiqlash": [
     "templates/account/email_confirm.html",
@@ -2287,6 +2356,9 @@
   "Xususiyatlarni ko'rish": [
     "templates/dashboard/landing.html"
   ],
+  "Yakshanba": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "Yana bitta ulash": [
     "templates/dashboard/accounts.html"
   ],
@@ -2421,12 +2493,18 @@
   "kamaydi": [
     "templates/dashboard/analytics.html"
   ],
+  "karusellar": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "kommentlar": [
     "templates/dashboard/sentiment.html"
   ],
   "kun": [
     "templates/dashboard/app.html",
     "templates/dashboard/top_posts.html"
+  ],
+  "matnli postlar": [
+    "apps/analytics/services/recommendations.py"
   ],
   "media (rasm/video) bilan": [
     "templates/dashboard/app.html"
@@ -2478,6 +2556,12 @@
   "r = 1.0 mukammal pozitiv · r = 0 aloqa yo'q · r = -1.0 mukammal salbiy": [
     "templates/dashboard/correlation.html"
   ],
+  "rasm postlar": [
+    "apps/analytics/services/recommendations.py"
+  ],
+  "reels": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "saytidan olish mumkin.": [
     "templates/dashboard/chat.html"
   ],
@@ -2502,6 +2586,9 @@
   "tomonidan quvvatlanadi": [
     "templates/dashboard/public_share.html"
   ],
+  "tweetlar": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "ulangan": [
     "templates/dashboard/accounts.html"
   ],
@@ -2511,12 +2598,21 @@
   "va": [
     "templates/account/signup.html"
   ],
+  "video postlar": [
+    "apps/analytics/services/recommendations.py"
+  ],
   "yangi": [
     "templates/dashboard/alerts.html"
   ],
   "yoki": [
     "templates/account/login.html",
     "templates/account/signup.html"
+  ],
+  "{day} kunlari eng samarali": [
+    "apps/analytics/services/recommendations.py"
+  ],
+  "{label} eng yaxshi natija beryapti": [
+    "apps/analytics/services/recommendations.py"
   ],
   "{{ day }} kuni soat {{ hr }}:00 da post chiqaring": [
     "templates/dashboard/app.html"
@@ -2538,6 +2634,9 @@
   ],
   "~{{ n }} layk kutiladi": [
     "templates/dashboard/app.html"
+  ],
+  "«{snippet}» — shu post sizning eng samarali ishingiz. Mavzu va formatini takrorlashga harakat qiling.": [
+    "apps/analytics/services/recommendations.py"
   ],
   "— keyin o'chirish xavfsiz bo'ladi.": [
     "templates/dashboard/delete_account.html"

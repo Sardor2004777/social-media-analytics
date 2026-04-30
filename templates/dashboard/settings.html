@@ -144,7 +144,8 @@
         <div class="flex items-center justify-between gap-3">
           <span class="text-slate-500 dark:text-slate-400">{% trans "Sizning JWT tokeningiz:" %}</span>
           <div class="flex items-center gap-2">
-            <button type="button" @click="shown = !shown" class="text-brand-600 dark:text-brand-400 hover:underline">
+            <button type="button" @click="shown = !shown" data-jwt-show
+                    class="text-brand-600 dark:text-brand-400 hover:underline">
               <span x-text="shown ? '{% trans 'Yashirish' %}' : '{% trans 'Korsatish' %}'"></span>
             </button>
             <button type="button" id="copy-jwt-btn" class="text-brand-600 dark:text-brand-400 hover:underline">
@@ -170,7 +171,7 @@
       </p>
       <script>
       (function() {
-        const showBtns = document.querySelectorAll('[x-text*="Korsatish"]');
+        const showBtns = document.querySelectorAll('[data-jwt-show]');
         const tokenSpan = document.getElementById('jwt-token-text');
         const copyBtn = document.getElementById('copy-jwt-btn');
         let cachedToken = null;

@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: social-analytics 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-30 09:33+0000\n"
-"PO-Revision-Date: 2026-04-30 09:33+0000\n"
+"POT-Creation-Date: 2026-04-30 10:08+0000\n"
+"PO-Revision-Date: 2026-04-30 10:08+0000\n"
 "Last-Translator: social-analytics i18n_compile.py\n"
 "Language-Team: en\n"
 "Language: en\n"
@@ -365,6 +365,10 @@ msgstr ""
 "Protect your account with TOTP codes — works with Google Authenticator, "
 "Authy, 1Password, and more."
 
+#: apps/analytics/services/recommendations.py
+msgid "Akkauntingizni ulagandan so'ng tahlil avtomatik boshlanadi."
+msgstr "Analysis starts automatically once you connect an account."
+
 #: templates/dashboard/account_connect.html
 msgid "akkauntini ulash"
 msgstr "connect account"
@@ -471,6 +475,18 @@ msgid ""
 msgstr ""
 "Hello! Ask questions about your dashboard data — e.g. the best-performing "
 "platform, analysis of your posts, or engagement trends."
+
+#: apps/analytics/services/recommendations.py
+msgid ""
+"Auditoriya doimiy ritm bilan to'planadi. Postlarni teng intervalga tushiring"
+" — har 2-3 kunda yoki haftada bir xil kunlarda."
+msgstr ""
+"Audiences grow with steady cadence. Even out the intervals — every 2-3 days "
+"or the same weekday each week."
+
+#: apps/analytics/services/recommendations.py
+msgid "Auditoriya kayfiyati yaxshilandi"
+msgstr "Audience sentiment has improved"
 
 #: templates/dashboard/app.html templates/dashboard/public_share.html
 msgid "Auditoriya o'sishi"
@@ -615,6 +631,10 @@ msgstr "Sign up in minutes — your dashboard is ready."
 msgid "Birinchi akkauntingizni ulang"
 msgstr "Connect your first account"
 
+#: apps/analytics/services/recommendations.py
+msgid "Birinchi postlaringizni yuklang"
+msgstr "Upload your first posts"
+
 #: templates/500.html
 msgid "Biz allaqachon ishlayapmiz"
 msgstr "We're already running"
@@ -756,6 +776,10 @@ msgstr "Sign out"
 msgid "Chiqishni tasdiqlaysizmi?"
 msgstr "Confirm sign out?"
 
+#: apps/analytics/services/recommendations.py
+msgid "Chorshanba"
+msgstr "Wednesday"
+
 #: templates/dashboard/telegram_password.html
 msgid "Cloud parolingiz"
 msgstr "Your cloud password"
@@ -846,6 +870,10 @@ msgstr "Research with real data for diploma and course work."
 #: templates/dashboard/app.html
 msgid "Discussion rate"
 msgstr "Discussion rate"
+
+#: apps/analytics/services/recommendations.py
+msgid "Dushanba"
+msgstr "Monday"
 
 #: templates/dashboard/landing.html
 msgid "E2E shifrlangan"
@@ -1007,6 +1035,10 @@ msgstr "Engagement change"
 msgid "Engagement pasayishi?"
 msgstr "Engagement drop?"
 
+#: apps/analytics/services/recommendations.py
+msgid "Engagement {pct}% — top post"
+msgstr "Engagement {pct}% — top post"
+
 #: templates/dashboard/predict.html
 msgid "Engagementga eng ko'p ta'sir qiluvchi xususiyatlar"
 msgstr "Features with the biggest impact on engagement"
@@ -1062,6 +1094,14 @@ msgstr "Last name"
 #: templates/dashboard/accounts.html
 msgid "Faol akkauntlar"
 msgstr "Active accounts"
+
+#: apps/analytics/services/recommendations.py
+msgid ""
+"Faolligingizni qaytarish uchun haftada kamida 2 ta post chiqaring — "
+"auditoriya engagement'i tezda pasayadi."
+msgstr ""
+"Publish at least 2 posts a week to bring activity back — audience engagement"
+" drops fast."
 
 #: templates/dashboard/app.html
 msgid "Faollik dinamikasi"
@@ -1490,6 +1530,10 @@ msgstr "Very strong"
 msgid "Juda zaif"
 msgstr "Very weak"
 
+#: apps/analytics/services/recommendations.py
+msgid "Juma"
+msgstr "Friday"
+
 #: templates/dashboard/best_time.html
 msgid "Kam"
 msgstr "Low"
@@ -1518,6 +1562,10 @@ msgstr "Channel or group stats — views, forwards and reactions."
 #: templates/dashboard/telegram_channels.html
 msgid "Kanallar"
 msgstr "Channels"
+
+#: apps/analytics/services/recommendations.py
+msgid "karusellar"
+msgstr "carousels"
 
 #: templates/account/signup.html
 msgid "Katta harf (A-Z)"
@@ -1813,6 +1861,10 @@ msgstr "Tip:"
 msgid "Matn bo'sh."
 msgstr "Text is empty."
 
+#: apps/analytics/services/recommendations.py
+msgid "matnli postlar"
+msgstr "text posts"
+
 #: templates/dashboard/settings.html templates/partials/_command_palette.html
 msgid "Mavzu"
 msgstr "Theme"
@@ -1920,6 +1972,16 @@ msgstr "Negative"
 msgid "Negativ komment yetarli emas."
 msgstr "Not enough negative comments."
 
+#: apps/analytics/services/recommendations.py
+msgid "Negativ kommentlar ko'paymoqda"
+msgstr "Negative comments are increasing"
+
+#: apps/analytics/services/recommendations.py
+msgid ""
+"Negativ kommentlar ulushi {delta}% kamaydi — hozir atigi {now}%. Davom "
+"eting!"
+msgstr "Negative share dropped {delta}% — now only {now}%. Keep it up!"
+
 #: templates/dashboard/sentiment.html
 msgid "Negativ so'zlar"
 msgstr "Negative words"
@@ -1989,9 +2051,25 @@ msgstr ""
 msgid "o'sdi"
 msgstr "up"
 
+#: apps/analytics/services/recommendations.py
+msgid ""
+"O'sha kunlardagi postlaringizning o'rtacha engagement'i — {pct}%. Asosiy "
+"postlaringizni shu kunda chiqaring."
+msgstr ""
+"Posts on those days averaged {pct}% engagement. Publish your key posts on "
+"that day."
+
 #: templates/dashboard/landing.html
 msgid "o'sish"
 msgstr "growth"
+
+#: apps/analytics/services/recommendations.py
+msgid ""
+"O'tgan haftaga nisbatan negativ ulush {delta}% oshdi (hozir {now}%). Yaqin "
+"kunlardagi postlar va kommentlarni ko'rib chiqing."
+msgstr ""
+"Negative share is up {delta}% vs last week (now {now}%). Review recent posts"
+" and comments."
 
 #: templates/account/base.html
 msgid "O'zbek, rus va ingliz tillarida kommentlarni avtomatik baholash."
@@ -2080,6 +2158,18 @@ msgstr "Last"
 #: templates/dashboard/app.html
 msgid "Oxirgi 14 kun"
 msgstr "Last 14 days"
+
+#: apps/analytics/services/recommendations.py
+msgid ""
+"Oxirgi 14 kunda {n} ta post bor. Haftada 3-4 ta post auditoriyani faol "
+"ushlab turadi."
+msgstr ""
+"Only {n} posts in the last 14 days. 3-4 posts a week keeps the audience "
+"engaged."
+
+#: apps/analytics/services/recommendations.py
+msgid "Oxirgi 2 haftada post yo'q"
+msgstr "No posts in the last 2 weeks"
 
 #: templates/dashboard/analytics.html
 msgid "Oxirgi 30 kunlik dinamika va platforma bo'yicha chuqur tahlil."
@@ -2198,6 +2288,10 @@ msgstr "Low — engagement is random. More posts or richer data are needed."
 msgid "pastga"
 msgstr "down"
 
+#: apps/analytics/services/recommendations.py
+msgid "Payshanba"
+msgstr "Thursday"
+
 #: templates/partials/_command_palette.html
 msgid "PDF eksport"
 msgstr "PDF export"
@@ -2274,6 +2368,10 @@ msgstr "post"
 msgid "Post chastotasi"
 msgstr "Post frequency"
 
+#: apps/analytics/services/recommendations.py
+msgid "Post chastotasini oshiring"
+msgstr "Increase post frequency"
+
 #: templates/dashboard/_shell.html
 msgid "Post Generator"
 msgstr "Post Generator"
@@ -2337,6 +2435,10 @@ msgstr "Posts (30 days)"
 msgid "Postlar avtomatik fonda yig'iladi (10-30 soniya)."
 msgstr "Posts are collected automatically in the background (10-30s)."
 
+#: apps/analytics/services/recommendations.py
+msgid "Postlar tartibi past ({score}/100)"
+msgstr "Posting consistency is low ({score}/100)"
+
 #: templates/dashboard/analytics.html
 msgid "Postlar · layklar · ko'rishlar"
 msgstr "Posts · likes · views"
@@ -2359,6 +2461,14 @@ msgid ""
 "engagement'i taqqoslanadi."
 msgstr ""
 "Posts are auto-grouped by topic and each cluster's engagement is compared."
+
+#: apps/analytics/services/recommendations.py
+msgid ""
+"Postlaringiz teng intervalda chiqyapti — auditoriya kutgan vaqtda kontent "
+"oladi. Davom eting."
+msgstr ""
+"Your posts go out at even intervals — your audience gets content when they "
+"expect it. Keep going."
 
 #: templates/dashboard/analytics.html
 msgid "Postlaringizdagi eng faol so'zlar"
@@ -2595,6 +2705,10 @@ msgstr "Competitors"
 msgid "Raqobatchilarni kuzatish"
 msgstr "Competitor tracking"
 
+#: apps/analytics/services/recommendations.py
+msgid "rasm postlar"
+msgstr "photo posts"
+
 #: templates/dashboard/app.html
 msgid "Rasm, video, matn va boshqa kontent ulushlari"
 msgstr "Photos, videos, text and other content shares"
@@ -2638,6 +2752,10 @@ msgstr "Real-time analytics"
 #: templates/account/base.html
 msgid "Real-time statistika"
 msgstr "Real-time statistics"
+
+#: apps/analytics/services/recommendations.py
+msgid "reels"
+msgstr "reels"
 
 #: templates/partials/_command_palette.html templates/partials/_footer.html
 msgid "Resurslar"
@@ -2810,6 +2928,14 @@ msgid ""
 msgstr ""
 "An unexpected server error occurred. Please wait a moment and try again."
 
+#: apps/analytics/services/recommendations.py
+msgid "Seshanba"
+msgstr "Tuesday"
+
+#: apps/analytics/services/recommendations.py
+msgid "Shanba"
+msgstr "Saturday"
+
 #: templates/dashboard/app.html
 msgid "Shares / Views"
 msgstr "Shares / Views"
@@ -2922,6 +3048,14 @@ msgstr ""
 #: templates/dashboard/sentiment.html
 msgid "So'nggi 30 kun — kommentlardagi pozitiv / neytral / negativ sonlari"
 msgstr "Last 30 days — positive / neutral / negative comment counts"
+
+#: apps/analytics/services/recommendations.py
+msgid ""
+"So'nggi 30 kunda {n} ta {label} eng ko'p o'qildi va layk to'pladi. Ko'proq "
+"shu turdagi kontent yarating."
+msgstr ""
+"In the last 30 days, {n} {label} drew the most reads and likes. Create more "
+"content of this kind."
 
 #: templates/dashboard/predict.html
 msgid "Soat"
@@ -3065,6 +3199,10 @@ msgstr "select"
 #: templates/dashboard/settings.html
 msgid "Tarixni ko'rish"
 msgstr "View history"
+
+#: apps/analytics/services/recommendations.py
+msgid "Tartib mukammal ({score}/100)"
+msgstr "Cadence is excellent ({score}/100)"
 
 #: templates/account/email_confirm.html
 #: templates/dashboard/delete_account.html
@@ -3316,6 +3454,10 @@ msgstr "Got it!"
 msgid "Tweet impressions, retweetlar va followers dinamikasi."
 msgstr "Tweet impressions, retweets and follower dynamics."
 
+#: apps/analytics/services/recommendations.py
+msgid "tweetlar"
+msgstr "tweets"
+
 #: templates/dashboard/landing.html
 msgid ""
 "Uch darajali tiered engine: (1) XLM-RoBERTa transformer (opt-in, cardiffnlp "
@@ -3418,6 +3560,10 @@ msgid ""
 "aniq raqamlarni ko'rasiz."
 msgstr "Times are in your local timezone. Hover a cell for exact numbers."
 
+#: apps/analytics/services/recommendations.py
+msgid "video postlar"
+msgstr "video posts"
+
 #: apps/social/views.py
 msgid "Videolar, watch time, kommentlar va obunachilarning o'sishi."
 msgstr "Videos, watch time, comments and subscriber growth."
@@ -3496,6 +3642,10 @@ msgstr "Features"
 #: templates/dashboard/landing.html
 msgid "Xususiyatlarni ko'rish"
 msgstr "View features"
+
+#: apps/analytics/services/recommendations.py
+msgid "Yakshanba"
+msgstr "Sunday"
 
 #: templates/dashboard/accounts.html
 msgid "Yana bitta ulash"
@@ -3649,6 +3799,14 @@ msgstr ""
 msgid "Zaif"
 msgstr "Weak"
 
+#: apps/analytics/services/recommendations.py
+msgid "{day} kunlari eng samarali"
+msgstr "{day} is the most effective day"
+
+#: apps/analytics/services/recommendations.py
+msgid "{label} eng yaxshi natija beryapti"
+msgstr "{label} is performing best"
+
 #: templates/dashboard/app.html
 msgid "{{ day }} kuni soat {{ hr }}:00 da post chiqaring"
 msgstr "Post on {{ day }} at {{ hr }}:00"
@@ -3690,6 +3848,13 @@ msgstr "~{{ cl }}-character caption · {{ hc }} hashtags"
 #: templates/dashboard/app.html
 msgid "~{{ n }} layk kutiladi"
 msgstr "~{{ n }} likes expected"
+
+#: apps/analytics/services/recommendations.py
+msgid ""
+"«{snippet}» — shu post sizning eng samarali ishingiz. Mavzu va formatini "
+"takrorlashga harakat qiling."
+msgstr ""
+"«{snippet}» — your most effective work. Try to repeat its topic and format."
 
 #: templates/dashboard/delete_account.html
 msgid "— keyin o'chirish xavfsiz bo'ladi."
