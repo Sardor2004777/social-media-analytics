@@ -916,6 +916,147 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "Platforma sizning akkauntingiz bo'yicha to'playdigan barcha ma'lumotlarni yuklab oling (GDPR-mos).":
         {"en": "Download all data the platform collects on your account (GDPR-compliant).",
          "ru": "Скачайте все данные, которые платформа собирает по вашему аккаунту (GDPR)."},
+
+    # ---- AI Post Generator / AI Insight ----
+    "AI":                  {"en": "AI",                 "ru": "AI"},
+    "AI Post Generator":   {"en": "AI Post Generator",  "ru": "AI Генератор Постов"},
+    "Post Generator":      {"en": "Post Generator",     "ru": "Генератор Постов"},
+    "AI maslahat":         {"en": "AI advice",          "ru": "AI совет"},
+    "Yangi post yarating": {"en": "Create a new post",  "ru": "Создайте новый пост"},
+    "Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi.":
+        {"en": "Three new caption drafts in the style of your top posts.",
+         "ru": "Три новых варианта подписи в стиле ваших лучших постов."},
+    "AI sizning eng top postlaringizning uslubini, uzunligini va emoji pattern'ini o'rganib, 3 ta yangi caption taklif qiladi.":
+        {"en": "AI learns the style, length, and emoji pattern of your top posts and suggests 3 new captions.",
+         "ru": "AI изучит стиль, длину и шаблон эмодзи ваших лучших постов и предложит 3 новых варианта."},
+    "Sun'iy intellekt 30 kunlik ma'lumotingiz asosida xulosa va keyingi qadamni tavsiya qiladi.":
+        {"en": "AI summarises your last 30 days and recommends a next step.",
+         "ru": "AI обобщает данные за 30 дней и рекомендует следующий шаг."},
+    "3 ta variant yaratish": {"en": "Generate 3 drafts", "ru": "Создать 3 варианта"},
+    "Maslahat olish":      {"en": "Get advice",         "ru": "Получить совет"},
+    "Tayyor variantlar":   {"en": "Generated drafts",   "ru": "Готовые варианты"},
+    "Tayyorlanmoqda...":   {"en": "Generating...",      "ru": "Генерация..."},
+    "Nusxa":               {"en": "Copy",               "ru": "Копия"},
+    "Nusxa olish":         {"en": "Copy",               "ru": "Скопировать"},
+    "Bosib copy oling":    {"en": "Click to copy",      "ru": "Нажмите чтобы скопировать"},
+    "Hammasini copy":      {"en": "Copy all",           "ru": "Копировать все"},
+    "Olindi":              {"en": "Copied",             "ru": "Скопировано"},
+    "AI hali sozlanmagan": {"en": "AI is not configured", "ru": "AI ещё не настроен"},
+    "Administrator OPENAI_API_KEY env var'ni sozlashi kerak.":
+        {"en": "Administrator must configure the OPENAI_API_KEY env var.",
+         "ru": "Администратор должен настроить переменную OPENAI_API_KEY."},
+
+    # ---- Best Time to Post ----
+    "Eng yaxshi vaqt":     {"en": "Best time",          "ru": "Лучшее время"},
+    "Post qo'yish uchun eng yaxshi vaqt":
+        {"en": "Best time to post", "ru": "Лучшее время для публикации"},
+    "90 kunlik post tarixingizdan o'rganilgan: kun × soat heatmap'i — engagement intensivligi bo'yicha.":
+        {"en": "Learned from your last 90 days: a day × hour heatmap of engagement intensity.",
+         "ru": "Вывод из 90 дней постов: тепловая карта день × час по интенсивности вовлечённости."},
+    "Heatmap (7 kun × 24 soat)": {"en": "Heatmap (7 days × 24 hours)", "ru": "Тепловая карта (7 дней × 24 часа)"},
+    "To'q yashil = yuqori engagement. Oq = postingiz yo'q.":
+        {"en": "Dark green = high engagement. White = no posts.",
+         "ru": "Тёмно-зелёный = высокая вовлечённость. Белый = нет постов."},
+    "Kam":                 {"en": "Low",                "ru": "Мало"},
+    "Ko'p":                {"en": "High",               "ru": "Много"},
+    "Vaqt foydalanuvchining mahalliy zonasida. Kursorni katakka olib boring — aniq raqamlarni ko'rasiz.":
+        {"en": "Times are in your local timezone. Hover a cell for exact numbers.",
+         "ru": "Время в вашем часовом поясе. Наведите курсор на ячейку, чтобы увидеть точные цифры."},
+    "Hali ma'lumot yetarli emas":
+        {"en": "Not enough data yet", "ru": "Пока недостаточно данных"},
+    "Heatmap'ni ko'rsatish uchun kamida bir nechta postingiz bo'lishi kerak. Avval akkaunt ulang va sync qiling.":
+        {"en": "We need at least a few of your posts to render the heatmap. Connect an account and sync first.",
+         "ru": "Для тепловой карты нужно несколько ваших постов. Сначала подключите аккаунт и синхронизируйте."},
+    "O'rtacha engagement": {"en": "Avg. engagement",    "ru": "Средняя вовлечённость"},
+    "post":                {"en": "post",               "ru": "пост"},
+
+    # ---- Hashtag Analyzer ----
+    "Hashtag":             {"en": "Hashtag",            "ru": "Хештег"},
+    "Hashtag tahlili":     {"en": "Hashtag analysis",   "ru": "Анализ хештегов"},
+    "Qaysi hashtaglaringiz eng yuqori engagement keltirayapti — 90 kunlik ma'lumot.":
+        {"en": "Which hashtags drive your highest engagement — last 90 days.",
+         "ru": "Какие хештеги дают самую высокую вовлечённость — за 90 дней."},
+    "Eslatma: kamida 2 ta postda uchragan hashtaglar ko'rsatiladi (bitta post statistikasi shovqin bo'ladi).":
+        {"en": "Note: only hashtags used in 2+ posts are shown (single-post averages are too noisy).",
+         "ru": "Показаны хештеги из 2+ постов (статистика по одному посту — слишком шумная)."},
+    "Hozircha hashtag yo'q":
+        {"en": "No hashtags yet", "ru": "Хештегов пока нет"},
+    "Postlaringiz captionida hashtag bo'lmagan yoki hech bir tag 2+ marta ishlatilmagan. Hashtag qo'shib post yozgach, bu sahifa tahlilni ko'rsatadi.":
+        {"en": "Either your captions have no hashtags or none was used 2+ times. Add hashtags and publish more — this page will fill up.",
+         "ru": "Либо в подписях нет хештегов, либо ни один не был использован 2+ раз. Добавьте хештеги и публикуйте чаще — страница заполнится."},
+    "Keyingi post uchun AI tavsiya":
+        {"en": "AI recommendation for your next post", "ru": "AI рекомендация для следующего поста"},
+    "Statistikangiz asosida 5-7 ta optimal hashtag kombinatsiyasi.":
+        {"en": "An optimal combo of 5-7 hashtags based on your stats.",
+         "ru": "Оптимальная комбинация из 5-7 хештегов на основе вашей статистики."},
+    "Hashtag tavsiya olish": {"en": "Get hashtag suggestions", "ru": "Получить рекомендации по хештегам"},
+    "Tavsiya yaratilmadi":   {"en": "Could not generate a suggestion", "ru": "Не удалось создать рекомендацию"},
+
+    # ---- 2FA ----
+    "2FA":                 {"en": "2FA",                "ru": "2FA"},
+    "Ikki bosqichli autentifikatsiya":
+        {"en": "Two-factor authentication", "ru": "Двухфакторная аутентификация"},
+    "Ikki bosqichli autentifikatsiya (2FA)":
+        {"en": "Two-factor authentication (2FA)", "ru": "Двухфакторная аутентификация (2FA)"},
+    "Akkauntingizni TOTP kodlari bilan himoyalang — Google Authenticator, Authy, 1Password va boshqalarda ishlaydi.":
+        {"en": "Protect your account with TOTP codes — works with Google Authenticator, Authy, 1Password, and more.",
+         "ru": "Защитите аккаунт TOTP-кодами — работает с Google Authenticator, Authy, 1Password и др."},
+    "TOTP kodlari (Google Authenticator, Authy, 1Password) bilan qo'shimcha himoya.":
+        {"en": "Extra protection with TOTP codes (Google Authenticator, Authy, 1Password).",
+         "ru": "Дополнительная защита через TOTP-коды (Google Authenticator, Authy, 1Password)."},
+    "Yoqilgan":            {"en": "Enabled",            "ru": "Включено"},
+    "O'chirilgan":         {"en": "Disabled",           "ru": "Выключено"},
+    "Yoqish":              {"en": "Enable",             "ru": "Включить"},
+    "Boshqarish":          {"en": "Manage",             "ru": "Управлять"},
+    "Har safar kirishda kod talab qilinadi.":
+        {"en": "A code will be required every time you sign in.",
+         "ru": "При каждом входе будет требоваться код."},
+    "Quyidagi QR kodni Authenticator ilovangizga qo'shing va 6 raqamli kodni kiriting.":
+        {"en": "Add the QR code to your Authenticator app, then enter the 6-digit code.",
+         "ru": "Добавьте QR-код в приложение-аутентификатор и введите 6-значный код."},
+    "1-qadam: QR kodni scan qiling": {"en": "Step 1: Scan the QR", "ru": "Шаг 1: Отсканируйте QR"},
+    "2-qadam: 6 raqamli kodni tasdiqlang": {"en": "Step 2: Confirm the 6-digit code", "ru": "Шаг 2: Подтвердите 6-значный код"},
+    "QR ishlamayaptimi? Kodni qo'lda kiriting":
+        {"en": "QR not working? Enter the code manually", "ru": "QR не работает? Введите код вручную"},
+    "Yangi maxfiy kod yaratish": {"en": "Generate a new secret", "ru": "Создать новый секрет"},
+    "2FA ni o'chirish":    {"en": "Disable 2FA",        "ru": "Отключить 2FA"},
+    "Tavsiya etilgan ilovalar": {"en": "Recommended apps", "ru": "Рекомендуемые приложения"},
+
+    # ---- Activity log ----
+    "Faollik tarixi":      {"en": "Activity log",       "ru": "История активности"},
+    "Tarixni ko'rish":     {"en": "View history",       "ru": "Посмотреть историю"},
+    "Akkauntingizdagi oxirgi 100 ta harakat — kirish, akkaunt ulash, AI so'rovlari, eksportlar va boshqalar.":
+        {"en": "Last 100 events on your account — sign-ins, account connects, AI requests, exports, and more.",
+         "ru": "Последние 100 событий по аккаунту — входы, подключения, AI-запросы, экспорты и пр."},
+    "Akkauntingiz bilan bog'liq oxirgi 100 ta hodisa — kirish, akkaunt ulash, AI so'rovlari, eksportlar.":
+        {"en": "Last 100 events linked to your account — sign-ins, connects, AI requests, exports.",
+         "ru": "Последние 100 событий аккаунта — входы, подключения, AI, экспорты."},
+    "Hali faollik yo'q":   {"en": "No activity yet",    "ru": "Активности пока нет"},
+    "Saytda harakat qila boshlaganingizda — kirish, akkaunt ulash, AI ishlatish — bu yerda yoziladi.":
+        {"en": "Once you start using the site — signing in, connecting accounts, asking AI — it shows up here.",
+         "ru": "Как только начнёте пользоваться — входить, подключать, спрашивать AI — события появятся тут."},
+
+    # ---- Saved views ----
+    "Saqlangan filterlar": {"en": "Saved views",        "ru": "Сохранённые фильтры"},
+    "Joriy filterni saqlash": {"en": "Save current filter", "ru": "Сохранить текущий фильтр"},
+    "Filterga nom bering:": {"en": "Name this filter:", "ru": "Назовите фильтр:"},
+    "Olib tashlash":       {"en": "Remove",             "ru": "Удалить"},
+
+    # ---- Onboarding tour update / dashboard #}
+    "Bosh":                {"en": "Home",               "ru": "Главная"},
+    "Postlar · Likes · Kommentlar · Ko'rishlar":
+        {"en": "Posts · Likes · Comments · Views",
+         "ru": "Посты · Лайки · Комментарии · Просмотры"},
+    "30 kunlik faollik dinamikasi":
+        {"en": "30-day activity dynamics", "ru": "Динамика активности за 30 дней"},
+    "Engagement bo'yicha eng yaxshi 10 ta":
+        {"en": "Top 10 by engagement", "ru": "Топ-10 по вовлечённости"},
+    "Post turlari":        {"en": "Post types",         "ru": "Типы постов"},
+    "Kontent ulushi":      {"en": "Content share",      "ru": "Доля контента"},
+    "Jami views":          {"en": "Total views",        "ru": "Всего просмотров"},
+    "Ko'rishlardan repostgacha bo'lgan zanjirning konversiyasi":
+        {"en": "Conversion from views down to reshares",
+         "ru": "Конверсия от просмотров до репостов"},
 }
 
 

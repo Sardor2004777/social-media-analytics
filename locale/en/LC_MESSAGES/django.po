@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: social-analytics 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-28 14:41+0000\n"
-"PO-Revision-Date: 2026-04-28 14:41+0000\n"
+"POT-Creation-Date: 2026-04-30 08:33+0000\n"
+"PO-Revision-Date: 2026-04-30 08:33+0000\n"
 "Last-Translator: social-analytics i18n_compile.py\n"
 "Language-Team: en\n"
 "Language: en\n"
@@ -20,6 +20,10 @@ msgstr "(likes + comments + shares) / views"
 #: templates/dashboard/telegram_phone.html
 msgid "1 / 3 — telefon raqamingiz"
 msgstr ""
+
+#: templates/dashboard/two_factor.html
+msgid "1-qadam: QR kodni scan qiling"
+msgstr "Step 1: Scan the QR"
 
 #: templates/dashboard/terms.html
 msgid "1. Shartlarning qabul qilinishi"
@@ -51,9 +55,21 @@ msgstr "Pick 2 to 3 accounts:"
 msgid "2-3 akkauntni yonma-yon solishtirish"
 msgstr ""
 
+#: templates/dashboard/two_factor.html
+msgid "2-qadam: 6 raqamli kodni tasdiqlang"
+msgstr "Step 2: Confirm the 6-digit code"
+
 #: templates/dashboard/terms.html
 msgid "2. Xizmatning tavsifi"
 msgstr "2. Service description"
+
+#: templates/dashboard/two_factor.html
+msgid "2FA"
+msgstr "2FA"
+
+#: templates/dashboard/two_factor.html
+msgid "2FA ni o'chirish"
+msgstr "Disable 2FA"
 
 #: templates/dashboard/compare.html
 msgid ""
@@ -68,6 +84,10 @@ msgstr ""
 msgid "3 qadamda boshlang"
 msgstr "Start in 3 steps"
 
+#: templates/dashboard/post_generator.html
+msgid "3 ta variant yaratish"
+msgstr "Generate 3 drafts"
+
 #: templates/dashboard/landing.html
 msgid "3 tilli interfeys"
 msgstr "3-language UI"
@@ -75,6 +95,10 @@ msgstr "3-language UI"
 #: templates/dashboard/terms.html
 msgid "3. Akkaunt va xavfsizlik"
 msgstr "3. Account and security"
+
+#: templates/dashboard/public_share.html
+msgid "30 kunlik faollik dinamikasi"
+msgstr "30-day activity dynamics"
 
 #: templates/dashboard/compare.html
 msgid "30 kunlik likes dinamikasi"
@@ -84,7 +108,7 @@ msgstr "30-day likes dynamics"
 msgid "30 kunlik o'rtacha engagement"
 msgstr "30-day average engagement"
 
-#: templates/dashboard/app.html
+#: templates/dashboard/app.html templates/dashboard/public_share.html
 msgid "30 kunlik obunachi soni dinamikasi"
 msgstr "30-day follower-count dynamics"
 
@@ -95,10 +119,6 @@ msgstr "30-day trend"
 #: templates/dashboard/help.html
 msgid "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari, hashtag"
 msgstr ""
-
-#: templates/dashboard/public_share.html
-msgid "30-kunlik likes dinamikasi"
-msgstr "30-day likes dynamics"
 
 #: templates/dashboard/landing.html
 msgid "4 ta platforma"
@@ -149,6 +169,14 @@ msgstr "8. Copyright"
 msgid "9. Javobgarlikni cheklash"
 msgstr "9. Limitation of liability"
 
+#: templates/dashboard/best_time.html
+msgid ""
+"90 kunlik post tarixingizdan o'rganilgan: kun × soat heatmap'i — engagement "
+"intensivligi bo'yicha."
+msgstr ""
+"Learned from your last 90 days: a day × hour heatmap of engagement "
+"intensity."
+
 #: templates/account/email_confirm.html
 msgid ""
 "<strong class=\"text-slate-900 dark:text-white\">{{ email }}</strong> manzili\n"
@@ -169,10 +197,18 @@ msgstr "Admin"
 msgid "Administrator"
 msgstr "Administrator"
 
+#: templates/dashboard/post_generator.html
+msgid "Administrator OPENAI_API_KEY env var'ni sozlashi kerak."
+msgstr "Administrator must configure the OPENAI_API_KEY env var."
+
 #: templates/account/email/email_confirmation_message.html
 #: templates/account/email/password_reset_key_message.html
 msgid "Agar tugma ishlamasa, quyidagi havolani brauzeringizga nusxalang:"
 msgstr "If the button doesn't work, copy the link below into your browser:"
+
+#: templates/dashboard/accounts.html
+msgid "AI"
+msgstr "AI"
 
 #: templates/dashboard/_shell.html
 msgid "AI Chat"
@@ -186,13 +222,33 @@ msgstr "AI Chat is not configured yet"
 msgid "AI Haftalik Xulosa"
 msgstr "AI Weekly Summary"
 
+#: templates/dashboard/post_generator.html
+msgid "AI hali sozlanmagan"
+msgstr "AI is not configured"
+
 #: templates/dashboard/help.html
 msgid "AI hisobotlar nima uchun pulli?"
 msgstr ""
 
+#: templates/dashboard/accounts.html templates/dashboard/analytics.html
+msgid "AI maslahat"
+msgstr "AI advice"
+
+#: templates/dashboard/post_generator.html
+msgid "AI Post Generator"
+msgstr "AI Post Generator"
+
 #: templates/account/base.html templates/dashboard/landing.html
 msgid "AI sentiment tahlili"
 msgstr "AI sentiment analysis"
+
+#: templates/dashboard/post_generator.html
+msgid ""
+"AI sizning eng top postlaringizning uslubini, uzunligini va emoji "
+"pattern'ini o'rganib, 3 ta yangi caption taklif qiladi."
+msgstr ""
+"AI learns the style, length, and emoji pattern of your top posts and "
+"suggests 3 new captions."
 
 #: templates/dashboard/ai_digest.html
 msgid "AI sozlanmagan"
@@ -202,13 +258,13 @@ msgstr ""
 msgid "AI Xulosa"
 msgstr "AI Summary"
 
-#: templates/dashboard/competitors.html
+#: templates/dashboard/_shell.html templates/dashboard/competitors.html
 #: templates/partials/_command_palette.html
 msgid "Akkaunt"
 msgstr "Account"
 
 #: templates/dashboard/account_connect.html templates/dashboard/app.html
-#: templates/dashboard/compare.html
+#: templates/dashboard/best_time.html templates/dashboard/compare.html
 msgid "Akkaunt ulash"
 msgstr "Connect account"
 
@@ -219,6 +275,14 @@ msgstr "Create account"
 #: templates/dashboard/delete_account.html
 msgid "Akkauntimni butunlay o'chirish"
 msgstr "Permanently delete my account"
+
+#: templates/dashboard/settings.html
+msgid ""
+"Akkauntingiz bilan bog'liq oxirgi 100 ta hodisa — kirish, akkaunt ulash, AI "
+"so'rovlari, eksportlar."
+msgstr ""
+"Last 100 events linked to your account — sign-ins, connects, AI requests, "
+"exports."
 
 #: templates/account/signup.html
 msgid "Akkauntingiz bormi?"
@@ -232,6 +296,14 @@ msgstr "Don't have an account?"
 msgid "Akkauntingiz, til va xavfsizlik sozlamalari."
 msgstr "Account, language, and security settings."
 
+#: templates/dashboard/activity_log.html
+msgid ""
+"Akkauntingizdagi oxirgi 100 ta harakat — kirish, akkaunt ulash, AI "
+"so'rovlari, eksportlar va boshqalar."
+msgstr ""
+"Last 100 events on your account — sign-ins, account connects, AI requests, "
+"exports, and more."
+
 #: templates/account/logout.html
 msgid "Akkauntingizdan chiqmoqchimisiz?"
 msgstr "Do you want to sign out?"
@@ -244,6 +316,14 @@ msgstr "Sign in and continue your analysis."
 msgid "Akkauntingizni o'chirsangiz quyidagilar doimo yo'qoladi:"
 msgstr "If you delete your account the following are lost permanently:"
 
+#: templates/dashboard/two_factor.html
+msgid ""
+"Akkauntingizni TOTP kodlari bilan himoyalang — Google Authenticator, Authy, "
+"1Password va boshqalarda ishlaydi."
+msgstr ""
+"Protect your account with TOTP codes — works with Google Authenticator, "
+"Authy, 1Password, and more."
+
 #: templates/dashboard/account_connect.html
 msgid "akkauntini ulash"
 msgstr "connect account"
@@ -254,7 +334,7 @@ msgid "Akkauntlar"
 msgstr "Accounts"
 
 #: templates/dashboard/_shell.html templates/dashboard/account_connect.html
-#: templates/dashboard/accounts.html
+#: templates/dashboard/accounts.html templates/dashboard/hashtags.html
 #: templates/dashboard/telegram_channels.html
 #: templates/dashboard/telegram_code.html
 #: templates/dashboard/telegram_password.html
@@ -335,7 +415,7 @@ msgstr ""
 "Hello! Ask questions about your dashboard data — e.g. the best-performing "
 "platform, analysis of your posts, or engagement trends."
 
-#: templates/dashboard/app.html
+#: templates/dashboard/app.html templates/dashboard/public_share.html
 msgid "Auditoriya o'sishi"
 msgstr "Audience growth"
 
@@ -485,6 +565,10 @@ msgstr ""
 msgid "Bloggerlar"
 msgstr "Bloggers"
 
+#: templates/dashboard/_shell.html
+msgid "Bosh"
+msgstr "Home"
+
 #: templates/404.html templates/500.html templates/dashboard/_shell.html
 #: templates/dashboard/help.html templates/partials/_command_palette.html
 msgid "Bosh sahifa"
@@ -514,6 +598,14 @@ msgstr "Unauthorized access to other users' accounts."
 #: templates/dashboard/telegram_password.html
 msgid "Boshqa raqam"
 msgstr ""
+
+#: templates/dashboard/settings.html
+msgid "Boshqarish"
+msgstr "Manage"
+
+#: templates/dashboard/hashtags.html
+msgid "Bosib copy oling"
+msgstr "Click to copy"
 
 #: templates/dashboard/delete_account.html
 msgid "Bu amalni ortga qaytarib bo'lmaydi"
@@ -758,7 +850,7 @@ msgstr "Most positive content"
 msgid "Eng samarali klaster:"
 msgstr "Top cluster:"
 
-#: templates/dashboard/clusters.html
+#: templates/dashboard/best_time.html templates/dashboard/clusters.html
 msgid "Eng yaxshi"
 msgstr ""
 
@@ -778,7 +870,12 @@ msgstr "Best platform?"
 msgid "Eng yaxshi postlar (top 20)"
 msgstr "Top posts (top 20)"
 
-#: templates/dashboard/analytics.html
+#: templates/dashboard/post_generator.html
+msgid "Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi."
+msgstr "Three new caption drafts in the style of your top posts."
+
+#: templates/dashboard/_shell.html templates/dashboard/analytics.html
+#: templates/dashboard/best_time.html
 msgid "Eng yaxshi vaqt"
 msgstr "Best time"
 
@@ -786,7 +883,7 @@ msgstr "Best time"
 msgid "Eng yaxshisi:"
 msgstr "Best:"
 
-#: templates/dashboard/compare.html templates/dashboard/public_share.html
+#: templates/dashboard/compare.html
 msgid "Engagement"
 msgstr "Engagement"
 
@@ -802,7 +899,11 @@ msgstr ""
 msgid "Engagement bashorati"
 msgstr "Engagement forecast"
 
-#: templates/dashboard/analytics.html
+#: templates/dashboard/public_share.html
+msgid "Engagement bo'yicha eng yaxshi 10 ta"
+msgstr "Top 10 by engagement"
+
+#: templates/dashboard/analytics.html templates/dashboard/public_share.html
 msgid "Engagement funnel"
 msgstr "Engagement funnel"
 
@@ -842,6 +943,14 @@ msgstr ""
 msgid "Eslatma:"
 msgstr "Note:"
 
+#: templates/dashboard/hashtags.html
+msgid ""
+"Eslatma: kamida 2 ta postda uchragan hashtaglar ko'rsatiladi (bitta post "
+"statistikasi shovqin bo'ladi)."
+msgstr ""
+"Note: only hashtags used in 2+ posts are shown (single-post averages are too"
+" noisy)."
+
 #: templates/dashboard/help.html
 msgid "Excel + PDF eksport"
 msgstr ""
@@ -866,6 +975,10 @@ msgstr "Active accounts"
 msgid "Faollik dinamikasi"
 msgstr "Activity dynamics"
 
+#: templates/dashboard/activity_log.html templates/dashboard/settings.html
+msgid "Faollik tarixi"
+msgstr "Activity log"
+
 #: templates/dashboard/app.html
 msgid "Faollik ulushi"
 msgstr "Activity share"
@@ -873,6 +986,10 @@ msgstr "Activity share"
 #: templates/dashboard/app.html
 msgid "faqat matn"
 msgstr ""
+
+#: templates/dashboard/top_posts.html
+msgid "Filterga nom bering:"
+msgstr "Name this filter:"
 
 #: templates/account/base.html
 msgid "Filtrlab, kesib, eksport qilib — ma'lumotni o'z qo'lingizda."
@@ -966,9 +1083,17 @@ msgstr "Weekday × hour — by engagement (last 30 days)"
 msgid "Haftalik xulosa"
 msgstr "Weekly summary"
 
+#: templates/dashboard/activity_log.html
+msgid "Hali faollik yo'q"
+msgstr "No activity yet"
+
 #: templates/dashboard/accounts.html
 msgid "Hali hech qanday akkaunt ulanmagan"
 msgstr "No accounts connected yet"
+
+#: templates/dashboard/best_time.html
+msgid "Hali ma'lumot yetarli emas"
+msgstr "Not enough data yet"
 
 #: templates/dashboard/analytics.html
 msgid "Hali ma'lumot yo'q."
@@ -1011,6 +1136,10 @@ msgstr "Pull all posts (slower, but full history)"
 msgid "Hammasi"
 msgstr "All"
 
+#: templates/dashboard/hashtags.html
+msgid "Hammasini copy"
+msgstr "Copy all"
+
 #: templates/dashboard/accounts.html
 msgid "Haqiqiy"
 msgstr "Real"
@@ -1047,13 +1176,41 @@ msgstr ""
 "    is handled through the GitHub Issues tracker. We aim to respond within\n"
 "    48 hours (best effort, no guarantee)."
 
+#: templates/dashboard/two_factor.html
+msgid "Har safar kirishda kod talab qilinadi."
+msgstr "A code will be required every time you sign in."
+
+#: templates/dashboard/hashtags.html
+msgid "Hashtag"
+msgstr "Hashtag"
+
 #: templates/dashboard/predict.html
 msgid "Hashtag soni"
 msgstr ""
 
+#: templates/dashboard/_shell.html templates/dashboard/hashtags.html
+msgid "Hashtag tahlili"
+msgstr "Hashtag analysis"
+
+#: templates/dashboard/hashtags.html
+msgid "Hashtag tavsiya olish"
+msgstr "Get hashtag suggestions"
+
 #: templates/account/password_reset_from_key.html
 msgid "Havola ishlamaydi"
 msgstr "Link not working"
+
+#: templates/dashboard/best_time.html
+msgid "Heatmap (7 kun × 24 soat)"
+msgstr "Heatmap (7 days × 24 hours)"
+
+#: templates/dashboard/best_time.html
+msgid ""
+"Heatmap'ni ko'rsatish uchun kamida bir nechta postingiz bo'lishi kerak. "
+"Avval akkaunt ulang va sync qiling."
+msgstr ""
+"We need at least a few of your posts to render the heatmap. Connect an "
+"account and sync first."
 
 #: templates/partials/_command_palette.html
 msgid "Hech narsa topilmadi"
@@ -1098,6 +1255,10 @@ msgstr "Showing demo data right now"
 msgid "Hozir yangilash"
 msgstr "Refresh now"
 
+#: templates/dashboard/hashtags.html
+msgid "Hozircha hashtag yo'q"
+msgstr "No hashtags yet"
+
 #: templates/dashboard/privacy.html templates/dashboard/terms.html
 msgid "Huquqiy ma'lumot"
 msgstr "Legal information"
@@ -1133,6 +1294,14 @@ msgstr ""
 #: templates/account/base.html
 msgid "Ijtimoiy tarmoqlardagi ovozingizni tushuning."
 msgstr "Understand your voice on social media."
+
+#: templates/dashboard/settings.html templates/dashboard/two_factor.html
+msgid "Ikki bosqichli autentifikatsiya"
+msgstr "Two-factor authentication"
+
+#: templates/dashboard/two_factor.html
+msgid "Ikki bosqichli autentifikatsiya (2FA)"
+msgstr "Two-factor authentication (2FA)"
 
 #: templates/dashboard/help.html templates/dashboard/landing.html
 msgid "Imkoniyatlar"
@@ -1174,7 +1343,7 @@ msgstr "Comments"
 msgid "Jami"
 msgstr "Total"
 
-#: templates/dashboard/compare.html
+#: templates/dashboard/compare.html templates/dashboard/hashtags.html
 msgid "Jami likes"
 msgstr "Total likes"
 
@@ -1186,6 +1355,10 @@ msgstr "Total followers"
 msgid "Jami postlar"
 msgstr "Total posts"
 
+#: templates/dashboard/hashtags.html
+msgid "Jami views"
+msgstr "Total views"
+
 #: templates/dashboard/landing.html
 msgid ""
 "Jonli grafiklar, interaktiv filtrlash va platformalar bo'yicha solishtirish."
@@ -1193,6 +1366,10 @@ msgid ""
 msgstr ""
 "Live charts, interactive filtering, and cross-platform comparison. Fresh "
 "data every second."
+
+#: templates/dashboard/top_posts.html
+msgid "Joriy filterni saqlash"
+msgstr "Save current filter"
 
 #: templates/dashboard/delete_account.html
 msgid "JSON sifatida yuklab oling"
@@ -1205,6 +1382,10 @@ msgstr "Very strong"
 #: templates/account/signup.html
 msgid "Juda zaif"
 msgstr "Very weak"
+
+#: templates/dashboard/best_time.html
+msgid "Kam"
+msgstr "Low"
 
 #: templates/dashboard/analytics.html
 msgid "kamaydi"
@@ -1234,6 +1415,10 @@ msgstr "Uppercase (A-Z)"
 #: templates/dashboard/app.html templates/dashboard/top_posts.html
 msgid "Keyingi"
 msgstr "Next"
+
+#: templates/dashboard/hashtags.html
+msgid "Keyingi post uchun AI tavsiya"
+msgstr "AI recommendation for your next post"
 
 #: templates/account/signup.html
 msgid "Kichik harf (a-z)"
@@ -1275,6 +1460,10 @@ msgstr "Clusters"
 msgid "Klaviatura yorliqlari"
 msgstr "Keyboard shortcuts"
 
+#: templates/dashboard/best_time.html
+msgid "Ko'p"
+msgstr "High"
+
 #: templates/account/base.html
 msgid "Ko'p tilli interfeys"
 msgstr "Multi-language UI"
@@ -1284,8 +1473,13 @@ msgid "Ko'rildi"
 msgstr "Views"
 
 #: templates/dashboard/analytics.html templates/dashboard/compare.html
+#: templates/dashboard/public_share.html
 msgid "Ko'rishlar"
 msgstr "Views"
+
+#: templates/dashboard/public_share.html
+msgid "Ko'rishlardan repostgacha bo'lgan zanjirning konversiyasi"
+msgstr "Conversion from views down to reshares"
 
 #: templates/dashboard/telegram_code.html
 msgid "Kod"
@@ -1309,7 +1503,8 @@ msgstr "Is it open source?"
 msgid "Komandalar paneli"
 msgstr "Command palette"
 
-#: templates/dashboard/analytics.html templates/dashboard/reports.html
+#: templates/dashboard/analytics.html templates/dashboard/public_share.html
+#: templates/dashboard/reports.html
 msgid "Kommentlar"
 msgstr "Comments"
 
@@ -1320,6 +1515,10 @@ msgstr "comments"
 #: templates/dashboard/app.html
 msgid "Kommentlar / Views"
 msgstr "Comments / Views"
+
+#: templates/dashboard/public_share.html
+msgid "Kontent ulushi"
+msgstr "Content share"
 
 #: templates/dashboard/_shell.html templates/dashboard/correlation.html
 msgid "Korrelyatsiya"
@@ -1360,10 +1559,6 @@ msgstr ""
 #: templates/dashboard/app.html templates/dashboard/top_posts.html
 msgid "kun"
 msgstr "days"
-
-#: templates/dashboard/public_share.html
-msgid "Kunlik yig'ilgan likes soni"
-msgstr "Daily like totals"
 
 #: templates/dashboard/predict.html
 msgid "Kutilgan natija"
@@ -1470,6 +1665,10 @@ msgstr "Marketing agencies"
 #: templates/dashboard/account_connect.html
 msgid "Masalan:"
 msgstr "For example:"
+
+#: templates/dashboard/analytics.html
+msgid "Maslahat olish"
+msgstr "Get advice"
 
 #: templates/dashboard/predict.html
 msgid "Maslahat:"
@@ -1591,6 +1790,14 @@ msgstr "Neutral"
 msgid "Nimani qidiryapsiz?"
 msgstr "What are you looking for?"
 
+#: templates/dashboard/post_generator.html
+msgid "Nusxa"
+msgstr "Copy"
+
+#: templates/dashboard/post_generator.html
+msgid "Nusxa olish"
+msgstr "Copy"
+
 #: templates/dashboard/settings.html
 msgid "Nusxalandi"
 msgstr "Copied"
@@ -1598,6 +1805,10 @@ msgstr "Copied"
 #: templates/dashboard/settings.html
 msgid "Nusxalash"
 msgstr "Copy"
+
+#: templates/dashboard/settings.html templates/dashboard/two_factor.html
+msgid "O'chirilgan"
+msgstr "Disabled"
 
 #: templates/dashboard/accounts.html templates/dashboard/competitors.html
 msgid "O'chirish"
@@ -1614,6 +1825,10 @@ msgstr ""
 #: templates/dashboard/clusters.html
 msgid "O'rt. likes"
 msgstr ""
+
+#: templates/dashboard/best_time.html templates/dashboard/hashtags.html
+msgid "O'rtacha engagement"
+msgstr "Avg. engagement"
 
 #: templates/dashboard/correlation.html
 msgid "O'rtacha pozitiv korrelyatsiya"
@@ -1674,6 +1889,14 @@ msgstr "Previous"
 #: templates/dashboard/analytics.html
 msgid "Oldingi 30 kunga nisbatan"
 msgstr "Compared to previous 30 days"
+
+#: templates/dashboard/top_posts.html
+msgid "Olib tashlash"
+msgstr "Remove"
+
+#: templates/dashboard/hashtags.html
+msgid "Olindi"
+msgstr "Copied"
 
 #: templates/dashboard/help.html
 msgid ""
@@ -1888,13 +2111,29 @@ msgstr ""
 msgid "Post"
 msgstr "Post"
 
+#: templates/dashboard/best_time.html
+msgid "post"
+msgstr "post"
+
 #: templates/dashboard/analytics.html
 msgid "Post chastotasi"
 msgstr "Post frequency"
 
+#: templates/dashboard/_shell.html
+msgid "Post Generator"
+msgstr "Post Generator"
+
+#: templates/dashboard/best_time.html
+msgid "Post qo'yish uchun eng yaxshi vaqt"
+msgstr "Best time to post"
+
 #: templates/dashboard/top_posts.html
 msgid "Post turi"
 msgstr "Post type"
+
+#: templates/dashboard/public_share.html
+msgid "Post turlari"
+msgstr "Post types"
 
 #: templates/dashboard/app.html
 msgid "Post turlari bo'yicha"
@@ -1924,8 +2163,8 @@ msgstr ""
 
 #: templates/dashboard/accounts.html templates/dashboard/analytics.html
 #: templates/dashboard/clusters.html templates/dashboard/compare.html
-#: templates/dashboard/landing.html templates/dashboard/public_share.html
-#: templates/dashboard/reports.html
+#: templates/dashboard/hashtags.html templates/dashboard/landing.html
+#: templates/dashboard/public_share.html templates/dashboard/reports.html
 msgid "Postlar"
 msgstr "Posts"
 
@@ -1944,6 +2183,18 @@ msgstr ""
 #: templates/dashboard/analytics.html
 msgid "Postlar · layklar · ko'rishlar"
 msgstr "Posts · likes · views"
+
+#: templates/dashboard/public_share.html
+msgid "Postlar · Likes · Kommentlar · Ko'rishlar"
+msgstr "Posts · Likes · Comments · Views"
+
+#: templates/dashboard/hashtags.html
+msgid ""
+"Postlaringiz captionida hashtag bo'lmagan yoki hech bir tag 2+ marta "
+"ishlatilmagan. Hashtag qo'shib post yozgach, bu sahifa tahlilni ko'rsatadi."
+msgstr ""
+"Either your captions have no hashtags or none was used 2+ times. Add "
+"hashtags and publish more — this page will fill up."
 
 #: templates/dashboard/clusters.html
 msgid ""
@@ -2074,6 +2325,12 @@ msgstr ""
 msgid "Qanday qilib sentiment aniqligini baholaysiz?"
 msgstr "How do you measure sentiment accuracy?"
 
+#: templates/dashboard/hashtags.html
+msgid ""
+"Qaysi hashtaglaringiz eng yuqori engagement keltirayapti — 90 kunlik "
+"ma'lumot."
+msgstr "Which hashtags drive your highest engagement — last 90 days."
+
 #: templates/dashboard/telegram_channels.html
 msgid "Qaysi kanalni tahlil qilamiz?"
 msgstr ""
@@ -2126,9 +2383,20 @@ msgstr ""
 msgid "Qorong'u"
 msgstr "Dark"
 
+#: templates/dashboard/two_factor.html
+msgid "QR ishlamayaptimi? Kodni qo'lda kiriting"
+msgstr "QR not working? Enter the code manually"
+
 #: templates/dashboard/terms.html
 msgid "Quyidagi harakatlar taqiqlanadi:"
 msgstr "The following actions are prohibited:"
+
+#: templates/dashboard/two_factor.html
+msgid ""
+"Quyidagi QR kodni Authenticator ilovangizga qo'shing va 6 raqamli kodni "
+"kiriting."
+msgstr ""
+"Add the QR code to your Authenticator app, then enter the 6-digit code."
 
 #: templates/dashboard/correlation.html
 msgid "r = 1.0 mukammal pozitiv · r = 0 aloqa yo'q · r = -1.0 mukammal salbiy"
@@ -2258,6 +2526,10 @@ msgstr "Hello, <strong>{{ username }}</strong>!"
 msgid "Sana"
 msgstr "Date"
 
+#: templates/dashboard/top_posts.html
+msgid "Saqlangan filterlar"
+msgstr "Saved views"
+
 #: templates/dashboard/settings.html
 msgid "Saqlash"
 msgstr "Save"
@@ -2277,6 +2549,14 @@ msgstr "For questions:"
 #: templates/dashboard/privacy.html
 msgid "Savollar — GitHub issue orqali yuborish."
 msgstr "Questions — submit via GitHub issue."
+
+#: templates/dashboard/activity_log.html
+msgid ""
+"Saytda harakat qila boshlaganingizda — kirish, akkaunt ulash, AI ishlatish —"
+" bu yerda yoziladi."
+msgstr ""
+"Once you start using the site — signing in, connecting accounts, asking AI —"
+" it shows up here."
 
 #: templates/dashboard/chat.html
 msgid "saytidan olish mumkin."
@@ -2506,6 +2786,10 @@ msgstr "Check your spam folder"
 msgid "Spam yoki Promotions papkasini tekshiring"
 msgstr "Check your Spam or Promotions folder"
 
+#: templates/dashboard/hashtags.html
+msgid "Statistikangiz asosida 5-7 ta optimal hashtag kombinatsiyasi."
+msgstr "An optimal combo of 5-7 hashtags based on your stats."
+
 #: templates/dashboard/reports.html
 msgid ""
 "Summary, Posts, Comments, Sentiment, Platforms — openpyxl bilan "
@@ -2513,6 +2797,12 @@ msgid ""
 msgstr ""
 "Summary, Posts, Comments, Sentiment, Platforms — formatted with openpyxl, "
 "with filter and donut chart."
+
+#: templates/dashboard/analytics.html
+msgid ""
+"Sun'iy intellekt 30 kunlik ma'lumotingiz asosida xulosa va keyingi qadamni "
+"tavsiya qiladi."
+msgstr "AI summarises your last 30 days and recommends a next step."
 
 #: templates/dashboard/predict.html
 msgid "ta layk"
@@ -2571,6 +2861,10 @@ msgstr "For students, researchers, and marketers"
 msgid "tanlash"
 msgstr "select"
 
+#: templates/dashboard/settings.html
+msgid "Tarixni ko'rish"
+msgstr "View history"
+
 #: templates/account/email_confirm.html
 #: templates/dashboard/delete_account.html
 #: templates/dashboard/telegram_code.html
@@ -2581,9 +2875,26 @@ msgstr "Confirm"
 msgid "Tasdiqlash kodi"
 msgstr ""
 
+#: templates/dashboard/two_factor.html
+msgid "Tavsiya etilgan ilovalar"
+msgstr "Recommended apps"
+
+#: templates/dashboard/hashtags.html
+msgid "Tavsiya yaratilmadi"
+msgstr "Could not generate a suggestion"
+
 #: templates/dashboard/analytics.html
 msgid "Tavsiya:"
 msgstr "Tip:"
+
+#: templates/dashboard/post_generator.html
+msgid "Tayyor variantlar"
+msgstr "Generated drafts"
+
+#: templates/dashboard/accounts.html templates/dashboard/analytics.html
+#: templates/dashboard/hashtags.html
+msgid "Tayyorlanmoqda..."
+msgstr "Generating..."
 
 #: templates/dashboard/help.html
 msgid ""
@@ -2721,6 +3032,10 @@ msgstr "System operational"
 msgid "To'liq tarjima qilingan."
 msgstr "Fully translated."
 
+#: templates/dashboard/best_time.html
+msgid "To'q yashil = yuqori engagement. Oq = postingiz yo'q."
+msgstr "Dark green = high engagement. White = no posts."
+
 #: templates/dashboard/public_share.html
 msgid "tomonidan quvvatlanadi"
 msgstr "powered by"
@@ -2753,6 +3068,13 @@ msgstr "Top-post patterns"
 #: templates/dashboard/account_connect.html
 msgid "Tortib olinadigan post soni"
 msgstr "Number of posts to fetch"
+
+#: templates/dashboard/settings.html
+msgid ""
+"TOTP kodlari (Google Authenticator, Authy, 1Password) bilan qo'shimcha "
+"himoya."
+msgstr ""
+"Extra protection with TOTP codes (Google Authenticator, Authy, 1Password)."
 
 #: apps/social/models.py
 msgid "True for accounts seeded by the demo generator."
@@ -2858,6 +3180,12 @@ msgstr ""
 msgid "va"
 msgstr "and"
 
+#: templates/dashboard/best_time.html
+msgid ""
+"Vaqt foydalanuvchining mahalliy zonasida. Kursorni katakka olib boring — "
+"aniq raqamlarni ko'rasiz."
+msgstr "Times are in your local timezone. Hover a cell for exact numbers."
+
 #: templates/dashboard/app.html
 msgid "Virality"
 msgstr "Virality"
@@ -2941,6 +3269,10 @@ msgstr "new"
 msgid "Yangi havola so'rash"
 msgstr "Request new link"
 
+#: templates/dashboard/two_factor.html
+msgid "Yangi maxfiy kod yaratish"
+msgstr "Generate a new secret"
+
 #: templates/account/password_reset_from_key.html
 msgid "Yangi parol"
 msgstr "New password"
@@ -2957,6 +3289,10 @@ msgstr "You can now sign in with your new password."
 #: templates/account/password_reset_from_key.html
 msgid "Yangi parolni kiriting va uni takrorlang."
 msgstr "Enter a new password and confirm it."
+
+#: templates/dashboard/post_generator.html
+msgid "Yangi post yarating"
+msgstr "Create a new post"
 
 #: templates/dashboard/competitors.html
 msgid "Yangi raqobatchi qo'shish"
@@ -3011,6 +3347,14 @@ msgstr "Dismiss"
 #: templates/dashboard/predict.html
 msgid "Yoq"
 msgstr ""
+
+#: templates/dashboard/settings.html templates/dashboard/two_factor.html
+msgid "Yoqilgan"
+msgstr "Enabled"
+
+#: templates/dashboard/settings.html templates/dashboard/two_factor.html
+msgid "Yoqish"
+msgstr "Enable"
 
 #: templates/dashboard/_shell.html templates/dashboard/help.html
 msgid "Yordam"
