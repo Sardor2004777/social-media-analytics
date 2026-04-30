@@ -105,6 +105,144 @@
       margin-top: 10px;
     }
 
+    /* Touch-friendly: ensure interactive targets hit 44px on coarse pointers */
+    @media (pointer: coarse) {
+      button, a.btn-ghost, a.btn-primary, [role="button"], input[type="checkbox"] {
+        min-height: 44px;
+      }
+      .ai-advice-btn, .copy-btn { min-height: 36px; }
+    }
+
+    /* Bottom-sheet modal pattern: when a modal has class .modal-bottom-sheet,
+       on mobile it slides up from the bottom and pins to the viewport edge.
+       Desktop falls back to a centred dialog. */
+    @media (max-width: 640px) {
+      .modal-bottom-sheet > .modal-card {
+        position: absolute !important;
+        left: 0; right: 0; bottom: 0; top: auto !important;
+        max-width: 100vw !important;
+        border-radius: 20px 20px 0 0 !important;
+        animation: sheetUp 280ms cubic-bezier(.22,.61,.36,1);
+      }
+      .modal-bottom-sheet > .modal-card::before {
+        content: "";
+        display: block;
+        width: 36px;
+        height: 4px;
+        margin: 8px auto 4px;
+        background: rgb(203 213 225);
+        border-radius: 9999px;
+      }
+      .dark .modal-bottom-sheet > .modal-card::before { background: rgb(71 85 105); }
+    }
+    @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) {
+      .modal-bottom-sheet > .modal-card { animation: none; }
+    }
+
+    /* Skip-to-content link — visible only when focused via keyboard */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 16px;
+      z-index: 200;
+      padding: 10px 16px;
+      background: #4f46e5;
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.55);
+      transition: top 200ms ease;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      top: 16px;
+      outline: 3px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    /* Focus visible — clearer ring on dark backgrounds */
+    .dark *:focus-visible {
+      outline: 2px solid #818cf8 !important;
+      outline-offset: 2px !important;
+    }
+
+    /* Dark mode contrast — ensure secondary text stays readable.
+       text-slate-400 in dark mode (rgb 148 163 184) is too low-contrast
+       on text-slate-950 backgrounds; bump to slate-300. */
+    .dark .text-slate-400 { color: rgb(186 200 215); }
+
+    /* Page fade-in on navigation — no jarring flash between pages */
+    body {
+      animation: pageFade 220ms ease;
+    }
+    @keyframes pageFade { from { opacity: 0.6; } to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { body { animation: none; } }
+
+    /* Toast stack — fixed top-right; toasts auto-dismiss after 3.5s.
+       Distinct from contrib.messages partial which uses id="toast-stack". */
+    #toast-stack-js {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      min-width: 240px;
+      max-width: 360px;
+      padding: 12px 14px 12px 12px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.18);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 14px;
+      color: #0f172a;
+      animation: toastIn 240ms cubic-bezier(.22,.61,.36,1);
+    }
+    .dark .toast { background: #0f172a; color: #e2e8f0; border-color: rgba(71, 85, 105, 0.4); }
+    .toast.toast-out { animation: toastOut 200ms ease forwards; }
+    .toast-icon {
+      flex: none; width: 20px; height: 20px; border-radius: 6px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 12px;
+    }
+    .toast-success .toast-icon { background: #10b981; }
+    .toast-error   .toast-icon { background: #ef4444; }
+    .toast-info    .toast-icon { background: #6366f1; }
+    @keyframes toastIn  { from { opacity: 0; transform: translateY(-6px) scale(0.97); } to { opacity: 1; transform: none; } }
+    @keyframes toastOut { to   { opacity: 0; transform: translateY(-6px) scale(0.97); } }
+    @media (prefers-reduced-motion: reduce) {
+      .toast, .toast.toast-out { animation: none; }
+    }
+
+    /* Card hover lift — apply via .card-lift to any .card */
+    .card-lift {
+      transition: transform 240ms cubic-bezier(.22,.61,.36,1),
+                  box-shadow 240ms ease;
+    }
+    .card-lift:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 10px 30px -12px rgba(15, 23, 42, 0.18),
+        0 4px 12px -4px rgba(15, 23, 42, 0.10);
+    }
+    .dark .card-lift:hover {
+      box-shadow:
+        0 12px 32px -10px rgba(0, 0, 0, 0.55),
+        0 4px 12px -4px rgba(0, 0, 0, 0.45);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card-lift, .card-lift:hover { transform: none; }
+    }
+
     /* AI feature blocks — unified gradient outline */
     .ai-card {
       position: relative;
@@ -156,6 +294,8 @@
 </head>
 <body class="h-full bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased overflow-x-hidden">
 
+<a href="#main-content" class="skip-link">{% trans "Asosiy mazmunga o'tish" %}</a>
+
 {% block body %}
   {% include 'partials/_navbar.html' %}
 
@@ -186,6 +326,104 @@
           .catch(function() { /* silent */ });
       });
     }
+  </script>
+
+  {% comment %}
+    Toast helper — usable from anywhere via window.toast(message, kind).
+    Also auto-attaches a loading state to any [data-submit-loading] form button:
+    on submit, the button is disabled and shows a small spinner so the user
+    knows their click registered, especially for slow AI / sync calls.
+  {% endcomment %}
+  <div id="toast-stack-js" aria-live="polite" aria-atomic="true"></div>
+  <script>
+    (function() {
+      var stack = document.getElementById('toast-stack-js');
+      window.toast = function(message, kind) {
+        if (!stack) return;
+        kind = kind || 'success';
+        var el = document.createElement('div');
+        el.className = 'toast toast-' + kind;
+        var iconChar = kind === 'success' ? '✓' : (kind === 'error' ? '!' : 'i');
+        el.innerHTML = '<span class="toast-icon">' + iconChar + '</span>' +
+                       '<span class="flex-1">' + String(message).replace(/[<>&]/g, function(c) {
+                         return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];
+                       }) + '</span>';
+        stack.appendChild(el);
+        setTimeout(function() {
+          el.classList.add('toast-out');
+          setTimeout(function() { el.remove(); }, 220);
+        }, 3500);
+      };
+
+      // Promote Django messages to toasts on page load — keeps the existing
+      // contrib.messages flow working while looking nicer.
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[data-django-message]').forEach(function(el) {
+          var lvl = el.dataset.level || 'info';
+          var kind = (lvl === 'error' || lvl === 'warning') ? 'error'
+                   : (lvl === 'success' ? 'success' : 'info');
+          window.toast(el.textContent.trim(), kind);
+          el.remove();
+        });
+      });
+
+      // Auto loading-state for forms whose submit button has data-submit-loading
+      document.addEventListener('submit', function(e) {
+        var form = e.target;
+        if (!(form instanceof HTMLFormElement)) return;
+        var btn = form.querySelector('[data-submit-loading]');
+        if (!btn) return;
+        btn.disabled = true;
+        var originalHTML = btn.innerHTML;
+        btn.dataset.originalHtml = originalHTML;
+        btn.innerHTML = '<span class="inline-flex gap-1 items-center">' +
+                        '<span class="h-1.5 w-1.5 rounded-full bg-current animate-pulse"></span>' +
+                        '<span class="h-1.5 w-1.5 rounded-full bg-current animate-pulse" style="animation-delay:.15s"></span>' +
+                        '<span class="h-1.5 w-1.5 rounded-full bg-current animate-pulse" style="animation-delay:.3s"></span>' +
+                        '</span>';
+      }, true);
+    })();
+  </script>
+
+  {% comment %}
+    Count-up animation for KPIs. Any element with data-count="N" runs from 0 → N
+    on first paint, ~700ms. Respects prefers-reduced-motion.
+  {% endcomment %}
+  <script>
+    (function() {
+      var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function fmt(v, useK) {
+        if (useK && v >= 1000) {
+          return (v >= 1000000)
+            ? (v / 1000000).toFixed(1) + 'M'
+            : (v / 1000).toFixed(v >= 10000 ? 0 : 1) + 'K';
+        }
+        return Math.round(v).toLocaleString();
+      }
+      function animate(el) {
+        var target = parseFloat(el.dataset.count);
+        if (isNaN(target)) return;
+        var useK = el.dataset.countCompact === 'true';
+        if (rm) { el.textContent = fmt(target, useK); return; }
+        var start = performance.now();
+        var dur = 700;
+        function step(now) {
+          var t = Math.min(1, (now - start) / dur);
+          var eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = fmt(target * eased, useK);
+          if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+      function start() {
+        document.querySelectorAll('[data-count]').forEach(animate);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start);
+      } else {
+        start();
+      }
+    })();
   </script>
 
   {% comment %} Drop skeleton placeholders after load so they stop animating off-screen. {% endcomment %}

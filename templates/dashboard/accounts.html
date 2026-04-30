@@ -18,21 +18,23 @@
 {# ---------- Quick stats summary ---------- #}
 {% if accounts %}
 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" data-reveal>
-  <div class="card p-4">
+  <div class="card card-lift p-4">
     <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Akkauntlar" %}</div>
-    <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white tabular">{{ accounts|length }}</div>
+    <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white tabular" data-count="{{ accounts|length }}">0</div>
   </div>
-  <div class="card p-4">
+  <div class="card card-lift p-4">
     <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Jami obunachilar" %}</div>
-    <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white tabular">{{ stats.total_followers|default:0 }}</div>
+    <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white tabular" data-count="{{ stats.total_followers|default:0 }}" data-count-compact="true">0</div>
   </div>
-  <div class="card p-4">
+  <div class="card card-lift p-4">
     <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Jami postlar" %}</div>
-    <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white tabular">{{ stats.total_posts|default:0 }}</div>
+    <div class="mt-1 text-xl font-bold text-slate-900 dark:text-white tabular" data-count="{{ stats.total_posts|default:0 }}" data-count-compact="true">0</div>
   </div>
-  <div class="card p-4">
+  <div class="card card-lift p-4">
     <div class="text-xs text-slate-500 dark:text-slate-400">{% trans "Real ulangan" %}</div>
-    <div class="mt-1 text-xl font-bold text-emerald-600 dark:text-emerald-400 tabular">{{ stats.real_count|default:0 }}<span class="text-sm font-medium text-slate-400 dark:text-slate-500"> / {{ accounts|length }}</span></div>
+    <div class="mt-1 text-xl font-bold text-emerald-600 dark:text-emerald-400 tabular">
+      <span data-count="{{ stats.real_count|default:0 }}">0</span><span class="text-sm font-medium text-slate-400 dark:text-slate-500"> / {{ accounts|length }}</span>
+    </div>
   </div>
 </div>
 {% endif %}
@@ -171,9 +173,9 @@
   </div>
 </div>
 {# AI advice modal — populated on demand from per-row buttons #}
-<div id="ai-advice-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+<div id="ai-advice-modal" class="modal-bottom-sheet fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-4">
   <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-close></div>
-  <div class="relative w-full max-w-lg card p-6 bg-white dark:bg-slate-900">
+  <div class="modal-card relative w-full max-w-lg card p-6 bg-white dark:bg-slate-900">
     <button type="button" data-close class="absolute top-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
       <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>

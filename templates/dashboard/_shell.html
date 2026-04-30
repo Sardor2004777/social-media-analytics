@@ -243,17 +243,49 @@
         </a>
       </nav>
 
-      <div class="p-4 border-t border-slate-200 dark:border-slate-800">
-        <div class="flex items-center gap-3">
+      <div class="p-4 border-t border-slate-200 dark:border-slate-800 relative"
+           x-data="{ avatarOpen: false }" @click.outside="avatarOpen = false">
+        <button type="button" @click="avatarOpen = !avatarOpen"
+                class="w-full flex items-center gap-3 rounded-lg px-1 py-1 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition text-left">
           <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-gradient text-white font-semibold text-sm shadow-sm">
             {{ user.email|slice:":1"|upper }}
           </span>
           <div class="flex-1 min-w-0">
-            <div class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ user.email|slice:":18" }}</div>
+            <div class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ user.first_name|default:user.email|slice:":18" }}</div>
             <div class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ user.email }}</div>
           </div>
-          <a href="{% url 'account_logout' %}" title="{% trans 'Chiqish' %}" class="p-2 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <svg class="h-4 w-4 text-slate-400 shrink-0 transition-transform" :class="avatarOpen ? 'rotate-180' : ''" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div x-show="avatarOpen" x-cloak
+             x-transition:enter="transition ease-out duration-150"
+             x-transition:enter-start="opacity-0 -translate-y-1"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-100"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-1"
+             class="absolute bottom-full mb-2 left-4 right-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-elevate overflow-hidden">
+          <a href="{% url 'accounts:settings' %}" class="flex items-center gap-2.5 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60">
+            <svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9"/></svg>
+            {% trans "Sozlamalar" %}
+          </a>
+          <a href="{% url 'accounts:two_factor' %}" class="flex items-center gap-2.5 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60">
+            <svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            {% trans "2FA" %}
+            {% if user.totp_enabled %}<span class="ml-auto text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">●</span>{% endif %}
+          </a>
+          <a href="{% url 'accounts:activity' %}" class="flex items-center gap-2.5 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60">
+            <svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            {% trans "Faollik tarixi" %}
+          </a>
+          <a href="{% url 'accounts:export_data' %}" class="flex items-center gap-2.5 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60">
+            <svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            {% trans "Ma'lumotlarni eksport" %}
+          </a>
+          <div class="border-t border-slate-200 dark:border-slate-700"></div>
+          <a href="{% url 'account_logout' %}" class="flex items-center gap-2.5 px-3 py-2.5 text-sm text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            {% trans "Chiqish" %}
           </a>
         </div>
       </div>
@@ -290,6 +322,14 @@
         </div>
 
         <div class="flex items-center gap-2">
+          <a href="{% url 'analytics:alerts' %}"
+             id="notif-bell"
+             title="{% trans 'Bildirishnomalar' %}"
+             class="relative p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span id="notif-badge"
+                  class="hidden absolute top-1 right-1 min-w-[16px] h-4 px-1 inline-flex items-center justify-center rounded-full bg-rose-500 text-white text-[10px] font-bold leading-none">0</span>
+          </a>
           <form action="{% url 'set_language' %}" method="post" class="hidden sm:inline-flex">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ request.get_full_path }}">
@@ -310,7 +350,7 @@
       </div>
     </header>
 
-    <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6 lg:py-8 pb-24 lg:pb-8 space-y-6">
+    <main id="main-content" tabindex="-1" class="flex-1 px-4 sm:px-6 lg:px-8 py-6 lg:py-8 pb-24 lg:pb-8 space-y-6">
       {% if messages %}
         {% include 'partials/_messages.html' %}
       {% endif %}
@@ -340,14 +380,25 @@
     }
   } catch (_) {}
 
+  function updateBadge(count) {
+    var badge = document.getElementById('notif-badge');
+    if (!badge) return;
+    if (count > 0) {
+      badge.textContent = count > 99 ? '99+' : String(count);
+      badge.classList.remove('hidden');
+    } else {
+      badge.classList.add('hidden');
+    }
+  }
+
   function poll() {
-    if (Notification.permission !== 'granted') return;
     fetch('{% url "analytics:alerts_unread_json" %}', { credentials: 'same-origin' })
       .then(function(r) { return r.ok ? r.json() : null; })
       .then(function(d) {
         if (!d || typeof d.count !== 'number') return;
+        updateBadge(d.count);
         var prev = parseInt(sessionStorage.getItem('alerts_count') || '0', 10);
-        if (d.count > prev) {
+        if (Notification.permission === 'granted' && d.count > prev) {
           new Notification('Social Analytics', {
             body: d.count + ' ta yangi tahlil bildirishnomasi',
             icon: '{% static "favicon.svg" %}',
@@ -362,7 +413,7 @@
       })
       .catch(function() { /* silent */ });
   }
-  setTimeout(poll, 2500);
+  setTimeout(poll, 1500);
   setInterval(poll, 60_000);
 })();
 </script>

@@ -67,7 +67,7 @@
         <input type="text" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required
                placeholder="000000"
                class="field-input text-center text-2xl tracking-widest font-mono">
-        <button type="submit" class="btn-primary btn-full">{% trans "Yoqish" %}</button>
+        <button type="submit" data-submit-loading class="btn-primary btn-full">{% trans "Yoqish" %}</button>
         <button type="submit" name="action" value="regenerate" formnovalidate
                 class="btn-ghost btn-full !text-xs">
           {% trans "Yangi maxfiy kod yaratish" %}
