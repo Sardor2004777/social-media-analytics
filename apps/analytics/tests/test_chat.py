@@ -80,7 +80,9 @@ def test_build_context_multiple_accounts(user) -> None:
 
 # ---------- ask error paths ----------
 
-@override_settings(OPENAI_API_KEY="")
+@override_settings(OPENAI_API_KEY="", OPENAI_BACKUP_API_KEY="")
 def test_ask_raises_without_key(user) -> None:
-    with pytest.raises(ChatNotConfigured, match="OPENAI_API_KEY"):
+    # When both primary and backup keys are missing, ask() falls through
+    # to the backup, which raises ChatNotConfigured about OPENAI_BACKUP_API_KEY.
+    with pytest.raises(ChatNotConfigured, match="OPENAI_BACKUP_API_KEY"):
         ask(user, "anything")

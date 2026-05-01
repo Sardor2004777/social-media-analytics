@@ -1,12 +1,13 @@
 """Smoke tests for the dashboard page surface.
 
-Covers all the new pages added in the T1–T3 batch (post generator,
-best-time, hashtags, 2FA, activity, plus the saved-views API). Goal is
-to catch obvious 500s — they all should return 200 (or 302 to login)
-for a fresh authenticated user, even when there is no data.
+Covers every live URL in the app — best-time heatmap, 2FA setup,
+activity log, settings, AI chat/digest, sentiment, top posts,
+competitors, reports, plus the saved-views API. Goal is to catch
+obvious 500s: each should return 200 (or 302 to login) for a fresh
+authenticated user, even when there is no data.
 
-These tests intentionally don't assert on body content; they exist to
-keep the URL/view wiring honest as the codebase grows.
+These tests don't assert on body content; they exist to keep the
+URL/view wiring honest as the codebase grows.
 """
 from __future__ import annotations
 
