@@ -77,7 +77,16 @@
           </button>
           <div x-show="open" x-cloak x-transition.opacity
                class="absolute right-0 top-full mt-2 w-44 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-card overflow-hidden z-50">
-            <form action="{% url 'set_language' %}" method="post">
+            <form action="{% url 'set_language' %}" method="post"
+                  x-data
+                  @submit="
+                    /* Django's translate_url() can't resolve a URL whose
+                       prefix doesn't match the currently-active language,
+                       so switching from /en/ to /ru/ silently keeps you on
+                       /en/. Strip any leading /uz/, /ru/, /en/ before submit
+                       so Django reverses cleanly under the new language. */
+                    var n = $el.querySelector('input[name=next]');
+                    if (n) n.value = (n.value || '/').replace(/^\/(uz|ru|en)(\/|$)/, '/');">
               {% csrf_token %}
               <input type="hidden" name="next" value="{{ request.get_full_path }}">
               <button type="submit" name="language" value="uz"

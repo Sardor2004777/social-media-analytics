@@ -14,9 +14,16 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
+from .views_i18n import set_language as robust_set_language
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
+    # Robust set_language wrapper — strips foreign /xx/ prefix from `next`
+    # before delegating to Django, so switching from /en/ to /ru/ doesn't
+    # bounce back to /en/. Must be defined BEFORE the include below to win
+    # the URL match.
+    path("i18n/setlang/", robust_set_language, name="set_language"),
     path("i18n/", include("django.conf.urls.i18n")),
     # REST API (no language prefix — content-negotiable via Accept-Language header)
     path("api/v1/", include("apps.api.urls")),

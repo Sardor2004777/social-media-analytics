@@ -103,7 +103,8 @@
     <section id="language" class="card p-6">
       <h2 class="text-lg font-semibold text-slate-900 dark:text-white">{% trans "Interfeys tili" %}</h2>
       <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">{% trans "Sahifadagi yuqori paneldan tilni istagan vaqtda o'zgartirishingiz mumkin." %}</p>
-      <form action="{% url 'set_language' %}" method="post" class="mt-4 flex items-center gap-3">
+      <form action="{% url 'set_language' %}" method="post" class="mt-4 flex items-center gap-3"
+            onsubmit="var n=this.querySelector('input[name=next]'); if(n) n.value=(n.value||'/').replace(/^\/(uz|ru|en)(\/|$)/,'/');">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
         <select name="language" class="field-input !w-auto">
