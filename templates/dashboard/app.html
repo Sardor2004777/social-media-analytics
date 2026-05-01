@@ -60,7 +60,6 @@
   {% trans "Analytics + AI Insight" as t_s2_title %}{{ t_s2_title|json_script:"t-2-title" }}
   {% trans "Analytics sahifada KPI'lar tepasida AI maslahat tugmasi — 30 kunlik xulosa va keyingi qadam." as t_s2_body %}{{ t_s2_body|json_script:"t-2-body" }}
   {% trans "Tabiiy tilda savol bering: AI sizning real ma'lumotingiz asosida javob beradi." as t_s3_body %}{{ t_s3_body|json_script:"t-3-body" }}
-  {% trans "Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi — copy-paste qilib darhol joylashtirishingiz mumkin." as t_s4_body %}{{ t_s4_body|json_script:"t-4-body" }}
   {% trans "Eng yaxshi vaqt" as t_s5_title %}{{ t_s5_title|json_script:"t-5-title" }}
   {% trans "7×24 heatmap qaysi kun va soatda postingiz eng ko'p engagement olganini ko'rsatadi." as t_s5_body %}{{ t_s5_body|json_script:"t-5-body" }}
   {% trans "Hashtag tahlili" as t_s6_title %}{{ t_s6_title|json_script:"t-6-title" }}
@@ -79,7 +78,6 @@
         { title: '🔗 ' + _t_('t-1-title'),  body: _t_('t-1-body') },
         { title: '📊 ' + _t_('t-2-title'),  body: _t_('t-2-body') },
         { title: '💬 AI Chat',              body: _t_('t-3-body') },
-        { title: '✨ AI Post Generator',    body: _t_('t-4-body') },
         { title: '🕐 ' + _t_('t-5-title'),  body: _t_('t-5-body') },
         { title: '🏷️ ' + _t_('t-6-title'),  body: _t_('t-6-body') },
         { title: '🆘 ' + _t_('t-h-title'),  body: _t_('t-h-body') },
@@ -241,33 +239,6 @@
       </ul>
     </div>
   </div>
-
-  {# ----- OPTIMAL POSTING AI ----- #}
-  {% if best_recipe %}
-  <div class="rounded-2xl border border-brand-200 dark:border-brand-800/60 bg-gradient-to-br from-brand-50 via-white to-indigo-50 dark:from-brand-950/40 dark:via-slate-900 dark:to-indigo-950/30 p-6 sm:p-8 relative overflow-hidden" data-reveal>
-    <div class="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-brand-500/10 blur-3xl pointer-events-none"></div>
-    <div class="relative flex flex-col md:flex-row md:items-center gap-6">
-      <div class="shrink-0 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-indigo-600 text-white shadow-glow-brand">
-        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-      </div>
-      <div class="flex-1 min-w-0">
-        <div class="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">{% trans "Optimal Posting AI" %}</div>
-        <h3 class="mt-1 text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-          {% blocktrans with day=best_recipe.weekday hr=best_recipe.hour %}{{ day }} kuni soat {{ hr }}:00 da post chiqaring{% endblocktrans %}
-        </h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-          {% blocktrans with cl=best_recipe.caption_len hc=best_recipe.hashtag_count %}~{{ cl }} belgili caption · {{ hc }} ta hashtag{% endblocktrans %}
-          {% if best_recipe.has_media %} · {% trans "media (rasm/video) bilan" %}{% else %} · {% trans "faqat matn" %}{% endif %}
-          → <strong class="text-brand-700 dark:text-brand-300">{% blocktrans with n=best_recipe.expected_likes %}~{{ n }} layk kutiladi{% endblocktrans %}</strong>
-        </p>
-      </div>
-      <a href="{% url 'analytics:predict' %}" class="btn-ghost !text-xs whitespace-nowrap shrink-0">
-        {% trans "ML model bilan o'ynash" %}
-        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-  {% endif %}
 
   {# ----- AUDIENCE GROWTH ----- #}
   {% if audience_growth.series.0 %}

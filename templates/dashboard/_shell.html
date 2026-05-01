@@ -109,16 +109,6 @@
           {% trans "AI Chat" %}
         </a>
 
-        <a href="{% url 'analytics:post_generator' %}"
-           class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
-                  {% if active_nav == 'post_generator' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300
-                  {% else %}text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
-          <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-fuchsia-500/15 to-violet-500/15 text-fuchsia-600 dark:text-fuchsia-400">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4z"/></svg>
-          </span>
-          {% trans "Post Generator" %}
-          <span class="ml-auto inline-flex items-center rounded-full bg-fuchsia-100 dark:bg-fuchsia-900/40 px-2 py-0.5 text-[10px] font-medium text-fuchsia-700 dark:text-fuchsia-400">AI</span>
-        </a>
 
         <a href="{% url 'analytics:digest' %}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
@@ -128,17 +118,6 @@
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           </span>
           {% trans "AI Xulosa" %}
-        </a>
-
-        <a href="{% url 'analytics:predict' %}"
-           class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
-                  {% if active_nav == 'predict' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300
-                  {% else %}text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
-          <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-cyan-500/20 to-blue-500/20 text-cyan-600 dark:text-cyan-400">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          </span>
-          {% trans "ML Bashorat" %}
-          <span class="ml-auto inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">ML</span>
         </a>
 
         <a href="{% url 'analytics:best_time' %}"
@@ -179,26 +158,6 @@
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
           </span>
           {% trans "Raqobatchilar" %}
-        </a>
-
-        <a href="{% url 'analytics:clusters' %}"
-           class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
-                  {% if active_nav == 'clusters' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300
-                  {% else %}text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
-          <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-indigo-500/15 to-violet-500/15 text-indigo-600 dark:text-indigo-400">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><line x1="6" y1="9" x2="11" y2="15"/><line x1="18" y1="9" x2="13" y2="15"/></svg>
-          </span>
-          {% trans "Klasterlar" %}
-        </a>
-
-        <a href="{% url 'analytics:correlation' %}"
-           class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
-                  {% if active_nav == 'correlation' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300
-                  {% else %}text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
-          <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-blue-500/15 to-sky-500/15 text-blue-600 dark:text-blue-400">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/><circle cx="7" cy="17" r="1.5"/><circle cx="11" cy="14" r="1.5"/><circle cx="15" cy="9" r="1.5"/><circle cx="18" cy="6" r="1.5"/></svg>
-          </span>
-          {% trans "Korrelyatsiya" %}
         </a>
 
         <a href="{% url 'analytics:top_posts' %}"

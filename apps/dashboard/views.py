@@ -31,29 +31,6 @@ from apps.collectors.models import Comment
 from apps.social.models import ConnectedAccount, FollowerSnapshot, Platform, Post, PostType
 
 
-def _safe_best_post_recipe(user):
-    """Wrap best_post_recipe so the dashboard never crashes if sklearn
-    blows up on weird data — log + return None and the template hides it.
-
-    Cached per-user for 5 minutes — the recipe only changes when new posts
-    arrive, which happens at most every 6h via Celery Beat. The cached
-    result also avoids re-fitting the regression on every page load.
-    """
-    cache_key = f"best_recipe:{user.id}"
-    hit = cache.get(cache_key)
-    if hit is not None:
-        return hit if hit != "__none__" else None
-    try:
-        from apps.analytics.services.predict import best_post_recipe
-        result = best_post_recipe(user)
-    except Exception:
-        import logging
-        logging.getLogger(__name__).exception("best_post_recipe failed")
-        result = None
-    cache.set(cache_key, result if result is not None else "__none__", 300)
-    return result
-
-
 POST_TYPE_LABELS = {
     PostType.PHOTO:        "Rasmlar",
     PostType.VIDEO:        "Videolar",
@@ -238,9 +215,6 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         "has_views":       qv > 0,
     }
 
-    # ---------------- Optimal Posting AI (heatmap + ML grid search) -----------
-    best_recipe = _safe_best_post_recipe(user)
-
     # ---------------- Audience growth (follower snapshots last 30 days) -----
     growth_window = 30
     growth_start = (now - timedelta(days=growth_window - 1)).date()
@@ -377,7 +351,6 @@ def dashboard_app(request: HttpRequest) -> HttpResponse:
         "recommendations": recommendations,
         "has_only_demo":   has_only_demo,
         "quality":              quality,
-        "best_recipe":          best_recipe,
         "cross_platform":       cross_platform,
         "cross_platform_winner": cross_platform_winner,
         "pattern_insights":     pattern_insights,

@@ -47,11 +47,7 @@ def client(user):
     "analytics:compare",
     "analytics:chat",
     "analytics:digest",
-    "analytics:predict",
-    "analytics:correlation",
-    "analytics:clusters",
     "analytics:alerts",
-    "analytics:post_generator",
     "analytics:best_time",
     "analytics:hashtags",
     "accounts:settings",
@@ -70,7 +66,7 @@ def test_dashboard_pages_render(client, urlname):
 @pytest.mark.parametrize("urlname", [
     "dashboard:app",
     "analytics:chat",
-    "analytics:post_generator",
+    "analytics:best_time",
     "accounts:two_factor",
 ])
 def test_dashboard_pages_require_login(urlname):

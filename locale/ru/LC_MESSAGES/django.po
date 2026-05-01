@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: social-analytics 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-30 11:22+0000\n"
-"PO-Revision-Date: 2026-04-30 11:22+0000\n"
+"POT-Creation-Date: 2026-05-01 11:07+0000\n"
+"PO-Revision-Date: 2026-05-01 11:07+0000\n"
 "Last-Translator: social-analytics i18n_compile.py\n"
 "Language-Team: ru\n"
 "Language: ru\n"
@@ -12,10 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: templates/dashboard/app.html
-msgid "%(day)s kuni soat %(hr)s:00 da post chiqaring"
-msgstr "Публикуйте в %(day)s в %(hr)s:00"
 
 #: templates/dashboard/analytics.html
 msgid ""
@@ -38,14 +34,6 @@ msgstr ""
 "%(n)s постов найдено — измените фильтр или сортировку.\n"
 "        {% plural %}\n"
 "          %(n)s постов найдено — измените фильтр или сортировку."
-
-#: templates/dashboard/clusters.html
-msgid ""
-"%(sz)s ta post o'rtacha engagement %(eng)s%. Shu mavzudagi postlarni "
-"ko'paytirish maqsadga muvofiq."
-msgstr ""
-"%(sz)s постов в среднем %(eng)s%% вовлечённости. Публикуйте больше на эту "
-"тему."
 
 #: apps/social/models.py
 msgid "(likes + comments + shares) / views"
@@ -131,10 +119,6 @@ msgstr "3 / 3 — пароль двухэтапной проверки"
 #: templates/dashboard/landing.html
 msgid "3 qadamda boshlang"
 msgstr "Начните за 3 шага"
-
-#: templates/dashboard/post_generator.html
-msgid "3 ta variant yaratish"
-msgstr "Создать 3 варианта"
 
 #: templates/dashboard/landing.html
 msgid "3 tilli interfeys"
@@ -277,10 +261,6 @@ msgstr "Админ"
 msgid "Administrator"
 msgstr "Администратор"
 
-#: templates/dashboard/post_generator.html
-msgid "Administrator OPENAI_API_KEY env var'ni sozlashi kerak."
-msgstr "Администратор должен настроить переменную OPENAI_API_KEY."
-
 #: templates/account/email/email_confirmation_message.html
 #: templates/account/email/password_reset_key_message.html
 msgid "Agar tugma ishlamasa, quyidagi havolani brauzeringizga nusxalang:"
@@ -309,10 +289,6 @@ msgstr ""
 msgid "AI Haftalik Xulosa"
 msgstr "AI Недельная сводка"
 
-#: templates/dashboard/post_generator.html
-msgid "AI hali sozlanmagan"
-msgstr "AI ещё не настроен"
-
 #: apps/analytics/views.py
 msgid "AI hali sozlanmagan."
 msgstr "AI ещё не настроен."
@@ -325,21 +301,9 @@ msgstr "Почему AI-отчёты платные?"
 msgid "AI maslahat"
 msgstr "AI совет"
 
-#: templates/dashboard/post_generator.html
-msgid "AI Post Generator"
-msgstr "AI Генератор Постов"
-
 #: templates/account/base.html templates/dashboard/landing.html
 msgid "AI sentiment tahlili"
 msgstr "AI-анализ настроений"
-
-#: templates/dashboard/post_generator.html
-msgid ""
-"AI sizning eng top postlaringizning uslubini, uzunligini va emoji "
-"pattern'ini o'rganib, 3 ta yangi caption taklif qiladi."
-msgstr ""
-"AI изучит стиль, длину и шаблон эмодзи ваших лучших постов и предложит 3 "
-"новых варианта."
 
 #: templates/dashboard/ai_digest.html
 msgid "AI sozlanmagan"
@@ -474,10 +438,6 @@ msgstr "Удалить аккаунт (все данные удаляются)."
 msgid "Akkauntni public link orqali ulashish"
 msgstr "Поделиться аккаунтом через публичную ссылку"
 
-#: templates/dashboard/correlation.html
-msgid "Aloqa kuchsiz"
-msgstr "Слабая корреляция"
-
 #: templates/dashboard/help.html
 msgid ""
 "Analitika sahifalarida chuqur tahlil — heatmap, post turi, sentiment, ML "
@@ -555,13 +515,6 @@ msgstr "Рост аудитории"
 msgid "Auditoriya postdan oxirgi harakatga qadar qanday qisqaradi"
 msgstr "Как аудитория сужается от просмотра к репосту"
 
-#: templates/dashboard/correlation.html
-msgid ""
-"auditoriya qarama-qarshi reaksiya beradigan postlarga ko'proq munosabat "
-"bildiradi."
-msgstr ""
-"аудитория сильнее реагирует на посты, вызывающие противоположную реакцию."
-
 #: templates/dashboard/landing.html
 msgid "Auditoriyani tushuning, qaysi kontent ishlayotganini biling."
 msgstr "Поймите аудиторию и узнайте, какой контент работает."
@@ -577,10 +530,6 @@ msgstr "Автоматически"
 #: apps/analytics/views.py
 msgid "Avval kamida bitta ijtimoiy tarmoq akkauntini ulang."
 msgstr "Сначала подключите хотя бы один аккаунт соцсети."
-
-#: apps/analytics/views.py
-msgid "Avval kamida bitta postingiz bo'lishi kerak."
-msgstr "Сначала нужен хотя бы один пост."
 
 #: apps/accounts/views.py
 msgid "Avval QR kodni Authenticatorga qo'shing, keyin tasdiqlang."
@@ -626,14 +575,6 @@ msgstr "Все"
 #: templates/dashboard/landing.html
 msgid "Barchasi bir dashboardda."
 msgstr "Всё на одной панели."
-
-#: templates/dashboard/predict.html
-msgid "Bashorat qilish"
-msgstr "Прогноз"
-
-#: templates/dashboard/predict.html
-msgid "Bashorat tayyor emas"
-msgstr "Прогноз ещё не готов"
 
 #: templates/account/logout.html templates/dashboard/account_connect.html
 #: templates/dashboard/accounts.html templates/dashboard/delete_account.html
@@ -724,10 +665,6 @@ msgstr ""
 #: templates/dashboard/landing.html
 msgid "Bloggerlar"
 msgstr "Блогеры"
-
-#: templates/dashboard/correlation.html
-msgid "bog'liqlik bor, lekin to'liq emas. Boshqa omillar ham ta'sir qiladi."
-msgstr "связь есть, но не полная. Другие факторы тоже влияют."
 
 #: templates/dashboard/_shell.html
 msgid "Bosh"
@@ -825,10 +762,6 @@ msgstr "Начните сегодня"
 msgid "Buyruqlar paneli"
 msgstr "Командная палитра"
 
-#: templates/dashboard/predict.html
-msgid "Caption uzunligi"
-msgstr "Длина подписи"
-
 #: templates/dashboard/analytics.html
 msgid "Caption uzunligi vs engagement (so'nggi 30 kun)"
 msgstr "Длина подписи vs вовлечённость (30 дней)"
@@ -836,10 +769,6 @@ msgstr "Длина подписи vs вовлечённость (30 дней)"
 #: apps/analytics/views.py
 msgid "Ch"
 msgstr "Ср"
-
-#: templates/dashboard/predict.html
-msgid "Chap tomondagi formani to'ldirib 'Bashorat qilish' tugmasini bosing."
-msgstr "Заполните форму слева и нажмите 'Прогноз'."
 
 #: templates/account/logout.html templates/dashboard/_shell.html
 #: templates/dashboard/settings.html templates/partials/_command_palette.html
@@ -851,7 +780,6 @@ msgstr "Выйти"
 msgid "Chiqishni tasdiqlaysizmi?"
 msgstr "Подтвердить выход?"
 
-#: apps/analytics/services/predict.py
 #: apps/analytics/services/recommendations.py apps/analytics/views.py
 msgid "Chorshanba"
 msgstr "Среда"
@@ -961,7 +889,6 @@ msgstr "Доля комментариев"
 msgid "Du"
 msgstr "Пн"
 
-#: apps/analytics/services/predict.py
 #: apps/analytics/services/recommendations.py apps/analytics/views.py
 msgid "Dushanba"
 msgstr "Понедельник"
@@ -1065,25 +992,17 @@ msgstr "Самые позитивные комментарии"
 msgid "Eng pozitiv kontent"
 msgstr "Самый позитивный контент"
 
-#: templates/dashboard/clusters.html
-msgid "Eng samarali klaster:"
-msgstr "Лучший кластер:"
-
 #: apps/analytics/views.py
 msgid "Eng yangilari"
 msgstr "Сначала свежие"
 
-#: templates/dashboard/best_time.html templates/dashboard/clusters.html
+#: templates/dashboard/best_time.html
 msgid "Eng yaxshi"
 msgstr "Лучший"
 
 #: templates/dashboard/app.html
 msgid "Eng yaxshi 25% post o'rtasidagi qiymatlar (qolganlariga nisbatan)"
 msgstr "Средние в топ-25% постов (vs остальных)"
-
-#: templates/dashboard/clusters.html
-msgid "Eng yaxshi namuna"
-msgstr "Лучший пример"
 
 #: templates/dashboard/chat.html
 msgid "Eng yaxshi platforma?"
@@ -1092,18 +1011,6 @@ msgstr "Лучшая платформа?"
 #: templates/dashboard/analytics.html
 msgid "Eng yaxshi postlar (top 20)"
 msgstr "Лучшие посты (топ 20)"
-
-#: templates/dashboard/app.html
-msgid ""
-"Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi — copy-paste "
-"qilib darhol joylashtirishingiz mumkin."
-msgstr ""
-"Три новых варианта подписей в стиле ваших лучших постов — скопируйте и "
-"публикуйте сразу."
-
-#: templates/dashboard/post_generator.html
-msgid "Eng yaxshi postlaringiz uslubida 3 ta yangi caption taklifi."
-msgstr "Три новых варианта подписи в стиле ваших лучших постов."
 
 #: templates/dashboard/_shell.html templates/dashboard/analytics.html
 #: templates/dashboard/app.html templates/dashboard/best_time.html
@@ -1126,14 +1033,6 @@ msgstr "Engagement"
 #: templates/dashboard/analytics.html
 msgid "Engagement (hozirgi)"
 msgstr "Вовлечённость (текущая)"
-
-#: templates/dashboard/predict.html
-msgid "Engagement Bashorati"
-msgstr "Прогноз вовлечённости"
-
-#: templates/dashboard/predict.html
-msgid "Engagement bashorati"
-msgstr "Прогноз вовлечённости"
 
 #: templates/dashboard/public_share.html
 msgid "Engagement bo'yicha eng yaxshi 10 ta"
@@ -1158,10 +1057,6 @@ msgstr "Вовлечённость"
 #: apps/analytics/services/recommendations.py apps/dashboard/views.py
 msgid "Engagement {pct}% — top post"
 msgstr "Вовлечённость {pct}% — топ-пост"
-
-#: templates/dashboard/predict.html
-msgid "Engagementga eng ko'p ta'sir qiluvchi xususiyatlar"
-msgstr "Признаки с наибольшим влиянием на вовлечённость"
 
 #: templates/dashboard/chat.html
 msgid "env var'ni sozlashi kerak. Kalitni"
@@ -1235,10 +1130,6 @@ msgstr "История активности"
 msgid "Faollik ulushi"
 msgstr "Доля активности"
 
-#: templates/dashboard/app.html
-msgid "faqat matn"
-msgstr "только текст"
-
 #: templates/dashboard/top_posts.html
 msgid "Filterga nom bering:"
 msgstr "Назовите фильтр:"
@@ -1291,10 +1182,6 @@ msgstr ""
 msgid "Guruhlar"
 msgstr "Группы"
 
-#: templates/dashboard/predict.html
-msgid "Ha"
-msgstr "Да"
-
 #: templates/dashboard/help.html
 msgid ""
 "Ha — Settings → Ma'lumotlarni eksport (GDPR JSON), yoki Reports sahifasidan "
@@ -1321,10 +1208,6 @@ msgid ""
 "karta kerak emas."
 msgstr ""
 "Да, проект полностью бесплатный — это дипломная работа. Карта не нужна."
-
-#: templates/dashboard/predict.html
-msgid "Hafta kuni"
-msgstr "День недели"
 
 #: templates/dashboard/analytics.html
 msgid "Hafta kuni × soat — engagement bo'yicha (so'nggi 30 kun)"
@@ -1434,10 +1317,6 @@ msgstr "При каждом входе будет требоваться код.
 #: templates/dashboard/hashtags.html
 msgid "Hashtag"
 msgstr "Хештег"
-
-#: templates/dashboard/predict.html
-msgid "Hashtag soni"
-msgstr "Кол-во хештегов"
 
 #: templates/dashboard/_shell.html templates/dashboard/app.html
 #: templates/dashboard/hashtags.html
@@ -1665,7 +1544,6 @@ msgstr "Очень сильный"
 msgid "Juda zaif"
 msgstr "Очень слабый"
 
-#: apps/analytics/services/predict.py
 #: apps/analytics/services/recommendations.py apps/analytics/views.py
 msgid "Juma"
 msgstr "Пятница"
@@ -1742,14 +1620,6 @@ msgstr "Вернуться ко входу"
 #: templates/account/login.html
 msgid "Kiryapti..."
 msgstr "Вход..."
-
-#: templates/dashboard/clusters.html
-msgid "Klaster"
-msgstr "Кластер"
-
-#: templates/dashboard/_shell.html
-msgid "Klasterlar"
-msgstr "Кластеры"
 
 #: templates/dashboard/help.html
 msgid "Klaviatura yorliqlari"
@@ -1833,14 +1703,6 @@ msgstr "Доля контента"
 msgid "Korishlar"
 msgstr "Просмотры"
 
-#: templates/dashboard/_shell.html templates/dashboard/correlation.html
-msgid "Korrelyatsiya"
-msgstr "Корреляция"
-
-#: templates/dashboard/correlation.html
-msgid "Korrelyatsiya hisoblash uchun kommentli postlardan kamida 5 ta kerak."
-msgstr "Для расчёта корреляции нужно минимум 5 постов с комментариями."
-
 #: templates/dashboard/settings.html
 msgid "Korsatish"
 msgstr "Показать"
@@ -1861,21 +1723,9 @@ msgstr "Карта не нужна. Начните прямо сейчас."
 msgid "Kuchli"
 msgstr "Сильный"
 
-#: templates/dashboard/correlation.html
-msgid "Kuchli pozitiv korrelyatsiya"
-msgstr "Сильная положительная корреляция"
-
-#: templates/dashboard/correlation.html
-msgid "Kuchli salbiy korrelyatsiya"
-msgstr "Сильная отрицательная корреляция"
-
 #: templates/dashboard/app.html templates/dashboard/top_posts.html
 msgid "kun"
 msgstr "дней"
-
-#: templates/dashboard/predict.html
-msgid "Kutilgan natija"
-msgstr "Ожидаемый результат"
 
 #: templates/dashboard/analytics.html
 msgid "Layklar"
@@ -1900,14 +1750,6 @@ msgstr "Лайки / Просмотры"
 #: templates/dashboard/ai_digest.html
 msgid "Limit: 6 ta so'rov / soatda · ~3-5 soniya kutish"
 msgstr "Лимит: 6 запросов / час · ~3-5 сек ожидания"
-
-#: templates/dashboard/predict.html
-msgid ""
-"Linear Regression sizning postlaringiz tarixini o'rganib, kelgusi post "
-"engagement'ini bashorat qiladi."
-msgstr ""
-"Линейная регрессия обучается на ваших постах и прогнозирует вовлечённость "
-"следующего."
 
 #: templates/dashboard/landing.html
 msgid "Loyiha holati"
@@ -1992,10 +1834,6 @@ msgstr "Например:"
 msgid "Maslahat olish"
 msgstr "Получить совет"
 
-#: templates/dashboard/predict.html
-msgid "Maslahat:"
-msgstr "Совет:"
-
 #: apps/analytics/views.py
 msgid "Matn bo'sh."
 msgstr "Текст пуст."
@@ -2007,10 +1845,6 @@ msgstr "текстовые посты"
 #: templates/dashboard/settings.html templates/partials/_command_palette.html
 msgid "Mavzu"
 msgstr "Тема"
-
-#: templates/dashboard/clusters.html
-msgid "Mavzu klasterlari"
-msgstr "Кластеры тем"
 
 #: templates/dashboard/sentiment.html
 msgid "Mavzu × Sentiment matritsasi"
@@ -2027,14 +1861,6 @@ msgstr "Политика конфиденциальности"
 #: templates/account/signup.html
 msgid "Maxsus belgi (!@#$ ...)"
 msgstr "Спецсимвол (!@#$ ...)"
-
-#: templates/dashboard/app.html
-msgid "media (rasm/video) bilan"
-msgstr "с медиа (фото/видео)"
-
-#: templates/dashboard/predict.html
-msgid "Media bormi?"
-msgstr "Есть медиа?"
 
 #: templates/account/signup.html
 msgid "Men"
@@ -2060,15 +1886,6 @@ msgstr "Меню"
 msgid "Mijozlarga aniq hisobotlar, kampaniyalar samaradorligi."
 msgstr "Чёткие отчёты для клиентов, эффективность кампаний."
 
-#: templates/dashboard/_shell.html templates/dashboard/help.html
-#: templates/dashboard/predict.html
-msgid "ML Bashorat"
-msgstr "ML Прогноз"
-
-#: templates/dashboard/app.html
-msgid "ML model bilan o'ynash"
-msgstr "Настроить ML-модель"
-
 #: templates/dashboard/help.html
 msgid "ML model qancha aniq?"
 msgstr "Насколько точна ML-модель?"
@@ -2076,20 +1893,6 @@ msgstr "Насколько точна ML-модель?"
 #: templates/partials/_navbar.html
 msgid "Mobil menyu"
 msgstr "Мобильное меню"
-
-#: templates/dashboard/predict.html
-msgid "Model sifati (R²)"
-msgstr "Качество модели (R²)"
-
-#: templates/dashboard/predict.html
-msgid ""
-"Model — sklearn.linear_model.LinearRegression. Target — log1p(likes). "
-"Inputlar: hafta kuni, soat, caption uzunligi, hashtag soni, media "
-"mavjudligi. Real-time, har so'rovda qayta o'qitadi (~50ms)."
-msgstr ""
-"Модель — sklearn.linear_model.LinearRegression. Таргет — log1p(likes). "
-"Входы: день недели, час, длина подписи, количество хештегов, наличие медиа. "
-"Real-time, переобучается на каждый запрос (~50мс)."
 
 #: templates/dashboard/ai_digest.html
 msgid "Model:"
@@ -2138,14 +1941,6 @@ msgstr "Что вы ищете?"
 msgid "Noma'lum amal."
 msgstr "Неизвестное действие."
 
-#: templates/dashboard/post_generator.html
-msgid "Nusxa"
-msgstr "Копия"
-
-#: templates/dashboard/post_generator.html
-msgid "Nusxa olish"
-msgstr "Скопировать"
-
 #: templates/dashboard/settings.html
 msgid "Nusxalandi"
 msgstr "Скопировано"
@@ -2162,30 +1957,9 @@ msgstr "Выключено"
 msgid "O'chirish"
 msgstr "Удалить"
 
-#: templates/dashboard/predict.html
-msgid "O'rganilgan postlar:"
-msgstr "Обучено на постах:"
-
-#: templates/dashboard/clusters.html
-msgid "O'rt. engagement"
-msgstr "Сред. вовлечённость"
-
-#: templates/dashboard/clusters.html
-msgid "O'rt. likes"
-msgstr "Сред. лайки"
-
 #: templates/dashboard/best_time.html templates/dashboard/hashtags.html
 msgid "O'rtacha engagement"
 msgstr "Средняя вовлечённость"
-
-#: templates/dashboard/correlation.html
-msgid "O'rtacha pozitiv korrelyatsiya"
-msgstr "Умеренная положительная корреляция"
-
-#: templates/dashboard/predict.html
-msgid "O'rtacha — bashorat taxminiy. Ko'proq post yiglinsa aniqlik oshadi."
-msgstr ""
-"Средний — прогноз приблизительный. С большим числом постов точность выше."
 
 #: templates/dashboard/analytics.html
 msgid "o'sdi"
@@ -2285,10 +2059,6 @@ msgstr ""
 #: templates/dashboard/ai_digest.html
 msgid "OPENAI_API_KEY env var sozlanishi kerak."
 msgstr "Должна быть настроена переменная OPENAI_API_KEY."
-
-#: templates/dashboard/app.html
-msgid "Optimal Posting AI"
-msgstr "Optimal Posting AI"
 
 #: templates/404.html templates/dashboard/app.html
 msgid "Orqaga"
@@ -2429,17 +2199,10 @@ msgstr "Забыли пароль?"
 msgid "Parolni yashirish"
 msgstr "Скрыть пароль"
 
-#: templates/dashboard/predict.html
-msgid ""
-"Past — engagement tasodifiy. Ko'proq post yoki o'xshash ma'lumot kerak."
-msgstr ""
-"Низкое — вовлечённость случайна. Нужно больше постов или подобных данных."
-
 #: templates/dashboard/landing.html
 msgid "pastga"
 msgstr "вниз"
 
-#: apps/analytics/services/predict.py
 #: apps/analytics/services/recommendations.py apps/analytics/views.py
 msgid "Payshanba"
 msgstr "Четверг"
@@ -2459,10 +2222,6 @@ msgstr "Скачать PDF"
 #: templates/dashboard/landing.html
 msgid "PDF, Excel, CSV"
 msgstr "PDF, Excel, CSV"
-
-#: templates/dashboard/correlation.html
-msgid "Pearson r"
-msgstr "Pearson r"
 
 #: apps/social/models.py
 msgid "Platform-side account id"
@@ -2528,10 +2287,6 @@ msgstr "Частота постов"
 msgid "Post chastotasini oshiring"
 msgstr "Увеличьте частоту постов"
 
-#: templates/dashboard/_shell.html
-msgid "Post Generator"
-msgstr "Генератор Постов"
-
 #: templates/dashboard/best_time.html
 msgid "Post qo'yish uchun eng yaxshi vaqt"
 msgstr "Лучшее время для публикации"
@@ -2552,10 +2307,6 @@ msgstr "По типу поста"
 msgid "Post uzunligi tahlili"
 msgstr "Анализ длины поста"
 
-#: templates/dashboard/predict.html
-msgid "Post xususiyatlari"
-msgstr "Признаки поста"
-
 #: templates/dashboard/landing.html
 msgid ""
 "PostgreSQL (prod) yoki SQLite (dev) ma'lumotlar bazasida. OAuth tokenlari "
@@ -2573,8 +2324,7 @@ msgstr ""
 "удалении аккаунта всё удаляется каскадно."
 
 #: templates/dashboard/accounts.html templates/dashboard/analytics.html
-#: templates/dashboard/app.html templates/dashboard/clusters.html
-#: templates/dashboard/compare.html templates/dashboard/correlation.html
+#: templates/dashboard/app.html templates/dashboard/compare.html
 #: templates/dashboard/hashtags.html templates/dashboard/landing.html
 #: templates/dashboard/public_share.html templates/dashboard/reports.html
 msgid "Postlar"
@@ -2612,14 +2362,6 @@ msgstr ""
 "Либо в подписях нет хештегов, либо ни один не был использован 2+ раз. "
 "Добавьте хештеги и публикуйте чаще — страница заполнится."
 
-#: templates/dashboard/clusters.html
-msgid ""
-"Postlaringiz mavzu bo'yicha avtomatik guruhlanadi va har klaster "
-"engagement'i taqqoslanadi."
-msgstr ""
-"Посты автоматически группируются по теме, и сравнивается вовлечённость "
-"каждого кластера."
-
 #: apps/analytics/services/recommendations.py
 msgid ""
 "Postlaringiz teng intervalda chiqyapti — auditoriya kutgan vaqtda kontent "
@@ -2644,14 +2386,6 @@ msgstr "Посты"
 msgid "Pozitiv"
 msgstr "Позитивная"
 
-#: templates/dashboard/correlation.html
-msgid ""
-"pozitiv komment ko'p bo'lsa engagement past. Bahsli mavzular ko'proq "
-"engagement keltirayotgan bo'lishi mumkin."
-msgstr ""
-"больше положительных — ниже вовлечённость. Возможно, спорные темы дают "
-"больше отклика."
-
 #: templates/dashboard/sentiment.html
 msgid "Pozitiv komment yetarli emas."
 msgstr "Недостаточно позитивных комментариев."
@@ -2659,22 +2393,6 @@ msgstr "Недостаточно позитивных комментариев."
 #: templates/dashboard/landing.html
 msgid "pozitiv kommentlar"
 msgstr "позитивные комментарии"
-
-#: templates/dashboard/correlation.html
-msgid ""
-"pozitiv kommentlar engagement bilan birga oshadi. Pozitiv reaktsiya "
-"keltiradigan kontentni ko'paytiring."
-msgstr ""
-"положительные комментарии растут вместе с вовлечённостью. Делайте больше "
-"контента, вызывающего позитивную реакцию."
-
-#: templates/dashboard/correlation.html
-msgid ""
-"Pozitiv kommentlar engagement'ni oshiradimi? Pearson korrelyatsiyasi bilan "
-"tekshiramiz."
-msgstr ""
-"Повышают ли положительные комментарии вовлечённость? Проверяем коэффициентом"
-" Пирсона."
 
 #: templates/dashboard/sentiment.html
 msgid "Pozitiv so'zlar"
@@ -2772,10 +2490,6 @@ msgstr "Как это работает"
 msgid "Qanday ma'lumot to'playmiz"
 msgstr "Какие данные мы собираем"
 
-#: templates/dashboard/predict.html
-msgid "Qanday post yozmoqchisiz?"
-msgstr "Какой пост вы напишете?"
-
 #: templates/dashboard/landing.html
 msgid "Qanday qilib sentiment aniqligini baholaysiz?"
 msgstr "Как вы оцениваете точность настроений?"
@@ -2857,12 +2571,6 @@ msgid ""
 "Quyidagi QR kodni Authenticator ilovangizga qo'shing va 6 raqamli kodni "
 "kiriting."
 msgstr "Добавьте QR-код в приложение-аутентификатор и введите 6-значный код."
-
-#: templates/dashboard/correlation.html
-msgid "r = 1.0 mukammal pozitiv · r = 0 aloqa yo'q · r = -1.0 mukammal salbiy"
-msgstr ""
-"r = 1.0 идеальная положительная · r = 0 нет связи · r = -1.0 идеальная "
-"отрицательная"
 
 #: templates/account/signup.html
 msgid "Raqam (0-9)"
@@ -3001,10 +2709,6 @@ msgstr "Язык можно сменить в любой момент через
 msgid "Sahifani chop etish"
 msgstr "Печать страницы"
 
-#: templates/dashboard/correlation.html
-msgid "Salbiy korrelyatsiya"
-msgstr "Отрицательная корреляция"
-
 #: templates/account/email/email_confirmation_message.html
 msgid "Salom, <strong>%(user_display)s</strong>!"
 msgstr "Привет, <strong>%(user_display)s</strong>!"
@@ -3061,10 +2765,6 @@ msgstr ""
 msgid "saytidan olish mumkin."
 msgstr "можно получить ключ."
 
-#: templates/dashboard/correlation.html
-msgid "Scatter plot"
-msgstr "Точечный график"
-
 #: templates/dashboard/landing.html
 msgid ""
 "Schema va OAuth callback infrastrukturasi tayyor. Haqiqiy ulanish uchun Meta"
@@ -3079,10 +2779,6 @@ msgstr ""
 "реалистичные данные, настоящая модель настроений, настоящий экспорт "
 "PDF/Excel. Как только API credentials предоставлены, код не меняется — "
 "автоматически переходит в реальный режим."
-
-#: templates/dashboard/help.html
-msgid "scikit-learn modeli engagement bashorat qiladi"
-msgstr "scikit-learn модель прогнозирует вовлечённость"
 
 #: apps/analytics/views.py
 msgid "Se"
@@ -3122,18 +2818,6 @@ msgstr "Как работает анализ настроений?"
 msgid "Sentiment tahlili yangilandi"
 msgstr "Анализ настроений обновлён"
 
-#: templates/dashboard/correlation.html
-msgid ""
-"sentiment va engagement bog'liq emas. Engagement boshqa omillarga bog'liq "
-"(vaqt, format, mavzu)."
-msgstr ""
-"настроение и вовлечённость не связаны. Вовлечённость зависит от других "
-"факторов (время, формат, тема)."
-
-#: templates/dashboard/correlation.html
-msgid "Sentiment × Engagement"
-msgstr "Тональность × Вовлечённость"
-
 #: templates/500.html
 msgid "Server xatosi"
 msgstr "Ошибка сервера"
@@ -3144,7 +2828,6 @@ msgid ""
 msgstr ""
 "Произошла непредвиденная ошибка сервера. Подождите и попробуйте снова."
 
-#: apps/analytics/services/predict.py
 #: apps/analytics/services/recommendations.py apps/analytics/views.py
 msgid "Seshanba"
 msgstr "Вторник"
@@ -3153,7 +2836,6 @@ msgstr "Вторник"
 msgid "Sh"
 msgstr "Сб"
 
-#: apps/analytics/services/predict.py
 #: apps/analytics/services/recommendations.py apps/analytics/views.py
 msgid "Shanba"
 msgstr "Суббота"
@@ -3277,10 +2959,6 @@ msgstr ""
 "За последние 30 дней {n} {label} собрали больше всего просмотров и лайков. "
 "Создавайте больше такого контента."
 
-#: templates/dashboard/predict.html
-msgid "Soat"
-msgstr "Час"
-
 #: templates/account/email/email_confirmation_message.html
 msgid ""
 "Social Analytics platformasiga ro'yxatdan o'tganingiz uchun rahmat.\n"
@@ -3363,14 +3041,6 @@ msgid ""
 "tavsiya qiladi."
 msgstr "AI обобщает данные за 30 дней и рекомендует следующий шаг."
 
-#: templates/dashboard/predict.html
-msgid "ta layk"
-msgstr "лайков"
-
-#: templates/dashboard/correlation.html
-msgid "ta post ishtirok etdi."
-msgstr "постов учтено."
-
 #: templates/dashboard/_shell.html
 msgid "ta yangi tahlil bildirishnomasi"
 msgstr "новых уведомлений аналитики"
@@ -3407,10 +3077,6 @@ msgstr "Проанализированные посты"
 #: templates/dashboard/telegram_channels.html
 msgid "Tahlil qilish"
 msgstr "Анализировать"
-
-#: templates/dashboard/correlation.html
-msgid "Tahlilda"
-msgstr "Анализ"
 
 #: templates/dashboard/landing.html
 msgid "Tahlilni ko'ring"
@@ -3465,10 +3131,6 @@ msgstr "Не удалось создать рекомендацию"
 #: templates/dashboard/analytics.html
 msgid "Tavsiya:"
 msgstr "Совет:"
-
-#: templates/dashboard/post_generator.html
-msgid "Tayyor variantlar"
-msgstr "Готовые варианты"
 
 #: templates/dashboard/accounts.html templates/dashboard/analytics.html
 #: templates/dashboard/hashtags.html
@@ -3590,10 +3252,6 @@ msgstr ""
 msgid "Texnik stek"
 msgstr "Технологический стек"
 
-#: templates/dashboard/clusters.html templates/dashboard/predict.html
-msgid "Texnik tafsilot:"
-msgstr "Технические детали:"
-
 #: apps/analytics/views.py
 msgid "Texnik xato yuz berdi. Keyinroq urinib ko'ring."
 msgstr "Произошла техническая ошибка. Попробуйте позже."
@@ -3617,16 +3275,6 @@ msgstr "Часто задаваемые вопросы"
 #: templates/dashboard/ai_digest.html
 msgid "tezkor hisobot"
 msgstr "мгновенный отчёт"
-
-#: templates/dashboard/clusters.html
-msgid ""
-"TfidfVectorizer (max_features=300, min_df=2, max_df=0.85) bilan postlar "
-"vektorlashtiriladi, KMeans (n_init='auto', random_state=42) klasterlaydi. "
-"Klaster nomi — markaz vektorining top-3 tokenidan olingan."
-msgstr ""
-"Посты векторизуются TfidfVectorizer (max_features=300, min_df=2, "
-"max_df=0.85) и кластеризуются KMeans (n_init='auto', random_state=42). "
-"Название кластера — топ-3 токена центроида."
 
 #: templates/account/password_reset.html
 msgid "Tiklash havolasini yuborish"
@@ -3844,10 +3492,6 @@ msgid ""
 msgstr ""
 "Вход через VK OAuth и сбор постов со стены (лайки, комментарии, репосты)."
 
-#: templates/dashboard/correlation.html
-msgid "X — pozitiv komment foizi, Y — engagement foizi"
-msgstr "X — % положительных комментариев, Y — % вовлечённости"
-
 #: templates/account/password_reset_done.html
 #: templates/account/verification_sent.html
 msgid "Xat kelmayaptimi?"
@@ -3914,7 +3558,6 @@ msgstr "Смотреть возможности"
 msgid "Ya"
 msgstr "Вс"
 
-#: apps/analytics/services/predict.py
 #: apps/analytics/services/recommendations.py apps/analytics/views.py
 msgid "Yakshanba"
 msgstr "Воскресенье"
@@ -3955,10 +3598,6 @@ msgstr "Теперь вы можете войти с новым паролем."
 #: templates/account/password_reset_from_key.html
 msgid "Yangi parolni kiriting va uni takrorlang."
 msgstr "Введите новый пароль и подтвердите его."
-
-#: templates/dashboard/post_generator.html
-msgid "Yangi post yarating"
-msgstr "Создайте новый пост"
 
 #: apps/dashboard/views.py
 msgid "Yangi post: «{caption}»"
@@ -4018,10 +3657,6 @@ msgstr "или"
 msgid "Yopish"
 msgstr "Закрыть"
 
-#: templates/dashboard/predict.html
-msgid "Yoq"
-msgstr "Нет"
-
 #: templates/dashboard/settings.html templates/dashboard/two_factor.html
 msgid "Yoqilgan"
 msgstr "Включено"
@@ -4050,10 +3685,6 @@ msgstr "Светлая или тёмная — автоматически по �
 #: templates/dashboard/chat.html
 msgid "Yuborish"
 msgstr "Отправить"
-
-#: templates/dashboard/predict.html
-msgid "Yuqori — model ma'lumotlaringizni yaxshi tushunadi."
-msgstr "Высокий — модель хорошо понимает ваши данные."
 
 #: templates/dashboard/settings.html
 msgid "Yuqoridagi 'Korsatish' tugmasini bosing — token serverdan olinadi."
@@ -4118,14 +3749,6 @@ msgstr "Найдено {n} положительных комментариев"
 #: apps/social/views.py
 msgid "{platform} uchun avtomatik yangilash hali mavjud emas."
 msgstr "Автообновление для {platform} пока недоступно."
-
-#: templates/dashboard/app.html
-msgid "~%(cl)s belgili caption · %(hc)s ta hashtag"
-msgstr "~%(cl)s символов · %(hc)s хештегов"
-
-#: templates/dashboard/app.html
-msgid "~%(n)s layk kutiladi"
-msgstr "~%(n)s лайков ожидается"
 
 #: apps/analytics/services/recommendations.py
 msgid ""

@@ -30,14 +30,11 @@ from .services.best_time import compute_heatmap, weekday_label
 from .services.chat import (
     ChatNotConfigured,
     ask as chat_ask,
-    generate_post_drafts,
     generate_weekly_digest,
     is_configured as chat_is_configured,
     translate_text,
 )
-from .services.clustering import NotEnoughPosts, cluster_posts
 from .services.hashtags import top_hashtags
-from .services.predict import NotEnoughData, predict_for_inputs
 from .services.wordcloud import WordcloudEntry, top_words
 
 logger = logging.getLogger(__name__)
@@ -523,75 +520,6 @@ def alerts_unread_count(request: HttpRequest) -> JsonResponse:
 
 
 @login_required
-def topic_clusters_page(request: HttpRequest) -> HttpResponse:
-    """TF-IDF + KMeans clustering of the user's post captions."""
-    clusters: list = []
-    error = None
-    try:
-        clusters = cluster_posts(request.user)
-    except NotEnoughPosts as e:
-        error = str(e)
-    except Exception as e:
-        logger.exception("Clustering failed for user %s", request.user.id)
-        error = f"Texnik xato: {e}"
-
-    best_cluster = clusters[0] if clusters else None
-    return render(request, "dashboard/clusters.html", {
-        "active_nav":   "clusters",
-        "clusters":     clusters,
-        "best_cluster": best_cluster,
-        "error":        error,
-    })
-
-
-@login_required
-def correlation_page(request: HttpRequest) -> HttpResponse:
-    """Sentiment × engagement scatter — does positive comment share track
-    higher engagement? Renders one point per post with X = positive share
-    of comments, Y = engagement rate."""
-    user = request.user
-    points = []
-    for p in (
-        Post.objects.filter(account__user=user)
-        .annotate(comment_count=Count("comments"))
-        .filter(comment_count__gt=0)[:500]
-    ):
-        labels = Counter(
-            SentimentResult.objects.filter(comment__post=p)
-            .values_list("label", flat=True)
-        )
-        total = sum(labels.values())
-        if total == 0:
-            continue
-        pos_pct = labels.get(SentimentLabel.POSITIVE, 0) * 100 / total
-        points.append({
-            "x": round(pos_pct, 1),
-            "y": round((p.engagement_rate or 0) * 100, 2),
-            "label": (p.caption or "")[:40],
-        })
-
-    # Pearson correlation coefficient — quick "are these even related" signal.
-    correlation = 0.0
-    if len(points) >= 5:
-        xs = [pt["x"] for pt in points]
-        ys = [pt["y"] for pt in points]
-        n = len(xs)
-        mx = sum(xs) / n
-        my = sum(ys) / n
-        num = sum((xs[i] - mx) * (ys[i] - my) for i in range(n))
-        den_x = (sum((xs[i] - mx) ** 2 for i in range(n))) ** 0.5
-        den_y = (sum((ys[i] - my) ** 2 for i in range(n))) ** 0.5
-        correlation = round(num / (den_x * den_y), 3) if den_x and den_y else 0
-
-    return render(request, "dashboard/correlation.html", {
-        "active_nav":   "correlation",
-        "points":       points,
-        "correlation":  correlation,
-        "has_data":     len(points) >= 5,
-    })
-
-
-@login_required
 def analytics_compare(request: HttpRequest) -> HttpResponse:
     """Side-by-side comparison of 2–3 user-owned ConnectedAccounts.
 
@@ -971,59 +899,6 @@ def best_time_page(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
-@rate_limit(key="post_gen", rate="10/h", scope="user", methods=("POST",))
-@require_http_methods(["GET", "POST"])
-def ai_post_generator(request: HttpRequest) -> HttpResponse:
-    """Generate 3 new post-caption drafts modelled on the user's top posts.
-
-    GET renders the empty form. POST runs the AI service and renders the
-    drafts inline. Rate-limited (10/h/user) — token cost is higher than a
-    chat reply because the prompt embeds top-post examples.
-    """
-    drafts: list[str] | None = None
-    drafts_model: str = ""
-    error: str | None = None
-
-    if request.method == "POST":
-        if not chat_is_configured():
-            error = _("AI hali sozlanmagan.")
-        elif not Post.objects.filter(account__user=request.user).exists():
-            error = _("Avval kamida bitta postingiz bo'lishi kerak.")
-        else:
-            try:
-                resp = generate_post_drafts(request.user)
-                drafts_model = resp.model
-                drafts = _split_drafts(resp.answer)
-            except ChatNotConfigured as e:
-                error = str(e)
-            except Exception:
-                logger.exception("Post-draft generation failed for user %s", request.user.id)
-                error = _("Texnik xato. Keyinroq urinib ko'ring.")
-
-    return render(request, "dashboard/post_generator.html", {
-        "active_nav":   "post_generator",
-        "configured":   chat_is_configured(),
-        "drafts":       drafts,
-        "drafts_model": drafts_model,
-        "error":        error,
-    })
-
-
-def _split_drafts(answer: str) -> list[str]:
-    """Parse the AI's three-draft output into a clean list.
-
-    The prompt asks for ``1. ... 2. ... 3. ...`` separated by blank lines.
-    This splits on the leading ``N.`` markers, strips, and drops empties.
-    Falls back to a one-item list if the format isn't recognised so the
-    user still sees *something*.
-    """
-    import re
-    parts = re.split(r"^\s*\d+\.\s+", answer, flags=re.MULTILINE)
-    cleaned = [p.strip().strip("-").strip() for p in parts if p.strip()]
-    return cleaned[:3] if cleaned else [answer.strip()]
-
-
-@login_required
 @rate_limit(key="ai_insight", rate="15/h", scope="user", methods=("POST",))
 @require_http_methods(["POST"])
 def ai_insight(request: HttpRequest) -> JsonResponse:
@@ -1155,54 +1030,6 @@ def ai_digest(request: HttpRequest) -> HttpResponse:
         "digest_md":   digest_md,
         "digest_model": digest_model,
         "error":       error,
-    })
-
-
-@login_required
-@require_http_methods(["GET", "POST"])
-def engagement_predict(request: HttpRequest) -> HttpResponse:
-    """ML engagement predictor — sklearn LinearRegression on the user's posts.
-
-    GET shows the form pre-filled with sane defaults (Monday 10:00, 100 chars,
-    3 hashtags, with media). POST runs the model and renders the result inline.
-    """
-    # Sane defaults so a first-time visitor sees a meaningful prediction.
-    form_values = {
-        "weekday":       int(request.POST.get("weekday")       or 0),
-        "hour":          int(request.POST.get("hour")          or 10),
-        "caption_len":   int(request.POST.get("caption_len")   or 100),
-        "hashtag_count": int(request.POST.get("hashtag_count") or 3),
-        "has_media":     request.POST.get("has_media") == "1" if request.method == "POST" else True,
-    }
-    prediction = None
-    error = None
-
-    if request.method == "POST":
-        try:
-            prediction = predict_for_inputs(
-                request.user,
-                weekday=form_values["weekday"],
-                hour=form_values["hour"],
-                caption_len=form_values["caption_len"],
-                hashtag_count=form_values["hashtag_count"],
-                has_media=form_values["has_media"],
-            )
-        except NotEnoughData as e:
-            error = str(e)
-        except Exception as e:
-            logger.exception("Predict failed for user %s", request.user.id)
-            error = _("Texnik xato: {e}").format(e=e)
-
-    weekday_options = [
-        (0, _("Dushanba")), (1, _("Seshanba")), (2, _("Chorshanba")), (3, _("Payshanba")),
-        (4, _("Juma")),     (5, _("Shanba")),   (6, _("Yakshanba")),
-    ]
-    return render(request, "dashboard/predict.html", {
-        "active_nav":      "predict",
-        "form":            form_values,
-        "prediction":      prediction,
-        "error":           error,
-        "weekday_options": weekday_options,
     })
 
 
