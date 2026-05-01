@@ -130,16 +130,6 @@
           {% trans "Eng yaxshi vaqt" %}
         </a>
 
-        <a href="{% url 'analytics:hashtags' %}"
-           class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
-                  {% if active_nav == 'hashtags' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300
-                  {% else %}text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
-          <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-pink-500/20 to-rose-500/20 text-pink-600 dark:text-pink-400">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
-          </span>
-          {% trans "Hashtag tahlili" %}
-        </a>
-
         <a href="{% url 'analytics:compare' %}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
                   {% if active_nav == 'compare' %}bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300

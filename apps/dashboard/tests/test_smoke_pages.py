@@ -49,7 +49,6 @@ def client(user):
     "analytics:digest",
     "analytics:alerts",
     "analytics:best_time",
-    "analytics:hashtags",
     "accounts:settings",
     "accounts:two_factor",
     "accounts:activity",

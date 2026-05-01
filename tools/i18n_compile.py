@@ -1638,6 +1638,14 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "ijtimoiy tarmoq analitikasi, Telegram analitika, YouTube analitika, VK analitika, sentiment tahlil, AI tavsiyalar, dashboard, postlar statistikasi":
         {"en": "social media analytics, Telegram analytics, YouTube analytics, VK analytics, sentiment analysis, AI recommendations, dashboard, post statistics",
          "ru": "аналитика соцсетей, Telegram аналитика, YouTube аналитика, VK аналитика, анализ настроений, AI рекомендации, дашборд, статистика постов"},
+
+    # ---- Updated marketing copy after hashtag-feature removal ----
+    "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari":
+        {"en": "30-day trend, best-time heatmap, post types",
+         "ru": "Тренд за 30 дней, тепловая карта времени, типы постов"},
+    "Telegram, YouTube, VKontakte akkauntlaringizni bir joyda. AI sentiment, vaqt heatmap va avtomatik tavsiyalar.":
+        {"en": "Telegram, YouTube, VKontakte accounts in one place. AI sentiment, time heatmap, automatic recommendations.",
+         "ru": "Telegram, YouTube, VKontakte — в одном месте. AI-настроение, тепловая карта времени и рекомендации."},
 }
 
 

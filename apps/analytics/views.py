@@ -34,7 +34,6 @@ from .services.chat import (
     is_configured as chat_is_configured,
     translate_text,
 )
-from .services.hashtags import top_hashtags
 from .services.wordcloud import WordcloudEntry, top_words
 
 logger = logging.getLogger(__name__)
@@ -160,23 +159,13 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
     weekday_full = [_("Dushanba"), _("Seshanba"), _("Chorshanba"), _("Payshanba"),
                     _("Juma"), _("Shanba"), _("Yakshanba")]
 
-    # ---------------- Top topics + hashtags from post captions ----------------
-    import re as _re
+    # ---------------- Top topics from post captions ----------------
     captions = list(
         Post.objects.filter(account__user=user)
         .exclude(caption="")
         .values_list("caption", flat=True)[:1000]
     )
     top_topics_entries = top_words(captions, n=30)
-    hashtag_re = _re.compile(r"#(\w{2,30})", flags=_re.UNICODE)
-    hashtag_counter: Counter = Counter()
-    for cap in captions:
-        for tag in hashtag_re.findall(cap):
-            hashtag_counter[tag.lower()] += 1
-    top_hashtags = [
-        {"tag": t, "count": c}
-        for t, c in hashtag_counter.most_common(15)
-    ]
     # ---------------- Post-length buckets — engagement vs caption length -----
     # Buckets are inclusive lower / exclusive upper. The last bucket catches
     # everything 401+ chars so a single 5000-char essay doesn't blow the chart.
@@ -299,7 +288,6 @@ def analytics_overview(request: HttpRequest) -> HttpResponse:
             "engagement": best_val,
         },
         "top_topics":   top_topics_entries,
-        "top_hashtags": top_hashtags,
         "length_buckets": bucket_stats,
         "best_length":    best_bucket,
         "funnel_steps":   funnel_steps,
@@ -763,88 +751,6 @@ def saved_views_api(request: HttpRequest) -> JsonResponse:
     return JsonResponse({
         "view": {"id": obj.id, "name": obj.name, "query": obj.query},
         "created": created,
-    })
-
-
-@login_required
-@rate_limit(key="ai_hashtag", rate="10/h", scope="user", methods=("POST",))
-@require_http_methods(["POST"])
-def ai_hashtag_suggest(request: HttpRequest) -> JsonResponse:
-    """AI: suggest an optimal hashtag combination for the user's next post.
-
-    Reads the same top-hashtags-by-engagement table the /hashtags/ page
-    shows, plus the top 3 posts captions, and asks the AI for a 5-7 tag
-    combo that's likely to perform well. Returns ``{tags: [...]}`` so the
-    front-end can render a copy-friendly list.
-    """
-    if not chat_is_configured():
-        return JsonResponse({"error": _("AI hali sozlanmagan.")}, status=503)
-
-    stats = top_hashtags(request.user, days=90, limit=15)
-    if not stats:
-        return JsonResponse({"error": _("Hashtag tahlili uchun yetarli post yo'q.")}, status=400)
-
-    lines = ["Top hashtaglar va o'rtacha engagement (foiz):"]
-    for s in stats[:10]:
-        lines.append(f"- #{s.tag}: {s.avg_engagement * 100:.2f}%, {s.posts} post")
-    context_block = "\n".join(lines)
-
-    question = (
-        "Quyidagi hashtag statistikalariga qarab, mening keyingi postim uchun "
-        "5-7 ta hashtagdan iborat OPTIMAL kombinatsiya tavsiya qil. "
-        "Mashhur lekin shovqinli keng hashtaglardan ko'ra, mening auditoriya "
-        "bilan yaxshi ishlagan tor hashtaglarni afzal ko'r. Faqat hashtag "
-        "ro'yxatini # belgisi bilan, har biri yangi qatorda yoz. Qo'shimcha "
-        "izoh shart emas.\n\n" + context_block
-    )
-
-    try:
-        resp = chat_ask(request.user, question)
-    except ChatNotConfigured as e:
-        return JsonResponse({"error": str(e)}, status=503)
-    except Exception:
-        logger.exception("AI hashtag suggestion failed for user %s", request.user.id)
-        return JsonResponse({"error": _("Texnik xato. Keyinroq urinib ko'ring.")}, status=500)
-
-    import re
-    tags = re.findall(r"#([\wÀ-￿]{2,40})", resp.answer or "", flags=re.UNICODE)
-    # Deduplicate while preserving order.
-    seen = set()
-    uniq = [t for t in tags if not (t.lower() in seen or seen.add(t.lower()))]
-
-    log_activity(request.user, "ai", f"AI hashtag suggestion ({len(uniq)} tags)", request=request)
-    return JsonResponse({"tags": uniq[:8], "raw": resp.answer})
-
-
-@login_required
-@require_http_methods(["GET"])
-def hashtags_page(request: HttpRequest) -> HttpResponse:
-    """Top hashtags table — which tags drive the highest avg engagement.
-
-    Uses :func:`apps.analytics.services.hashtags.top_hashtags` over a
-    90-day window. Single-post tags are filtered out by the service so
-    results aren't dominated by one-off lucky tags.
-    """
-    stats = top_hashtags(request.user, days=90, limit=20)
-
-    rendered = [
-        {
-            "tag":            s.tag,
-            "posts":          s.posts,
-            "total_likes":    s.total_likes,
-            "total_views":    s.total_views,
-            "eng_pct":        s.avg_engagement * 100,
-        }
-        for s in stats
-    ]
-    # Compute relative bar width (max engagement = 100% of bar).
-    max_eng = max((s["eng_pct"] for s in rendered), default=0.0)
-    for s in rendered:
-        s["bar_pct"] = (s["eng_pct"] / max_eng * 100) if max_eng > 0 else 0
-
-    return render(request, "dashboard/hashtags.html", {
-        "active_nav": "hashtags",
-        "stats":      rendered,
     })
 
 

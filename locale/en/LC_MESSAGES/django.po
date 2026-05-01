@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: social-analytics 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-01 11:07+0000\n"
-"PO-Revision-Date: 2026-05-01 11:07+0000\n"
+"POT-Creation-Date: 2026-05-01 11:52+0000\n"
+"PO-Revision-Date: 2026-05-01 11:52+0000\n"
 "Last-Translator: social-analytics i18n_compile.py\n"
 "Language-Team: en\n"
 "Language: en\n"
@@ -149,8 +149,8 @@ msgid "30 kunlik tendensiya"
 msgstr "30-day trend"
 
 #: templates/dashboard/help.html
-msgid "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari, hashtag"
-msgstr "30-day trend, best-time heatmap, post types, hashtags"
+msgid "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari"
+msgstr "30-day trend, best-time heatmap, post types"
 
 #: templates/dashboard/landing.html
 msgid "4 ta platforma"
@@ -405,7 +405,7 @@ msgid "Akkauntlar"
 msgstr "Accounts"
 
 #: templates/dashboard/_shell.html templates/dashboard/account_connect.html
-#: templates/dashboard/accounts.html templates/dashboard/hashtags.html
+#: templates/dashboard/accounts.html
 #: templates/dashboard/telegram_channels.html
 #: templates/dashboard/telegram_code.html
 #: templates/dashboard/telegram_password.html
@@ -707,10 +707,6 @@ msgstr "Different number"
 msgid "Boshqarish"
 msgstr "Manage"
 
-#: templates/dashboard/hashtags.html
-msgid "Bosib copy oling"
-msgstr "Click to copy"
-
 #: templates/dashboard/delete_account.html
 msgid "Bu amalni ortga qaytarib bo'lmaydi"
 msgstr "This action cannot be undone"
@@ -963,10 +959,6 @@ msgstr "Confirm your email"
 msgid "Emailni tasdiqlash"
 msgstr "Email confirmation"
 
-#: templates/dashboard/analytics.html
-msgid "Eng ko'p ishlatilgan #teglar"
-msgstr "Most-used #tags"
-
 #: apps/analytics/views.py
 msgid "Eng ko'p izoh"
 msgstr "Most commented"
@@ -1084,14 +1076,6 @@ msgstr "Note — why are you tracking"
 #: templates/account/email/password_reset_key_message.html
 msgid "Eslatma:"
 msgstr "Note:"
-
-#: templates/dashboard/hashtags.html
-msgid ""
-"Eslatma: kamida 2 ta postda uchragan hashtaglar ko'rsatiladi (bitta post "
-"statistikasi shovqin bo'ladi)."
-msgstr ""
-"Note: only hashtags used in 2+ posts are shown (single-post averages are too"
-" noisy)."
 
 #: templates/dashboard/help.html
 msgid "Excel + PDF eksport"
@@ -1275,10 +1259,6 @@ msgstr "Pull all posts (slower, but full history)"
 msgid "Hammasi"
 msgstr "All"
 
-#: templates/dashboard/hashtags.html
-msgid "Hammasini copy"
-msgstr "Copy all"
-
 #: templates/dashboard/accounts.html
 msgid "Haqiqiy"
 msgstr "Real"
@@ -1318,23 +1298,6 @@ msgstr ""
 #: templates/dashboard/two_factor.html
 msgid "Har safar kirishda kod talab qilinadi."
 msgstr "A code will be required every time you sign in."
-
-#: templates/dashboard/hashtags.html
-msgid "Hashtag"
-msgstr "Hashtag"
-
-#: templates/dashboard/_shell.html templates/dashboard/app.html
-#: templates/dashboard/hashtags.html
-msgid "Hashtag tahlili"
-msgstr "Hashtag analysis"
-
-#: apps/analytics/views.py
-msgid "Hashtag tahlili uchun yetarli post yo'q."
-msgstr "Not enough posts for a hashtag analysis."
-
-#: templates/dashboard/hashtags.html
-msgid "Hashtag tavsiya olish"
-msgstr "Get hashtag suggestions"
 
 #: templates/account/password_reset_from_key.html
 msgid "Havola ishlamaydi"
@@ -1399,10 +1362,6 @@ msgstr "Showing demo data right now"
 #: templates/dashboard/accounts.html
 msgid "Hozir yangilash"
 msgstr "Refresh now"
-
-#: templates/dashboard/hashtags.html
-msgid "Hozircha hashtag yo'q"
-msgstr "No hashtags yet"
 
 #: templates/dashboard/privacy.html templates/dashboard/terms.html
 msgid "Huquqiy ma'lumot"
@@ -1501,7 +1460,7 @@ msgstr "Comments"
 msgid "Jami"
 msgstr "Total"
 
-#: templates/dashboard/compare.html templates/dashboard/hashtags.html
+#: templates/dashboard/compare.html
 msgid "Jami likes"
 msgstr "Total likes"
 
@@ -1512,10 +1471,6 @@ msgstr "Total followers"
 #: apps/dashboard/views.py templates/dashboard/accounts.html
 msgid "Jami postlar"
 msgstr "Total posts"
-
-#: templates/dashboard/hashtags.html
-msgid "Jami views"
-msgstr "Total views"
 
 #: templates/dashboard/landing.html
 msgid ""
@@ -1593,10 +1548,6 @@ msgstr "Uppercase (A-Z)"
 #: templates/dashboard/app.html templates/dashboard/top_posts.html
 msgid "Keyingi"
 msgstr "Next"
-
-#: templates/dashboard/hashtags.html
-msgid "Keyingi post uchun AI tavsiya"
-msgstr "AI recommendation for your next post"
 
 #: templates/account/signup.html
 msgid "Kichik harf (a-z)"
@@ -1964,7 +1915,7 @@ msgstr "Disabled"
 msgid "O'chirish"
 msgstr "Delete"
 
-#: templates/dashboard/best_time.html templates/dashboard/hashtags.html
+#: templates/dashboard/best_time.html
 msgid "O'rtacha engagement"
 msgstr "Avg. engagement"
 
@@ -2040,10 +1991,6 @@ msgstr "Compared to previous 30 days"
 #: templates/dashboard/top_posts.html
 msgid "Olib tashlash"
 msgstr "Remove"
-
-#: templates/dashboard/hashtags.html
-msgid "Olindi"
-msgstr "Copied"
 
 #: templates/dashboard/help.html
 msgid ""
@@ -2327,8 +2274,8 @@ msgstr ""
 
 #: templates/dashboard/accounts.html templates/dashboard/analytics.html
 #: templates/dashboard/app.html templates/dashboard/compare.html
-#: templates/dashboard/hashtags.html templates/dashboard/landing.html
-#: templates/dashboard/public_share.html templates/dashboard/reports.html
+#: templates/dashboard/landing.html templates/dashboard/public_share.html
+#: templates/dashboard/reports.html
 msgid "Postlar"
 msgstr "Posts"
 
@@ -2355,14 +2302,6 @@ msgstr "Posts · likes · views"
 #: templates/dashboard/public_share.html
 msgid "Postlar · Likes · Kommentlar · Ko'rishlar"
 msgstr "Posts · Likes · Comments · Views"
-
-#: templates/dashboard/hashtags.html
-msgid ""
-"Postlaringiz captionida hashtag bo'lmagan yoki hech bir tag 2+ marta "
-"ishlatilmagan. Hashtag qo'shib post yozgach, bu sahifa tahlilni ko'rsatadi."
-msgstr ""
-"Either your captions have no hashtags or none was used 2+ times. Add "
-"hashtags and publish more — this page will fill up."
 
 #: apps/analytics/services/recommendations.py
 msgid ""
@@ -2494,19 +2433,6 @@ msgstr "What data we collect"
 #: templates/dashboard/landing.html
 msgid "Qanday qilib sentiment aniqligini baholaysiz?"
 msgstr "How do you measure sentiment accuracy?"
-
-#: templates/dashboard/hashtags.html
-msgid ""
-"Qaysi hashtaglaringiz eng yuqori engagement keltirayapti — 90 kunlik "
-"ma'lumot."
-msgstr "Which hashtags drive your highest engagement — last 90 days."
-
-#: templates/dashboard/app.html
-msgid ""
-"Qaysi hashtaglaringiz haqiqatan ishlayapti — top 20 ro'yxati va engagement "
-"bo'yicha."
-msgstr ""
-"Which of your hashtags actually work — a top 20 list ranked by engagement."
 
 #: templates/dashboard/telegram_channels.html
 msgid "Qaysi kanalni tahlil qilamiz?"
@@ -3023,10 +2949,6 @@ msgstr "Check your spam folder"
 msgid "Spam yoki Promotions papkasini tekshiring"
 msgstr "Check your Spam or Promotions folder"
 
-#: templates/dashboard/hashtags.html
-msgid "Statistikangiz asosida 5-7 ta optimal hashtag kombinatsiyasi."
-msgstr "An optimal combo of 5-7 hashtags based on your stats."
-
 #: templates/dashboard/reports.html
 msgid "Summary"
 msgstr "Summary"
@@ -3126,16 +3048,11 @@ msgstr "Enter your email exactly to confirm."
 msgid "Tavsiya etilgan ilovalar"
 msgstr "Recommended apps"
 
-#: templates/dashboard/hashtags.html
-msgid "Tavsiya yaratilmadi"
-msgstr "Could not generate a suggestion"
-
 #: templates/dashboard/analytics.html
 msgid "Tavsiya:"
 msgstr "Tip:"
 
 #: templates/dashboard/accounts.html templates/dashboard/analytics.html
-#: templates/dashboard/hashtags.html
 msgid "Tayyorlanmoqda..."
 msgstr "Generating..."
 
@@ -3242,10 +3159,10 @@ msgstr ""
 #: templates/base.html
 msgid ""
 "Telegram, YouTube, VKontakte akkauntlaringizni bir joyda. AI sentiment, vaqt"
-" heatmap, hashtag tahlili va avtomatik tavsiyalar."
+" heatmap va avtomatik tavsiyalar."
 msgstr ""
 "Telegram, YouTube, VKontakte accounts in one place. AI sentiment, time "
-"heatmap, hashtag analysis, automatic recommendations."
+"heatmap, automatic recommendations."
 
 #: templates/base.html
 msgid ""
@@ -3259,10 +3176,6 @@ msgstr "Tech stack"
 #: apps/analytics/views.py
 msgid "Texnik xato yuz berdi. Keyinroq urinib ko'ring."
 msgstr "A technical error occurred. Please try again later."
-
-#: apps/analytics/views.py
-msgid "Texnik xato. Keyinroq urinib ko'ring."
-msgstr "Technical error. Please try again later."
 
 #: apps/analytics/views.py
 msgid "Texnik xato: {e}"
@@ -3312,10 +3225,6 @@ msgstr "Dark green = high engagement. White = no posts."
 #: templates/dashboard/public_share.html
 msgid "tomonidan quvvatlanadi"
 msgstr "powered by"
-
-#: templates/dashboard/analytics.html
-msgid "Top hashtaglar"
-msgstr "Top hashtags"
 
 #: templates/dashboard/analytics.html
 msgid "Top mavzular"

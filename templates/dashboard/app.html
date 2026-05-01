@@ -62,8 +62,6 @@
   {% trans "Tabiiy tilda savol bering: AI sizning real ma'lumotingiz asosida javob beradi." as t_s3_body %}{{ t_s3_body|json_script:"t-3-body" }}
   {% trans "Eng yaxshi vaqt" as t_s5_title %}{{ t_s5_title|json_script:"t-5-title" }}
   {% trans "7×24 heatmap qaysi kun va soatda postingiz eng ko'p engagement olganini ko'rsatadi." as t_s5_body %}{{ t_s5_body|json_script:"t-5-body" }}
-  {% trans "Hashtag tahlili" as t_s6_title %}{{ t_s6_title|json_script:"t-6-title" }}
-  {% trans "Qaysi hashtaglaringiz haqiqatan ishlayapti — top 20 ro'yxati va engagement bo'yicha." as t_s6_body %}{{ t_s6_body|json_script:"t-6-body" }}
   {% trans "Yordam" as t_h_title %}{{ t_h_title|json_script:"t-h-title" }}
   {% trans "Klaviaturada ? bosing yoki Ctrl+K orqali har joyga tezda boring. Sidebar'da Yordam to'liq qo'llanma." as t_h_body %}{{ t_h_body|json_script:"t-h-body" }}
 
@@ -79,7 +77,6 @@
         { title: '📊 ' + _t_('t-2-title'),  body: _t_('t-2-body') },
         { title: '💬 AI Chat',              body: _t_('t-3-body') },
         { title: '🕐 ' + _t_('t-5-title'),  body: _t_('t-5-body') },
-        { title: '🏷️ ' + _t_('t-6-title'),  body: _t_('t-6-body') },
         { title: '🆘 ' + _t_('t-h-title'),  body: _t_('t-h-body') },
       ],
       maybeStart() {

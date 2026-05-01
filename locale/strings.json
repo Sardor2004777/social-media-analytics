@@ -88,7 +88,7 @@
   "30 kunlik tendensiya": [
     "templates/dashboard/analytics.html"
   ],
-  "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari, hashtag": [
+  "30 kunlik trend, eng yaxshi vaqt heatmap, post turlari": [
     "templates/dashboard/help.html"
   ],
   "4 ta platforma": [
@@ -260,7 +260,6 @@
     "templates/dashboard/_shell.html",
     "templates/dashboard/account_connect.html",
     "templates/dashboard/accounts.html",
-    "templates/dashboard/hashtags.html",
     "templates/dashboard/telegram_channels.html",
     "templates/dashboard/telegram_code.html",
     "templates/dashboard/telegram_password.html",
@@ -456,9 +455,6 @@
   "Boshqarish": [
     "templates/dashboard/settings.html"
   ],
-  "Bosib copy oling": [
-    "templates/dashboard/hashtags.html"
-  ],
   "Bu Telegram'ning Settings → Privacy → Two-Step Verification bo'limida o'zingiz o'rnatgan parol. Saytda saqlanmaydi — faqat sessiya yaratish uchun ishlatiladi.": [
     "templates/dashboard/telegram_password.html"
   ],
@@ -645,9 +641,6 @@
   "Emailni tasdiqlash": [
     "templates/account/email_confirm.html"
   ],
-  "Eng ko'p ishlatilgan #teglar": [
-    "templates/dashboard/analytics.html"
-  ],
   "Eng ko'p izoh": [
     "apps/analytics/views.py"
   ],
@@ -738,9 +731,6 @@
   ],
   "Eslatma:": [
     "templates/account/email/password_reset_key_message.html"
-  ],
-  "Eslatma: kamida 2 ta postda uchragan hashtaglar ko'rsatiladi (bitta post statistikasi shovqin bo'ladi).": [
-    "templates/dashboard/hashtags.html"
   ],
   "Excel + PDF eksport": [
     "templates/dashboard/help.html"
@@ -865,9 +855,6 @@
     "templates/dashboard/telegram_channels.html",
     "templates/dashboard/top_posts.html"
   ],
-  "Hammasini copy": [
-    "templates/dashboard/hashtags.html"
-  ],
   "Haqiqiy": [
     "templates/dashboard/accounts.html"
   ],
@@ -888,20 +875,6 @@
   ],
   "Har safar kirishda kod talab qilinadi.": [
     "templates/dashboard/two_factor.html"
-  ],
-  "Hashtag": [
-    "templates/dashboard/hashtags.html"
-  ],
-  "Hashtag tahlili": [
-    "templates/dashboard/_shell.html",
-    "templates/dashboard/app.html",
-    "templates/dashboard/hashtags.html"
-  ],
-  "Hashtag tahlili uchun yetarli post yo'q.": [
-    "apps/analytics/views.py"
-  ],
-  "Hashtag tavsiya olish": [
-    "templates/dashboard/hashtags.html"
   ],
   "Havola ishlamaydi": [
     "templates/account/password_reset_from_key.html"
@@ -942,9 +915,6 @@
   ],
   "Hozir yangilash": [
     "templates/dashboard/accounts.html"
-  ],
-  "Hozircha hashtag yo'q": [
-    "templates/dashboard/hashtags.html"
   ],
   "Huquqiy ma'lumot": [
     "templates/dashboard/privacy.html",
@@ -1013,8 +983,7 @@
     "templates/dashboard/sentiment.html"
   ],
   "Jami likes": [
-    "templates/dashboard/compare.html",
-    "templates/dashboard/hashtags.html"
+    "templates/dashboard/compare.html"
   ],
   "Jami obunachilar": [
     "templates/dashboard/accounts.html"
@@ -1022,9 +991,6 @@
   "Jami postlar": [
     "apps/dashboard/views.py",
     "templates/dashboard/accounts.html"
-  ],
-  "Jami views": [
-    "templates/dashboard/hashtags.html"
   ],
   "Jonli grafiklar, interaktiv filtrlash va platformalar bo'yicha solishtirish. Har soniyada yangi ma'lumot.": [
     "templates/dashboard/landing.html"
@@ -1076,9 +1042,6 @@
   "Keyingi": [
     "templates/dashboard/app.html",
     "templates/dashboard/top_posts.html"
-  ],
-  "Keyingi post uchun AI tavsiya": [
-    "templates/dashboard/hashtags.html"
   ],
   "Kichik harf (a-z)": [
     "templates/account/signup.html"
@@ -1344,8 +1307,7 @@
     "templates/dashboard/competitors.html"
   ],
   "O'rtacha engagement": [
-    "templates/dashboard/best_time.html",
-    "templates/dashboard/hashtags.html"
+    "templates/dashboard/best_time.html"
   ],
   "O'sha kunlardagi postlaringizning o'rtacha engagement'i — {pct}%. Asosiy postlaringizni shu kunda chiqaring.": [
     "apps/analytics/services/recommendations.py"
@@ -1385,9 +1347,6 @@
   ],
   "Olib tashlash": [
     "templates/dashboard/top_posts.html"
-  ],
-  "Olindi": [
-    "templates/dashboard/hashtags.html"
   ],
   "OpenAI API har so'rovga to'lov oladi (~$0.001 har so'rovga). Bizdа rate limit (6/soat, 20/soat) — token sarflashni cheklash uchun.": [
     "templates/dashboard/help.html"
@@ -1568,7 +1527,6 @@
     "templates/dashboard/analytics.html",
     "templates/dashboard/app.html",
     "templates/dashboard/compare.html",
-    "templates/dashboard/hashtags.html",
     "templates/dashboard/landing.html",
     "templates/dashboard/public_share.html",
     "templates/dashboard/reports.html"
@@ -1587,9 +1545,6 @@
   ],
   "Postlar · layklar · ko'rishlar": [
     "templates/dashboard/analytics.html"
-  ],
-  "Postlaringiz captionida hashtag bo'lmagan yoki hech bir tag 2+ marta ishlatilmagan. Hashtag qo'shib post yozgach, bu sahifa tahlilni ko'rsatadi.": [
-    "templates/dashboard/hashtags.html"
   ],
   "Postlaringiz teng intervalda chiqyapti — auditoriya kutgan vaqtda kontent oladi. Davom eting.": [
     "apps/analytics/services/recommendations.py"
@@ -1676,12 +1631,6 @@
   ],
   "Qanday qilib sentiment aniqligini baholaysiz?": [
     "templates/dashboard/landing.html"
-  ],
-  "Qaysi hashtaglaringiz eng yuqori engagement keltirayapti — 90 kunlik ma'lumot.": [
-    "templates/dashboard/hashtags.html"
-  ],
-  "Qaysi hashtaglaringiz haqiqatan ishlayapti — top 20 ro'yxati va engagement bo'yicha.": [
-    "templates/dashboard/app.html"
   ],
   "Qaysi kanalni tahlil qilamiz?": [
     "templates/dashboard/telegram_channels.html"
@@ -2007,9 +1956,6 @@
   "Spam yoki Promotions papkasini tekshiring": [
     "templates/account/password_reset_done.html"
   ],
-  "Statistikangiz asosida 5-7 ta optimal hashtag kombinatsiyasi.": [
-    "templates/dashboard/hashtags.html"
-  ],
   "Summary": [
     "templates/dashboard/reports.html"
   ],
@@ -2072,16 +2018,12 @@
   "Tavsiya etilgan ilovalar": [
     "templates/dashboard/two_factor.html"
   ],
-  "Tavsiya yaratilmadi": [
-    "templates/dashboard/hashtags.html"
-  ],
   "Tavsiya:": [
     "templates/dashboard/analytics.html"
   ],
   "Tayyorlanmoqda...": [
     "templates/dashboard/accounts.html",
-    "templates/dashboard/analytics.html",
-    "templates/dashboard/hashtags.html"
+    "templates/dashboard/analytics.html"
   ],
   "Telefon raqam + SMS kod orqali kirish, kanal/guruh tanlash, postlar va kommentlar yig'ish.": [
     "templates/dashboard/help.html"
@@ -2131,7 +2073,7 @@
   "Telegram, YouTube yoki VK akkauntingizni ulab, real grafiklar va tavsiyalarni oling.": [
     "templates/dashboard/app.html"
   ],
-  "Telegram, YouTube, VKontakte akkauntlaringizni bir joyda. AI sentiment, vaqt heatmap, hashtag tahlili va avtomatik tavsiyalar.": [
+  "Telegram, YouTube, VKontakte akkauntlaringizni bir joyda. AI sentiment, vaqt heatmap va avtomatik tavsiyalar.": [
     "templates/base.html"
   ],
   "Telegram, YouTube, VKontakte analitikasi · AI sentiment · vaqt heatmap.": [
@@ -2141,9 +2083,6 @@
     "templates/dashboard/help.html"
   ],
   "Texnik xato yuz berdi. Keyinroq urinib ko'ring.": [
-    "apps/analytics/views.py"
-  ],
-  "Texnik xato. Keyinroq urinib ko'ring.": [
     "apps/analytics/views.py"
   ],
   "Texnik xato: {e}": [
@@ -2175,9 +2114,6 @@
   ],
   "To'q yashil = yuqori engagement. Oq = postingiz yo'q.": [
     "templates/dashboard/best_time.html"
-  ],
-  "Top hashtaglar": [
-    "templates/dashboard/analytics.html"
   ],
   "Top mavzular": [
     "templates/dashboard/analytics.html"
