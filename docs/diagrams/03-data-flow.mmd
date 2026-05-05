@@ -1,0 +1,41 @@
+sequenceDiagram
+    autonumber
+    actor User as Foydalanuvchi
+    participant B as Brauzer
+    participant N as Nginx + Whitenoise
+    participant D as Django (Gunicorn)
+    participant V as View + Service
+    participant C as Cache (Redis)
+    participant DB as PostgreSQL
+    participant Q as Celery worker
+    participant API as Tashqi API<br/>(YouTube/Telegram/VK)
+
+    User->>B: /en/analytics/ ochadi
+    B->>N: HTTPS GET /en/analytics/
+    N->>D: WSGI request
+    D->>V: route → analytics_overview
+    V->>C: cache.get("kpis:user_id")
+    alt Cache hit
+        C-->>V: KPI dict
+    else Cache miss
+        V->>DB: SELECT posts, comments, sentiment
+        DB-->>V: rowlar
+        V->>V: aggregate, format
+        V->>C: cache.set 5 daqiqa
+    end
+    V-->>D: render(template, ctx)
+    D-->>N: HTML 200
+    N-->>B: gzip + WhiteNoise statik
+    B-->>User: KPI cards, charts, grafiklar
+
+    Note over Q,API: Fonda har 6 soatda
+    Q->>DB: filter(is_active=True)
+    DB-->>Q: SocialAccount ro'yxati
+    loop har akkaunt
+        Q->>API: fetch_posts() / fetch_comments()
+        API-->>Q: JSON
+        Q->>DB: bulk_create + update_or_create
+        Q->>Q: VADER / XLM-RoBERTa sentiment
+        Q->>DB: SentimentResult yozish
+    end
+    Q->>D: anomaly detect → Alert yaratish

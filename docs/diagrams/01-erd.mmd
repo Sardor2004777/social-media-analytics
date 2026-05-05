@@ -1,0 +1,108 @@
+erDiagram
+    USER ||--o{ SOCIAL_ACCOUNT : "ega"
+    SOCIAL_ACCOUNT ||--o{ POST : "joylaydi"
+    POST ||--o{ COMMENT : "uchun yoziladi"
+    COMMENT ||--o| SENTIMENT_RESULT : "tahlil qilinadi"
+    SOCIAL_ACCOUNT ||--o{ FOLLOWER_SNAPSHOT : "vaqtga bog'liq"
+    USER ||--o{ ACTIVITY_LOG : "harakatlari"
+    USER ||--o{ ALERT : "bildirishnomalari"
+    USER ||--o{ SAVED_VIEW : "filterlari"
+
+    USER {
+        int id PK
+        string email UK "Login identifikatori"
+        string language "uz|ru|en"
+        string timezone "Asia/Tashkent"
+        string totp_secret "Fernet shifrlangan"
+        bool totp_enabled
+        bool is_demo
+        datetime created_at
+    }
+
+    SOCIAL_ACCOUNT {
+        int id PK
+        int user_id FK
+        string platform "telegram|instagram|youtube|vk|x"
+        string handle "Public @username"
+        string external_id "Platforma id"
+        binary access_token "Fernet"
+        binary refresh_token "Fernet"
+        int follower_count
+        bool is_active
+        bool is_demo
+        datetime updated_at
+    }
+
+    POST {
+        int id PK
+        int account_id FK
+        string external_id UK
+        string post_type "photo|video|reel|tweet|channel_post"
+        text caption
+        url url
+        int likes
+        int views
+        int comments_count
+        int shares
+        float engagement_rate
+        datetime published_at
+    }
+
+    COMMENT {
+        int id PK
+        int post_id FK
+        string external_id
+        string author_handle
+        text body
+        string language
+        int likes
+        datetime published_at
+    }
+
+    SENTIMENT_RESULT {
+        int id PK
+        int comment_id FK
+        string label "positive|neutral|negative"
+        float score "compound"
+        string model_name "vader|xlm-roberta"
+        datetime created_at
+    }
+
+    FOLLOWER_SNAPSHOT {
+        int id PK
+        int account_id FK
+        date date
+        int count
+    }
+
+    ACTIVITY_LOG {
+        int id PK
+        int user_id FK
+        string kind "login|connect|sync|ai|2fa"
+        string message
+        json meta
+        string ip
+        datetime created_at
+    }
+
+    ALERT {
+        int id PK
+        int account_id FK
+        string metric
+        string direction "spike|drop"
+        string severity
+        float value
+        float baseline
+        float z_score
+        string message
+        datetime detected_for
+    }
+
+    SAVED_VIEW {
+        int id PK
+        int user_id FK
+        string page
+        string name
+        string query
+        datetime created_at
+    }

@@ -1,0 +1,50 @@
+graph LR
+    subgraph "Manba qatlami"
+        APP["Django<br/>Gunicorn workers"]
+        WORK["Celery worker"]
+        DB[("PostgreSQL")]
+    end
+
+    subgraph "Yig'ish qatlami"
+        LOG["Logging<br/>structlog JSON"]
+        SENTRY["Sentry<br/>sentry-sdk[django]"]
+        ACTIVITY["ActivityLog<br/>apps.core.models"]
+    end
+
+    subgraph "Saqlash qatlami"
+        SLOG[("Render Logs<br/>14 kun ushlaydi")]
+        SCLOUD[("Sentry Cloud<br/>error events + performance")]
+        SDB[("PostgreSQL<br/>activity log table")]
+    end
+
+    subgraph "Foydalanuvchi qatlami"
+        DEV["Diplom muallifi<br/>error alertlari, trace"]
+        USER["Foydalanuvchi<br/>/settings/activity/ sahifasi"]
+        ADMIN["Admin paneli<br/>django.contrib.admin"]
+    end
+
+    APP --> LOG
+    APP --> SENTRY
+    APP --> ACTIVITY
+    WORK --> LOG
+    WORK --> SENTRY
+    DB --> ACTIVITY
+
+    LOG --> SLOG
+    SENTRY --> SCLOUD
+    ACTIVITY --> SDB
+
+    SCLOUD --> DEV
+    SLOG --> DEV
+    SDB --> USER
+    SDB --> ADMIN
+
+    classDef src fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef collect fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef store fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef consume fill:#fce7f3,stroke:#db2777,color:#831843
+
+    class APP,WORK,DB src
+    class LOG,SENTRY,ACTIVITY collect
+    class SLOG,SCLOUD,SDB store
+    class DEV,USER,ADMIN consume
