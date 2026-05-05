@@ -95,3 +95,7 @@ models/
 *.pem
 *.key
 secrets/
+
+# Office temp/lock files
+~$*
+~WRL*.tmp
