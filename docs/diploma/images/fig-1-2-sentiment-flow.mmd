@@ -1,0 +1,28 @@
+flowchart LR
+    A["Komment matn<br/>kollektordan"] --> B{"Til aniqlash<br/>langdetect"}
+    B -->|EN| C["VADER<br/>compound score"]
+    B -->|UZ / RU| D["XLM-RoBERTa<br/>multilingual"]
+    B -->|noma'lum| C
+    C --> E{"compound<br/>chegarasi"}
+    D --> E
+    E -->|≥ +0.05| F["positive"]
+    E -->|≤ -0.05| G["negative"]
+    E -->|oraliq| H["neutral"]
+    F --> I[("SentimentResult<br/>jadvali")]
+    G --> I
+    H --> I
+    I --> J["KPI cards<br/>donut chart<br/>top kommentlar"]
+
+    classDef inp fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef proc fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef pos fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef neg fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    classDef neu fill:#f1f5f9,stroke:#64748b,color:#1e293b
+    classDef out fill:#ede9fe,stroke:#7c3aed,color:#3730a3
+
+    class A inp
+    class B,C,D,E proc
+    class F pos
+    class G neg
+    class H neu
+    class I,J out

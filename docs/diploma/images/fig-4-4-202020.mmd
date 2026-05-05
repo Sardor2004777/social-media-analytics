@@ -1,0 +1,18 @@
+graph LR
+    A["Ish boshlanishi"] --> B["20 daqiqa monitorga qarash<br/>(kod yozish, dizayn)"]
+    B --> C{"Taymer<br/>20 daq tugadimi?"}
+    C -->|YES| D["20 sekund<br/>20 fut (≈6 metr)<br/>uzoqlikka qarash"]
+    C -->|NO| B
+    D --> E["Ko'z mushaklari<br/>bo'shashishi"]
+    E --> F["Migoz refleksini<br/>qaytarish<br/>(Computer Vision Syndrome<br/>oldini olish)"]
+    F --> B
+
+    G["Foydasi:<br/>• Ko'z charchoqini kamaytirish<br/>• Akkomodatsiyani saqlash<br/>• Ko'rish keskinligini saqlash<br/>• Bosh og'rig'ini kamaytirish"] -.-> F
+
+    classDef work fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef rest fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef benefit fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+
+    class A,B work
+    class D,E,F rest
+    class G benefit

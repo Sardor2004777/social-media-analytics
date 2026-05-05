@@ -1,0 +1,43 @@
+sequenceDiagram
+    autonumber
+    actor U as Foydalanuvchi
+    participant B as Brauzer
+    participant N as WhiteNoise + Gunicorn
+    participant D as Django views
+    participant S as Service layer
+    participant C as Redis cache
+    participant DB as PostgreSQL
+    participant Q as Celery
+    participant API as Tashqi API
+
+    U->>B: /en/analytics/
+    B->>N: HTTPS GET
+    N->>D: WSGI request
+    D->>S: analytics_overview(user)
+    S->>C: cache.get("kpis:user_id")
+    alt Cache hit (5 min TTL)
+        C-->>S: cached dict
+    else Cache miss
+        S->>DB: SELECT posts, comments, sentiment
+        DB-->>S: rowlar
+        S->>S: aggregate (Counter, Avg)
+        S->>C: cache.set, ex=300
+    end
+    S-->>D: ctx dict
+    D->>D: render(template, ctx)
+    D-->>N: HTML 200
+    N-->>B: gzip + cookies
+    B-->>U: KPI cards, charts
+
+    Note over Q,API: Fonda — har 6 soat
+    Q->>DB: SocialAccount.filter(is_active=True)
+    DB-->>Q: 7 ta akkaunt
+    loop har akkaunt
+        Q->>API: fetch_posts() / comments()
+        API-->>Q: JSON
+        Q->>DB: bulk_create + update_or_create
+        Q->>Q: VADER / XLM-RoBERTa
+        Q->>DB: SentimentResult.create
+    end
+    Q->>DB: anomaly z-score → Alert.create
+    Q->>U: SMTP email (agar yangi alert)

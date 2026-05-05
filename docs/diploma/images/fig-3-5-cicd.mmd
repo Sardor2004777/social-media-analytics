@@ -1,0 +1,26 @@
+graph LR
+    A["Developer<br/>git commit"] --> B["GitHub repo<br/>main branch"]
+    B --> C["GitHub Actions<br/>(CI)"]
+    C --> D{"Tests<br/>pytest"}
+    D -->|FAIL| E["PR blocked<br/>Email notify"]
+    D -->|PASS| F["Linting<br/>flake8 + black"]
+    F --> G["Webhook<br/>→ Render.com"]
+    G --> H["Render Build<br/>pip install,<br/>collectstatic,<br/>migrate"]
+    H --> I{"Build OK?"}
+    I -->|FAIL| J["Build log<br/>+ rollback"]
+    I -->|PASS| K["Deploy<br/>gunicorn restart"]
+    K --> L["Health check<br/>GET /"]
+    L -->|200 OK| M["Live<br/>social-media-analytics-9rre.onrender.com"]
+    L -->|FAIL| N["Auto rollback<br/>oldingi versiyaga"]
+
+    classDef src fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef test fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef deploy fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef fail fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    classDef live fill:#ede9fe,stroke:#7c3aed,color:#3730a3,stroke-width:3px
+
+    class A,B src
+    class C,D,F test
+    class G,H,K deploy
+    class E,J,N fail
+    class M live

@@ -1,0 +1,24 @@
+sequenceDiagram
+    actor U as Foydalanuvchi
+    participant B as Brauzer
+    participant URL as URL Router<br/>(urls.py)
+    participant V as View<br/>(views.py)
+    participant M as Model<br/>(models.py)
+    participant DB as PostgreSQL
+    participant T as Template<br/>(*.html)
+
+    U->>B: /en/analytics/ ni ochadi
+    B->>URL: HTTP GET /en/analytics/
+    URL->>URL: i18n_patterns matching<br/>active_lang = 'en'
+    URL->>V: analytics_overview(request)
+    V->>M: Post.objects.filter(account__user=u)
+    M->>DB: SELECT * FROM social_post WHERE ...
+    DB-->>M: rowlar
+    M-->>V: QuerySet
+    V->>V: aggregate, format ctx
+    V->>T: render('analytics.html', ctx)
+    T->>T: {% trans %} → en strings<br/>{% for %} loops
+    T-->>V: rendered HTML
+    V-->>URL: HttpResponse(200)
+    URL-->>B: HTML + Content-Type
+    B-->>U: KPI cards, chartlar

@@ -1,0 +1,61 @@
+graph TB
+    subgraph "1-qatlam: Prezentatsiya"
+        UI["HTML5 templates<br/>Tailwind CSS"]
+        JS["Alpine.js + HTMX<br/>(reaktivlik)"]
+        PWA["PWA<br/>manifest + sw.js"]
+    end
+
+    subgraph "2-qatlam: Biznes mantiq (Django 5)"
+        URL["URL Router<br/>i18n_patterns: /uz/ /ru/ /en/"]
+        VIEW["Views<br/>apps/dashboard apps/analytics<br/>apps/social apps/accounts"]
+        SVC["Services<br/>chat best_time recommendations<br/>sentiment wordcloud"]
+        AUTH["Auth + 2FA<br/>django-allauth + pyotp"]
+    end
+
+    subgraph "3-qatlam: Asinxron task queue"
+        CEL["Celery worker<br/>(prefork pool)"]
+        BEAT["Celery Beat<br/>(har 6 soat fan-out)"]
+        COL["Collectors<br/>Telegram MTProto<br/>YouTube Data API v3<br/>VK API v5.131"]
+    end
+
+    subgraph "4-qatlam: Ma'lumot saqlash"
+        PG[("PostgreSQL 16<br/>asosiy baza")]
+        REDIS[("Redis<br/>cache + queue broker")]
+        FERN["Fernet shifrlash<br/>OAuth tokens + TOTP"]
+    end
+
+    subgraph "Tashqi servislar"
+        AI["Gemini + Groq<br/>OpenAI-compatible"]
+        SMTP["SMTP<br/>email alert"]
+        OAUTH["OAuth providers<br/>Google, Meta, VK"]
+    end
+
+    UI --> URL
+    JS --> URL
+    PWA --> URL
+    URL --> VIEW
+    VIEW --> AUTH
+    VIEW --> SVC
+    SVC --> PG
+    SVC --> REDIS
+    SVC --> AI
+    VIEW --> CEL
+    BEAT --> CEL
+    CEL --> COL
+    COL --> PG
+    PG -.-> FERN
+    FERN -.-> PG
+    AUTH --> OAUTH
+    CEL --> SMTP
+
+    classDef l1 fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef l2 fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef l3 fill:#fce7f3,stroke:#db2777,color:#831843
+    classDef l4 fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef ext fill:#ede9fe,stroke:#7c3aed,color:#3730a3
+
+    class UI,JS,PWA l1
+    class URL,VIEW,SVC,AUTH l2
+    class CEL,BEAT,COL l3
+    class PG,REDIS,FERN l4
+    class AI,SMTP,OAUTH ext

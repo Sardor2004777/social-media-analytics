@@ -1,0 +1,24 @@
+graph LR
+    A["Boshlash<br/>9:00 — ish kuni"] --> B["Bo'yin aylantirish<br/>5×har yo'nalishga<br/>30 sek"]
+    B --> C["Yelka aylantirish<br/>10× orqaga<br/>10× oldinga"]
+    C --> D["Bilakka cho'zilish<br/>15 sek×2<br/>karpal tunnel oldini olish"]
+    D --> E["1 soat ish"]
+    E --> F["Tanaffus 5 daq<br/>tik turish"]
+    F --> G["Ko'z mashqi<br/>20-20-20 qoidasi<br/>(har 20 daq)"]
+    G --> H["Yana 1 soat"]
+    H --> I["Yurish<br/>5 daq + suv"]
+    I --> J["Yopiq egilish<br/>10× — bel uchun"]
+    J --> K["Squats<br/>10× — qon aylanish"]
+    K --> L["Ish kuni davom"]
+    L --> E
+
+    classDef start fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef warm fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef break fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef move fill:#fce7f3,stroke:#db2777,color:#831843
+
+    class A,L start
+    class B,C,D warm
+    class F,G,I break
+    class J,K move
+    class E,H move

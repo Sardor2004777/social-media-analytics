@@ -1,19 +1,19 @@
 erDiagram
     USER ||--o{ SOCIAL_ACCOUNT : "ega"
-    SOCIAL_ACCOUNT ||--o{ POST : "joylaydi"
-    POST ||--o{ COMMENT : "uchun yoziladi"
-    COMMENT ||--o| SENTIMENT_RESULT : "tahlil qilinadi"
-    SOCIAL_ACCOUNT ||--o{ FOLLOWER_SNAPSHOT : "vaqtga bog'liq"
     USER ||--o{ ACTIVITY_LOG : "harakatlari"
-    USER ||--o{ ALERT : "bildirishnomalari"
+    USER ||--o{ ALERT : "bildirishnomalar"
     USER ||--o{ SAVED_VIEW : "filterlari"
+    SOCIAL_ACCOUNT ||--o{ POST : "joylaydi"
+    SOCIAL_ACCOUNT ||--o{ FOLLOWER_SNAPSHOT : "vaqtga bog'liq"
+    POST ||--o{ COMMENT : "uchun yoziladi"
+    COMMENT ||--o| SENTIMENT_RESULT : "tahlil"
 
     USER {
         int id PK
-        string email UK "Login identifikatori"
-        string language "uz|ru|en"
-        string timezone "Asia/Tashkent"
-        string totp_secret "Fernet shifrlangan"
+        string email UK
+        string language
+        string timezone
+        string totp_secret "Fernet"
         bool totp_enabled
         bool is_demo
         datetime created_at
@@ -22,22 +22,21 @@ erDiagram
     SOCIAL_ACCOUNT {
         int id PK
         int user_id FK
-        string platform "telegram|instagram|youtube|vk|x"
-        string handle "Public @username"
-        string external_id "Platforma id"
+        string platform
+        string handle
+        string external_id
         binary access_token "Fernet"
         binary refresh_token "Fernet"
         int follower_count
         bool is_active
         bool is_demo
-        datetime updated_at
     }
 
     POST {
         int id PK
         int account_id FK
         string external_id UK
-        string post_type "photo|video|reel|tweet|channel_post"
+        string post_type
         text caption
         url url
         int likes
@@ -51,7 +50,6 @@ erDiagram
     COMMENT {
         int id PK
         int post_id FK
-        string external_id
         string author_handle
         text body
         string language
@@ -62,10 +60,9 @@ erDiagram
     SENTIMENT_RESULT {
         int id PK
         int comment_id FK
-        string label "positive|neutral|negative"
-        float score "compound"
-        string model_name "vader|xlm-roberta"
-        datetime created_at
+        string label
+        float score
+        string model_name
     }
 
     FOLLOWER_SNAPSHOT {
@@ -75,27 +72,23 @@ erDiagram
         int count
     }
 
-    ACTIVITY_LOG {
-        int id PK
-        int user_id FK
-        string kind "login|connect|sync|ai|2fa"
-        string message
-        json meta
-        string ip
-        datetime created_at
-    }
-
     ALERT {
         int id PK
         int account_id FK
         string metric
-        string direction "spike|drop"
+        string direction
         string severity
-        float value
-        float baseline
         float z_score
         string message
-        datetime detected_for
+    }
+
+    ACTIVITY_LOG {
+        int id PK
+        int user_id FK
+        string kind
+        string message
+        json meta
+        string ip
     }
 
     SAVED_VIEW {
@@ -104,5 +97,4 @@ erDiagram
         string page
         string name
         string query
-        datetime created_at
     }

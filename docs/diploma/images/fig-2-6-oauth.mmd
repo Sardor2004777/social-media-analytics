@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor U as Foydalanuvchi
+    participant SA as Social Analytics
+    participant DB as PostgreSQL<br/>(Fernet shifrlash)
+    participant P as Provider<br/>(YouTube/VK/Meta)
+
+    U->>SA: "Akkaunt ulash" tugma
+    SA->>SA: state token yaratish<br/>(CSRF himoyasi)
+    SA-->>U: 302 → Provider auth URL<br/>?client_id&scope&state
+    U->>P: Provider sahifasi<br/>(login + ruxsat berish)
+    P->>P: Foydalanuvchi tasdiqlaydi
+    P-->>U: 302 → /callback/?code&state
+    U->>SA: GET /callback/?code&state
+    SA->>SA: state tekshirish
+    SA->>P: POST /token<br/>{code, client_id, secret}
+    P-->>SA: {access_token, refresh_token, expires_in}
+    SA->>SA: Fernet bilan shifrlash
+    SA->>DB: SocialAccount.save<br/>access_token = encrypted bytes
+    SA-->>U: 302 → /accounts/<br/>"Ulandi" toast
+
+    Note over SA,P: Sync vaqtida (har 6 soat)
+    SA->>DB: SELECT _encrypted_token
+    DB-->>SA: bytes
+    SA->>SA: Fernet decrypt → plaintext
+    SA->>P: GET /api/posts<br/>Authorization: Bearer ...
+    P-->>SA: posts JSON

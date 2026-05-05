@@ -1,0 +1,62 @@
+graph TB
+    subgraph "Frontend"
+        HTML["HTML5"]
+        TW["Tailwind CSS 3.4<br/>(utility-first)"]
+        ALP["Alpine.js 3<br/>(reactive)"]
+        HTMX["HTMX 2<br/>(hypermedia)"]
+        CHART["Chart.js 4<br/>(grafiklar)"]
+    end
+
+    subgraph "Backend"
+        PY["Python 3.12"]
+        DJ["Django 5.2<br/>(MVT framework)"]
+        DRF["DRF 3.15<br/>(REST API)"]
+        AUTH2["django-allauth<br/>(OAuth + email)"]
+        OTP["pyotp<br/>(TOTP 2FA)"]
+    end
+
+    subgraph "Data"
+        PG[("PostgreSQL 16")]
+        RD[("Redis 5<br/>cache + broker")]
+    end
+
+    subgraph "Async"
+        CEL["Celery 5.4<br/>(task queue)"]
+        BEAT["Celery Beat<br/>(scheduler)"]
+    end
+
+    subgraph "ML / AI"
+        VAD["VADER 3.3<br/>(lexicon)"]
+        TX["transformers / torch<br/>(XLM-RoBERTa, opt.)"]
+        OAI["openai SDK<br/>(Gemini + Groq)"]
+        LANG["langdetect"]
+    end
+
+    subgraph "Collectors"
+        TEL["telethon<br/>(Telegram MTProto)"]
+        YT["google-api-python-client<br/>(YouTube)"]
+        VK["requests + VK API"]
+    end
+
+    subgraph "DevOps"
+        DOC["Dockerfile"]
+        REN["Render.com<br/>(hosting)"]
+        GH["GitHub Actions<br/>(CI)"]
+        WN["WhiteNoise<br/>(static files)"]
+    end
+
+    classDef fe fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef be fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef da fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef as fill:#fce7f3,stroke:#db2777,color:#831843
+    classDef ml fill:#ede9fe,stroke:#7c3aed,color:#3730a3
+    classDef co fill:#fef9c3,stroke:#ca8a04,color:#713f12
+    classDef de fill:#cffafe,stroke:#0891b2,color:#164e63
+
+    class HTML,TW,ALP,HTMX,CHART fe
+    class PY,DJ,DRF,AUTH2,OTP be
+    class PG,RD da
+    class CEL,BEAT as
+    class VAD,TX,OAI,LANG ml
+    class TEL,YT,VK co
+    class DOC,REN,GH,WN de

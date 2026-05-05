@@ -1,0 +1,36 @@
+graph LR
+    subgraph "Ionlashmaydigan EMF (zararsiz)"
+        WIFI["Wi-Fi<br/>2.4 / 5 GHz<br/>~1 mW/m²"]
+        BT["Bluetooth<br/>2.4 GHz<br/>0.1-100 mW"]
+        MON["Monitor LCD<br/>juda kam emissiya"]
+        PHONE["Mobil 4G/5G<br/>0.7-2.5 GHz<br/>~0.5-2 W"]
+    end
+
+    subgraph "Asorat darajasi"
+        LOW["Past — masofa bilan<br/>tez kamayadi (~1/r²)"]
+        MID["O'rtacha — uzoq vaqt<br/>doimiy ta'sir"]
+        HIGH["Yuqori — joriy<br/>tadqiqotlarda topilmagan"]
+    end
+
+    subgraph "Oldini olish"
+        DIS["Masofani saqlash<br/>(monitor 50-70 sm)"]
+        TIME["Vaqtni cheklash<br/>(har 50 daq → 10 daq tanaffus)"]
+        QUAL["Sifatli jihoz<br/>(sertifikatlangan)"]
+    end
+
+    WIFI --> LOW
+    BT --> LOW
+    MON --> LOW
+    PHONE --> MID
+
+    LOW --> DIS
+    MID --> TIME
+    MID --> QUAL
+
+    classDef src fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef level fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef prev fill:#dcfce7,stroke:#16a34a,color:#14532d
+
+    class WIFI,BT,MON,PHONE src
+    class LOW,MID,HIGH level
+    class DIS,TIME,QUAL prev

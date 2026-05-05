@@ -1,0 +1,49 @@
+graph TB
+    subgraph "1. Lug'at-asoslangan (Lexicon)"
+        L1["VADER<br/>Lexicon + grammar rules"]
+        L2["Tezlik: 1000+ msg/sek"]
+        L3["Aniqlik: 65-75% (EN)"]
+        L4["Til: asosan ingliz"]
+        L5["Resurs: minimal"]
+    end
+
+    subgraph "2. Klassik ML (SVM, Naive Bayes)"
+        M1["TF-IDF + classifier"]
+        M2["Tezlik: o'rtacha"]
+        M3["Aniqlik: 75-82%"]
+        M4["Til: training datasiga bog'liq"]
+        M5["Resurs: o'rtacha"]
+    end
+
+    subgraph "3. Deep Learning (LSTM, BERT, RoBERTa)"
+        D1["Transformer modeli<br/>(XLM-RoBERTa)"]
+        D2["Tezlik: 50-200 msg/sek<br/>(GPU bilan)"]
+        D3["Aniqlik: 88-94%"]
+        D4["Til: multilingual<br/>(100+ tilda)"]
+        D5["Resurs: yuqori"]
+    end
+
+    subgraph "4. LLM (GPT-4, Claude, Gemini)"
+        G1["Foundation model + prompt"]
+        G2["Tezlik: 1-5 sek/msg"]
+        G3["Aniqlik: 90-95%"]
+        G4["Til: barcha"]
+        G5["Resurs: API to'lovi"]
+    end
+
+    DECISION["Bizning tanlov:<br/>VADER + XLM-RoBERTa hybrid<br/>(lexicon + transformer)"]
+
+    L1 --> DECISION
+    D1 --> DECISION
+
+    classDef lex fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef ml fill:#fce7f3,stroke:#db2777,color:#831843
+    classDef dl fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef llm fill:#ede9fe,stroke:#7c3aed,color:#3730a3
+    classDef pick fill:#dcfce7,stroke:#16a34a,color:#14532d,stroke-width:3px
+
+    class L1,L2,L3,L4,L5 lex
+    class M1,M2,M3,M4,M5 ml
+    class D1,D2,D3,D4,D5 dl
+    class G1,G2,G3,G4,G5 llm
+    class DECISION pick

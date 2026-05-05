@@ -1,0 +1,18 @@
+graph TB
+    subgraph "Ergonomik ish joyi"
+        M["Monitor<br/>50-70 sm masofa<br/>ko'z darajasidan biroz pastroq"]
+        K["Klaviatura<br/>tirsaklarda 90° burchak<br/>bilaklar to'g'ri"]
+        S["Stul<br/>orqasi qo'llab-quvvatlangan<br/>tizzalar 90°<br/>oyoqlar polda"]
+        D["Stol<br/>balandlik 70-75 sm<br/>kifoya joy"]
+        L["Yorug'lik<br/>orqadan / yondan<br/>monitorga aks etmasligi"]
+        P["Postura<br/>orqa to'g'ri<br/>yelkalar bo'shashgan"]
+    end
+
+    K --> S
+    M --> P
+    S --> P
+    D --> S
+    L --> M
+
+    classDef setup fill:#dcfce7,stroke:#16a34a,color:#14532d
+    class M,K,S,D,L,P setup

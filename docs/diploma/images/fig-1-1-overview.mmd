@@ -1,0 +1,57 @@
+graph LR
+    subgraph "Foydalanuvchilar"
+        BLOG["Blogerlar"]
+        BIZ["Biznes"]
+        SMM["SMM mutaxassis"]
+    end
+
+    subgraph "Social Analytics platformasi"
+        WEB["Web ilova<br/>Django 5 + HTMX"]
+        AI["AI tahlil<br/>Sentiment + maslahat"]
+        SYNC["Avtomatik sync<br/>Celery + Beat"]
+    end
+
+    subgraph "Ijtimoiy tarmoqlar"
+        TG["Telegram"]
+        YT["YouTube"]
+        VK["VKontakte"]
+        IG["Instagram"]
+        X["X (Twitter)"]
+    end
+
+    subgraph "Ko'rsatma natijalar"
+        KPI["KPI & Trendlar<br/>Likes / Views / Engagement"]
+        TIME["Eng yaxshi vaqt<br/>7×24 heatmap"]
+        SENT["Sentiment tahlil<br/>uz / ru / en"]
+        REP["Hisobot<br/>PDF + Excel"]
+    end
+
+    BLOG --> WEB
+    BIZ --> WEB
+    SMM --> WEB
+    WEB --> AI
+    WEB --> SYNC
+    SYNC --> TG
+    SYNC --> YT
+    SYNC --> VK
+    SYNC --> IG
+    SYNC --> X
+    TG --> WEB
+    YT --> WEB
+    VK --> WEB
+    IG --> WEB
+    X --> WEB
+    AI --> SENT
+    WEB --> KPI
+    WEB --> TIME
+    WEB --> REP
+
+    classDef users fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef platform fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef sn fill:#fce7f3,stroke:#db2777,color:#831843
+    classDef out fill:#dcfce7,stroke:#16a34a,color:#14532d
+
+    class BLOG,BIZ,SMM users
+    class WEB,AI,SYNC platform
+    class TG,YT,VK,IG,X sn
+    class KPI,TIME,SENT,REP out

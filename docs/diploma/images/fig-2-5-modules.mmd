@@ -1,0 +1,57 @@
+graph TB
+    subgraph "Foydalanuvchi domeni"
+        ACC["apps.accounts<br/>User, 2FA, settings"]
+    end
+
+    subgraph "Ijtimoiy tarmoq domeni"
+        SOC["apps.social<br/>SocialAccount,<br/>OAuth, sync"]
+        COL["apps.collectors<br/>Telegram/YouTube/VK<br/>collectors"]
+    end
+
+    subgraph "Tahlil domeni"
+        AN["apps.analytics<br/>Post, Comment,<br/>Sentiment, Alert"]
+        SVC["apps.analytics.services<br/>chat, best_time,<br/>recommendations,<br/>wordcloud"]
+    end
+
+    subgraph "Hisobot domeni"
+        REP["apps.reports<br/>PDF + Excel + CSV"]
+    end
+
+    subgraph "Dashboard"
+        DSH["apps.dashboard<br/>Asosiy sahifa,<br/>KPI, charts"]
+    end
+
+    subgraph "REST API"
+        API["apps.api<br/>DRF REST API,<br/>JWT, OpenAPI"]
+    end
+
+    subgraph "Yordamchi"
+        CORE["apps.core<br/>shared models<br/>fields, ratelimit"]
+    end
+
+    ACC --> CORE
+    SOC --> ACC
+    SOC --> CORE
+    COL --> SOC
+    COL --> AN
+    AN --> SOC
+    AN --> CORE
+    AN --> SVC
+    DSH --> AN
+    DSH --> SOC
+    DSH --> ACC
+    REP --> AN
+    REP --> SOC
+    API --> AN
+    API --> SOC
+    API --> ACC
+
+    classDef domain fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef shared fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef ui fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef api fill:#ede9fe,stroke:#7c3aed,color:#3730a3
+
+    class ACC,SOC,COL,AN,SVC,REP domain
+    class CORE shared
+    class DSH ui
+    class API api

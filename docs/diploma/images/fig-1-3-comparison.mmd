@@ -1,0 +1,40 @@
+graph TB
+    subgraph "Hootsuite"
+        H1["Multi-platform<br/>YES"]
+        H2["O'zbek tili<br/>NO"]
+        H3["AI sentiment<br/>YES (English)"]
+        H4["Narx<br/>$99/oy"]
+        H5["Open source<br/>NO"]
+    end
+
+    subgraph "Brand24"
+        B1["Multi-platform<br/>YES"]
+        B2["O'zbek tili<br/>NO"]
+        B3["AI sentiment<br/>YES (EN/RU)"]
+        B4["Narx<br/>$79/oy"]
+        B5["Open source<br/>NO"]
+    end
+
+    subgraph "Buffer"
+        F1["Multi-platform<br/>YES"]
+        F2["O'zbek tili<br/>NO"]
+        F3["AI sentiment<br/>NO"]
+        F4["Narx<br/>$15/oy (cheklangan)"]
+        F5["Open source<br/>NO"]
+    end
+
+    subgraph "Social Analytics (bizning loyiha)"
+        S1["Multi-platform<br/>YES — 5 ta"]
+        S2["O'zbek tili<br/>YES — 100%"]
+        S3["AI sentiment<br/>YES (uz/ru/en)"]
+        S4["Narx<br/>BEPUL"]
+        S5["Open source<br/>YES (MIT)"]
+    end
+
+    classDef good fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef bad fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    classDef our fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+
+    class H1,B1,F1,H3,B3 good
+    class H2,B2,F2,F3,H5,B5,F5 bad
+    class S1,S2,S3,S4,S5 our

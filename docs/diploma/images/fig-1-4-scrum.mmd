@@ -1,0 +1,22 @@
+graph LR
+    A["Product Backlog<br/>Talablar ro'yxati<br/>(45 user story)"] --> B["Sprint Planning<br/>2 haftalik sprint<br/>10-12 story tanlash"]
+    B --> C["Sprint Backlog<br/>Sprint vazifalari"]
+    C --> D["Daily Standup<br/>Har kuni 15 daq<br/>Progress + bloker"]
+    D --> E["Development<br/>Kod + test + commit<br/>(har 1-2 kun)"]
+    E --> D
+    E --> F["Sprint Review<br/>Demo + feedback<br/>(2 hafta oxiri)"]
+    F --> G["Sprint Retrospective<br/>Nima yaxshi/yomon<br/>Keyingi sprint uchun saboq"]
+    G --> B
+
+    H["Increment<br/>Production-ready<br/>versiya"] -.-> F
+    F --> H
+
+    classDef plan fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef do fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef review fill:#fce7f3,stroke:#db2777,color:#831843
+    classDef done fill:#dcfce7,stroke:#16a34a,color:#14532d
+
+    class A,B,C plan
+    class D,E do
+    class F,G review
+    class H done
