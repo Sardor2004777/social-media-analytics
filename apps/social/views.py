@@ -149,6 +149,11 @@ def accounts_list(request: HttpRequest) -> HttpResponse:
         elif code == Platform.INSTAGRAM.value and InstagramCollector.is_configured():
             connect_url = reverse("social:instagram_connect_start")
             real_mode = True
+        elif code == Platform.TELEGRAM.value and TelegramCollector.has_server_session():
+            # Server session available → handle-based connect (no phone auth needed).
+            # Preferred on cloud deploys where Telegram often throttles code delivery.
+            connect_url = reverse("social:connect", kwargs={"platform": code})
+            real_mode = True
         elif code == Platform.TELEGRAM.value and TelegramCollector.is_configured():
             connect_url = reverse("social:telegram_connect_start")
             real_mode = True
