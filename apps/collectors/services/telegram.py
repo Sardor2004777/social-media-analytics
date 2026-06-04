@@ -33,8 +33,6 @@ from telethon.errors import (
     PhoneNumberInvalidError,
     SessionPasswordNeededError,
 )
-from telethon.tl.functions.auth import ResendCodeRequest
-from telethon.tl.types.auth import SentCodeTypeApp
 from telethon.sessions import StringSession
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.messages import GetFullChatRequest
@@ -450,20 +448,8 @@ class TelegramPhoneAuth:
                 raise TelegramPhoneAuthError(
                     f"Telegram so'rov limitini oshirdingiz — {e.seconds} soniyadan keyin qaytadan urinib ko'ring."
                 ) from e
-
-            # If Telegram chose to deliver via app notification (common from
-            # cloud/datacenter IPs), force a resend via SMS so the code
-            # actually reaches the user.
-            phone_code_hash = sent.phone_code_hash
-            if isinstance(sent.type, SentCodeTypeApp):
-                try:
-                    resent = await client(ResendCodeRequest(phone, phone_code_hash))
-                    phone_code_hash = resent.phone_code_hash
-                except Exception:
-                    pass  # keep original hash if resend fails
-
             session_string = client.session.save()
-            return CodeSent(session_string=session_string, phone_code_hash=phone_code_hash)
+            return CodeSent(session_string=session_string, phone_code_hash=sent.phone_code_hash)
         finally:
             await client.disconnect()
 
