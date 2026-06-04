@@ -47,7 +47,7 @@ from apps.collectors.tasks import (
     sync_youtube_account,
 )
 
-from .models import Competitor, ConnectedAccount, Platform, Post, PublicShareLink
+from .models import Competitor, ConnectedAccount, FollowerSnapshot, Platform, Post, PublicShareLink
 
 logger = logging.getLogger(__name__)
 
