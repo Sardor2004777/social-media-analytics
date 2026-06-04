@@ -27,6 +27,7 @@ from django.conf import settings
 
 from telethon import TelegramClient
 from telethon.errors import (
+    FloodWaitError,
     PhoneCodeExpiredError,
     PhoneCodeInvalidError,
     PhoneNumberInvalidError,
@@ -442,6 +443,10 @@ class TelegramPhoneAuth:
             except PhoneNumberInvalidError as e:
                 raise TelegramPhoneAuthError(
                     "Telefon raqami noto'g'ri formatda — +998... ko'rinishida kiriting."
+                ) from e
+            except FloodWaitError as e:
+                raise TelegramPhoneAuthError(
+                    f"Telegram so'rov limitini oshirdingiz — {e.seconds} soniyadan keyin qaytadan urinib ko'ring."
                 ) from e
             session_string = client.session.save()
             return CodeSent(session_string=session_string, phone_code_hash=sent.phone_code_hash)

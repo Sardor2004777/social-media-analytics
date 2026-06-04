@@ -30,7 +30,7 @@
         <label class="field-label" for="{{ form.phone.id_for_label }}">{% trans "Telefon raqami" %}</label>
         {{ form.phone }}
         <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
-          {% trans "Telegram'ga ro'yxatdan o'tgan raqamingiz, xalqaro formatda. Sizga SMS-kod yuboriladi." %}
+          {% trans "Telegram'ga ro'yxatdan o'tgan raqamingiz, xalqaro formatda (+998...). Kod Telegram ilovangizga xabar sifatida keladi." %}
         </p>
         {% if form.phone.errors %}<div class="field-error">{{ form.phone.errors|join:" " }}</div>{% endif %}
       </div>
