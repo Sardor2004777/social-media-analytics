@@ -448,6 +448,7 @@ class TelegramPhoneAuth:
                 raise TelegramPhoneAuthError(
                     f"Telegram so'rov limitini oshirdingiz — {e.seconds} soniyadan keyin qaytadan urinib ko'ring."
                 ) from e
+            logger.info("send_code OK  phone=%s  type=%s", phone, type(sent.type).__name__)
             session_string = client.session.save()
             return CodeSent(session_string=session_string, phone_code_hash=sent.phone_code_hash)
         finally:
